@@ -1,0 +1,357 @@
+{
+  "idShort": "IdGenerationSettings",
+  "semanticId": {
+    "keys": [
+      {
+        "type": "GlobalReference",
+        "idType": "IRI",
+        "value": "https://mnestix.com/sm/IdGenerationSettings/1/0",
+        "local": false
+      }
+    ]
+  },
+  "submodelElements": [
+    {
+      "idShort": "AASID",
+      "modelType": "SubmodelElementCollection",
+      "value": [
+        {
+          "idShort": "Prefix",
+          "modelType": "Property",
+          "value": "",
+          "valueType": "string",
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "idType": "IRI",
+                "value": "https://mnestix.com/sm/IdGenerationSettings/AasIdPrefix/1/0",
+                "local": false
+              }
+            ]
+          },
+          "qualifiers": [
+            {
+              "type": "ExampleValue",
+              "value": "https://example.com/aas/",
+              "modelType": "Qualifier"
+            }
+          ],
+          "category": "PARAMETER",
+          "description": []
+        },
+        {
+          "idShort": "DynamicPart",
+          "modelType": "Property",
+          "value": "",
+          "valueType": "string",
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "idType": "IRI",
+                "value": "https://mnestix.com/sm/IdGenerationSettings/AasIdSuffix/1/0",
+                "local": false
+              }
+            ]
+          },
+          "qualifiers": [
+            {
+              "type": "AllowedValue",
+              "value": "(GUID|AssetIdShort|AASidShort)",
+              "modelType": "Qualifier"
+            }
+          ],
+          "category": "VARIABLE",
+          "description": []
+        }
+      ],
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "idType": "IRI",
+            "value": "https://mnestix.com/sm/IdGenerationSettings/AasId/1/0",
+            "local": false
+          }
+        ]
+      },
+      "description": []
+    },
+    {
+      "idShort": "AASIDShort",
+      "modelType": "SubmodelElementCollection",
+      "value": [
+        {
+          "idShort": "Prefix",
+          "modelType": "Property",
+          "value": "",
+          "valueType": "string",
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "idType": "IRI",
+                "value": "https://mnestix.com/sm/IdGenerationSettings/AasIdShortPrefix/1/0",
+                "local": false
+              }
+            ]
+          },
+          "qualifiers": [
+            {
+              "type": "ExampleValue",
+              "value": "aas_",
+              "modelType": "Qualifier"
+            }
+          ],
+          "category": "PARAMETER",
+          "description": []
+        },
+        {
+          "idShort": "DynamicPart",
+          "modelType": "Property",
+          "value": "",
+          "valueType": "string",
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "idType": "IRI",
+                "value": "https://mnestix.com/sm/IdGenerationSettings/AasIdShortSuffix/1/0",
+                "local": false
+              }
+            ]
+          },
+          "qualifiers": [
+            {
+              "type": "AllowedValue",
+              "value": "(GUID|AssetIdShort)",
+              "modelType": "Qualifier"
+            }
+          ],
+          "category": "VARIABLE",
+          "description": []
+        }
+      ],
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "idType": "IRI",
+            "value": "https://mnestix.com/sm/IdGenerationSettings/AasIdShort/1/0",
+            "local": false
+          }
+        ]
+      },
+      "description": []
+    },
+    {
+      "idShort": "AssetID",
+      "modelType": "SubmodelElementCollection",
+      "value": [
+        {
+          "idShort": "Prefix",
+          "modelType": "Property",
+          "value": "",
+          "valueType": "string",
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "idType": "IRI",
+                "value": "https://mnestix.com/sm/IdGenerationSettings/AssetIdPrefix/1/0",
+                "local": false
+              }
+            ]
+          },
+          "qualifiers": [
+            {
+              "type": "ExampleValue",
+              "value": "https://example.com/",
+              "modelType": "Qualifier"
+            }
+          ],
+          "category": "PARAMETER",
+          "description": []
+        },
+        {
+          "idShort": "DynamicPart",
+          "modelType": "Property",
+          "value": "",
+          "valueType": "string",
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "idType": "IRI",
+                "value": "https://mnestix.com/sm/IdGenerationSettings/AssetIdPrefix/1/0",
+                "local": false
+              }
+            ]
+          },
+          "qualifiers": [
+            {
+              "type": "AllowedValue",
+              "value": "(GUID|AssetIdShort)",
+              "modelType": "Qualifier"
+            }
+          ],
+          "category": "VARIABLE",
+          "description": []
+        }
+      ],
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "idType": "IRI",
+            "value": "https://mnestix.com/sm/IdGenerationSettings/AssetId/1/0",
+            "local": false
+          }
+        ]
+      },
+      "description": []
+    },
+    {
+      "idShort": "AssetIDShort",
+      "modelType": "SubmodelElementCollection",
+      "value": [
+        {
+          "idShort": "Prefix",
+          "modelType": "Property",
+          "value": "",
+          "valueType": "string",
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "idType": "IRI",
+                "value": "https://mnestix.com/sm/IdGenerationSettings/AssetIdShortPrefix/1/0",
+                "local": false
+              }
+            ]
+          },
+          "qualifiers": [
+            {
+              "type": "ExampleValue",
+              "value": "",
+              "modelType": "Qualifier"
+            }
+          ],
+          "category": "PARAMETER",
+          "description": []
+        },
+        {
+          "idShort": "DynamicPart",
+          "modelType": "Property",
+          "value": "",
+          "valueType": "string",
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "idType": "IRI",
+                "value": "https://mnestix.com/sm/IdGenerationSettings/AssetIdShortSuffix/1/0",
+                "local": false
+              }
+            ]
+          },
+          "qualifiers": [
+            {
+              "type": "AllowedValue",
+              "value": "(GUID)",
+              "modelType": "Qualifier"
+            }
+          ],
+          "category": "VARIABLE",
+          "description": []
+        }
+      ],
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "idType": "IRI",
+            "value": "https://mnestix.com/sm/IdGenerationSettings/AssetIDShort/1/0",
+            "local": false
+          }
+        ]
+      },
+      "description": []
+    },
+    {
+      "idShort": "SubmodelID",
+      "modelType": "SubmodelElementCollection",
+      "value": [
+        {
+          "idShort": "Prefix",
+          "modelType": "Property",
+          "value": "",
+          "valueType": "string",
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "idType": "IRI",
+                "value": "https://mnestix.com/sm/IdGenerationSettings/SubmodelIdPrefix/1/0",
+                "local": false
+              }
+            ]
+          },
+          "qualifiers": [
+            {
+              "type": "ExampleValue",
+              "value": "https://example.com/sm/",
+              "modelType": "Qualifier"
+            }
+          ],
+          "category": "PARAMETER",
+          "description": []
+        },
+        {
+          "idShort": "DynamicPart",
+          "modelType": "Property",
+          "value": "",
+          "valueType": "string",
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "idType": "IRI",
+                "value": "https://mnestix.com/sm/IdGenerationSettings/SubmodelIdSuffix/1/0",
+                "local": false
+              }
+            ]
+          },
+          "qualifiers": [
+            {
+              "type": "AllowedValue",
+              "value": "(GUID)",
+              "modelType": "Qualifier"
+            }
+          ],
+          "category": "VARIABLE",
+          "description": []
+        }
+      ],
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "idType": "IRI",
+            "value": "https://mnestix.com/sm/IdGenerationSettings/SubmodelId/1/0",
+            "local": false
+          }
+        ]
+      },
+      "description": []
+    }
+  ],
+  "modelType": "Submodel",
+  "id": "https://repodomainurl.com/sm/B461C6ED32214933B8B6CE569C8F0A03/1/0",
+  "administration": {
+    "version": "1",
+    "revision": "0"
+  },
+  "description": []
+}

@@ -1,0 +1,14 @@
+{
+  "name": "mnestix-aas-generator",
+  "version": "1.2.0",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "start": "cd MnestixApi && dotnet run --watch",
+    "build": "cd MnestixApi && dotnet build",
+    "test": "cd MnestixApi && dotnet test",
+    "docker:start": "docker compose -f ./docker-compose/compose.dev.yml up",
+    "docker:stop": "docker compose -f ./docker-compose/compose.dev.yml kill",
+    "docker:clean": "docker compose -f ./docker-compose/compose.dev.yml down"
+  }
+}

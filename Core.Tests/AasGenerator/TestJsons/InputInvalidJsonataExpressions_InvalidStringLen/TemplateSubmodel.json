@@ -1,0 +1,45 @@
+{
+  "modelType": "Submodel",
+  "kind": "Template",
+  "id": "urn:smtemplate:InvalidJsonataExpressions",
+  "idShort": "InvalidJsonataExpressions",
+  "administration": {
+    "version": "1",
+    "revision": "0"
+  },
+  "qualifiers": [
+    {
+      "type": "displayName",
+      "value": "Invalid Jsonata - str.length on Number",
+      "valueType": "xs:string"
+    }
+  ],
+  "submodelElements": [
+    {
+      "modelType": "Property",
+      "idShort": "InvalidStringLength",
+      "valueType": "xs:integer",
+      "value": "",
+      "qualifiers": [
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "value": "One",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/MappingInfo",
+          "value": "$length(sourceData.numberValue)",
+          "valueType": "xs:string"
+        }
+      ],
+      "description": [
+        {
+          "language": "en",
+          "text": "Test str.length on a number - should fail due to type mismatch"
+        }
+      ]
+    }
+  ]
+}

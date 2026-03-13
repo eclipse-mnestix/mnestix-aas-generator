@@ -1,0 +1,1783 @@
+﻿{
+  "semanticId": {
+    "keys": [
+      {
+        "type": "Submodel",
+        "value": "https://admin-shell.io/zvei/nameplate/1/0/Nameplate"
+      }
+    ],
+    "type": "ExternalReference"
+  },
+  "kind": "Template",
+  "administration": {
+    "version": "1",
+    "revision": "0"
+  },
+  "dataSpecification": [],
+  "qualifiers": [
+    {
+      "valueType": "xs:string",
+      "type": "mnestixSubmodelIdShort",
+      "value": "Nameplate"
+    },
+    {
+      "valueType": "xs:string",
+      "type": "mnestixSubmodelId",
+      "value": "https://admin-shell.io/zvei/nameplate/1/0/Nameplate"
+    }
+  ],
+  "modelType": "Submodel",
+  "submodelElements": [
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "0173-1#02-AAO677#002"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "ManufacturerName",
+      "kind": "Template",
+      "modelType": "MultiLanguageProperty",
+      "category": "PARAMETER",
+      "qualifiers": [
+        {
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+              }
+            ]
+          },
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "valueType": "xs:string",
+          "value": "One"
+        },
+        {
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/SubmodelTemplates/ExampleValue/1/0"
+              }
+            ]
+          },
+          "kind": "TemplateQualifier",
+          "type": "SMT/ExampleValue",
+          "valueType": "xs:string",
+          "value": "Muster AG@DE"
+        }
+      ],
+      "description": [
+        {
+          "language": "en",
+          "text": "legally valid designation of the natural or judicial person which is directly responsible for the design, production, packaging and labeling of a product in respect to its being brought into circulation"
+        }
+      ]
+    },
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "0173-1#02-AAM556#002"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "SerialNumber",
+      "kind": "Template",
+      "valueType": "xs:string",
+      "modelType": "Property",
+      "category": "PARAMETER",
+      "value": "",
+      "qualifiers": [
+        {
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+              }
+            ]
+          },
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "valueType": "xs:string",
+          "value": "ZeroToOne"
+        },
+        {
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/SubmodelTemplates/ExampleValue/1/0"
+              }
+            ]
+          },
+          "kind": "TemplateQualifier",
+          "type": "SMT/ExampleValue",
+          "valueType": "xs:string",
+          "value": "12345678"
+        }
+      ],
+      "description": [
+        {
+          "language": "en",
+          "text": "unique combination of numbers and letters used to identify the device once it has been manufactured"
+        }
+      ]
+    },
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "0173-1#02-AAQ832#005"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "Address",
+      "kind": "Template",
+      "modelType": "SubmodelElementCollection",
+      "value": [
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO130#002"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "POBox",
+          "kind": "Template",
+          "modelType": "MultiLanguageProperty",
+          "category": "PARAMETER",
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "ZeroToOne"
+            },
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/ExampleValue/1/0"
+                  }
+                ]
+              },
+              "kind": "TemplateQualifier",
+              "type": "SMT/ExampleValue",
+              "valueType": "xs:string",
+              "value": "PF 1234@DE"
+            }
+          ],
+          "description": [
+            {
+              "language": "en",
+              "text": "P.O. box number"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO135#002"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "VATNumber",
+          "kind": "Template",
+          "modelType": "MultiLanguageProperty",
+          "category": "PARAMETER",
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "ZeroToOne"
+            },
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/ExampleValue/1/0"
+                  }
+                ]
+              },
+              "kind": "TemplateQualifier",
+              "type": "SMT/ExampleValue",
+              "valueType": "xs:string",
+              "value": "DE123456789@DE"
+            }
+          ],
+          "description": [
+            {
+              "language": "en",
+              "text": "VAT identification number of the business partner"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO202#003"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "AddressRemarks",
+          "kind": "Template",
+          "modelType": "MultiLanguageProperty",
+          "category": "PARAMETER",
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "ZeroToOne"
+            }
+          ],
+          "description": [
+            {
+              "language": "en",
+              "text": "plain text characterizing address information for which there is no property"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO127#003"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "Department",
+          "kind": "Template",
+          "modelType": "MultiLanguageProperty",
+          "category": "PARAMETER",
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "ZeroToOne"
+            },
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/ExampleValue/1/0"
+                  }
+                ]
+              },
+              "kind": "TemplateQualifier",
+              "type": "SMT/ExampleValue",
+              "valueType": "xs:string",
+              "value": "Vertrieb@DE"
+            }
+          ],
+          "description": [
+            {
+              "language": "en",
+              "text": "administrative section within an organisation where a business partner is located"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAQ834#005"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "Fax{00}",
+          "kind": "Template",
+          "modelType": "SubmodelElementCollection",
+          "value": [
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0173-1#02-AAO196#003"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "TypeOfFaxNumber",
+              "kind": "Template",
+              "modelType": "MultiLanguageProperty",
+              "category": "PARAMETER",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "kind": "TemplateQualifier",
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                },
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/ExampleValue/1/0"
+                      }
+                    ]
+                  },
+                  "kind": "TemplateQualifier",
+                  "type": "SMT/ExampleValue",
+                  "valueType": "xs:string",
+                  "value": "office (ValueId=0173-1#07-AAS754#001)"
+                }
+              ],
+              "description": [
+                {
+                  "language": "en",
+                  "text": "characterization of the fax according its location or usage"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0173-1#02-AAO195#002"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "FaxNumber",
+              "kind": "Template",
+              "modelType": "MultiLanguageProperty",
+              "category": "PARAMETER",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "kind": "TemplateQualifier",
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "One"
+                },
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/ExampleValue/1/0"
+                      }
+                    ]
+                  },
+                  "kind": "TemplateQualifier",
+                  "type": "SMT/ExampleValue",
+                  "valueType": "xs:string",
+                  "value": "+491234567890@DE"
+                }
+              ],
+              "description": [
+                {
+                  "language": "en",
+                  "text": "complete telephone number to be called to reach a business partner's fax machine"
+                }
+              ]
+            }
+          ],
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "ZeroToMany"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO134#002"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "NationalCode",
+          "kind": "Template",
+          "modelType": "MultiLanguageProperty",
+          "category": "PARAMETER",
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "One"
+            },
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/ExampleValue/1/0"
+                  }
+                ]
+              },
+              "kind": "TemplateQualifier",
+              "type": "SMT/ExampleValue",
+              "valueType": "xs:string",
+              "value": "DE@DE"
+            }
+          ],
+          "description": [
+            {
+              "language": "en",
+              "text": "code of a country"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAQ326#002"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "AddressOfAdditionalLink",
+          "kind": "Template",
+          "valueType": "xs:string",
+          "modelType": "Property",
+          "category": "PARAMETER",
+          "value": "",
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "ZeroToOne"
+            },
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/ExampleValue/1/0"
+                  }
+                ]
+              },
+              "kind": "TemplateQualifier",
+              "type": "SMT/ExampleValue",
+              "valueType": "xs:string",
+              "value": "www.example.com"
+            }
+          ],
+          "description": [
+            {
+              "language": "en",
+              "text": "web site address where information about the product or contact is given"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO129#002"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "Zipcode",
+          "kind": "Template",
+          "modelType": "MultiLanguageProperty",
+          "category": "PARAMETER",
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "One"
+            },
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/ExampleValue/1/0"
+                  }
+                ]
+              },
+              "kind": "TemplateQualifier",
+              "type": "SMT/ExampleValue",
+              "valueType": "xs:string",
+              "value": "12345@DE"
+            }
+          ],
+          "description": [
+            {
+              "language": "en",
+              "text": "ZIP code of address"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO128#002"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "Street",
+          "kind": "Template",
+          "modelType": "MultiLanguageProperty",
+          "category": "PARAMETER",
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "One"
+            },
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/ExampleValue/1/0"
+                  }
+                ]
+              },
+              "kind": "TemplateQualifier",
+              "type": "SMT/ExampleValue",
+              "valueType": "xs:string",
+              "value": "Musterstraße 1@DE"
+            }
+          ],
+          "description": [
+            {
+              "language": "en",
+              "text": "street name and house number"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO133#002"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "StateCounty",
+          "kind": "Template",
+          "modelType": "MultiLanguageProperty",
+          "category": "PARAMETER",
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "ZeroToOne"
+            },
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/ExampleValue/1/0"
+                  }
+                ]
+              },
+              "kind": "TemplateQualifier",
+              "type": "SMT/ExampleValue",
+              "valueType": "xs:string",
+              "value": "Muster-Bundesland@DE"
+            }
+          ],
+          "description": [
+            {
+              "language": "en",
+              "text": "federal state a part of a state"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAQ836#005"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "Email{00}",
+          "kind": "Template",
+          "modelType": "SubmodelElementCollection",
+          "value": [
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0173-1#02-AAO200#002"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "PublicKey",
+              "kind": "Template",
+              "modelType": "MultiLanguageProperty",
+              "category": "PARAMETER",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "kind": "TemplateQualifier",
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ],
+              "description": [
+                {
+                  "language": "en",
+                  "text": "public part of an unsymmetrical key pair to sign or encrypt text or messages"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0173-1#02-AAO201#002"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "TypeOfPublicKey",
+              "kind": "Template",
+              "modelType": "MultiLanguageProperty",
+              "category": "PARAMETER",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "kind": "TemplateQualifier",
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ],
+              "description": [
+                {
+                  "language": "en",
+                  "text": "characterization of a public key according to its encryption process"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0173-1#02-AAO198#002"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "EmailAddress",
+              "kind": "Template",
+              "valueType": "xs:string",
+              "modelType": "Property",
+              "category": "PARAMETER",
+              "value": "",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "kind": "TemplateQualifier",
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "One"
+                }
+              ],
+              "description": [
+                {
+                  "language": "en",
+                  "text": "electronic mail address of a business partner"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0173-1#02-AAO199#003"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "TypeOfEmailAddress",
+              "kind": "Template",
+              "valueType": "xs:string",
+              "modelType": "Property",
+              "category": "PARAMETER",
+              "value": "",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "kind": "TemplateQualifier",
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                },
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/ExampleValue/1/0"
+                      }
+                    ]
+                  },
+                  "kind": "TemplateQualifier",
+                  "type": "SMT/ExampleValue",
+                  "valueType": "xs:string",
+                  "value": "office (ValueId=173-1#07-AAS754#001)"
+                }
+              ],
+              "description": [
+                {
+                  "language": "en",
+                  "text": "characterization of an e-mail address according to its location or usage"
+                }
+              ]
+            }
+          ],
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "ZeroToMany"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO131#002"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "ZipCodeOfPOBox",
+          "kind": "Template",
+          "modelType": "MultiLanguageProperty",
+          "category": "PARAMETER",
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "ZeroToOne"
+            },
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/ExampleValue/1/0"
+                  }
+                ]
+              },
+              "kind": "TemplateQualifier",
+              "type": "SMT/ExampleValue",
+              "valueType": "xs:string",
+              "value": "12345@DE"
+            }
+          ],
+          "description": [
+            {
+              "language": "en",
+              "text": "ZIP code of P.O. box address"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO132#002"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "CityTown",
+          "kind": "Template",
+          "modelType": "MultiLanguageProperty",
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "One"
+            },
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/ExampleValue/1/0"
+                  }
+                ]
+              },
+              "kind": "TemplateQualifier",
+              "type": "SMT/ExampleValue",
+              "valueType": "xs:string",
+              "value": "Musterstadt@DE"
+            }
+          ],
+          "description": [
+            {
+              "language": "en",
+              "text": "town or city"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAQ833#005"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "Phone{00}",
+          "kind": "Template",
+          "modelType": "SubmodelElementCollection",
+          "category": "PARAMETER",
+          "value": [
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0173-1#02-AAO137#003"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "TypeOfTelephone",
+              "kind": "Template",
+              "valueType": "xs:string",
+              "modelType": "Property",
+              "category": "PARAMETER",
+              "value": "",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "kind": "TemplateQualifier",
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                },
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/ExampleValue/1/0"
+                      }
+                    ]
+                  },
+                  "kind": "TemplateQualifier",
+                  "type": "SMT/ExampleValue",
+                  "valueType": "xs:string",
+                  "value": "office (ValueId=0173-1#07-AAS754#001)"
+                }
+              ],
+              "description": [
+                {
+                  "language": "en",
+                  "text": "characterization of a telephone according to its location or usage"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0173-1#02-AAO136#002"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "TelephoneNumber",
+              "kind": "Template",
+              "modelType": "MultiLanguageProperty",
+              "category": "PARAMETER",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "kind": "TemplateQualifier",
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "One"
+                },
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/ExampleValue/1/0"
+                      }
+                    ]
+                  },
+                  "kind": "TemplateQualifier",
+                  "type": "SMT/ExampleValue",
+                  "valueType": "xs:string",
+                  "value": "+491234567890@DE"
+                }
+              ],
+              "description": [
+                {
+                  "language": "en",
+                  "text": "complete telephone number to be called to reach a business partner"
+                }
+              ]
+            }
+          ],
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "ZeroToMany"
+            }
+          ]
+        }
+      ],
+      "qualifiers": [
+        {
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+              }
+            ]
+          },
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "valueType": "xs:string",
+          "value": "One"
+        }
+      ],
+      "description": [
+        {
+          "language": "en",
+          "text": "Contains information about address of a partner within the value chain."
+        }
+      ]
+    },
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "0173-1#02-AAW338#001"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "ManufacturerProductDesignation",
+      "kind": "Template",
+      "modelType": "MultiLanguageProperty",
+      "category": "PARAMETER",
+      "qualifiers": [
+        {
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+              }
+            ]
+          },
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "valueType": "xs:string",
+          "value": "One"
+        },
+        {
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/SubmodelTemplates/ExampleValue/1/0"
+              }
+            ]
+          },
+          "kind": "TemplateQualifier",
+          "type": "SMT/ExampleValue",
+          "valueType": "xs:string",
+          "value": "ABC-123@EN"
+        }
+      ],
+      "description": [
+        {
+          "language": "en",
+          "text": "Short description of the product (short text)"
+        }
+      ]
+    },
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "https://admin-shell.io/zvei/nameplate/1/0/"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "AssetSpecificProperties",
+      "kind": "Template",
+      "modelType": "SubmodelElementCollection",
+      "value": [
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/zvei/nameplate/1/0/Nameplate/AssetSpecificProperties/GuidelineSpecificProperties"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "GuidelineSpecificProperties{00}",
+          "kind": "Template",
+          "modelType": "SubmodelElementCollection",
+          "value": [
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0173-1#02-AAO856#002"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "GuidelineForConformityDeclaration",
+              "kind": "Template",
+              "valueType": "xs:string",
+              "modelType": "Property",
+              "category": "PARAMETER",
+              "value": "",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "kind": "TemplateQualifier",
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "One"
+                },
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/ExampleValue/1/0"
+                      }
+                    ]
+                  },
+                  "kind": "TemplateQualifier",
+                  "type": "SMT/ExampleValue",
+                  "valueType": "xs:string",
+                  "value": "UL 1004-1"
+                }
+              ],
+              "description": [
+                {
+                  "language": "en",
+                  "text": "guideline, stipulation or legislation used for determining conformity"
+                }
+              ]
+            }
+          ],
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "OneToMany"
+            }
+          ],
+          "description": [
+            {
+              "language": "en",
+              "text": "Asset specific nameplate information required by guideline, stipulation or legislation."
+            }
+          ]
+        }
+      ],
+      "qualifiers": [
+        {
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+              }
+            ]
+          },
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "valueType": "xs:string",
+          "value": "ZeroToOne"
+        }
+      ],
+      "description": [
+        {
+          "language": "en",
+          "text": "Collection of guideline specific properties"
+        }
+      ]
+    },
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "0173-1#02-AAP906#001"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "YearOfConstruction",
+      "kind": "Template",
+      "valueType": "xs:string",
+      "modelType": "Property",
+      "category": "PARAMETER",
+      "value": "",
+      "qualifiers": [
+        {
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+              }
+            ]
+          },
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "valueType": "xs:string",
+          "value": "One"
+        },
+        {
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/SubmodelTemplates/ExampleValue/1/0"
+              }
+            ]
+          },
+          "kind": "TemplateQualifier",
+          "type": "SMT/ExampleValue",
+          "valueType": "xs:string",
+          "value": "2020"
+        }
+      ],
+      "description": [
+        {
+          "language": "en",
+          "text": "Year as completion date of object"
+        }
+      ]
+    },
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "https://admin-shell.io/zvei/nameplate/1/0/"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "Markings",
+      "kind": "Template",
+      "modelType": "SubmodelElementCollection",
+      "value": [
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/zvei/nameplate/1/0/Nameplate/Markings/Marking"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "Marking{00}",
+          "kind": "Template",
+          "modelType": "SubmodelElementCollection",
+          "value": [
+            {
+              "contentType": "application/pdf",
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/zvei/nameplate/1/0/Nameplate/Markings/Marking/MarkingFile"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "MarkingFile",
+              "kind": "Template",
+              "modelType": "File",
+              "category": "PARAMETER",
+              "value": "",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "kind": "TemplateQualifier",
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "One"
+                },
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/ExampleValue/1/0"
+                      }
+                    ]
+                  },
+                  "kind": "TemplateQualifier",
+                  "type": "SMT/ExampleValue",
+                  "valueType": "xs:string",
+                  "value": "https://example.com/fileshare/marking_ce.png"
+                }
+              ],
+              "description": [
+                {
+                  "language": "en",
+                  "text": "picture of the marking"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/zvei/nameplate/1/0/"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "MarkingName",
+              "kind": "Template",
+              "valueType": "xs:string",
+              "modelType": "Property",
+              "category": "PARAMETER",
+              "value": "",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "kind": "TemplateQualifier",
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "One"
+                },
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/ExampleValue/1/0"
+                      }
+                    ]
+                  },
+                  "kind": "TemplateQualifier",
+                  "type": "SMT/ExampleValue",
+                  "valueType": "xs:string",
+                  "value": "CE (ValueId=0173-1#07-DAA603#004)"
+                }
+              ],
+              "description": [
+                {
+                  "language": "en",
+                  "text": "common name of the marking"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/zvei/nameplate/1/0/"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "MarkingAdditionalText{00}",
+              "kind": "Template",
+              "valueType": "xs:string",
+              "modelType": "Property",
+              "category": "PARAMETER",
+              "value": "",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "kind": "TemplateQualifier",
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToMany"
+                },
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/ExampleValue/1/0"
+                      }
+                    ]
+                  },
+                  "kind": "TemplateQualifier",
+                  "type": "SMT/ExampleValue",
+                  "valueType": "xs:string",
+                  "value": "0044"
+                }
+              ],
+              "description": [
+                {
+                  "language": "en",
+                  "text": "where applicable, additional information on the marking in"
+                }
+              ]
+            }
+          ],
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "OneToMany"
+            }
+          ],
+          "description": [
+            {
+              "language": "en",
+              "text": "contains information about the marking labelled on the device"
+            }
+          ]
+        }
+      ],
+      "qualifiers": [
+        {
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+              }
+            ]
+          },
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "valueType": "xs:string",
+          "value": "ZeroToOne"
+        }
+      ],
+      "description": [
+        {
+          "language": "en",
+          "text": "Collection of product markings"
+        }
+      ]
+    },
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "173-1#02-AAU731#001"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "ManufacturerProductFamily",
+      "kind": "Template",
+      "modelType": "MultiLanguageProperty",
+      "category": "PARAMETER",
+      "qualifiers": [
+        {
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+              }
+            ]
+          },
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "valueType": "xs:string",
+          "value": "One"
+        },
+        {
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/SubmodelTemplates/ExampleValue/1/0"
+              }
+            ]
+          },
+          "kind": "TemplateQualifier",
+          "type": "SMT/ExampleValue",
+          "valueType": "xs:string",
+          "value": "TypeABC@EN"
+        }
+      ],
+      "description": [
+        {
+          "language": "en",
+          "text": "2nd level of a 3 level manufacturer specific product hierarchy"
+        }
+      ]
+    }
+  ],
+  "id": "https://admin-shell.io/zvei/nameplate/1/0/Nameplate",
+  "idShort": "Nameplate",
+  "embeddedDataSpecifications": [],
+  "description": [
+    {
+      "language": "en",
+      "text": "Contains the nameplate information attached to the product"
+    },
+    {
+      "language": "de",
+      "text": "Enthält die auf dem Produkt angebrachten Informationen des Typenschilds"
+    }
+  ]
+}

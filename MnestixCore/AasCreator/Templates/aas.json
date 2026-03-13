@@ -1,0 +1,16 @@
+﻿{
+  "id": "#aasId#",
+  "idShort": "#aasIdShort#",
+  "modelType": "AssetAdministrationShell",
+  "assetInformation": {
+    "assetKind": "Instance",
+    "globalAssetId": "#assetId#",
+    "specificAssetIds": [
+      {
+        "name": "assetIdShort",
+        "value": "#assetIdShort#"
+      }
+    ]
+  },
+  "submodels": []
+}

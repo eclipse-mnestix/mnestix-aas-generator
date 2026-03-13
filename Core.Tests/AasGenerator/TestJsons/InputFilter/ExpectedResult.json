@@ -1,0 +1,49 @@
+{
+  "modelType": "Submodel",
+  "kind": "Instance",
+  "idShort": "VehicleSpecs",
+  "id": "TheNewSubmodelId",
+  "description": [
+    {
+      "language": "en",
+      "text": "Vehicle Specifications Template with Filter Rules"
+    }
+  ],
+  "submodelElements": [
+    {
+      "modelType": "SubmodelElementCollection",
+      "idShort": "BatteryInfo",
+      "valueType": "xs:string",
+      "qualifiers": [
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/FilterMappingInfo",
+          "value": "car.engineType = 'electric'",
+          "valueType": "xs:string"
+        }
+      ],
+      "value": [
+        {
+          "modelType": "Property",
+          "idShort": "CapacityKWh",
+          "valueType": "xs:integer",
+          "value": 90,
+          "qualifiers": [
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/MappingInfo",
+              "value": "car.battery.capacityKWh",
+              "valueType": "xs:string"
+            }
+          ]
+        }
+      ],
+      "description": [
+        {
+          "language": "en",
+          "text": "Battery information for electric vehicles"
+        }
+      ]
+    }
+  ]
+}

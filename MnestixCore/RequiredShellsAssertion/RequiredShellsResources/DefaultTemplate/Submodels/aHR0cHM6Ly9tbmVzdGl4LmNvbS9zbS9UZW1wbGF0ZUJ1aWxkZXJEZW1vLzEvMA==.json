@@ -1,0 +1,96 @@
+﻿{
+  "semanticId": {
+    "keys": [
+      {
+        "type": "Submodel",
+        "value": "https://mnestix.com/sm/TemplateBuilderDemo/1/0"
+      }
+    ],
+    "type": "ExternalReference"
+  },
+  "kind": "Template",
+  "administration": {
+    "version": "1",
+    "revision": "0"
+  },
+  "dataSpecification": [],
+  "qualifiers": [
+    {
+      "valueType": "xs:string",
+      "type": "mnestixSubmodelIdShort",
+      "value": "TemplateBuilderDemo"
+    },
+    {
+      "valueType": "xs:string",
+      "type": "mnestixSubmodelId",
+      "value": "https://mnestix.com/sm/TemplateBuilderDemo/1/0"
+    }
+  ],
+  "modelType": "Submodel",
+  "submodelElements": [
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "https://mnestix.com/sm/TemplateBuilderDemoBoolean"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "Boolean",
+      "kind": "Template",
+      "valueType": "xs:boolean",
+      "category": "PARAMETER",
+      "value": "",
+      "modelType": "Property"
+    },
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "https://mnestix.com/sm/TemplateBuilderDemoLong"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "Long",
+      "kind": "Template",
+      "valueType": "xs:long",
+      "category": "PARAMETER",
+      "value": "",
+      "modelType": "Property"
+    },
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "https://mnestix.com/sm/TemplateBuilderDemoDate"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "Date",
+      "kind": "Template",
+      "valueType": "xs:date",
+      "category": "PARAMETER",
+      "value": "",
+      "modelType": "Property"
+    }
+  ],
+  "id": "https://mnestix.com/sm/TemplateBuilderDemo/1/0",
+  "idShort": "TemplateBuilderDemo",
+  "embeddedDataSpecifications": [],
+  "description": [
+    {
+      "language": "en",
+      "text": "Demo for the Mnestix Template Builder"
+    },
+    {
+      "language": "de",
+      "text": "Demo für den Mnestix Template Builder"
+    }
+  ]
+}

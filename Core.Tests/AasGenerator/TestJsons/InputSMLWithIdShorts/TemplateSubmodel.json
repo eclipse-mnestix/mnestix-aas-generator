@@ -1,0 +1,121 @@
+{
+  "modelType": "Submodel",
+  "kind": "Template",
+  "id": "urn:smtemplate:SMLTemplate1",
+  "idShort": "SMLTemplate",
+  "semanticId": {
+    "keys": [
+      {
+        "type": "Submodel",
+        "value": "https://example.com/SMLTemplate/1/0"
+      }
+    ],
+    "type": "ExternalReference"
+  },
+  "administration": {
+    "version": "1",
+    "revision": "0"
+  },
+  "qualifiers": [
+    {
+      "type": "displayName",
+      "value": "SML Template (with idShorts)",
+      "valueType": "xs:string"
+    }
+  ],
+  "submodelElements": [
+    {
+      "modelType": "SubmodelElementList",
+      "idShort": "ContactPersons",
+      "valueType": "xs:string",
+      "qualifiers": [],
+      "value": [
+        {
+          "modelType": "SubmodelElementCollection",
+          "idShort": "contactPerson",
+          "valueType": "xs:string",
+          "qualifiers": [
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "value": "One",
+              "valueType": "xs:string"
+            },
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/CollectionMappingInfo",
+              "value": "sourceData.contactPersons[*]",
+              "valueType": "xs:string"
+            }
+          ],
+          "value": [
+            {
+              "modelType": "Property",
+              "idShort": "Name",
+              "valueType": "xs:string",
+              "value": "",
+              "qualifiers": [
+                {
+                  "kind": "TemplateQualifier",
+                  "type": "SMT/Cardinality",
+                  "value": "One",
+                  "valueType": "xs:string"
+                },
+                {
+                  "kind": "TemplateQualifier",
+                  "type": "SMT/MappingInfo",
+                  "value": "sourceData.contactPersons[*].name",
+                  "valueType": "xs:string"
+                }
+              ],
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Name of the Contact Person"
+                }
+              ]
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Email",
+              "valueType": "xs:string",
+              "value": "",
+              "qualifiers": [
+                {
+                  "kind": "TemplateQualifier",
+                  "type": "SMT/Cardinality",
+                  "value": "One",
+                  "valueType": "xs:string"
+                },
+                {
+                  "kind": "TemplateQualifier",
+                  "type": "SMT/MappingInfo",
+                  "value": "sourceData.contactPersons[*].email",
+                  "valueType": "xs:string"
+                }
+              ],
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Email of the Contact Person"
+                }
+              ]
+            }
+          ],
+          "description": [
+            {
+              "language": "en",
+              "text": "One Contact Person"
+            }
+          ]
+        }
+      ],
+      "description": [
+        {
+          "language": "en",
+          "text": "List of Contact Persons (SubmodelElementList with idShorts)"
+        }
+      ]
+    }
+  ]
+}
