@@ -1,0 +1,160 @@
+{
+  "idShort": "ReplacementOrder",
+  "id": "https://example.com/ids/sm/1084_4050_0132_2099",
+  "dataSpecification": [],
+  "embeddedDataSpecifications": [],
+  "modelType": "Submodel",
+  "kind": "Instance",
+  "submodelElements": [
+    {
+      "value": "LNI Ball Pen Refill",
+      "semanticId": {
+        "keys": []
+      },
+      "idShort": "OrderItems",
+      "category": "PARAMETER",
+      "valueType": "xs:string",
+      "kind": "Instance",
+      "parent": {
+        "keys": [
+          {
+            "type": "Submodel",
+            "local": true,
+            "value": "https://example.com/ids/sm/1084_4050_0132_2099",
+            "idType": "IRI"
+          }
+        ]
+      },
+      "modelType": "Property"
+    },
+    {
+      "value": "No addons ",
+      "semanticId": {
+        "keys": []
+      },
+      "idShort": "Orderoptions",
+      "category": "PARAMETER",
+      "valueType": "xs:string",
+      "kind": "Instance",
+      "parent": {
+        "keys": [
+          {
+            "type": "Submodel",
+            "local": true,
+            "value": "https://example.com/ids/sm/1084_4050_0132_2099",
+            "idType": "IRI"
+          }
+        ]
+      },
+      "modelType": "Property"
+    },
+    {
+      "value": "black",
+      "semanticId": {
+        "keys": []
+      },
+      "idShort": "Color",
+      "category": "PARAMETER",
+      "valueType": "xs:string",
+      "kind": "Instance",
+      "parent": {
+        "keys": [
+          {
+            "type": "Submodel",
+            "local": true,
+            "value": "https://example.com/ids/sm/1084_4050_0132_2099",
+            "idType": "IRI"
+          }
+        ]
+      },
+      "modelType": "Property"
+    },
+    {
+      "value": "Order Number to be updated by ERP",
+      "semanticId": {
+        "keys": []
+      },
+      "idShort": "OrderNumber",
+      "category": "PARAMETER",
+      "valueType": "xs:string",
+      "kind": "Instance",
+      "parent": {
+        "keys": [
+          {
+            "type": "Submodel",
+            "local": true,
+            "value": "https://example.com/ids/sm/1084_4050_0132_2099",
+            "idType": "IRI"
+          }
+        ]
+      },
+      "modelType": "Property"
+    },
+    {
+      "value": "Our reference: lni1394",
+      "semanticId": {
+        "keys": []
+      },
+      "idShort": "OrderState",
+      "category": "VARIABLE",
+      "valueType": "xs:string",
+      "kind": "Instance",
+      "parent": {
+        "keys": [
+          {
+            "type": "Submodel",
+            "local": true,
+            "value": "https://example.com/ids/sm/1084_4050_0132_2099",
+            "idType": "IRI"
+          }
+        ]
+      },
+      "modelType": "Property"
+    },
+    {
+      "value": "Standard Delivery",
+      "semanticId": {
+        "keys": []
+      },
+      "idShort": "Orderpriority",
+      "category": "PARAMETER",
+      "valueType": "xs:string",
+      "kind": "Instance",
+      "parent": {
+        "keys": [
+          {
+            "type": "Submodel",
+            "local": true,
+            "value": "https://example.com/ids/sm/1084_4050_0132_2099",
+            "idType": "IRI"
+          }
+        ]
+      },
+      "modelType": "Property"
+    },
+    {
+      "value": "06.01.2024",
+      "semanticId": {
+        "keys": []
+      },
+      "idShort": "OrderDate",
+      "category": "PARAMETER",
+      "valueType": "xs:string",
+      "kind": "Instance",
+      "parent": {
+        "keys": [
+          {
+            "type": "Submodel",
+            "local": true,
+            "value": "https://example.com/ids/sm/1084_4050_0132_2099",
+            "idType": "IRI"
+          }
+        ]
+      },
+      "modelType": "Property"
+    }
+  ],
+  "semanticId": {
+    "keys": []
+  }
+}

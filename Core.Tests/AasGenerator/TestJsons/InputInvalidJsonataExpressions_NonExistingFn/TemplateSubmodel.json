@@ -1,0 +1,45 @@
+{
+  "modelType": "Submodel",
+  "kind": "Template",
+  "id": "urn:smtemplate:InvalidJsonataExpressions",
+  "idShort": "InvalidJsonataExpressions",
+  "administration": {
+    "version": "1",
+    "revision": "0"
+  },
+  "qualifiers": [
+    {
+      "type": "displayName",
+      "value": "Invalid Jsonata - Non-Existing Function",
+      "valueType": "xs:string"
+    }
+  ],
+  "submodelElements": [
+    {
+      "modelType": "Property",
+      "idShort": "InvalidFunctionCall",
+      "valueType": "xs:string",
+      "value": "",
+      "qualifiers": [
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "value": "One",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/MappingInfo",
+          "value": "$nonExistingFunction(sourceData.value)",
+          "valueType": "xs:string"
+        }
+      ],
+      "description": [
+        {
+          "language": "en",
+          "text": "Test calling a non-existing function - should fail"
+        }
+      ]
+    }
+  ]
+}

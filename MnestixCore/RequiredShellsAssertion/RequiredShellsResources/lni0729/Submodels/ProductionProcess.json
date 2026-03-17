@@ -1,0 +1,590 @@
+{
+  "idShort": "ProductionProcess",
+  "modelType": "Submodel",
+  "submodelElements": [
+    {
+      "entityType": "SelfManagedEntity",
+      "semanticId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "https://admin-shell.io/idta/HierarchicalStructures/EntryNode/1/0"
+          }
+        ]
+      },
+      "idShort": "ProductionProcessFlow",
+      "modelType": "Entity",
+      "statements": [
+        {
+          "entityType": "SelfManagedEntity",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/Node/1/0"
+              }
+            ]
+          },
+          "idShort": "Station_1_-_Configuration",
+          "modelType": "Entity",
+          "statements": [
+            {
+              "value": "finished",
+              "semanticId": {
+                "keys": []
+              },
+              "idShort": "State",
+              "modelType": "Property",
+              "valueType": "xs:string"
+            },
+            {
+              "value": "2023-04-17T11:53:26Z",
+              "semanticId": {
+                "keys": []
+              },
+              "idShort": "TimeStamp",
+              "modelType": "Property",
+              "valueType": "xs:string"
+            },
+            {
+              "value": "MDZH Konfigurator",
+              "semanticId": {
+                "keys": []
+              },
+              "idShort": "ToolName",
+              "modelType": "Property",
+              "valueType": "xs:string"
+            }
+          ],
+          "globalAssetId": "https://aas2.uni-h.de/mdzh_configurator"
+        },
+        {
+          "entityType": "SelfManagedEntity",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/Node/1/0"
+              }
+            ]
+          },
+          "idShort": "Station_2_-_Commissioning",
+          "modelType": "Entity",
+          "statements": [
+            {
+              "value": "finished",
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/HierachicalStructures/Node/1/0"
+                  }
+                ]
+              },
+              "idShort": "State",
+              "modelType": "Property",
+              "valueType": "xs:string"
+            },
+            {
+              "value": "2023-04-17T11:53:26Z",
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/HierachicalStructures/Node/1/0"
+                  }
+                ]
+              },
+              "idShort": "TimeStamp",
+              "modelType": "Property",
+              "valueType": "xs:string"
+            },
+            {
+              "value": "Pick by Light System",
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/HierachicalStructures/Node/1/0"
+                  }
+                ]
+              },
+              "idShort": "ToolName",
+              "modelType": "Property",
+              "valueType": "xs:string"
+            }
+          ],
+          "globalAssetId": "https://aas2.uni-h.de/mdzh_pickbylight"
+        },
+        {
+          "entityType": "SelfManagedEntity",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/Node/1/0"
+              }
+            ]
+          },
+          "idShort": "Station_3_-_Turning",
+          "modelType": "Entity",
+          "statements": [
+            {
+              "value": "finished",
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/HierachicalStructures/Node/1/0"
+                  }
+                ]
+              },
+              "idShort": "State",
+              "modelType": "Property",
+              "valueType": "xs:string"
+            },
+            {
+              "value": "2023-04-17T11:53:26Z",
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/HierachicalStructures/Node/1/0"
+                  }
+                ]
+              },
+              "idShort": "TimeStamp",
+              "modelType": "Property",
+              "valueType": "xs:string"
+            },
+            {
+              "value": "2023-03-25T15:18:23Z",
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/HierachicalStructures/Node/1/0"
+                  }
+                ]
+              },
+              "idShort": "TimeStamp_ProductionStart",
+              "modelType": "Property",
+              "valueType": "xs:string"
+            },
+            {
+              "value": "2023-03-25T15:23:47Z",
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/HierachicalStructures/Node/1/0"
+                  }
+                ]
+              },
+              "idShort": "TimeStamp_ProductionEnd",
+              "modelType": "Property",
+              "valueType": "xs:string"
+            },
+            {
+              "value": "DMG Mori NEF 400",
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/HierachicalStructures/Node/1/0"
+                  }
+                ]
+              },
+              "idShort": "ToolName",
+              "modelType": "Property",
+              "valueType": "xs:string"
+            }
+          ],
+          "globalAssetId": "https://aas2.uni-h.de/DMG_NEF400"
+        },
+        {
+          "entityType": "SelfManagedEntity",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/Node/1/0"
+              }
+            ]
+          },
+          "idShort": "Station_4_-_Deburring",
+          "modelType": "Entity",
+          "statements": [
+            {
+              "value": "0",
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/HierachicalStructures/Node/1/0"
+                  }
+                ]
+              },
+              "idShort": "State",
+              "modelType": "Property",
+              "valueType": "xs:string"
+            },
+            {
+              "value": "2023-04-17T11:53:26Z",
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/HierachicalStructures/Node/1/0"
+                  }
+                ]
+              },
+              "idShort": "TimeStamp",
+              "modelType": "Property",
+              "valueType": "xs:string"
+            },
+            {
+              "value": "Standbohrmaschine",
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/HierachicalStructures/Node/1/0"
+                  }
+                ]
+              },
+              "idShort": "ToolName",
+              "modelType": "Property",
+              "valueType": "xs:string"
+            }
+          ],
+          "globalAssetId": "https://aas2.uni-h.de/mdzh_drill"
+        },
+        {
+          "entityType": "SelfManagedEntity",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/Node/1/0"
+              }
+            ]
+          },
+          "idShort": "Station_5_-_Laser_Marking",
+          "modelType": "Entity",
+          "statements": [
+            {
+              "value": "finished",
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/HierachicalStructures/Node/1/0"
+                  }
+                ]
+              },
+              "idShort": "State",
+              "modelType": "Property",
+              "valueType": "xs:string"
+            },
+            {
+              "value": "2023-04-17T11:53:34Z",
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/HierachicalStructures/Node/1/0"
+                  }
+                ]
+              },
+              "idShort": "TimeStamp",
+              "modelType": "Property",
+              "valueType": "xs:string"
+            },
+            {
+              "value": "2023-04-16T19:15:25Z",
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/HierachicalStructures/Node/1/0"
+                  }
+                ]
+              },
+              "idShort": "Production_Start",
+              "modelType": "Property",
+              "valueType": "xs:string"
+            },
+            {
+              "value": "2023-04-16T19:17:30Z",
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/HierachicalStructures/Node/1/0"
+                  }
+                ]
+              },
+              "idShort": "Production_End",
+              "modelType": "Property",
+              "valueType": "xs:string"
+            },
+            {
+              "value": "Vision MuD Laser",
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/HierachicalStructures/Node/1/0"
+                  }
+                ]
+              },
+              "idShort": "ToolName",
+              "modelType": "Property",
+              "valueType": "xs:string"
+            }
+          ],
+          "globalAssetId": "https://aas2.uni-h.de/Vision_mudLaser"
+        },
+        {
+          "entityType": "CoManagedEntity",
+          "asset": {
+            "keys": []
+          },
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/Node/1/0"
+              }
+            ]
+          },
+          "idShort": "Station_6_-_Assembly",
+          "modelType": "Entity",
+          "statements": [
+            {
+              "value": "0",
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/HierachicalStructures/Node/1/0"
+                  }
+                ]
+              },
+              "idShort": "State",
+              "modelType": "Property",
+              "valueType": "xs:string"
+            },
+            {
+              "value": "2023-04-17T11:53:26Z",
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/HierachicalStructures/Node/1/0"
+                  }
+                ]
+              },
+              "idShort": "TimeStamp",
+              "modelType": "Property",
+              "valueType": "xs:string"
+            },
+            {
+              "value": "Assistierte Montage mit Laserprojektion",
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/HierachicalStructures/Node/1/0"
+                  }
+                ]
+              },
+              "idShort": "ToolName",
+              "modelType": "Property",
+              "valueType": "xs:string"
+            }
+          ]
+        },
+        {
+          "entityType": "CoManagedEntity",
+          "asset": {
+            "keys": []
+          },
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/Node/1/0"
+              }
+            ]
+          },
+          "idShort": "Station_7_-_Quality_Check",
+          "modelType": "Entity",
+          "statements": [
+            {
+              "value": "0",
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/HierachicalStructures/Node/1/0"
+                  }
+                ]
+              },
+              "idShort": "State",
+              "modelType": "Property",
+              "valueType": "xs:string"
+            },
+            {
+              "value": "2023-04-17T11:53:26Z",
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/HierachicalStructures/Node/1/0"
+                  }
+                ]
+              },
+              "idShort": "TimeStamp",
+              "modelType": "Property",
+              "valueType": "xs:string"
+            },
+            {
+              "value": "Assistierte Montage",
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/HierachicalStructures/Node/1/0"
+                  }
+                ]
+              },
+              "idShort": "ToolName",
+              "modelType": "Property",
+              "valueType": "xs:string"
+            },
+            {
+              "ordered": false,
+              "allowDuplicates": false,
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/HierachicalStructures/Node/1/0"
+                  }
+                ]
+              },
+              "idShort": "QualityResults",
+              "modelType": "SubmodelElementCollection",
+              "value": [
+                {
+                  "value": "true",
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/idta/HierachicalStructures/Node/1/0"
+                      }
+                    ]
+                  },
+                  "idShort": "PartIsIO",
+                  "modelType": "Property",
+                  "valueType": "xs:string"
+                },
+                {
+                  "value": "",
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/idta/HierachicalStructures/Node/1/0"
+                      }
+                    ]
+                  },
+                  "idShort": "TipIsIO",
+                  "modelType": "Property",
+                  "valueType": "xs:string"
+                },
+                {
+                  "value": "",
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/idta/HierachicalStructures/Node/1/0"
+                      }
+                    ]
+                  },
+                  "idShort": "QualityCertificate",
+                  "modelType": "File"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "category": "CONSTANT",
+      "idShort": "ArcheType",
+      "semanticId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "https://admin-shell.io/idta/HierarchicalStructures/ArcheType/1/0"
+          }
+        ]
+      },
+      "valueType": "xs:string",
+      "value": "Full",
+      "modelType": "Property"
+    }
+  ],
+  "semanticId": {
+    "keys": [
+      {
+        "type": "GlobalReference",
+        "value": "https://admin-shell.io/idta/HierarchicalStructures/1/0/Submodel"
+      }
+    ],
+    "type": "ExternalReference"
+  },
+  "category": "VARIABLE",
+  "id": "https://aas.uni-h.de/sm/aHR0cHM6Ly9hYXMyLnVuaS1oLmRlL2Fhcy9sbmkwNzI5_Production"
+}

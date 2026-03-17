@@ -1,0 +1,731 @@
+﻿{
+  "semanticId": {
+    "keys": [
+      {
+        "type": "Submodel",
+        "value": "https://admin-shell.io/zvei/nameplate/1/0/Nameplate"
+      }
+    ],
+    "type": "ExternalReference"
+  },
+  "id": "https://wgrp.biz/sm/wgx/NameplateForGalaxieD/1/0/NameplateForGalaxieD",
+  "idShort": "Nameplate",
+  "kind": "Instance",
+  "administration": {
+    "version": "1",
+    "revision": "0"
+  },
+  "dataSpecification": [],
+  "qualifiers": [
+    {
+      "semanticId": {
+        "keys": []
+      },
+      "valueType": "",
+      "modelType": "Qualifier",
+      "type": "MappingInfo",
+      "value": "RGM_"
+    },
+    {
+      "semanticId": {
+        "keys": []
+      },
+      "valueType": "",
+      "modelType": "Qualifier",
+      "type": "displayName",
+      "value": "Nameplate Galaxie RGM01"
+    }
+  ],
+  "modelType": "Submodel",
+  "embeddedDataSpecifications": [],
+  "submodelElements": [
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "0173-1#02-AAO677#002"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "ManufacturerName",
+      "kind": "Instance",
+      "modelType": "MultiLanguageProperty",
+      "category": "PARAMETER",
+      "value": [
+        {
+          "language": "de",
+          "text": "WITTENSTEIN SE"
+        }
+      ]
+    },
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "0173-1#02-AAM556#002"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "SerialNumber",
+      "kind": "Instance",
+      "valueType": "xs:string",
+      "modelType": "Property",
+      "category": "PARAMETER",
+      "value": ""
+    },
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "0173-1#02-AAQ832#005"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "Address",
+      "kind": "Instance",
+      "modelType": "SubmodelElementCollection",
+      "value": [
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO127#003"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "Department",
+          "kind": "Instance",
+          "modelType": "MultiLanguageProperty",
+          "category": "PARAMETER",
+          "value": []
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAQ833#005"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "Phone01",
+          "kind": "Instance",
+          "modelType": "SubmodelElementCollection",
+          "category": "PARAMETER",
+          "value": [
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0173-1#02-AAO137#003"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "TypeOfTelephone",
+              "kind": "Instance",
+              "valueType": "xs:string",
+              "modelType": "Property",
+              "category": "PARAMETER",
+              "value": ""
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0173-1#02-AAO136#002"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "TelephoneNumber",
+              "kind": "Instance",
+              "modelType": "MultiLanguageProperty",
+              "category": "PARAMETER",
+              "value": []
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO134#002"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "NationalCode",
+          "kind": "Instance",
+          "modelType": "MultiLanguageProperty",
+          "category": "PARAMETER",
+          "value": []
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAQ326#002"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "AddressOfAdditionalLink",
+          "kind": "Instance",
+          "valueType": "xs:string",
+          "modelType": "Property",
+          "category": "PARAMETER",
+          "value": ""
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO129#002"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "Zipcode",
+          "kind": "Instance",
+          "modelType": "MultiLanguageProperty",
+          "value": []
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO128#002"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "Street",
+          "kind": "Instance",
+          "modelType": "MultiLanguageProperty",
+          "value": []
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAQ836#005"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "Email01",
+          "kind": "Instance",
+          "modelType": "SubmodelElementCollection",
+          "value": [
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0173-1#02-AAO198#002"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "EmailAddress",
+              "kind": "Instance",
+              "valueType": "xs:string",
+              "modelType": "Property",
+              "category": "PARAMETER",
+              "value": ""
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO132#002"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "CityTown",
+          "kind": "Instance",
+          "modelType": "MultiLanguageProperty",
+          "value": []
+        }
+      ]
+    },
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "0173-1#02-AAW338#001"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "ManufacturerProductDesignation",
+      "kind": "Instance",
+      "modelType": "MultiLanguageProperty",
+      "category": "PARAMETER",
+      "value": []
+    },
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "https://admin-shell.io/zvei/nameplate/1/0/"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "AssetSpecificProperties",
+      "kind": "Instance",
+      "modelType": "SubmodelElementCollection",
+      "value": [
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "ConceptDescription",
+                "value": "https://wgrp.biz/CommutationOffset/1/0"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "CommutationOffset",
+          "kind": "Instance",
+          "valueType": "",
+          "modelType": "Property",
+          "category": "PARAMETER",
+          "value": ""
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/zvei/nameplate/1/0/Nameplate/AssetSpecificProperties/GuidelineSpecificProperties"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "GuidelineSpecificProperties01",
+          "kind": "Instance",
+          "modelType": "SubmodelElementCollection",
+          "value": [
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "ConceptDescription",
+                    "value": "0173-1#02-AAC970#006"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "ratedPower",
+              "kind": "Instance",
+              "valueType": "xs:long",
+              "modelType": "Property",
+              "category": "PARAMETER",
+              "value": ""
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "ConceptDescription",
+                    "value": "0173-1#02-AAF726#002"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "ratedCurrent",
+              "kind": "Instance",
+              "valueType": "xs:long",
+              "modelType": "Property",
+              "category": "PARAMETER",
+              "value": ""
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "ConceptDescription",
+                    "value": "https://wgrp.biz/cd/MaxMotorRotationSpeed/1/0"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "MaxMotorRotationSpeed",
+              "kind": "Instance",
+              "valueType": "xs:long",
+              "modelType": "Property",
+              "category": "PARAMETER",
+              "value": ""
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "ConceptDescription",
+                    "value": "0173-1#02-BAH005#004"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "ratedVoltage",
+              "kind": "Instance",
+              "valueType": "",
+              "modelType": "Property",
+              "category": "PARAMETER",
+              "value": ""
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "ConceptDescription",
+                    "value": "0173-1#02-BAG975#011"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "protectionClass",
+              "kind": "Instance",
+              "valueType": "xs:string",
+              "modelType": "Property",
+              "category": "PARAMETER",
+              "value": ""
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "ConceptDescription",
+                    "value": "0173-1#02-AAV782#001"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "ThermalInsulationClass",
+              "kind": "Instance",
+              "valueType": "xs:string",
+              "modelType": "Property",
+              "category": "PARAMETER",
+              "value": ""
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "ConceptDescription",
+                    "value": "0173-1#02-AAC879#005"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "ratedMotorRotationSpeed",
+              "kind": "Instance",
+              "valueType": "",
+              "modelType": "Property",
+              "category": "PARAMETER",
+              "value": ""
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0173-1#02-AAO856#002"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "GuidelineForConformityDeclaration",
+              "kind": "Instance",
+              "valueType": "xs:string",
+              "modelType": "Property",
+              "category": "PARAMETER",
+              "value": "DIN EN 60034-1"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/zvei/nameplate/1/0/Nameplate/AssetSpecificProperties/GuidelineSpecificProperties"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "GuidelineSpecificProperties02",
+          "kind": "Instance",
+          "modelType": "SubmodelElementCollection",
+          "value": [
+            {
+              "semanticId": {
+                "keys": []
+              },
+              "idShort": "MaxRotationalSpeed",
+              "kind": "Instance",
+              "valueType": "",
+              "modelType": "Property",
+              "category": "PARAMETER",
+              "value": ""
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "ConceptDescription",
+                    "value": "0173-1#02-AAF726#003"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "ratedCurrent",
+              "kind": "Instance",
+              "valueType": "xs:double",
+              "modelType": "Property",
+              "category": "PARAMETER",
+              "value": ""
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "ConceptDescription",
+                    "value": "0173-1#02-BAG975#011"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "protectionClass",
+              "kind": "Instance",
+              "valueType": "xs:string",
+              "modelType": "Property",
+              "category": "PARAMETER",
+              "value": ""
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0173-1#02-AAO856#002"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "GuidelineForConformityDeclaration",
+              "kind": "Instance",
+              "valueType": "xs:string",
+              "modelType": "Property",
+              "category": "PARAMETER",
+              "value": "UL 1004-1 Rotating Electrical Machines – General Requirements"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "ConceptDescription",
+                "value": "https://wgrp.biz/cd/TempSensorType/1/0"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "TempSensorType",
+          "kind": "Instance",
+          "valueType": "",
+          "modelType": "Property",
+          "category": "PARAMETER",
+          "value": ""
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "ConceptDescription",
+                "value": "https://wgrp.biz/cd/FeedbackSystem/1/0"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "FeedbackSystem",
+          "kind": "Instance",
+          "valueType": "xs:string",
+          "modelType": "Property",
+          "category": "PARAMETER",
+          "value": ""
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "ConceptDescription",
+                "value": "https://wgrp.biz/cd/lubrication/1/0"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "lubrication",
+          "kind": "Instance",
+          "valueType": "xs:string",
+          "modelType": "Property",
+          "category": "PARAMETER",
+          "value": ""
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "ConceptDescription",
+                "value": "0173-1#02-AAB713#005"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "Weight",
+          "kind": "Instance",
+          "valueType": "xs:long",
+          "modelType": "Property",
+          "category": "PARAMETER",
+          "value": ""
+        },
+        {
+          "semanticId": {
+            "keys": []
+          },
+          "idShort": "MountingPosition",
+          "kind": "Instance",
+          "valueType": "",
+          "modelType": "Property",
+          "category": "PARAMETER",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "0173-1#02-AAP906#001"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "YearOfConstruction",
+      "kind": "Instance",
+      "valueType": "xs:string",
+      "modelType": "Property",
+      "category": "PARAMETER",
+      "value": ""
+    },
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "https://admin-shell.io/zvei/nameplate/1/0/"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "Markings",
+      "kind": "Instance",
+      "modelType": "SubmodelElementCollection",
+      "value": [
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/zvei/nameplate/1/0/Nameplate/Markings/Marking"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "Marking01",
+          "kind": "Instance",
+          "modelType": "SubmodelElementCollection",
+          "value": [
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/zvei/nameplate/1/0/Nameplate/Markings/Marking/MarkingFile"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "MarkingFile",
+              "kind": "Instance",
+              "modelType": "File",
+              "category": "PARAMETER",
+              "value": "",
+              "contentType": "image/jpeg"
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/zvei/nameplate/1/0/"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "MarkingName",
+              "kind": "Instance",
+              "valueType": "xs:string",
+              "modelType": "Property",
+              "category": "PARAMETER",
+              "value": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "173-1#02-AAU731#001"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "ManufacturerProductFamily",
+      "kind": "Instance",
+      "modelType": "MultiLanguageProperty",
+      "category": "PARAMETER",
+      "value": []
+    }
+  ]
+}

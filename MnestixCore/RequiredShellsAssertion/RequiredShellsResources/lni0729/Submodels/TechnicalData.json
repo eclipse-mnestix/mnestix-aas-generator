@@ -1,0 +1,365 @@
+{
+  "idShort": "TechnicalData",
+  "id": "https://aas.uni-h.de/sm/aHR0cHM6Ly9hYXMyLnVuaS1oLmRlL2Fhcy9sbmkwNzI5_TD",
+  "dataSpecification": [],
+  "embeddedDataSpecifications": [],
+  "modelType": "Submodel",
+  "kind": "Instance",
+  "submodelElements": [
+    {
+      "ordered": false,
+      "allowDuplicates": false,
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "https://admin-shell.io/ZVEI/TechnicalData/GeneralInformation/1/1"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "GeneralInformation",
+      "value": [
+        {
+          "contentType": "image/png",
+          "value": "https://aas.uni-h.de/images/MD_zentrum_hannover.svg",
+          "semanticId": {
+            "keys": []
+          },
+          "idShort": "ManufacturerLogo",
+          "kind": "Instance",
+          "modelType": "File"
+        },
+        {
+          "contentType": "image/jpeg",
+          "value": "https://aas.uni-h.de/images/kugelschreiber.1.jpg",
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/ZVEI/TechnicalData/ProductImage/1/1"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "ProductImage",
+          "kind": "Instance",
+          "modelType": "File"
+        }
+      ],
+      "kind": "Instance",
+      "parent": {
+        "keys": [
+          {
+            "type": "Submodel",
+            "local": true,
+            "value": "https://aas.uni-h.de/sm/aHR0cHM6Ly9hYXMyLnVuaS1oLmRlL2Fhcy9sbmkwNzI5_TD",
+            "idType": "IRI"
+          }
+        ]
+      },
+      "modelType": "SubmodelElementCollection"
+    },
+    {
+      "ordered": false,
+      "allowDuplicates": false,
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "https://admin-shell.io/ZVEI/TechnicalData/ProductClassifications/1/1"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "ProductClassifications",
+      "value": [
+        {
+          "ordered": false,
+          "allowDuplicates": false,
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/ZVEI/TechnicalData/ProductClassificationItem/1/1"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "ProductClassificationItem1",
+          "value": [
+            {
+              "value": "ECLASS",
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/ZVEI/TechnicalData/ProductClassificationSystem/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "ProductClassificationSystem",
+              "category": "PARAMETER",
+              "valueType": "xs:string",
+              "kind": "Instance",
+              "modelType": "Property",
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Common name of the classification system."
+                }
+              ]
+            },
+            {
+              "value": "12.0 (BASIC)",
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/ZVEI/TechnicalData/ClassificationSystemVersion/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "ClassificationSystemVersion",
+              "category": "PARAMETER",
+              "valueType": "xs:string",
+              "kind": "Instance",
+              "modelType": "Property",
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Common version identifier of the used classification system, in order to distinguish different version of the property dictionary."
+                }
+              ]
+            },
+            {
+              "value": "51-01-05-01",
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/ZVEI/TechnicalData/ProductClassId/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "ProductClassId",
+              "category": "PARAMETER",
+              "valueType": "xs:string",
+              "kind": "Instance",
+              "modelType": "Property",
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Class of the associated product or industrial equipment in the classification system. According to the notation of the system."
+                }
+              ]
+            }
+          ],
+          "kind": "Instance",
+          "modelType": "SubmodelElementCollection",
+          "description": [
+            {
+              "language": "en",
+              "text": "Single product classification item by association with product class in a particular classification system or property dictionary."
+            }
+          ]
+        }
+      ],
+      "kind": "Instance",
+      "parent": {
+        "keys": [
+          {
+            "type": "Submodel",
+            "local": true,
+            "value": "https://aas.uni-h.de/sm/aHR0cHM6Ly9hYXMyLnVuaS1oLmRlL2Fhcy9sbmkwNzI5_TD",
+            "idType": "IRI"
+          }
+        ]
+      },
+      "modelType": "SubmodelElementCollection",
+      "description": [
+        {
+          "language": "en",
+          "text": "Product classifications by association of product classes with common classification systems."
+        }
+      ]
+    },
+    {
+      "ordered": false,
+      "allowDuplicates": false,
+      "semanticId": {
+        "keys": [
+          {
+            "type": "ConceptDescription",
+            "value": "https://admin-shell.io/ZVEI/TechnicalData/TechnicalProperties/1/1"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "TechnicalProperties",
+      "value": [
+        {
+          "value": "145 mm",
+          "semanticId": {
+            "keys": []
+          },
+          "idShort": "Length",
+          "valueType": "xs:string",
+          "kind": "Instance",
+          "modelType": "Property"
+        },
+        {
+          "value": "12.8 mm",
+          "semanticId": {
+            "keys": []
+          },
+          "idShort": "Diameter",
+          "category": "VARIABLE",
+          "valueType": "xs:string",
+          "kind": "Instance",
+          "modelType": "Property"
+        },
+        {
+          "value": "32 g",
+          "valueId": {
+            "keys": []
+          },
+          "semanticId": {
+            "keys": []
+          },
+          "idShort": "Weight",
+          "valueType": "xs:string",
+          "kind": "Instance",
+          "modelType": "Property"
+        },
+        {
+          "value": " MDZH_LNI0729",
+          "semanticId": {
+            "keys": [
+              {
+                "type": "ConceptDescription",
+                "value": "0173-1#02-AAM556#002"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "SerialNumber",
+          "category": "PARAMETER",
+          "valueType": "xs:string",
+          "kind": "Instance",
+          "modelType": "Property"
+        },
+        {
+          "value": "MDZH_LNI_v1.1",
+          "semanticId": {
+            "keys": []
+          },
+          "idShort": "HardwareRevision",
+          "valueType": "xs:string",
+          "kind": "Instance",
+          "modelType": "Property"
+        },
+        {
+          "value": "aluminium",
+          "semanticId": {
+            "keys": []
+          },
+          "idShort": "Material",
+          "category": "PARAMETER",
+          "valueType": "xs:string",
+          "kind": "Instance",
+          "modelType": "Property"
+        },
+        {
+          "value": "blue",
+          "semanticId": {
+            "keys": []
+          },
+          "idShort": "WritingColor",
+          "category": "PARAMETER",
+          "valueType": "xs:string",
+          "kind": "Instance",
+          "modelType": "Property"
+        },
+        {
+          "value": "red",
+          "semanticId": {
+            "keys": []
+          },
+          "idShort": "LockColor",
+          "valueType": "xs:string",
+          "kind": "Instance",
+          "modelType": "Property"
+        },
+        {
+          "value": "convex",
+          "semanticId": {
+            "keys": []
+          },
+          "idShort": "TipShape",
+          "valueType": "xs:string",
+          "kind": "Instance",
+          "modelType": "Property"
+        },
+        {
+          "value": "0",
+          "semanticId": {
+            "keys": []
+          },
+          "idShort": "HandleShapeRadius",
+          "valueType": "xs:string",
+          "kind": "Instance",
+          "modelType": "Property"
+        },
+        {
+          "value": "Dr. Robert Habeck",
+          "semanticId": {
+            "keys": []
+          },
+          "idShort": "EngravingText",
+          "valueType": "xs:string",
+          "kind": "Instance",
+          "modelType": "Property"
+        },
+        {
+          "value": "BMWK",
+          "semanticId": {
+            "keys": []
+          },
+          "idShort": "EngravingTextBack",
+          "valueType": "xs:string",
+          "kind": "Instance",
+          "modelType": "Property"
+        }
+      ],
+      "kind": "Instance",
+      "parent": {
+        "keys": [
+          {
+            "type": "Submodel",
+            "local": true,
+            "value": "https://aas.uni-h.de/sm/aHR0cHM6Ly9hYXMyLnVuaS1oLmRlL2Fhcy9sbmkwNzI5_TD",
+            "idType": "IRI"
+          }
+        ]
+      },
+      "modelType": "SubmodelElementCollection"
+    }
+  ],
+  "semanticId": {
+    "keys": [
+      {
+        "type": "GlobalReference",
+        "value": "http://admin-shell.io/ZVEI/TechnicalData/Submodel/1/1"
+      }
+    ],
+    "type": "ExternalReference"
+  },
+  "administration": {
+    "version": "1",
+    "revision": "0"
+  }
+}

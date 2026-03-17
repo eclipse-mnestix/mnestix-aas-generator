@@ -1,0 +1,149 @@
+{
+  "modelType": "Submodel",
+  "kind": "Template",
+  "id": "urn:smtemplate:JsonataExpressions",
+  "idShort": "JsonataExpressions",
+  "administration": {
+    "version": "1",
+    "revision": "0"
+  },
+  "qualifiers": [
+    {
+      "type": "displayName",
+      "value": "Jsonata Expressions Test Template",
+      "valueType": "xs:string"
+    }
+  ],
+  "submodelElements": [
+    {
+      "modelType": "Property",
+      "idShort": "StringLengthResult",
+      "valueType": "xs:integer",
+      "value": "",
+      "qualifiers": [
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "value": "One",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/MappingInfo",
+          "value": "$length(sourceData.testString)",
+          "valueType": "xs:string"
+        }
+      ],
+      "description": [
+        {
+          "language": "en",
+          "text": "Test str.length function - should return number"
+        }
+      ]
+    },
+    {
+      "modelType": "Property",
+      "idShort": "SubstringResult",
+      "valueType": "xs:string",
+      "value": "",
+      "qualifiers": [
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "value": "One",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/MappingInfo",
+          "value": "$substring(sourceData.testString, 0, 4)",
+          "valueType": "xs:string"
+        }
+      ],
+      "description": [
+        {
+          "language": "en",
+          "text": "Test str.substring function"
+        }
+      ]
+    },
+    {
+      "modelType": "Property",
+      "idShort": "ContainsResult",
+      "valueType": "xs:boolean",
+      "value": "",
+      "qualifiers": [
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "value": "One",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/MappingInfo",
+          "value": "sourceData.testString ~> $contains(\"test\")",
+          "valueType": "xs:string"
+        }
+      ],
+      "description": [
+        {
+          "language": "en",
+          "text": "Test str.contains function - should return boolean"
+        }
+      ]
+    },
+    {
+      "modelType": "Property",
+      "idShort": "NumberToStringResult",
+      "valueType": "xs:string",
+      "value": "",
+      "qualifiers": [
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "value": "One",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/MappingInfo",
+          "value": "$string(sourceData.numberValue)",
+          "valueType": "xs:string"
+        }
+      ],
+      "description": [
+        {
+          "language": "en",
+          "text": "Test number to string conversion - should convert number to string"
+        }
+      ]
+    },
+    {
+      "modelType": "Property",
+      "idShort": "ComparisonResult",
+      "valueType": "xs:boolean",
+      "value": "",
+      "qualifiers": [
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "value": "One",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/MappingInfo",
+          "value": "sourceData.numA > sourceData.numB",
+          "valueType": "xs:string"
+        }
+      ],
+      "description": [
+        {
+          "language": "en",
+          "text": "Test greater than operator - should compare two numeric values and return boolean"
+        }
+      ]
+    }
+  ]
+}

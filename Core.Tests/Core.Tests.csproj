@@ -1,0 +1,63 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.0" />
+    <PackageReference Include="EphemeralMongo6" Version="1.1.3" />
+    <PackageReference Include="FluentAssertions" Version="6.12.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="Moq" Version="4.20.70" />
+    <PackageReference Include="MQTTnet.AspNetCore" Version="4.3.3.952" />
+    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="NUnit.Analyzers" Version="3.9.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="NUnit.Framework" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MnestixCore\MnestixCore.csproj" />
+    <ProjectReference Include="..\MnestixApi\MnestixApi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="TestFiles\CustomTemplateSubmodelNameplate.json" />
+    <None Remove="TestFiles\NameplateBlueprint.json" />
+    <EmbeddedResource Include="TestFiles\CustomTemplateSubmodelNameplate.json" />
+    <EmbeddedResource Include="TestFiles\CustomTemplateSubmodelNameplateReference.json" />
+    <EmbeddedResource Include="TestFiles\DefaultTemplateSubmodelNameplateReference.json" />
+    <None Remove="TestFiles\DefaultTemplateSubmodelNameplate.json" />
+    <EmbeddedResource Include="TestFiles\DefaultTemplateSubmodelNameplate.json" />
+    <None Remove="TestFiles\ExampleAas.json" />
+    <EmbeddedResource Include="TestFiles\ExampleAas.json" />
+    <None Remove="TestFiles\IdGeneratorSettingsSubmodelWithDynamicPartValues.json" />
+    <EmbeddedResource Include="TestFiles\IdGeneratorSettingsSubmodelWithDynamicPartValues.json" />
+    <None Remove="TestFiles\IdGeneratorSettingsSubmodelWithoutValues.json" />
+    <EmbeddedResource Include="TestFiles\IdGeneratorSettingsSubmodelWithoutValues.json" />
+    <None Remove="TestFiles\IdGeneratorSettingsSubmodelWithValues.json" />
+    <EmbeddedResource Include="TestFiles\IdGeneratorSettingsSubmodelWithValues.json" />
+    <None Remove="TestFiles\TwoCustomSubmodelTemplatesTransformedForRepo.json" />
+    <EmbeddedResource Include="TestFiles\NameplateBlueprint.json" />
+    <EmbeddedResource Include="TestFiles\TwoCustomSubmodelTemplatesTransformedForRepo.json" />
+    <None Update="AasGenerator\TestJsons\CustomTemplateSubmodelWithMappingInfo.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="AasGenerator\TestJsons\SubmodelFormData.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="AasGenerator\TestJsons\**\*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

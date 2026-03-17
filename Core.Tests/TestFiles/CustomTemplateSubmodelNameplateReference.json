@@ -1,0 +1,14 @@
+{
+  "paging_metadata": {},
+  "result": [
+    {
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "https://wgrp.biz/sm/wgx/NameplateForGalaxieD/1/0/NameplateForGalaxieD"
+        }
+      ],
+      "type": "ModelReference"
+    }
+  ]
+}
