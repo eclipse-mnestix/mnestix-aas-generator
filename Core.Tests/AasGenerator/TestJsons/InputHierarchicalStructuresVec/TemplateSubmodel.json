@@ -1,0 +1,112 @@
+{
+  "modelType": "Submodel",
+  "kind": "Template",
+  "id": "urn:smtemplate:DemoTemplate",
+  "idShort": "HierarchicalStructures",
+  "administration": {
+    "version": "1",
+    "revision": "0"
+  },
+  "qualifiers": [
+    {
+      "type": "displayName",
+      "value": "HierarchicalStructures (VEC)",
+      "valueType": "xs:string"
+    }
+  ],
+  "submodelElements": [
+    {
+      "modelType": "Entity",
+      "idShort": "CableSet",
+      "entityType": "SelfManagedEntity",
+      "globalAssetId": "https://asset.te.com/cableset_root",
+      "statements": [],
+      "qualifiers": []
+    },
+    {
+      "modelType": "SubmodelElementCollection",
+      "idShort": "Components",
+      "value": [
+        {
+          "modelType": "Entity",
+          "idShort": "ComponentTemplate",
+          "entityType": "CoManagedEntity",
+          "globalAssetId": "",
+          "statements": [],
+          "qualifiers": [
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "value": "One",
+              "valueType": "xs:string"
+            },
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/CollectionMappingInfo",
+              "value": "vec.components[*]",
+              "valueType": "xs:string"
+            },
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/MappingInfo/idShort",
+              "value": "vec.components[*].partNumber",
+              "valueType": "xs:string"
+            },
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/MappingInfo/globalAssetId",
+              "value": "vec.components[*].assetId",
+              "valueType": "xs:string"
+            },
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/MappingInfo/entityType",
+              "value": "vec.components[*].entityType",
+              "valueType": "xs:string"
+            }
+          ]
+        }
+      ],
+      "qualifiers": []
+    },
+    {
+      "modelType": "SubmodelElementCollection",
+      "idShort": "Relationships",
+      "value": [
+        {
+          "modelType": "RelationshipElement",
+          "idShort": "HasPartTemplate",
+          "first": {},
+          "second": {},
+          "qualifiers": [
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "value": "One",
+              "valueType": "xs:string"
+            },
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/CollectionMappingInfo",
+              "value": "vec.components[*]",
+              "valueType": "xs:string"
+            },
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/MappingInfo/first",
+              "value": "vec.components[*].firstRef",
+              "valueType": "xs:string"
+            },
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/MappingInfo/second",
+              "value": "vec.components[*].secondRef",
+              "valueType": "xs:string"
+            }
+          ]
+        }
+      ],
+      "qualifiers": []
+    }
+  ]
+}

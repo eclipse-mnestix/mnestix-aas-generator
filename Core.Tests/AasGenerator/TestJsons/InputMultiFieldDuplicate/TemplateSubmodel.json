@@ -1,0 +1,38 @@
+{
+  "modelType": "Submodel",
+  "kind": "Template",
+  "id": "urn:smtemplate:DemoTemplate",
+  "idShort": "DemoTemplate",
+  "administration": {
+    "version": "1",
+    "revision": "0"
+  },
+  "submodelElements": [
+    {
+      "modelType": "Property",
+      "idShort": "DuplicateProperty",
+      "valueType": "xs:string",
+      "value": "",
+      "qualifiers": [
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "value": "One",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/MappingInfo",
+          "value": "data.value1",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/MappingInfo/value",
+          "value": "data.value2",
+          "valueType": "xs:string"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "modelType": "Submodel",
+  "kind": "Instance",
+  "id": "TheNewSubmodelId",
+  "idShort": "DemoTemplate",
+  "administration": {
+    "version": "1",
+    "revision": "0"
+  },
+  "qualifiers": [],
+  "submodelElements": [
+    {
+      "modelType": "Entity",
+      "idShort": "TE_Housing_123",
+      "entityType": "SelfManagedEntity",
+      "globalAssetId": "",
+      "statements": [],
+      "qualifiers": [
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "value": "One",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/MappingInfo/idShort",
+          "value": "part.name",
+          "valueType": "xs:string"
+        }
+      ]
+    }
+  ]
+}
