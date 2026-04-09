@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using MnestixCore.AasGenerator.Interfaces;
 using MnestixCore.Errors;
 using Newtonsoft.Json;
@@ -9,12 +10,120 @@ namespace MnestixCore.AasGenerator.Pipelines.Steps;
 
 public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
 {
+    private const string MappingInfoPrefix = "SMT/MappingInfo";
+
+    private static readonly string[] AllowedFields = ["value", "idShort", "globalAssetId", "entityType", "displayName", "first", "second"];
+
+    private static readonly Dictionary<string, HashSet<string>> FieldApplicableModelTypes = new()
+    {
+        ["value"] = new HashSet<string> { "Property", "Range", "Blob", "MultiLanguageProperty" },
+        ["idShort"] = new HashSet<string>(), // empty = all model types
+        ["globalAssetId"] = new HashSet<string> { "Entity" },
+        ["entityType"] = new HashSet<string> { "Entity" },
+        ["displayName"] = new HashSet<string>(), // empty = all model types
+        ["first"] = new HashSet<string> { "RelationshipElement", "AnnotatedRelationshipElement" },
+        ["second"] = new HashSet<string> { "RelationshipElement", "AnnotatedRelationshipElement" },
+    };
+
+    private static readonly Dictionary<string, Func<string, bool>> ValueTypeValidators = new()
+    {
+        ["xs:string"] = _ => true,
+        ["xs:boolean"] = v => bool.TryParse(v, out _) || v is "0" or "1",
+        ["xs:integer"] = v => long.TryParse(v, out _),
+        ["xs:int"] = v => int.TryParse(v, out _),
+        ["xs:long"] = v => long.TryParse(v, out _),
+        ["xs:short"] = v => short.TryParse(v, out _),
+        ["xs:decimal"] = v => decimal.TryParse(v, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out _),
+        ["xs:double"] = v => double.TryParse(v, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out _),
+        ["xs:float"] = v => float.TryParse(v, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out _),
+        ["xs:dateTime"] = v => DateTime.TryParse(v, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out _),
+        ["xs:date"] = v => DateOnly.TryParse(v, System.Globalization.CultureInfo.InvariantCulture, out _),
+        ["xs:anyURI"] = _ => true,
+    };
+
     public Task<DataMappingContext> ExecuteAsync(DataMappingContext ctx)
     {
         ctx.Log($"Started MapDataToInstanceStep");
         MapDataToInstance(ctx);
         ctx.Log($"Finished MapDataToInstanceStep");
         return Task.FromResult(ctx);
+    }
+
+    private static string ParseFieldName(string qualifierType)
+    {
+        var segments = qualifierType.Split('/');
+        // "SMT/MappingInfo" → 2 segments → default "value"
+        // "SMT/MappingInfo/globalAssetId" → 3 segments → "globalAssetId"
+        return segments.Length >= 3 ? segments[2] : "value";
+    }
+
+    private static void ValidateFieldName(string fieldName, DataMappingContext ctx)
+    {
+        if (!AllowedFields.Contains(fieldName))
+        {
+            throw new SubmodelDataToInstanceMapperException(
+                $"Unsupported MappingInfo field '{fieldName}'. Allowed: {string.Join(", ", AllowedFields)}", ctx);
+        }
+    }
+
+    private static void ValidateFieldApplicability(string fieldName, string modelType, DataMappingContext ctx)
+    {
+        var applicableTypes = FieldApplicableModelTypes[fieldName];
+        // Empty set means applicable to all model types
+        if (applicableTypes.Count > 0 && !applicableTypes.Contains(modelType))
+        {
+            throw new SubmodelDataToInstanceMapperException(
+                $"Field '{fieldName}' is not applicable to model type '{modelType}'", ctx);
+        }
+    }
+
+    private static void ValidateDuplicateFields(List<(JToken qualifier, string fieldName)> qualifiersWithFields, DataMappingContext ctx)
+    {
+        var seen = new HashSet<string>();
+        foreach (var (qualifier, fieldName) in qualifiersWithFields)
+        {
+            if (!seen.Add(fieldName))
+            {
+                var elementIdShort = qualifier.Parent?.Parent?.Parent?["idShort"]?.Value<string>() ?? "unknown";
+                ctx.Qualifier = qualifier;
+                throw new SubmodelDataToInstanceMapperException(
+                    $"Duplicate mapping for field '{fieldName}' on element '{elementIdShort}'", ctx);
+            }
+        }
+    }
+
+    private static string SanitizeIdShort(string value, DataMappingContext ctx)
+    {
+        var sanitized = Regex.Replace(value, @"[^a-zA-Z0-9_]", "_");
+        if (sanitized.Length > 0 && char.IsDigit(sanitized[0]))
+        {
+            sanitized = "_" + sanitized;
+        }
+        if (sanitized != value)
+        {
+            ctx.LogWarning($"idShort value '{value}' was sanitized to '{sanitized}'");
+        }
+        return sanitized;
+    }
+
+    private static void ValidateValueType(JToken element, JToken dataValue, DataMappingContext ctx)
+    {
+        var valueType = element["valueType"]?.Value<string>();
+        if (string.IsNullOrEmpty(valueType)) return;
+
+        var stringValue = dataValue.ToString();
+        if (ValueTypeValidators.TryGetValue(valueType, out var validator))
+        {
+            if (!validator(stringValue))
+            {
+                throw new SubmodelDataToInstanceMapperException(
+                    $"Mapped value '{stringValue}' does not conform to valueType '{valueType}'", ctx);
+            }
+        }
+        else
+        {
+            ctx.LogWarning($"Unknown valueType '{valueType}' — skipping validation");
+        }
     }
 
     private static JArray ConvertToMultiLanguageProperty(JToken text, string language)
@@ -31,15 +140,56 @@ public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<Da
         };
     }
 
-    private static void AssignJsonValueToInstance(JToken blueprintValue, JToken dataFromMappingPath, JToken modelType, string language)
+    private static void AssignValueField(JToken element, JToken dataFromMappingPath, string modelType, string language, DataMappingContext ctx)
     {
-        if (modelType.Value<string>() == "MultiLanguageProperty")
+        ValidateValueType(element, dataFromMappingPath, ctx);
+
+        var blueprintValue = element["value"] ?? throw new SubmodelDataToInstanceMapperException("could not find matching value field of a qualify object", ctx);
+
+        if (modelType == "MultiLanguageProperty")
         {
             blueprintValue.Replace(ConvertToMultiLanguageProperty(dataFromMappingPath, language));
             return;
         }
 
         blueprintValue.Replace(dataFromMappingPath);
+    }
+
+    private static void AssignField(JToken element, string fieldName, JToken dataFromMappingPath, string modelType, string language, DataMappingContext ctx)
+    {
+        switch (fieldName)
+        {
+            case "value":
+                AssignValueField(element, dataFromMappingPath, modelType, language, ctx);
+                break;
+            case "idShort":
+                var sanitized = SanitizeIdShort(dataFromMappingPath.ToString(), ctx);
+                element["idShort"] = sanitized;
+                break;
+            case "globalAssetId":
+                element["globalAssetId"] = dataFromMappingPath.ToString();
+                break;
+            case "entityType":
+                element["entityType"] = dataFromMappingPath.ToString();
+                break;
+            case "displayName":
+                var displayNameArray = element["displayName"] as JArray;
+                if (displayNameArray != null)
+                {
+                    var langEntry = displayNameArray.FirstOrDefault(e => e["language"]?.Value<string>() == language);
+                    if (langEntry != null)
+                    {
+                        langEntry["text"] = dataFromMappingPath.ToString();
+                    }
+                }
+                break;
+            case "first":
+                element["first"] = dataFromMappingPath is JObject ? dataFromMappingPath : JToken.Parse(dataFromMappingPath.ToString());
+                break;
+            case "second":
+                element["second"] = dataFromMappingPath is JObject ? dataFromMappingPath : JToken.Parse(dataFromMappingPath.ToString());
+                break;
+        }
     }
 
     private static JToken? SelectTokenFromDataJson(JToken dataJson, string mappingPath, DataMappingContext ctx)
@@ -66,16 +216,15 @@ public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<Da
         }
     }
 
-    private static void CheckIfValueKeyExists(JToken blueprintValue)
+    private static void CheckIfValueKeyExists(JToken element)
     {
         /*
         As per the v3 standard, "value" in MultiLanguageProperty has Cardinality "0..1,"
         indicating potential absence in blueprint data. We handle this by creating
         an empty value for the key "value" during mapping, ensuring smooth mapping without exceptions.
         */
-        var parent = blueprintValue.Parent?.Parent?.Parent;
-        if (parent?["value"] != null) return;
-        if (parent != null) parent["value"] = new JArray();
+        if (element["value"] != null) return;
+        element["value"] = new JArray();
     }
 
     private static JToken? GetCardinalityQualifier(JToken qualifier)
@@ -89,36 +238,71 @@ public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<Da
         var submodelInstance = ctx.SubmodelInstance;
         var data = ctx.Data;
         var language = ctx.Language;
-        
-        var qualifiers = submodelInstance.SelectTokens("$..qualifiers[?(@.type=='SMT/MappingInfo')]");
 
-        foreach (var qualifier in qualifiers)
+        // T002: Match all qualifiers whose type starts with "SMT/MappingInfo"
+        var qualifiers = submodelInstance.SelectTokens("$..qualifiers[*]")
+            .Where(q => q["type"]?.Value<string>()?.StartsWith(MappingInfoPrefix) == true)
+            .ToList();
+
+        // Group qualifiers by their parent element to detect duplicates
+        var qualifiersByElement = qualifiers
+            .GroupBy(q => q.Parent?.Parent?.Parent) // qualifier -> JArray -> JProperty "qualifiers" -> element JObject
+            .Where(g => g.Key != null);
+
+        foreach (var elementGroup in qualifiersByElement)
         {
-            ctx.Qualifier = qualifier;
-            var modelType = qualifier.Parent?.Parent?.Parent?["modelType"] ?? throw new SubmodelDataToInstanceMapperException("could not find matching modelType field of a qualify object", ctx);
-            if (modelType.Value<string>() == "MultiLanguageProperty") CheckIfValueKeyExists(qualifier);
-            var blueprintValue = qualifier.Parent?.Parent?.Parent?["value"] ?? throw new SubmodelDataToInstanceMapperException("could not find matching value field of a qualify object", ctx);
-            var mappingPath = qualifier["value"]?.Value<string>() ?? throw new SubmodelDataToInstanceMapperException("Mapping Info cannot be null", ctx);
-            var isMandatory = GetCardinalityQualifier(qualifier)?["value"]?.Value<string>()?.StartsWith("One") ?? false;
-            var dataFromMappingPath = SelectTokenFromDataJson(data, mappingPath, ctx);
+            var element = elementGroup.Key!;
+            var modelTypeToken = element["modelType"] ?? throw new SubmodelDataToInstanceMapperException("could not find matching modelType field of a qualify object", ctx);
+            var modelType = modelTypeToken.Value<string>()!;
 
-            // If no data is found and the mapping is mandatory an error will be thrown
-            if (dataFromMappingPath == null)
+            // Parse and validate all qualifiers for this element
+            var qualifiersWithFields = new List<(JToken qualifier, string fieldName)>();
+            foreach (var qualifier in elementGroup)
             {
-                if (isMandatory)
-                {
-                    throw new SubmodelDataToInstanceMapperException($"Mandatory mapping '{mappingPath}' not found.", ctx);
-                }
-                else
-                {
-                    ctx.LogWarning($"Optional mapping '{mappingPath}' not found in data, skipping.");
-                    continue;
-                }
+                var qualifierType = qualifier["type"]?.Value<string>() ?? "";
+                var fieldName = ParseFieldName(qualifierType);
+
+                ctx.Qualifier = qualifier;
+                ValidateFieldName(fieldName, ctx);
+                ValidateFieldApplicability(fieldName, modelType, ctx);
+
+                qualifiersWithFields.Add((qualifier, fieldName));
             }
-            AssignJsonValueToInstance(blueprintValue, dataFromMappingPath, modelType, language);
-            ctx.LogInfo($"Successfully mapped value '{dataFromMappingPath}' from path '{mappingPath}'");
 
+            // T007: Duplicate field detection
+            ValidateDuplicateFields(qualifiersWithFields, ctx);
 
+            // Process each qualifier
+            foreach (var (qualifier, fieldName) in qualifiersWithFields)
+            {
+                ctx.Qualifier = qualifier;
+
+                if (fieldName == "value" && modelType == "MultiLanguageProperty")
+                {
+                    CheckIfValueKeyExists(element);
+                }
+
+                var mappingPath = qualifier["value"]?.Value<string>() ?? throw new SubmodelDataToInstanceMapperException("Mapping Info cannot be null", ctx);
+                var isMandatory = GetCardinalityQualifier(qualifier)?["value"]?.Value<string>()?.StartsWith("One") ?? false;
+                var dataFromMappingPath = SelectTokenFromDataJson(data, mappingPath, ctx);
+
+                // If no data is found and the mapping is mandatory an error will be thrown
+                if (dataFromMappingPath == null)
+                {
+                    if (isMandatory)
+                    {
+                        throw new SubmodelDataToInstanceMapperException($"Mandatory mapping '{mappingPath}' not found.", ctx);
+                    }
+                    else
+                    {
+                        ctx.LogWarning($"Optional mapping '{mappingPath}' not found in data, skipping.");
+                        continue;
+                    }
+                }
+
+                AssignField(element, fieldName, dataFromMappingPath, modelType, language, ctx);
+                ctx.LogInfo($"Successfully mapped value '{dataFromMappingPath}' from path '{mappingPath}' to field '{fieldName}'");
+            }
         }
     }
 }

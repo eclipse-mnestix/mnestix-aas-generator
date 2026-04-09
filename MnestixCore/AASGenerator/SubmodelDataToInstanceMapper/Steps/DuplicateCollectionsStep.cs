@@ -157,9 +157,12 @@ public sealed class DuplicateCollectionsAasGeneratorPipelineStep : IPipelineStep
             }
 
             var iteratedQualifiers = newElement
-                    .SelectTokens("$..qualifiers[?(@.type=='SMT/MappingInfo' || @.type=='SMT/CollectionMappingInfo')]")
+                    .SelectTokens("$..qualifiers[*]")
                     .Where(q =>
                     {
+                        var t = q["type"]?.Value<string>();
+                        if (t == null) return false;
+                        if (!t.StartsWith("SMT/MappingInfo", StringComparison.Ordinal) && t != "SMT/CollectionMappingInfo") return false;
                         var v = q["value"]?.Value<string>();
                         return v != null && v.StartsWith(listIdentifier, StringComparison.Ordinal);
                     })
