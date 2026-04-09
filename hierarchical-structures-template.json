@@ -1,0 +1,1276 @@
+{
+	"idShort": "HierarchicalStructures",
+	"displayName": [
+		{
+			"language": "en",
+			"text": "Example Bill Of Materials"
+		},
+		{
+			"language": "de",
+			"text": "Beispielhafte Materialliste"
+		},
+		{
+			"language": "es",
+			"text": "Ejemplo de Lista de Materiales"
+		}
+	],
+	"description": [
+		{
+			"language": "en",
+			"text": "The Submodel HierarchicalStructures identified by its semanticId. The Submodel idShort can be picked freely."
+		}
+	],
+	"id": "https://example.com/sm/cable_set_bom",
+	"kind": "Instance",
+	"semanticId": {
+		"type": "ExternalReference",
+		"keys": [
+			{
+				"type": "GlobalReference",
+				"value": "https://admin-shell.io/idta/HierarchicalStructures/1/1/Submodel"
+			}
+		]
+	},
+	"qualifiers": [
+		{
+			"semanticId": {
+				"type": "ExternalReference",
+				"keys": [
+					{
+						"type": "GlobalReference",
+						"value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+					}
+				]
+			},
+			"kind": "TemplateQualifier",
+			"type": "SMT/Cardinality",
+			"valueType": "xs:string",
+			"value": "ZeroToOne"
+		},
+		{
+			"kind": "TemplateQualifier",
+			"type": "EditIdShort",
+			"valueType": "xs:string",
+			"value": "True"
+		}
+	],
+	"submodelElements": [
+		{
+			"category": "CONSTANT",
+			"idShort": "ArcheType",
+			"description": [
+				{
+					"language": "en",
+					"text": "ArcheType of the Submodel, there are three allowed enumeration entries: 1. “Full”, 2. “OneDown” and 3. “OneUp”. "
+				}
+			],
+			"semanticId": {
+				"type": "ExternalReference",
+				"keys": [
+					{
+						"type": "GlobalReference",
+						"value": "https://admin-shell.io/idta/HierarchicalStructures/ArcheType/1/0"
+					}
+				]
+			},
+			"qualifiers": [
+				{
+					"semanticId": {
+						"type": "ExternalReference",
+						"keys": [
+							{
+								"type": "GlobalReference",
+								"value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+							}
+						]
+					},
+					"kind": "TemplateQualifier",
+					"type": "SMT/Cardinality",
+					"valueType": "xs:string",
+					"value": "One"
+				},
+				{
+					"kind": "TemplateQualifier",
+					"type": "FormChoices",
+					"valueType": "xs:string",
+					"value": "Full;OneDown;OneUp"
+				}
+			],
+			"valueType": "xs:string",
+			"value": "Full",
+			"modelType": "Property"
+		},
+		{
+			"idShort": "CableSet",
+			"semanticId": {
+				"type": "ExternalReference",
+				"keys": [
+					{
+						"type": "GlobalReference",
+						"value": "https://admin-shell.io/idta/HierarchicalStructures/EntryNode/1/0"
+					}
+				]
+			},
+			"statements": [
+				{
+					"idShort": "TE_ConnectorHousing_2470646-9",
+					"displayName": [
+						{
+							"language": "de",
+							"text": "Stecker Modul 1"
+						}
+					],
+					"entityType": "SelfManagedEntity",
+					"modelType": "Entity",
+					"globalAssetId": "https://asset.te.com/TE_ConnectorHousing_2470646-9"
+				},
+				{
+					"idShort": "HasPart",
+					"semanticId": {
+						"type": "ExternalReference",
+						"keys": [
+							{
+								"type": "GlobalReference",
+								"value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+							}
+						]
+					},
+					"first": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							}
+						]
+					},
+					"second": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							},
+							{
+								"type": "Entity",
+								"value": "TE_ConnectorHousing_2470646-9"
+							}
+						]
+					},
+					"modelType": "RelationshipElement"
+				},
+				{
+					"idShort": "TE_ConnectorHousing_2470648-9",
+					"displayName": [
+						{
+							"language": "de",
+							"text": "Stecker Modul 2"
+						}
+					],
+					"entityType": "SelfManagedEntity",
+					"modelType": "Entity",
+					"globalAssetId": "https://asset.te.com/TE_ConnectorHousing_2470648-9"
+				},
+				{
+					"idShort": "HasPart",
+					"semanticId": {
+						"type": "ExternalReference",
+						"keys": [
+							{
+								"type": "GlobalReference",
+								"value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+							}
+						]
+					},
+					"first": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							}
+						]
+					},
+					"second": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							},
+							{
+								"type": "Entity",
+								"value": "TE_ConnectorHousing_2470648-9"
+							}
+						]
+					},
+					"modelType": "RelationshipElement"
+				},
+				{
+					"idShort": "TE_ConnectorHousing_2470653-9",
+					"displayName": [
+						{
+							"language": "de",
+							"text": "Stecker Modul 3"
+						}
+					],
+					"entityType": "SelfManagedEntity",
+					"modelType": "Entity",
+					"globalAssetId": "https://asset.te.com/TE_ConnectorHousing_2470653-9"
+				},
+				{
+					"idShort": "HasPart",
+					"semanticId": {
+						"type": "ExternalReference",
+						"keys": [
+							{
+								"type": "GlobalReference",
+								"value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+							}
+						]
+					},
+					"first": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							}
+						]
+					},
+					"second": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							},
+							{
+								"type": "Entity",
+								"value": "TE_ConnectorHousing_2470653-9"
+							}
+						]
+					},
+					"modelType": "RelationshipElement"
+				},
+				{
+					"idShort": "TE_ConnectorHousing_2470829_9",
+					"displayName": [
+						{
+							"language": "de",
+							"text": "Umgehäuse"
+						}
+					],
+					"entityType": "SelfManagedEntity",
+					"modelType": "Entity",
+					"globalAssetId": "https://asset.te.com/TE_ConnectorHousing_2470829_9"
+				},
+				{
+					"idShort": "HasPart",
+					"semanticId": {
+						"type": "ExternalReference",
+						"keys": [
+							{
+								"type": "GlobalReference",
+								"value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+							}
+						]
+					},
+					"first": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							}
+						]
+					},
+					"second": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							},
+							{
+								"type": "Entity",
+								"value": "TE_ConnectorHousing_2470829_9"
+							}
+						]
+					},
+					"modelType": "RelationshipElement"
+				},
+				{
+					"idShort": "TE_ConnectorHousing_2470839_1",
+					"displayName": [
+						{
+							"language": "de",
+							"text": "Cover"
+						}
+					],
+					"entityType": "SelfManagedEntity",
+					"modelType": "Entity",
+					"globalAssetId": "https://asset.te.com/TE_ConnectorHousing_2470839_1"
+				},
+				{
+					"idShort": "HasPart",
+					"semanticId": {
+						"type": "ExternalReference",
+						"keys": [
+							{
+								"type": "GlobalReference",
+								"value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+							}
+						]
+					},
+					"first": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							}
+						]
+					},
+					"second": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							},
+							{
+								"type": "Entity",
+								"value": "TE_ConnectorHousing_2470839_1"
+							}
+						]
+					},
+					"modelType": "RelationshipElement"
+				},
+				{
+					"idShort": "TE_ConnectorHousing_2302475_1",
+					"displayName": [
+						{
+							"language": "de",
+							"text": "Stecker 10pol"
+						}
+					],
+					"entityType": "SelfManagedEntity",
+					"globalAssetId": "https://asset.te.com/TE_ConnectorHousing_2302475_1",
+					"modelType": "Entity"
+				},
+				{
+					"idShort": "HasPart",
+					"semanticId": {
+						"type": "ExternalReference",
+						"keys": [
+							{
+								"type": "GlobalReference",
+								"value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+							}
+						]
+					},
+					"first": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							}
+						]
+					},
+					"second": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							},
+							{
+								"type": "Entity",
+								"value": "TE_ConnectorHousing_2302475_1"
+							}
+						]
+					},
+					"modelType": "RelationshipElement"
+				},
+				{
+					"idShort": "TE_ConnectorHousing_1418796_3",
+					"displayName": [
+						{
+							"language": "de",
+							"text": "Stecker 2pol"
+						}
+					],
+					"entityType": "SelfManagedEntity",
+					"modelType": "Entity",
+					"globalAssetId": "https://asset.te.com/TE_ConnectorHousing_1418796_3"
+				},
+				{
+					"idShort": "HasPart",
+					"semanticId": {
+						"type": "ExternalReference",
+						"keys": [
+							{
+								"type": "GlobalReference",
+								"value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+							}
+						]
+					},
+					"first": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							}
+						]
+					},
+					"second": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							},
+							{
+								"type": "Entity",
+								"value": "TE_ConnectorHousing_1418796_3"
+							}
+						]
+					},
+					"modelType": "RelationshipElement"
+				},
+				{
+					"idShort": "TE_ConnectorHousing_2_2310137_1",
+					"displayName": [
+						{
+							"language": "de",
+							"text": "Stecker 1pol"
+						}
+					],
+					"entityType": "SelfManagedEntity",
+					"globalAssetId": "https://asset.te.com/TE_ConnectorHousing_2_2310137_1",
+					"modelType": "Entity"
+				},
+				{
+					"idShort": "HasPart",
+					"semanticId": {
+						"type": "ExternalReference",
+						"keys": [
+							{
+								"type": "GlobalReference",
+								"value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+							}
+						]
+					},
+					"first": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							}
+						]
+					},
+					"second": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							},
+							{
+								"type": "Entity",
+								"value": "TE_ConnectorHousing_2_2310137_1"
+							}
+						]
+					},
+					"modelType": "RelationshipElement"
+				},
+				{
+					"idShort": "TE_GeneralTerminal_2141824_1",
+					"displayName": [
+						{
+							"language": "de",
+							"text": "MQS-Kontakt (0,13mm²)"
+						}
+					],
+					"entityType": "SelfManagedEntity",
+					"modelType": "Entity",
+					"globalAssetId": "https://asset.te.com/TE_GeneralTerminal_2141824_1"
+				},
+				{
+					"idShort": "HasPart",
+					"semanticId": {
+						"type": "ExternalReference",
+						"keys": [
+							{
+								"type": "GlobalReference",
+								"value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+							}
+						]
+					},
+					"first": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							}
+						]
+					},
+					"second": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							},
+							{
+								"type": "Entity",
+								"value": "TE_GeneralTerminal_2141824_1"
+							}
+						]
+					},
+					"modelType": "RelationshipElement"
+				},
+				{
+					"idShort": "TE_GeneralTerminal_5_928999_1",
+					"displayName": [
+						{
+							"language": "de",
+							"text": "MQS-Kontakt (0,35mm²)"
+						}
+					],
+					"entityType": "SelfManagedEntity",
+					"modelType": "Entity",
+					"globalAssetId": "https://asset.te.com/TE_GeneralTerminal_5_928999_1"
+				},
+				{
+					"idShort": "HasPart",
+					"semanticId": {
+						"type": "ExternalReference",
+						"keys": [
+							{
+								"type": "GlobalReference",
+								"value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+							}
+						]
+					},
+					"first": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							}
+						]
+					},
+					"second": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							},
+							{
+								"type": "Entity",
+								"value": "TE_GeneralTerminal_5_928999_1"
+							}
+						]
+					},
+					"modelType": "RelationshipElement"
+				},
+				{
+					"idShort": "TE_GeneralTerminal_1_1703930_1",
+					"displayName": [
+						{
+							"language": "de",
+							"text": "Nano MQS-Kontakt (0,13mm2)"
+						}
+					],
+					"entityType": "SelfManagedEntity",
+					"modelType": "Entity",
+					"globalAssetId": "https://asset.te.com/TE_GeneralTerminal_1_1703930_1"
+				},
+				{
+					"idShort": "HasPart",
+					"semanticId": {
+						"type": "ExternalReference",
+						"keys": [
+							{
+								"type": "GlobalReference",
+								"value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+							}
+						]
+					},
+					"first": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							}
+						]
+					},
+					"second": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							},
+							{
+								"type": "Entity",
+								"value": "TE_GeneralTerminal_1_1703930_1"
+							}
+						]
+					},
+					"modelType": "RelationshipElement"
+				},
+				{
+					"idShort": "TE_GeneralTerminal_2_1703930_1",
+					"displayName": [
+						{
+							"language": "de",
+							"text": "Nano MQS-Kontakt (0,35mm²)"
+						}
+					],
+					"entityType": "SelfManagedEntity",
+					"modelType": "Entity",
+					"globalAssetId": "https://asset.te.com/TE_GeneralTerminal_2_1703930_1"
+				},
+				{
+					"idShort": "HasPart",
+					"semanticId": {
+						"type": "ExternalReference",
+						"keys": [
+							{
+								"type": "GlobalReference",
+								"value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+							}
+						]
+					},
+					"first": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							}
+						]
+					},
+					"second": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							},
+							{
+								"type": "Entity",
+								"value": "TE_GeneralTerminal_2_1703930_1"
+							}
+						]
+					},
+					"modelType": "RelationshipElement"
+				},
+				{
+					"idShort": "TE_AMP_MCPContact_348470_1",
+					"displayName": [
+						{
+							"language": "de",
+							"text": "AMP MCP Kontakt"
+						}
+					],
+					"entityType": "SelfManagedEntity",
+					"modelType": "Entity",
+					"globalAssetId": "https://fakeasset.te.com/TE_AMP_MCPContact_348470_1"
+				},
+				{
+					"idShort": "HasPart",
+					"semanticId": {
+						"type": "ExternalReference",
+						"keys": [
+							{
+								"type": "GlobalReference",
+								"value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+							}
+						]
+					},
+					"first": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							}
+						]
+					},
+					"second": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							},
+							{
+								"type": "Entity",
+								"value": "TE_AMP_MCPContact_348470_1"
+							}
+						]
+					},
+					"modelType": "RelationshipElement"
+				},
+				{
+					"idShort": "TE_MATE_AXContact_1445204_1",
+					"displayName": [
+						{
+							"language": "de",
+							"text": "MATE-AX Kontakt"
+						}
+					],
+					"entityType": "SelfManagedEntity",
+					"modelType": "Entity",
+					"globalAssetId": "https://fakeasset.te.com/TE_MATE_AXContact_1445204_1"
+				},
+				{
+					"idShort": "HasPart",
+					"semanticId": {
+						"type": "ExternalReference",
+						"keys": [
+							{
+								"type": "GlobalReference",
+								"value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+							}
+						]
+					},
+					"first": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							}
+						]
+					},
+					"second": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							},
+							{
+								"type": "Entity",
+								"value": "TE_MATE_AXContact_1445204_1"
+							}
+						]
+					},
+					"modelType": "RelationshipElement"
+				},
+				{
+					"idShort": "flry-a-2x035-15-gn-br-ws-br--ring-detail",
+					"displayName": [
+						{
+							"language": "de",
+							"text": "0,35mm² UTP"
+						}
+					],
+					"entityType": "SelfManagedEntity",
+					"globalAssetId": "http://asset.bedia-kabel.de/de/flry-2x/flry-a-2x035-15-gn-br-ws-br--ring-detail",
+					"modelType": "Entity"
+				},
+				{
+					"idShort": "HasPart",
+					"semanticId": {
+						"type": "ExternalReference",
+						"keys": [
+							{
+								"type": "GlobalReference",
+								"value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+							}
+						]
+					},
+					"first": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							}
+						]
+					},
+					"second": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							},
+							{
+								"type": "Entity",
+								"value": "flry-a-2x035-15-gn-br-ws-br--ring-detail"
+							}
+						]
+					},
+					"modelType": "RelationshipElement"
+				},
+				{
+					"idShort": "FLCUAG01RY-013A",
+					"displayName": [
+						{
+							"language": "de",
+							"text": "0,13mm² Einzelleitung"
+						}
+					],
+					"entityType": "SelfManagedEntity",
+					"globalAssetId": "https://asset.leonicables.com/FLCUAG01RY-013A",
+					"modelType": "Entity"
+				},
+				{
+					"idShort": "HasPart",
+					"semanticId": {
+						"type": "ExternalReference",
+						"keys": [
+							{
+								"type": "GlobalReference",
+								"value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+							}
+						]
+					},
+					"first": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							}
+						]
+					},
+					"second": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							},
+							{
+								"type": "Entity",
+								"value": "FLCUAG01RY-013A"
+							}
+						]
+					},
+					"modelType": "RelationshipElement"
+				},
+				{
+					"idShort": "helukabel_28529",
+					"displayName": [
+						{
+							"language": "de",
+							"text": "1,5mm² Einzelleitungen"
+						}
+					],
+					"entityType": "SelfManagedEntity",
+					"globalAssetId": "https://asset.helukabel.com/de-de/vehicle-cable-flry-m28484/28529",
+					"modelType": "Entity"
+				},
+				{
+					"idShort": "HasPart",
+					"semanticId": {
+						"type": "ExternalReference",
+						"keys": [
+							{
+								"type": "GlobalReference",
+								"value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+							}
+						]
+					},
+					"first": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							}
+						]
+					},
+					"second": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							},
+							{
+								"type": "Entity",
+								"value": "helukabel_28529"
+							}
+						]
+					},
+					"modelType": "RelationshipElement"
+				},
+				{
+					"idShort": "helukabel_400189",
+					"displayName": [
+						{
+							"language": "de",
+							"text": "COAX-Leitung"
+						}
+					],
+					"entityType": "SelfManagedEntity",
+					"globalAssetId": "https://asset.helukabel.com/de-de/coaxial-cable-rg-174-u-m400189/400189",
+					"modelType": "Entity"
+				},
+				{
+					"idShort": "HasPart",
+					"semanticId": {
+						"type": "ExternalReference",
+						"keys": [
+							{
+								"type": "GlobalReference",
+								"value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+							}
+						]
+					},
+					"first": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							}
+						]
+					},
+					"second": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							},
+							{
+								"type": "Entity",
+								"value": "helukabel_400189"
+							}
+						]
+					},
+					"modelType": "RelationshipElement"
+				},
+				{
+					"idShort": "tesa_51036",
+					"displayName": [
+						{
+							"language": "de",
+							"text": "Tape"
+						}
+					],
+					"entityType": "SelfManagedEntity",
+					"globalAssetId": "https://asset.tesa.com/51036",
+					"modelType": "Entity"
+				},
+				{
+					"idShort": "HasPart",
+					"semanticId": {
+						"type": "ExternalReference",
+						"keys": [
+							{
+								"type": "GlobalReference",
+								"value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+							}
+						]
+					},
+					"first": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							}
+						]
+					},
+					"second": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							},
+							{
+								"type": "Entity",
+								"value": "tesa_51036"
+							}
+						]
+					},
+					"modelType": "RelationshipElement"
+				},
+				{
+					"idShort": "hellermanntyton_126-00000",
+					"displayName": [
+						{
+							"language": "de",
+							"text": "Fixierung"
+						}
+					],
+					"entityType": "SelfManagedEntity",
+					"globalAssetId": "https://asset.hellermanntyton.com/products/cable-ties-with-fixing-elements/t50sosec13e/126-00000",
+					"modelType": "Entity"
+				},
+				{
+					"idShort": "HasPart",
+					"semanticId": {
+						"type": "ExternalReference",
+						"keys": [
+							{
+								"type": "GlobalReference",
+								"value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+							}
+						]
+					},
+					"first": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							}
+						]
+					},
+					"second": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							},
+							{
+								"type": "Entity",
+								"value": "hellermanntyton_126-00000"
+							}
+						]
+					},
+					"modelType": "RelationshipElement"
+				},
+				{
+					"idShort": "hellermanntyton_712-10002",
+					"displayName": [
+						{
+							"language": "de",
+							"text": "Tape"
+						}
+					],
+					"entityType": "SelfManagedEntity",
+					"globalAssetId": "https://asset.hellermanntyton.com/products/electrical-tapes/htape-protect180/712-10002",
+					"modelType": "Entity"
+				},
+				{
+					"idShort": "HasPart",
+					"semanticId": {
+						"type": "ExternalReference",
+						"keys": [
+							{
+								"type": "GlobalReference",
+								"value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+							}
+						]
+					},
+					"first": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							}
+						]
+					},
+					"second": {
+						"type": "ModelReference",
+						"keys": [
+							{
+								"type": "Submodel",
+								"value": "https://example.com/sm/cable_set_bom"
+							},
+							{
+								"type": "Entity",
+								"value": "CableSet"
+							},
+							{
+								"type": "Entity",
+								"value": "hellermanntyton_712-10002"
+							}
+						]
+					},
+					"modelType": "RelationshipElement"
+				}
+			],
+			"entityType": "SelfManagedEntity",
+			"modelType": "Entity"
+		}
+	],
+	"modelType": "Submodel"
+}
