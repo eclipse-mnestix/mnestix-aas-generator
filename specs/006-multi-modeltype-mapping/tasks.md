@@ -19,7 +19,7 @@
 
 **Purpose**: No project setup needed — this is a modification to an existing codebase. Verify the baseline.
 
-- [ ] T001 Run `dotnet test` to confirm all existing tests pass as baseline in Core.Tests/
+- [x] T001 Run `dotnet test` to confirm all existing tests pass as baseline in Core.Tests/
 
 ---
 
@@ -29,14 +29,14 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete.
 
-- [ ] T002 Refactor qualifier query in `MapDataToInstance()` to match all qualifiers whose type starts with `SMT/MappingInfo` (instead of exact match `SMT/MappingInfo`) in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
-- [ ] T003 Add field name parsing logic: split qualifier `type` on `/` to extract the target field name (3rd segment). Default to `value` when no 3rd segment exists (legacy format) in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
-- [ ] T004 Add static field allowlist dictionary with field name → (applicable model types, field category) mapping in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
-- [ ] T005 Add allowlist validation: reject qualifiers with unknown field names with a clear error message in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
-- [ ] T006 Add model-type applicability validation: reject qualifiers targeting fields incompatible with the element's modelType in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
-- [ ] T007 Add duplicate field detection: group all MappingInfo qualifiers per element by resolved target field and fail if duplicates exist in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
-- [ ] T008 Refactor `AssignJsonValueToInstance()` to dispatch based on target field name instead of always writing to `value` in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
-- [ ] T009 Run `dotnet test` to confirm all existing tests still pass after foundational refactoring (backwards compatibility gate)
+- [x] T002 Refactor qualifier query in `MapDataToInstance()` to match all qualifiers whose type starts with `SMT/MappingInfo` (instead of exact match `SMT/MappingInfo`) in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
+- [x] T003 Add field name parsing logic: split qualifier `type` on `/` to extract the target field name (3rd segment). Default to `value` when no 3rd segment exists (legacy format) in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
+- [x] T004 Add static field allowlist dictionary with field name → (applicable model types, field category) mapping in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
+- [x] T005 Add allowlist validation: reject qualifiers with unknown field names with a clear error message in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
+- [x] T006 Add model-type applicability validation: reject qualifiers targeting fields incompatible with the element's modelType in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
+- [x] T007 Add duplicate field detection: group all MappingInfo qualifiers per element by resolved target field and fail if duplicates exist in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
+- [x] T008 Refactor `AssignJsonValueToInstance()` to dispatch based on target field name instead of always writing to `value` in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
+- [x] T009 Run `dotnet test` to confirm all existing tests still pass after foundational refactoring (backwards compatibility gate)
 
 **Checkpoint**: Foundation ready — qualifier parsing is multi-field-aware, legacy behavior preserved, validation in place.
 
@@ -50,15 +50,15 @@
 
 ### Tests for User Story 1
 
-- [ ] T010 [P] [US1] Create test fixture `Core.Tests/AasGenerator/TestJsons/InputMultiFieldGlobalAssetId/TemplateSubmodel.json` with an Entity carrying `SMT/MappingInfo/globalAssetId` qualifier
-- [ ] T011 [P] [US1] Create test fixture `Core.Tests/AasGenerator/TestJsons/InputMultiFieldGlobalAssetId/Data.json` with component asset ID data
-- [ ] T012 [P] [US1] Create test fixture `Core.Tests/AasGenerator/TestJsons/InputMultiFieldGlobalAssetId/ExpectedResult.json` with Entity having `globalAssetId` populated
-- [ ] T013 [US1] Add test method `AddDataToAasAsync_InputMultiFieldGlobalAssetId_Success` in Core.Tests/AasGenerator/AasGeneratorTests.cs
+- [x] T010 [P] [US1] Create test fixture `Core.Tests/AasGenerator/TestJsons/InputMultiFieldGlobalAssetId/TemplateSubmodel.json` with an Entity carrying `SMT/MappingInfo/globalAssetId` qualifier
+- [x] T011 [P] [US1] Create test fixture `Core.Tests/AasGenerator/TestJsons/InputMultiFieldGlobalAssetId/Data.json` with component asset ID data
+- [x] T012 [P] [US1] Create test fixture `Core.Tests/AasGenerator/TestJsons/InputMultiFieldGlobalAssetId/ExpectedResult.json` with Entity having `globalAssetId` populated
+- [x] T013 [US1] Add test method `AddDataToAasAsync_InputMultiFieldGlobalAssetId_Success` in Core.Tests/AasGenerator/AasGeneratorTests.cs
 
 ### Implementation for User Story 1
 
-- [ ] T014 [US1] Add `globalAssetId` field assignment case in the dispatch logic: write Jsonata result to the element's `globalAssetId` JSON property in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
-- [ ] T015 [US1] Run test `AddDataToAasAsync_InputMultiFieldGlobalAssetId_Success` to verify it passes
+- [x] T014 [US1] Add `globalAssetId` field assignment case in the dispatch logic: write Jsonata result to the element's `globalAssetId` JSON property in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
+- [x] T015 [US1] Run test `AddDataToAasAsync_InputMultiFieldGlobalAssetId_Success` to verify it passes
 
 **Checkpoint**: Entity `globalAssetId` can be dynamically populated from input data.
 
@@ -72,15 +72,15 @@
 
 ### Tests for User Story 2
 
-- [ ] T016 [P] [US2] Create test fixture directory `Core.Tests/AasGenerator/TestJsons/InputMultiFieldIdShort/` with TemplateSubmodel.json, Data.json, ExpectedResult.json for basic idShort mapping
-- [ ] T017 [P] [US2] Create test fixture directory `Core.Tests/AasGenerator/TestJsons/InputIdShortSanitization/` with TemplateSubmodel.json, Data.json, ExpectedResult.json containing a value with hyphens (e.g., `TE-Housing-123`) and expected sanitized output (`TE_Housing_123`)
-- [ ] T018 [US2] Add test methods `AddDataToAasAsync_InputMultiFieldIdShort_Success` and `AddDataToAasAsync_InputIdShortSanitization_Success` in Core.Tests/AasGenerator/AasGeneratorTests.cs
+- [x] T016 [P] [US2] Create test fixture directory `Core.Tests/AasGenerator/TestJsons/InputMultiFieldIdShort/` with TemplateSubmodel.json, Data.json, ExpectedResult.json for basic idShort mapping
+- [x] T017 [P] [US2] Create test fixture directory `Core.Tests/AasGenerator/TestJsons/InputIdShortSanitization/` with TemplateSubmodel.json, Data.json, ExpectedResult.json containing a value with hyphens (e.g., `TE-Housing-123`) and expected sanitized output (`TE_Housing_123`)
+- [x] T018 [US2] Add test methods `AddDataToAasAsync_InputMultiFieldIdShort_Success` and `AddDataToAasAsync_InputIdShortSanitization_Success` in Core.Tests/AasGenerator/AasGeneratorTests.cs
 
 ### Implementation for User Story 2
 
-- [ ] T019 [US2] Add `idShort` field assignment case in the dispatch logic: write Jsonata result to the element's `idShort` JSON property in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
-- [ ] T020 [US2] Add idShort sanitization method: replace characters not matching `[a-zA-Z0-9_]` with `_`, prepend `_` if result starts with a digit, log warning when sanitization changes the value in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
-- [ ] T021 [US2] Run tests `AddDataToAasAsync_InputMultiFieldIdShort_Success` and `AddDataToAasAsync_InputIdShortSanitization_Success` to verify they pass
+- [x] T019 [US2] Add `idShort` field assignment case in the dispatch logic: write Jsonata result to the element's `idShort` JSON property in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
+- [x] T020 [US2] Add idShort sanitization method: replace characters not matching `[a-zA-Z0-9_]` with `_`, prepend `_` if result starts with a digit, log warning when sanitization changes the value in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
+- [x] T021 [US2] Run tests `AddDataToAasAsync_InputMultiFieldIdShort_Success` and `AddDataToAasAsync_InputIdShortSanitization_Success` to verify they pass
 
 **Checkpoint**: Element `idShort` can be dynamically set with AAS-conformant sanitization.
 
@@ -94,12 +94,12 @@
 
 ### Tests for User Story 3
 
-- [ ] T022 [P] [US3] Create test fixture directory `Core.Tests/AasGenerator/TestJsons/InputMultiFieldMappingLegacy/` with TemplateSubmodel.json using legacy `SMT/MappingInfo` alongside new-format qualifiers on different elements, Data.json, and ExpectedResult.json
-- [ ] T023 [US3] Add test method `AddDataToAasAsync_InputMultiFieldMappingLegacy_Success` in Core.Tests/AasGenerator/AasGeneratorTests.cs
+- [x] T022 [P] [US3] Create test fixture directory `Core.Tests/AasGenerator/TestJsons/InputMultiFieldMappingLegacy/` with TemplateSubmodel.json using legacy `SMT/MappingInfo` alongside new-format qualifiers on different elements, Data.json, and ExpectedResult.json
+- [x] T023 [US3] Add test method `AddDataToAasAsync_InputMultiFieldMappingLegacy_Success` in Core.Tests/AasGenerator/AasGeneratorTests.cs
 
 ### Verification for User Story 3
 
-- [ ] T024 [US3] Run full `dotnet test` suite to confirm zero regressions across all existing tests
+- [x] T024 [US3] Run full `dotnet test` suite to confirm zero regressions across all existing tests
 
 **Checkpoint**: Legacy backwards compatibility fully verified.
 
@@ -113,20 +113,20 @@
 
 ### Tests for User Story 4
 
-- [ ] T025 [P] [US4] Create test fixture directory `Core.Tests/AasGenerator/TestJsons/InputMultiFieldEntityType/` with TemplateSubmodel.json (Entity with `SMT/MappingInfo/entityType`), Data.json, ExpectedResult.json
-- [ ] T026 [P] [US4] Create test fixture directory `Core.Tests/AasGenerator/TestJsons/InputMultiFieldDisplayName/` with TemplateSubmodel.json (Entity with `SMT/MappingInfo/displayName` and pre-defined displayName MLP array), Data.json, ExpectedResult.json
-- [ ] T027 [P] [US4] Create test fixture directory `Core.Tests/AasGenerator/TestJsons/InputMultiFieldRelationship/` with TemplateSubmodel.json (RelationshipElement with `SMT/MappingInfo/first` and `SMT/MappingInfo/second`), Data.json, ExpectedResult.json
-- [ ] T028 [P] [US4] Create test fixture `Core.Tests/AasGenerator/TestJsons/InputMultiFieldInvalidField/TemplateSubmodel.json` with a qualifier `SMT/MappingInfo/notAllowedField` and `Core.Tests/AasGenerator/TestJsons/InputMultiFieldInvalidField/Data.json`
-- [ ] T029 [P] [US4] Create test fixture `Core.Tests/AasGenerator/TestJsons/InputMultiFieldTypeMismatch/TemplateSubmodel.json` with `SMT/MappingInfo/globalAssetId` on a Property (field-modeltype mismatch) and `Core.Tests/AasGenerator/TestJsons/InputMultiFieldTypeMismatch/Data.json`
-- [ ] T030 [P] [US4] Create test fixture `Core.Tests/AasGenerator/TestJsons/InputMultiFieldDuplicate/TemplateSubmodel.json` with both `SMT/MappingInfo` and `SMT/MappingInfo/value` on the same element and `Core.Tests/AasGenerator/TestJsons/InputMultiFieldDuplicate/Data.json`
-- [ ] T031 [US4] Add test methods in Core.Tests/AasGenerator/AasGeneratorTests.cs: `AddDataToAasAsync_InputMultiFieldEntityType_Success`, `AddDataToAasAsync_InputMultiFieldDisplayName_Success`, `AddDataToAasAsync_InputMultiFieldRelationship_Success`, `AddDataToAasAsync_InputMultiFieldInvalidField_ShouldFail`, `AddDataToAasAsync_InputMultiFieldTypeMismatch_ShouldFail`, `AddDataToAasAsync_InputMultiFieldDuplicate_ShouldFail`
+- [x] T025 [P] [US4] Create test fixture directory `Core.Tests/AasGenerator/TestJsons/InputMultiFieldEntityType/` with TemplateSubmodel.json (Entity with `SMT/MappingInfo/entityType`), Data.json, ExpectedResult.json
+- [x] T026 [P] [US4] Create test fixture directory `Core.Tests/AasGenerator/TestJsons/InputMultiFieldDisplayName/` with TemplateSubmodel.json (Entity with `SMT/MappingInfo/displayName` and pre-defined displayName MLP array), Data.json, ExpectedResult.json
+- [x] T027 [P] [US4] Create test fixture directory `Core.Tests/AasGenerator/TestJsons/InputMultiFieldRelationship/` with TemplateSubmodel.json (RelationshipElement with `SMT/MappingInfo/first` and `SMT/MappingInfo/second`), Data.json, ExpectedResult.json
+- [x] T028 [P] [US4] Create test fixture `Core.Tests/AasGenerator/TestJsons/InputMultiFieldInvalidField/TemplateSubmodel.json` with a qualifier `SMT/MappingInfo/notAllowedField` and `Core.Tests/AasGenerator/TestJsons/InputMultiFieldInvalidField/Data.json`
+- [x] T029 [P] [US4] Create test fixture `Core.Tests/AasGenerator/TestJsons/InputMultiFieldTypeMismatch/TemplateSubmodel.json` with `SMT/MappingInfo/globalAssetId` on a Property (field-modeltype mismatch) and `Core.Tests/AasGenerator/TestJsons/InputMultiFieldTypeMismatch/Data.json`
+- [x] T030 [P] [US4] Create test fixture `Core.Tests/AasGenerator/TestJsons/InputMultiFieldDuplicate/TemplateSubmodel.json` with both `SMT/MappingInfo` and `SMT/MappingInfo/value` on the same element and `Core.Tests/AasGenerator/TestJsons/InputMultiFieldDuplicate/Data.json`
+- [x] T031 [US4] Add test methods in Core.Tests/AasGenerator/AasGeneratorTests.cs: `AddDataToAasAsync_InputMultiFieldEntityType_Success`, `AddDataToAasAsync_InputMultiFieldDisplayName_Success`, `AddDataToAasAsync_InputMultiFieldRelationship_Success`, `AddDataToAasAsync_InputMultiFieldInvalidField_ShouldFail`, `AddDataToAasAsync_InputMultiFieldTypeMismatch_ShouldFail`, `AddDataToAasAsync_InputMultiFieldDuplicate_ShouldFail`
 
 ### Implementation for User Story 4
 
-- [ ] T032 [US4] Add `entityType` field assignment case (simple string replacement) in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
-- [ ] T033 [US4] Add `displayName` field assignment case: find matching language entry in the displayName MLP array and set its `text` field in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
-- [ ] T034 [US4] Add `first` and `second` field assignment cases: replace the element's reference JSON object with the Jsonata result in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
-- [ ] T035 [US4] Run all US4 tests to verify they pass
+- [x] T032 [US4] Add `entityType` field assignment case (simple string replacement) in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
+- [x] T033 [US4] Add `displayName` field assignment case: find matching language entry in the displayName MLP array and set its `text` field in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
+- [x] T034 [US4] Add `first` and `second` field assignment cases: replace the element's reference JSON object with the Jsonata result in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
+- [x] T035 [US4] Run all US4 tests to verify they pass
 
 **Checkpoint**: All 7 allowlist fields are mappable. Validation errors are clear for invalid/mismatched/duplicate qualifiers.
 
@@ -140,14 +140,14 @@
 
 ### Tests for User Story 5
 
-- [ ] T036 [P] [US5] Create test fixture `Core.Tests/AasGenerator/TestJsons/InputHierarchicalStructuresVec/TemplateSubmodel.json` — HierarchicalStructures blueprint with an Entity template inside `SMT/CollectionMappingInfo` carrying `SMT/MappingInfo/idShort`, `SMT/MappingInfo/globalAssetId`, and `SMT/MappingInfo/entityType` qualifiers, plus a RelationshipElement template with `SMT/MappingInfo/first` and `SMT/MappingInfo/second`
-- [ ] T037 [P] [US5] Create test fixture `Core.Tests/AasGenerator/TestJsons/InputHierarchicalStructuresVec/Data.json` with VEC-derived component array data
-- [ ] T038 [P] [US5] Create test fixture `Core.Tests/AasGenerator/TestJsons/InputHierarchicalStructuresVec/ExpectedResult.json` with the expected HierarchicalStructures submodel containing dynamically generated Entities and HasPart RelationshipElements
-- [ ] T039 [US5] Add test method `AddDataToAasAsync_InputHierarchicalStructuresVec_Success` in Core.Tests/AasGenerator/AasGeneratorTests.cs
+- [x] T036 [P] [US5] Create test fixture `Core.Tests/AasGenerator/TestJsons/InputHierarchicalStructuresVec/TemplateSubmodel.json` — HierarchicalStructures blueprint with an Entity template inside `SMT/CollectionMappingInfo` carrying `SMT/MappingInfo/idShort`, `SMT/MappingInfo/globalAssetId`, and `SMT/MappingInfo/entityType` qualifiers, plus a RelationshipElement template with `SMT/MappingInfo/first` and `SMT/MappingInfo/second`
+- [x] T037 [P] [US5] Create test fixture `Core.Tests/AasGenerator/TestJsons/InputHierarchicalStructuresVec/Data.json` with VEC-derived component array data
+- [x] T038 [P] [US5] Create test fixture `Core.Tests/AasGenerator/TestJsons/InputHierarchicalStructuresVec/ExpectedResult.json` with the expected HierarchicalStructures submodel containing dynamically generated Entities and HasPart RelationshipElements
+- [x] T039 [US5] Add test method `AddDataToAasAsync_InputHierarchicalStructuresVec_Success` in Core.Tests/AasGenerator/AasGeneratorTests.cs
 
 ### Verification for User Story 5
 
-- [ ] T040 [US5] Run test `AddDataToAasAsync_InputHierarchicalStructuresVec_Success` and verify the generated submodel matches the expected output
+- [x] T040 [US5] Run test `AddDataToAasAsync_InputHierarchicalStructuresVec_Success` and verify the generated submodel matches the expected output
 
 **Checkpoint**: Full HierarchicalStructures BOM generation from VEC data works end-to-end.
 
@@ -161,16 +161,16 @@
 
 ### Tests for User Story 6
 
-- [ ] T041 [P] [US6] Create test fixture directory `Core.Tests/AasGenerator/TestJsons/InputValueTypeValidationSuccess/` with TemplateSubmodel.json (Property with `valueType: xs:integer` and `SMT/MappingInfo/value`), Data.json (integer value), ExpectedResult.json
-- [ ] T042 [P] [US6] Create test fixture directory `Core.Tests/AasGenerator/TestJsons/InputValueTypeValidationFailure/` with TemplateSubmodel.json (Property with `valueType: xs:integer` and `SMT/MappingInfo/value`), Data.json (string value)
-- [ ] T043 [P] [US6] Create test fixture directory `Core.Tests/AasGenerator/TestJsons/InputValueTypeUnknown/` with TemplateSubmodel.json (Property with `valueType: xs:customType` and `SMT/MappingInfo/value`), Data.json, ExpectedResult.json (value passes through)
-- [ ] T044 [US6] Add test methods `AddDataToAasAsync_InputValueTypeValidationSuccess_Success`, `AddDataToAasAsync_InputValueTypeValidationFailure_ShouldFail`, `AddDataToAasAsync_InputValueTypeUnknown_Success` in Core.Tests/AasGenerator/AasGeneratorTests.cs
+- [x] T041 [P] [US6] Create test fixture directory `Core.Tests/AasGenerator/TestJsons/InputValueTypeValidationSuccess/` with TemplateSubmodel.json (Property with `valueType: xs:integer` and `SMT/MappingInfo/value`), Data.json (integer value), ExpectedResult.json
+- [x] T042 [P] [US6] Create test fixture directory `Core.Tests/AasGenerator/TestJsons/InputValueTypeValidationFailure/` with TemplateSubmodel.json (Property with `valueType: xs:integer` and `SMT/MappingInfo/value`), Data.json (string value)
+- [x] T043 [P] [US6] Create test fixture directory `Core.Tests/AasGenerator/TestJsons/InputValueTypeUnknown/` with TemplateSubmodel.json (Property with `valueType: xs:customType` and `SMT/MappingInfo/value`), Data.json, ExpectedResult.json (value passes through)
+- [x] T044 [US6] Add test methods `AddDataToAasAsync_InputValueTypeValidationSuccess_Success`, `AddDataToAasAsync_InputValueTypeValidationFailure_ShouldFail`, `AddDataToAasAsync_InputValueTypeUnknown_Success` in Core.Tests/AasGenerator/AasGeneratorTests.cs
 
 ### Implementation for User Story 6
 
-- [ ] T045 [US6] Add valueType validation method with static known-type lookup table (xs:string, xs:boolean, xs:integer, xs:int, xs:long, xs:short, xs:decimal, xs:double, xs:float, xs:dateTime, xs:date, xs:anyURI) in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
-- [ ] T046 [US6] Integrate valueType validation call into `value` field assignment path: validate after Jsonata evaluation, before assignment in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
-- [ ] T047 [US6] Run all US6 tests to verify they pass
+- [x] T045 [US6] Add valueType validation method with static known-type lookup table (xs:string, xs:boolean, xs:integer, xs:int, xs:long, xs:short, xs:decimal, xs:double, xs:float, xs:dateTime, xs:date, xs:anyURI) in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
+- [x] T046 [US6] Integrate valueType validation call into `value` field assignment path: validate after Jsonata evaluation, before assignment in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
+- [x] T047 [US6] Run all US6 tests to verify they pass
 
 **Checkpoint**: Value type validation catches type mismatches and warns on unknown types.
 
@@ -180,10 +180,10 @@
 
 **Purpose**: Documentation, final validation, and code quality
 
-- [ ] T048 [P] Update docs/generator-rules.md with documentation for the new `SMT/MappingInfo/<FieldName>` qualifier format, supported fields table, examples, and error conditions
-- [ ] T049 [P] Run quickstart.md validation: verify the example in specs/006-multi-modeltype-mapping/quickstart.md works against the implementation
-- [ ] T050 Run full `dotnet test` suite as final regression check
-- [ ] T051 Run `dotnet build` and confirm zero compiler warnings
+- [x] T048 [P] Update docs/generator-rules.md with documentation for the new `SMT/MappingInfo/<FieldName>` qualifier format, supported fields table, examples, and error conditions
+- [x] T049 [P] Run quickstart.md validation: verify the example in specs/006-multi-modeltype-mapping/quickstart.md works against the implementation
+- [x] T050 Run full `dotnet test` suite as final regression check
+- [x] T051 Run `dotnet build` and confirm zero compiler warnings
 
 ---
 
