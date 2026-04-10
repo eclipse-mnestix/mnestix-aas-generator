@@ -241,9 +241,9 @@ public class AasGeneratorTests
     }
 
     [Test]
-    public async Task AddDataToAasAsync_InputHierarchicalStructuresVec_Success()
+    public async Task AddDataToAasAsync_InputHierarchicalStructures_Success()
     {
-        await RunDataIngestTest("InputHierarchicalStructuresVec");
+        await RunDataIngestTest("InputHierarchicalStructures");
     }
 
     [Test]
