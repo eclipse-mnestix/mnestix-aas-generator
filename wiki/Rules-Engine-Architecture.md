@@ -95,7 +95,7 @@ Rules are stored as Template Qualifiers directly within AAS Submodel templates.
   - Boolean expression: `"value": "car.price > 1000"` returns true/false
   - Chained operations: `"value": "car.email ~> $substringAfter('@')"` extracts domain
 **Implementation**: `MapDataToInstanceStep.cs:45-78` (uses Jsonata.Net.Native library)  
-**Jsonata Reference**: See [generator-rules.md](generator-rules.md#jsonata-expressions-in-mapping-rules) for complete function list
+**Jsonata Reference**: See [Blueprint and Rules](Blueprint-and-Rules#jsonata-expressions-in-mapping-rules) for complete function list
 
 ### 3. Collection Rules (List/Array Processing)
 **Purpose**: Duplicate elements for each array item  

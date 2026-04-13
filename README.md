@@ -18,9 +18,9 @@ The Mnestix AAS Generator enables automated creation of Asset Administration She
 
 ## Documentation
 
-- [API Reference](docs/api.md) - Complete REST API documentation
-- [Blueprint & Rules Guide](docs/generator-rules.md) - How to create and configure Blueprints
-- [Rules Engine Architecture](docs/rules-engine.md) - Internal pipeline architecture (for developers)
+- [API Reference](https://github.com/eclipse-mnestix/mnestix-aas-generator/wiki/API-Documentation) - Complete REST API documentation
+- [Blueprint & Rules Guide](https://github.com/eclipse-mnestix/mnestix-aas-generator/wiki/Blueprint-and-Rules) - How to create and configure Blueprints
+- [Rules Engine Architecture](https://github.com/eclipse-mnestix/mnestix-aas-generator/wiki/Rules-Engine-Architecture) - Internal pipeline architecture (for developers)
 
 ## Build & Run locally
 
