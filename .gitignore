@@ -482,3 +482,9 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# GitHub Copilot / AI tooling
+.github/agents/
+.github/prompts/
+.github/copilot-instructions.md
+.specify/
