@@ -113,7 +113,9 @@ public sealed class DuplicateCollectionsAasGeneratorPipelineStep : IPipelineStep
         /// Structural validation: The parent of the element to be duplicated must be a SMC (SubmodelElementCollection) 
         /// or an SML (SubmodelElementList) to ensure proper collection structure
         /// </remarks>
-        if (elementToBeDuplicated.Parent?.Parent?.Parent?["modelType"]?.Value<string>() is not ("SubmodelElementCollection" or "SubmodelElementList"))
+        
+         
+        if (elementToBeDuplicated.Parent?.Parent?.Parent?["modelType"]?.Value<string>() is not ("SubmodelElementCollection" or "SubmodelElementList" or "Entity"))
             throw new SubmodelDataToInstanceMapperException("The parent of the element to be duplicated must be a SubmodelElementCollection or a SubmodelElementList", ctx);
 
         /// <remarks>
@@ -164,7 +166,7 @@ public sealed class DuplicateCollectionsAasGeneratorPipelineStep : IPipelineStep
                         if (t == null) return false;
                         if (!t.StartsWith("SMT/MappingInfo", StringComparison.Ordinal) && t != "SMT/CollectionMappingInfo") return false;
                         var v = q["value"]?.Value<string>();
-                        return v != null && v.StartsWith(listIdentifier, StringComparison.Ordinal);
+                        return v != null && v.Contains($"{listIdentifier}[*]", StringComparison.Ordinal);
                     })
                     .ToList();
 
