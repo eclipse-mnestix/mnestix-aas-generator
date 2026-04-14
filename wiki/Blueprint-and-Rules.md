@@ -1,5 +1,5 @@
 # AAS Generator - Blueprint & Rules Documentation
-_This API-File should also be published within GitHub._
+
 This document explains how to create and configure Blueprints for automated Submodel generation using the AAS Generator rules engine.
 
 > **For German readers**: A detailed article about this system is available at [XITASO: Automatisierte Erstellung von AAS](https://xitaso.com/automatisierte-erstellung-von-aas/) (German language). Note that the article may reference an older version of the AAS Generator, so please refer to this documentation for the latest features and API details.
@@ -994,6 +994,6 @@ Set `"debug": true` to receive detailed logs about the generation process. This 
 
 ## Further Reading
 
-- [API Documentation](api.md) - Complete REST API reference
-- [Rules Engine Architecture](rules-engine.md) - Internal pipeline architecture (for developers)
+- [API Documentation](API-Documentation) - Complete REST API reference
+- [Rules Engine Architecture](Rules-Engine-Architecture) - Internal pipeline architecture (for developers)
 - [XITASO Article](https://xitaso.com/automatisierte-erstellung-von-aas/) - Detailed explanation (German)

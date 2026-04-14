@@ -1,7 +1,7 @@
 # AAS Generator API Documentation
 
 This document describes the REST API endpoints for the AAS Generator service. The API enables creating and managing Asset Administration Shells (AAS), generating Submodels from structured data using templates, and managing templates/blueprints.
-_This API-File should also be published within GitHub._
+
 
 You can find an interactive version of this documentation in the Swagger UI at `http://localhost:5064/swagger`, which includes example requests and responses for each endpoint. 
 
@@ -554,7 +554,7 @@ Path mappings support both simple JSON paths and advanced Jsonata expressions:
 - `data.numA > data.numB` - Numeric comparison (returns boolean)
 - `$uppercase($substring(data.code, 0, 3))` - Chained operations
 
-See [generator-rules.md](generator-rules.md#jsonata-expressions-in-mapping-rules) for comprehensive Jsonata function reference.
+See [Blueprint and Rules](Blueprint-and-Rules#jsonata-expressions-in-mapping-rules) for comprehensive Jsonata function reference.
 
 ### Cardinality Values
 
