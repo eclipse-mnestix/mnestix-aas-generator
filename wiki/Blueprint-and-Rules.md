@@ -35,7 +35,6 @@ Elements that are **not** directly mapped but are preserved in the output:
 
 | Element Type | Behavior |
 |--------------|----------|
-| `Range` | Copied unchanged from blueprint |
 | `Blob` | Copied unchanged from blueprint |
 | `File` | Copied unchanged from blueprint |
 | `ReferenceElement` | Copied unchanged from blueprint |
@@ -160,7 +159,7 @@ Extends path mapping to target specific fields on an element beyond just `value`
 
 | FieldName | Target | Applicable Model Types | Notes |
 |-----------|--------|----------------------|-------|
-| `value` | Element value | Property, Range, Blob, MultiLanguageProperty | Default (same as legacy `SMT/MappingInfo`) |
+| `value` | Element value | Property, Blob, MultiLanguageProperty | Default (same as legacy `SMT/MappingInfo`) |
 | `idShort` | Element identifier | All | Auto-sanitized to `[a-zA-Z][a-zA-Z0-9_]*` |
 | `globalAssetId` | Entity asset reference | Entity | String (URI) |
 | `entityType` | Entity type enum | Entity | `SelfManagedEntity` or `CoManagedEntity` |
@@ -239,12 +238,15 @@ Extends path mapping to target specific fields on an element beyond just `value`
 
 #### idShort Sanitization
 
-When mapping to `idShort`, the generator auto-sanitizes the value to conform to AAS naming rules:
+When mapping to `idShort`, the generator auto-sanitizes the value to conform to AAS naming rules (`[a-zA-Z][a-zA-Z0-9_]*`):
 - Characters not matching `[a-zA-Z0-9_]` are replaced with `_`
-- If the result starts with a digit, a `_` is prepended
+- If the result does not start with a letter (`[a-zA-Z]`), `i` is prepended
 - A warning is logged when sanitization changes the value
 
-**Example:** Input `"TE-Housing-123"` → idShort `"TE_Housing_123"`
+**Examples:**
+- Input `"TE-Housing-123"` → idShort `"TE_Housing_123"`
+- Input `"123abc"` → idShort `"i123abc"`
+- Input `"_value"` → idShort `"i_value"`
 
 #### Value Type Validation
 
