@@ -49,12 +49,16 @@ public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<Da
         return Task.FromResult(ctx);
     }
 
-    private static string ParseFieldName(string qualifierType)
+    private static string ParseFieldName(string qualifierType, DataMappingContext ctx)
     {
         var segments = qualifierType.Split('/');
-        // "SMT/MappingInfo" → 2 segments → default "value"
-        // "SMT/MappingInfo/globalAssetId" → 3 segments → "globalAssetId"
-        return segments.Length >= 3 ? segments[2] : "value";
+        // Valid forms: "SMT/MappingInfo" (2 segments) or "SMT/MappingInfo/<FieldName>" (exactly 3 segments)
+        if (segments.Length > 3)
+        {
+            throw new SubmodelDataToInstanceMapperException(
+                $"Malformed qualifier type '{qualifierType}'. Expected 'SMT/MappingInfo' or 'SMT/MappingInfo/<FieldName>'.", ctx);
+        }
+        return segments.Length == 3 ? segments[2] : "value";
     }
 
     private static void ValidateFieldName(string fieldName, DataMappingContext ctx)
@@ -266,7 +270,7 @@ public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<Da
         foreach (var elementGroup in qualifiersByElement)
         {
             var element = elementGroup.Key!;
-            var modelTypeToken = element["modelType"] ?? throw new SubmodelDataToInstanceMapperException("could not find matching modelType field of a qualify object", ctx);
+            var modelTypeToken = element["modelType"] ?? throw new SubmodelDataToInstanceMapperException("could not find matching modelType field of selected SME", ctx);
             var modelType = modelTypeToken.Value<string>()!;
 
             // Parse and validate all qualifiers for this element
@@ -274,7 +278,7 @@ public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<Da
             foreach (var qualifier in elementGroup)
             {
                 var qualifierType = qualifier["type"]?.Value<string>() ?? "";
-                var fieldName = ParseFieldName(qualifierType);
+                var fieldName = ParseFieldName(qualifierType, ctx);
 
                 ctx.Qualifier = qualifier;
                 ValidateFieldName(fieldName, ctx);

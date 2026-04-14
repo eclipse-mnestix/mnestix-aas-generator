@@ -26,21 +26,16 @@ The following element types support data mapping via qualifiers:
 
 | Element Type | Mapping Support | Notes |
 |--------------|-----------------|-------|
-| `Property` | ✅ Full | Standard value mapping |
+| `Property` | ✅ Full | Value mapping via `SMT/MappingInfo` |
 | `MultiLanguageProperty` | ⚠️ Limited | Single language per generation call |
+| `Blob` | ✅ Partial | Value mapping only (`SMT/MappingInfo`) |
 | `SubmodelElementCollection` | ✅ Full | Supports collection duplication |
 | `SubmodelElementList` | ✅ Full | Supports collection duplication |
+| `Entity` | ✅ Partial | Multi-field mapping: `globalAssetId`, `entityType`, `idShort`, `displayName` |
+| `RelationshipElement` | ✅ Partial | Multi-field mapping: `first`, `second`, `idShort`, `displayName` |
+| `AnnotatedRelationshipElement` | ✅ Partial | Multi-field mapping: `first`, `second`, `idShort`, `displayName` |
 
-Elements that are **not** directly mapped but are preserved in the output:
-
-| Element Type | Behavior |
-|--------------|----------|
-| `Blob` | Copied unchanged from blueprint |
-| `File` | Copied unchanged from blueprint |
-| `ReferenceElement` | Copied unchanged from blueprint |
-| `Entity` | Supports multi-field mapping (`globalAssetId`, `entityType`, `idShort`, `displayName`) |
-| `RelationshipElement` | Supports multi-field mapping (`first`, `second`, `idShort`, `displayName`) |
-| `AnnotatedRelationshipElement` | Supports multi-field mapping (`first`, `second`, `idShort`, `displayName`) |
+Elements that are **not mappable** are always copied unchanged from the blueprint to the generated instance. This allows you to include static content or fixed structures in your blueprints.
 
 ## Template Qualifiers (Mapping Rules)
 
