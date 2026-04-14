@@ -266,6 +266,7 @@ When mapping to `value`, the generator validates that the mapped value conforms 
 | Field not applicable to model type | Error: `"Field '<FieldName>' is not applicable to model type '<ModelType>'"` |
 | Duplicate field mapping on same element | Error: `"Duplicate mapping for field '<FieldName>' on element '<idShort>'"` |
 | Value type mismatch | Error: `"Mapped value '<value>' does not conform to valueType '<valueType>'"` |
+| Malformed qualifier type (e.g. `SMT/MappingInfo/a/b`) | Error: `"Malformed qualifier type '...'. Expected 'SMT/MappingInfo' or 'SMT/MappingInfo/<FieldName>'"` |
 
 #### Combining with Collection Mapping
 
