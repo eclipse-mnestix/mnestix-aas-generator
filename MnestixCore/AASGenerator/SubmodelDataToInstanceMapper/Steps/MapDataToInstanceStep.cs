@@ -16,7 +16,7 @@ public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<Da
 
     private static readonly Dictionary<string, HashSet<string>> FieldApplicableModelTypes = new()
     {
-        ["value"] = new HashSet<string> { "Property", "Range", "Blob", "MultiLanguageProperty" },
+        ["value"] = new HashSet<string> { "Property", "Blob", "MultiLanguageProperty" },
         ["idShort"] = new HashSet<string>(), // empty = all model types
         ["globalAssetId"] = new HashSet<string> { "Entity" },
         ["entityType"] = new HashSet<string> { "Entity" },
@@ -95,9 +95,10 @@ public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<Da
     private static string SanitizeIdShort(string value, DataMappingContext ctx)
     {
         var sanitized = Regex.Replace(value, @"[^a-zA-Z0-9_]", "_");
-        if (sanitized.Length > 0 && char.IsDigit(sanitized[0]))
+        // AAS Metamodel v3 requires idShort to match [a-zA-Z][a-zA-Z0-9_]*
+        if (sanitized.Length > 0 && !char.IsLetter(sanitized[0]))
         {
-            sanitized = "_" + sanitized;
+            sanitized = "i" + sanitized;
         }
         if (sanitized != value)
         {
@@ -144,7 +145,7 @@ public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<Da
     {
         ValidateValueType(element, dataFromMappingPath, ctx);
 
-        var blueprintValue = element["value"] ?? throw new SubmodelDataToInstanceMapperException("could not find matching value field of a qualify object", ctx);
+        var blueprintValue = element["value"] ?? throw new SubmodelDataToInstanceMapperException("could not find matching value field of the selected SME", ctx);
 
         if (modelType == "MultiLanguageProperty")
         {
@@ -174,20 +175,32 @@ public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<Da
                 break;
             case "displayName":
                 var displayNameArray = element["displayName"] as JArray;
-                if (displayNameArray != null)
+                if (displayNameArray == null)
                 {
-                    var langEntry = displayNameArray.FirstOrDefault(e => e["language"]?.Value<string>() == language);
-                    if (langEntry != null)
-                    {
-                        langEntry["text"] = dataFromMappingPath.ToString();
-                    }
+                    displayNameArray = new JArray();
+                    element["displayName"] = displayNameArray;
+                }
+                var langEntry = displayNameArray.FirstOrDefault(e => e["language"]?.Value<string>() == language);
+                if (langEntry != null)
+                {
+                    langEntry["text"] = dataFromMappingPath.ToString();
+                }
+                else
+                {
+                    displayNameArray.Add(new JObject { ["language"] = language, ["text"] = dataFromMappingPath.ToString() });
                 }
                 break;
             case "first":
-                element["first"] = dataFromMappingPath is JObject ? dataFromMappingPath : JToken.Parse(dataFromMappingPath.ToString());
+                if (dataFromMappingPath is not JObject firstObj)
+                    throw new SubmodelDataToInstanceMapperException(
+                        $"Field 'first' requires a JSON object (AAS Reference), but got {dataFromMappingPath.Type}", ctx);
+                element["first"] = firstObj;
                 break;
             case "second":
-                element["second"] = dataFromMappingPath is JObject ? dataFromMappingPath : JToken.Parse(dataFromMappingPath.ToString());
+                if (dataFromMappingPath is not JObject secondObj)
+                    throw new SubmodelDataToInstanceMapperException(
+                        $"Field 'second' requires a JSON object (AAS Reference), but got {dataFromMappingPath.Type}", ctx);
+                element["second"] = secondObj;
                 break;
         }
     }
@@ -239,9 +252,10 @@ public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<Da
         var data = ctx.Data;
         var language = ctx.Language;
 
-        // T002: Match all qualifiers whose type starts with "SMT/MappingInfo"
+        // T002: Match qualifiers whose type is exactly "SMT/MappingInfo" or starts with "SMT/MappingInfo/"
         var qualifiers = submodelInstance.SelectTokens("$..qualifiers[*]")
-            .Where(q => q["type"]?.Value<string>()?.StartsWith(MappingInfoPrefix) == true)
+            .Where(q => q["type"]?.Value<string>() is string t &&
+                        (t == MappingInfoPrefix || t.StartsWith(MappingInfoPrefix + "/", StringComparison.Ordinal)))
             .ToList();
 
         // Group qualifiers by their parent element to detect duplicates
