@@ -16,7 +16,7 @@ public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<Da
 
     private static readonly Dictionary<string, HashSet<string>> FieldApplicableModelTypes = new()
     {
-        ["value"] = new HashSet<string> { "Property", "Blob", "MultiLanguageProperty" },
+        ["value"] = new HashSet<string> { "Property", "Blob", "MultiLanguageProperty", "File" },
         ["idShort"] = new HashSet<string>(), // empty = all model types
         ["globalAssetId"] = new HashSet<string> { "Entity" },
         ["entityType"] = new HashSet<string> { "Entity" },
