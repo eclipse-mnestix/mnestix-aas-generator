@@ -111,10 +111,8 @@ public sealed class DuplicateCollectionsAasGeneratorPipelineStep : IPipelineStep
 
         /// <remarks>
         /// Structural validation: The parent of the element to be duplicated must be a SMC (SubmodelElementCollection) 
-        /// or an SML (SubmodelElementList) to ensure proper collection structure
+        /// a SML (SubmodelElementList) or an Entity to ensure proper collection structure
         /// </remarks>
-        
-         
         if (elementToBeDuplicated.Parent?.Parent?.Parent?["modelType"]?.Value<string>() is not ("SubmodelElementCollection" or "SubmodelElementList" or "Entity"))
             throw new SubmodelDataToInstanceMapperException("The parent of the element to be duplicated must be a SubmodelElementCollection, a SubmodelElementList or an Entity", ctx);
 
