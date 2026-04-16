@@ -26,20 +26,16 @@ The following element types support data mapping via qualifiers:
 
 | Element Type | Mapping Support | Notes |
 |--------------|-----------------|-------|
-| `Property` | ✅ Full | Standard value mapping |
+| `Property` | ✅ Full | Value mapping via `SMT/MappingInfo` |
 | `MultiLanguageProperty` | ⚠️ Limited | Single language per generation call |
+| `Blob` | ✅ Partial | Value mapping only (`SMT/MappingInfo`) |
 | `SubmodelElementCollection` | ✅ Full | Supports collection duplication |
 | `SubmodelElementList` | ✅ Full | Supports collection duplication |
+| `Entity` | ✅ Partial | Multi-field mapping: `globalAssetId`, `entityType`, `idShort`, `displayName` |
+| `RelationshipElement` | ✅ Partial | Multi-field mapping: `first`, `second`, `idShort`, `displayName` |
+| `AnnotatedRelationshipElement` | ✅ Partial | Multi-field mapping: `first`, `second`, `idShort`, `displayName` |
 
-Elements that are **not** directly mapped but are preserved in the output:
-
-| Element Type | Behavior |
-|--------------|----------|
-| `Range` | Copied unchanged from blueprint |
-| `Blob` | Copied unchanged from blueprint |
-| `File` | Copied unchanged from blueprint |
-| `ReferenceElement` | Copied unchanged from blueprint |
-| `Entity` | Copied unchanged from blueprint |
+Elements that are **not mappable** are always copied unchanged from the blueprint to the generated instance. This allows you to include static content or fixed structures in your blueprints.
 
 ## Template Qualifiers (Mapping Rules)
 
@@ -60,7 +56,8 @@ Mapping rules are embedded as **qualifiers** within Submodel elements. The AAS G
 
 | Qualifier Type | Purpose |
 |----------------|---------|
-| `SMT/MappingInfo` | Map a JSON path or Jsonata expression to an element's value |
+| `SMT/MappingInfo` | Map a JSON path or Jsonata expression to an element's value (legacy format) |
+| `SMT/MappingInfo/<FieldName>` | Map data to a specific element field (e.g., `idShort`, `globalAssetId`) |
 | `SMT/CollectionMappingInfo` | Duplicate an element for each array item |
 | `SMT/FilterMappingInfo` | Conditionally include/exclude an element based on a boolean expression |
 | `SMT/Cardinality` | Define whether the data is required or optional |
@@ -146,6 +143,151 @@ Maps a JSON path from the input data to an element's value. This is the most com
 | `parent.child` | Nested object access | `product.details.name` |
 | `array[0]` | Specific array index | `contacts[0].name` |
 | `array[*]` | Array wildcard (for collections) | `contacts[*].email` |
+
+---
+
+### 2b. Multi-Field Mapping (`SMT/MappingInfo/<FieldName>`)
+
+Extends path mapping to target specific fields on an element beyond just `value`. The `SMT/MappingInfo` (legacy) qualifier maps to `value` by default. The new format `SMT/MappingInfo/<FieldName>` allows mapping to any supported field.
+
+**Supported Fields:**
+
+| FieldName | Target | Applicable Model Types | Notes |
+|-----------|--------|----------------------|-------|
+| `value` | Element value | Property, Blob, MultiLanguageProperty | Default (same as legacy `SMT/MappingInfo`) |
+| `idShort` | Element identifier | All | Auto-sanitized to `[a-zA-Z][a-zA-Z0-9_]*` |
+| `globalAssetId` | Entity asset reference | Entity | String (URI) |
+| `entityType` | Entity type enum | Entity | `SelfManagedEntity` or `CoManagedEntity` |
+| `displayName` | Display name text | All | Sets `text` for current generation language |
+| `first` | Relationship first reference | RelationshipElement, AnnotatedRelationshipElement | AAS Reference JSON object |
+| `second` | Relationship second reference | RelationshipElement, AnnotatedRelationshipElement | AAS Reference JSON object |
+
+#### Example: Entity with globalAssetId + idShort
+
+**Blueprint:**
+```json
+{
+  "modelType": "Entity",
+  "idShort": "PartTemplate",
+  "entityType": "SelfManagedEntity",
+  "globalAssetId": "",
+  "qualifiers": [
+    {
+      "kind": "TemplateQualifier",
+      "type": "SMT/MappingInfo/idShort",
+      "value": "component.partNumber",
+      "valueType": "xs:string"
+    },
+    {
+      "kind": "TemplateQualifier",
+      "type": "SMT/MappingInfo/globalAssetId",
+      "value": "'https://asset.example.com/' & component.partNumber",
+      "valueType": "xs:string"
+    }
+  ]
+}
+```
+
+**Input Data:**
+```json
+{
+  "component": {
+    "partNumber": "Housing_001"
+  }
+}
+```
+
+**Generated Instance:**
+```json
+{
+  "modelType": "Entity",
+  "idShort": "Housing_001",
+  "entityType": "SelfManagedEntity",
+  "globalAssetId": "https://asset.example.com/Housing_001"
+}
+```
+
+#### Example: RelationshipElement with first/second
+
+**Blueprint:**
+```json
+{
+  "modelType": "RelationshipElement",
+  "idShort": "HasPart",
+  "first": {},
+  "second": {},
+  "qualifiers": [
+    {
+      "type": "SMT/MappingInfo/first",
+      "value": "relationship.parentRef",
+      "valueType": "xs:string"
+    },
+    {
+      "type": "SMT/MappingInfo/second",
+      "value": "relationship.childRef",
+      "valueType": "xs:string"
+    }
+  ]
+}
+```
+
+#### idShort Sanitization
+
+When mapping to `idShort`, the generator auto-sanitizes the value to conform to AAS naming rules (`[a-zA-Z][a-zA-Z0-9_]*`):
+- Characters not matching `[a-zA-Z0-9_]` are replaced with `_`
+- If the result does not start with a letter (`[a-zA-Z]`), `i` is prepended
+- A warning is logged when sanitization changes the value
+
+**Examples:**
+- Input `"TE-Housing-123"` → idShort `"TE_Housing_123"`
+- Input `"123abc"` → idShort `"i123abc"`
+- Input `"_value"` → idShort `"i_value"`
+
+#### Value Type Validation
+
+When mapping to `value`, the generator validates that the mapped value conforms to the element's declared `valueType`:
+
+| valueType | Validation |
+|-----------|-----------|
+| `xs:string` | Always passes |
+| `xs:integer`, `xs:int`, `xs:long`, `xs:short` | Must be a valid integer |
+| `xs:decimal`, `xs:double`, `xs:float` | Must be a valid number |
+| `xs:boolean` | Must be `true`, `false`, `0`, or `1` |
+| `xs:dateTime` | Must be a valid date-time string |
+| `xs:date` | Must be a valid date string |
+| `xs:anyURI` | Always passes |
+| Unknown types | Value passes through with a warning |
+
+#### Error Conditions
+
+| Condition | Behavior |
+|-----------|----------|
+| Unknown field name (not in allowlist) | Error: `"Unsupported MappingInfo field '<FieldName>'"` |
+| Field not applicable to model type | Error: `"Field '<FieldName>' is not applicable to model type '<ModelType>'"` |
+| Duplicate field mapping on same element | Error: `"Duplicate mapping for field '<FieldName>' on element '<idShort>'"` |
+| Value type mismatch | Error: `"Mapped value '<value>' does not conform to valueType '<valueType>'"` |
+| Malformed qualifier type (e.g. `SMT/MappingInfo/a/b`) | Error: `"Malformed qualifier type '...'. Expected 'SMT/MappingInfo' or 'SMT/MappingInfo/<FieldName>'"` |
+
+#### Combining with Collection Mapping
+
+Multi-field mapping works with `SMT/CollectionMappingInfo` for dynamic element creation:
+
+```json
+{
+  "modelType": "Entity",
+  "idShort": "ComponentTemplate",
+  "entityType": "CoManagedEntity",
+  "globalAssetId": "",
+  "qualifiers": [
+    { "type": "SMT/CollectionMappingInfo", "value": "vec.components[*]" },
+    { "type": "SMT/MappingInfo/idShort", "value": "vec.components[*].partNumber" },
+    { "type": "SMT/MappingInfo/globalAssetId", "value": "vec.components[*].assetId" },
+    { "type": "SMT/MappingInfo/entityType", "value": "vec.components[*].entityType" }
+  ]
+}
+```
+
+Each duplicated element gets its own `idShort`, `globalAssetId`, and `entityType` from the corresponding array item.
 
 ---
 

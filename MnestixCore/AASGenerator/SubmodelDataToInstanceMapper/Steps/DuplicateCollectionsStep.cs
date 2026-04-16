@@ -111,10 +111,10 @@ public sealed class DuplicateCollectionsAasGeneratorPipelineStep : IPipelineStep
 
         /// <remarks>
         /// Structural validation: The parent of the element to be duplicated must be a SMC (SubmodelElementCollection) 
-        /// or an SML (SubmodelElementList) to ensure proper collection structure
+        /// a SML (SubmodelElementList) or an Entity to ensure proper collection structure
         /// </remarks>
-        if (elementToBeDuplicated.Parent?.Parent?.Parent?["modelType"]?.Value<string>() is not ("SubmodelElementCollection" or "SubmodelElementList"))
-            throw new SubmodelDataToInstanceMapperException("The parent of the element to be duplicated must be a SubmodelElementCollection or a SubmodelElementList", ctx);
+        if (elementToBeDuplicated.Parent?.Parent?.Parent?["modelType"]?.Value<string>() is not ("SubmodelElementCollection" or "SubmodelElementList" or "Entity"))
+            throw new SubmodelDataToInstanceMapperException("The parent of the element to be duplicated must be a SubmodelElementCollection, a SubmodelElementList or an Entity", ctx);
 
         /// <remarks>
         /// Input validation: The mapping path cannot be null as it's required for data selection and element duplication
@@ -157,11 +157,15 @@ public sealed class DuplicateCollectionsAasGeneratorPipelineStep : IPipelineStep
             }
 
             var iteratedQualifiers = newElement
-                    .SelectTokens("$..qualifiers[?(@.type=='SMT/MappingInfo' || @.type=='SMT/CollectionMappingInfo')]")
+                    .SelectTokens("$..qualifiers[*]")
                     .Where(q =>
                     {
+                        var t = q["type"]?.Value<string>();
+                        if (t == null) return false;
+                        var isMappingInfo = t == "SMT/MappingInfo" || t.StartsWith("SMT/MappingInfo/", StringComparison.Ordinal);
+                        if (!isMappingInfo && t != "SMT/CollectionMappingInfo") return false;
                         var v = q["value"]?.Value<string>();
-                        return v != null && v.StartsWith(listIdentifier, StringComparison.Ordinal);
+                        return v != null && v.Contains($"{listIdentifier}[*]", StringComparison.Ordinal);
                     })
                     .ToList();
 

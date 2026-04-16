@@ -1,0 +1,76 @@
+{
+  "vec": {
+    "components": [
+      {
+        "partNumber": "Housing_001",
+        "assetId": "https://asset.te.com/housing_001",
+        "entityType": "SelfManagedEntity",
+        "firstRef": {
+          "type": "ModelReference",
+          "keys": [
+            {
+              "type": "Submodel",
+              "value": "TheNewSubmodelId"
+            },
+            {
+              "type": "Entity",
+              "value": "CableSet"
+            }
+          ]
+        },
+        "secondRef": {
+          "type": "ModelReference",
+          "keys": [
+            {
+              "type": "Submodel",
+              "value": "TheNewSubmodelId"
+            },
+            {
+              "type": "Entity",
+              "value": "CableSet"
+            },
+            {
+              "type": "Entity",
+              "value": "Housing_001"
+            }
+          ]
+        }
+      },
+      {
+        "partNumber": "Connector_002",
+        "assetId": "https://asset.te.com/connector_002",
+        "entityType": "SelfManagedEntity",
+        "firstRef": {
+          "type": "ModelReference",
+          "keys": [
+            {
+              "type": "Submodel",
+              "value": "TheNewSubmodelId"
+            },
+            {
+              "type": "Entity",
+              "value": "CableSet"
+            }
+          ]
+        },
+        "secondRef": {
+          "type": "ModelReference",
+          "keys": [
+            {
+              "type": "Submodel",
+              "value": "TheNewSubmodelId"
+            },
+            {
+              "type": "Entity",
+              "value": "CableSet"
+            },
+            {
+              "type": "Entity",
+              "value": "Connector_002"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

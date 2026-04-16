@@ -179,6 +179,90 @@ public class AasGeneratorTests
     {
         await RunDataIngestFailureTest("InputInvalidJsonataExpressions_InvalidStringLen");
     }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMultiFieldGlobalAssetId_Success()
+    {
+        await RunDataIngestTest("InputMultiFieldGlobalAssetId");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMultiFieldIdShort_Success()
+    {
+        await RunDataIngestTest("InputMultiFieldIdShort");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputIdShortSanitization_Success()
+    {
+        await RunDataIngestTest("InputIdShortSanitization");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMultiFieldMappingLegacy_Success()
+    {
+        await RunDataIngestTest("InputMultiFieldMappingLegacy");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMultiFieldEntityType_Success()
+    {
+        await RunDataIngestTest("InputMultiFieldEntityType");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMultiFieldDisplayName_Success()
+    {
+        await RunDataIngestTest("InputMultiFieldDisplayName");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMultiFieldRelationship_Success()
+    {
+        await RunDataIngestTest("InputMultiFieldRelationship");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMultiFieldInvalidField_ShouldFail()
+    {
+        await RunDataIngestFailureTest("InputMultiFieldInvalidField");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMultiFieldTypeMismatch_ShouldFail()
+    {
+        await RunDataIngestFailureTest("InputMultiFieldTypeMismatch");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMultiFieldDuplicate_ShouldFail()
+    {
+        await RunDataIngestFailureTest("InputMultiFieldDuplicate");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputHierarchicalStructures_Success()
+    {
+        await RunDataIngestTest("InputHierarchicalStructures");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputValueTypeValidationSuccess_Success()
+    {
+        await RunDataIngestTest("InputValueTypeValidationSuccess");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputValueTypeValidationFailure_ShouldFail()
+    {
+        await RunDataIngestFailureTest("InputValueTypeValidationFailure");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputValueTypeUnknown_Success()
+    {
+        await RunDataIngestTest("InputValueTypeUnknown");
+    }
     
     private async Task RunDataIngestTest(string testCaseName)
     {

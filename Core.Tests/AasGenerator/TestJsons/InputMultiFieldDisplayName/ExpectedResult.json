@@ -1,0 +1,44 @@
+{
+  "modelType": "Submodel",
+  "kind": "Instance",
+  "id": "TheNewSubmodelId",
+  "idShort": "DemoTemplate",
+  "administration": {
+    "version": "1",
+    "revision": "0"
+  },
+  "qualifiers": [],
+  "submodelElements": [
+    {
+      "modelType": "Entity",
+      "idShort": "ComponentEntity",
+      "entityType": "SelfManagedEntity",
+      "globalAssetId": "",
+      "displayName": [
+        {
+          "language": "en",
+          "text": "Housing Component"
+        },
+        {
+          "language": "de",
+          "text": "Vordefinierter Text"
+        }
+      ],
+      "statements": [],
+      "qualifiers": [
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "value": "One",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/MappingInfo/displayName",
+          "value": "component.name",
+          "valueType": "xs:string"
+        }
+      ]
+    }
+  ]
+}
