@@ -275,6 +275,36 @@ public class AasGeneratorTests
     {
         await RunDataIngestFailureTest("InputMultiLanguagePropertyValidationFailure");
     }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMLPValidationFailureArray_ShouldFail()
+    {
+        await RunDataIngestFailureTest("InputMLPValidationFailureArray");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMLPValidationFailureNestedArray_ShouldFail()
+    {
+        await RunDataIngestFailureTest("InputMLPValidationFailureNestedArray");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMLPValidationSuccessInteger_Success()
+    {
+        await RunDataIngestTest("InputMLPValidationSuccessInteger");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMLPValidationSuccessBoolean_Success()
+    {
+        await RunDataIngestTest("InputMLPValidationSuccessBoolean");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMLPValidationSuccessFloat_Success()
+    {
+        await RunDataIngestTest("InputMLPValidationSuccessFloat");
+    }
     
     private async Task RunDataIngestTest(string testCaseName)
     {
