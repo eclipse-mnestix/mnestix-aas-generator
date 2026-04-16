@@ -131,7 +131,7 @@ public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<Da
         }
     }
 
-    private static JArray ConvertToMultiLanguageProperty(JToken text, string language)
+    private static JArray ConvertToMultiLanguageProperty(string text, string language)
     {
         // Currently only one language is supported
         // See docs/rules-engine.md -> MultiLanguageProperty for more information
@@ -153,7 +153,12 @@ public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<Da
 
         if (modelType == "MultiLanguageProperty")
         {
-            blueprintValue.Replace(ConvertToMultiLanguageProperty(dataFromMappingPath, language));
+            if (dataFromMappingPath.Type is not (JTokenType.String or JTokenType.Integer or JTokenType.Float or JTokenType.Boolean or JTokenType.Null))
+            {
+                throw new SubmodelDataToInstanceMapperException(
+                    $"MultiLanguageProperty expects a string value, but got {dataFromMappingPath.Type}", ctx);
+            }
+            blueprintValue.Replace(ConvertToMultiLanguageProperty(dataFromMappingPath.ToString(), language));
             return;
         }
 

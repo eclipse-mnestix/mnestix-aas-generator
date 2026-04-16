@@ -263,6 +263,18 @@ public class AasGeneratorTests
     {
         await RunDataIngestTest("InputValueTypeUnknown");
     }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMultiLanguagePropertyValidationSuccess_Success()
+    {
+        await RunDataIngestTest("InputMultiLanguagePropertyValidationSuccess");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMultiLanguagePropertyValidationFailure_ShouldFail()
+    {
+        await RunDataIngestFailureTest("InputMultiLanguagePropertyValidationFailure");
+    }
     
     private async Task RunDataIngestTest(string testCaseName)
     {
