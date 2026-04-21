@@ -156,7 +156,7 @@ public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<Da
             if (dataFromMappingPath.Type is not (JTokenType.String or JTokenType.Integer or JTokenType.Float or JTokenType.Boolean or JTokenType.Null))
             {
                 throw new SubmodelDataToInstanceMapperException(
-                    $"MultiLanguageProperty expects a string value, but got {dataFromMappingPath.Type}", ctx);
+                    $"MultiLanguageProperty expects a string, number, boolean, or null value, but got {dataFromMappingPath.Type}", ctx);
             }
             blueprintValue.Replace(ConvertToMultiLanguageProperty(dataFromMappingPath.ToString(), language));
             return;
