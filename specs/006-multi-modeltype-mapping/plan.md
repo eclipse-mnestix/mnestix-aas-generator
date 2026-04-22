@@ -31,7 +31,7 @@ Extend the `SMT/MappingInfo` qualifier to support mapping input data into model-
 | **II. Deterministic Generation** | ✅ PASS | No non-deterministic behavior introduced. Qualifier processing order is document-order (deterministic). |
 | **III. Backwards Compatibility** | ✅ PASS | Legacy `SMT/MappingInfo` treated as `SMT/MappingInfo/value` (FR-002). All existing tests must pass unchanged (SC-001). |
 | **IV. Unit Testing** | ✅ PASS | New test fixtures required for each new field mapping. Existing tests remain unmodified. |
-| **V. Open Source & Community** | ✅ PASS | No new dependencies. Docs must be updated (generator-rules.md). |
+| **V. Open Source & Community** | ✅ PASS | No new dependencies. Docs must be updated (wiki/Blueprint-and-Rules.md). |
 | **VI. Pipeline Extensibility & Simplicity** | ✅ PASS | No new pipeline steps added. Change is within existing `MapDataToInstanceStep`. No new abstractions. |
 | **VII. Security by Default** | ✅ PASS | Field allowlist prevents arbitrary field injection. Jsonata expressions already sandboxed. |
 
@@ -76,11 +76,14 @@ Core.Tests/
 │       ├── InputMultiFieldDuplicate/               # NEW: duplicate field error test
 │       ├── InputMultiFieldInvalidField/            # NEW: allowlist rejection test
 │       ├── InputMultiFieldTypeMismatch/            # NEW: field-modeltype mismatch error test
-│       ├── InputValueTypeValidation/               # NEW: valueType validation test
+│       ├── InputValueTypeValidationSuccess/        # NEW: valueType validation pass test
+│       ├── InputValueTypeValidationFailure/        # NEW: valueType validation fail test
+│       ├── InputValueTypeUnknown/                  # NEW: unknown valueType pass-through test
+│       ├── InputHierarchicalStructures/            # NEW: end-to-end HierarchicalStructures test
 │       └── InputIdShortSanitization/               # NEW: idShort auto-sanitize test
 
-docs/
-└── generator-rules.md                             # UPDATED: document new SMT/MappingInfo/<FieldName> syntax
+wiki/
+└── Blueprint-and-Rules.md                          # UPDATED: document new SMT/MappingInfo/<FieldName> syntax
 ```
 
 **Structure Decision**: No new files or architectural layers needed in production code. All changes are within the existing `MapDataToInstanceStep.cs`. Test coverage is added via new JSON fixture directories following the established pattern.
