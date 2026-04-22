@@ -117,7 +117,7 @@ As a template author, I want the generator to validate that mapped values confor
 
 - What happens when a `SMT/MappingInfo/<FieldName>` qualifier references a field name that does not exist on the target element's model type (e.g., `globalAssetId` on a Property)? → Generator MUST fail with a clear error message.
 - What happens when multiple `SMT/MappingInfo/<FieldName>` qualifiers exist on the same element targeting the same field? → Generator MUST fail with an error indicating duplicate field mapping detected.
-- What happens when an `idShort` mapping produces a value with characters invalid in AAS idShort (e.g., containing dots or slashes)? → Auto-sanitize: replace invalid characters with underscores, ensure value starts with a letter, and log a warning.
+- What happens when an `idShort` mapping produces a value with characters invalid in AAS idShort (e.g., containing dots or slashes)? → Auto-sanitize: replace invalid characters with underscores, prepend `i` if the result starts with a non-letter character (e.g., `"123abc"` → `"i123abc"`, `"_value"` → `"i_value"`), and log a warning.
 - How does the system behave when a `SMT/MappingInfo/value` qualifier coexists with a legacy `SMT/MappingInfo` qualifier on the same element? → Generator MUST fail with an error indicating duplicate field mapping detected.
 
 ## Requirements *(mandatory)*
@@ -139,8 +139,8 @@ As a template author, I want the generator to validate that mapped values confor
 - **FR-013**: Existing blueprints using `SMT/MappingInfo` MUST produce identical output after this change — no behavioral regression.
 - **FR-014**: System MUST support `SMT/MappingInfo/first` for mapping data to a RelationshipElement's `first` reference field.
 - **FR-015**: System MUST support `SMT/MappingInfo/second` for mapping data to a RelationshipElement's `second` reference field.
-- **FR-016**: For `SMT/MappingInfo/displayName`, the system MUST populate only the `text` value of the entry matching the current generation language within an existing `displayName` array structure defined in the template.
-- **FR-017**: For `SMT/MappingInfo/idShort`, the system MUST auto-sanitize the mapped value to conform to AAS idShort rules (`[a-zA-Z][a-zA-Z0-9_]*`): replace invalid characters with underscores, ensure the value starts with a letter, and log a warning when sanitization occurs.
+- **FR-016**: For `SMT/MappingInfo/displayName`, the system MUST populate the `text` value of the entry matching the current generation language within the element's `displayName` array. If no matching language entry exists, a new entry MUST be added. If no `displayName` array exists, one MUST be created.
+- **FR-017**: For `SMT/MappingInfo/idShort`, the system MUST auto-sanitize the mapped value to conform to AAS idShort rules (`[a-zA-Z][a-zA-Z0-9_]*`): replace invalid characters with underscores, prepend `i` if the result starts with a non-letter character, and log a warning when sanitization occurs.
 - **FR-018**: System MUST fail with a clear error if multiple qualifiers on the same element resolve to the same target field (e.g., both `SMT/MappingInfo` and `SMT/MappingInfo/value` on one element).
 - **FR-019**: For `SMT/MappingInfo/value`, the system MUST validate that the mapped value conforms to the element's declared `valueType` (e.g., `xs:string`, `xs:integer`, `xs:dateTime`, `xs:boolean`, `xs:double`) and raise a validation error on type mismatch.
 - **FR-020**: If the element's `valueType` is not recognized by the validator, the system MUST pass the value through without validation and log a warning.

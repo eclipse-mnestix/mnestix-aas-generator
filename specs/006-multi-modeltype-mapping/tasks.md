@@ -140,14 +140,14 @@
 
 ### Tests for User Story 5
 
-- [x] T036 [P] [US5] Create test fixture `Core.Tests/AasGenerator/TestJsons/InputHierarchicalStructuresVec/TemplateSubmodel.json` — HierarchicalStructures blueprint with an Entity template inside `SMT/CollectionMappingInfo` carrying `SMT/MappingInfo/idShort`, `SMT/MappingInfo/globalAssetId`, and `SMT/MappingInfo/entityType` qualifiers, plus a RelationshipElement template with `SMT/MappingInfo/first` and `SMT/MappingInfo/second`
-- [x] T037 [P] [US5] Create test fixture `Core.Tests/AasGenerator/TestJsons/InputHierarchicalStructuresVec/Data.json` with VEC-derived component array data
-- [x] T038 [P] [US5] Create test fixture `Core.Tests/AasGenerator/TestJsons/InputHierarchicalStructuresVec/ExpectedResult.json` with the expected HierarchicalStructures submodel containing dynamically generated Entities and HasPart RelationshipElements
-- [x] T039 [US5] Add test method `AddDataToAasAsync_InputHierarchicalStructuresVec_Success` in Core.Tests/AasGenerator/AasGeneratorTests.cs
+- [x] T036 [P] [US5] Create test fixture `Core.Tests/AasGenerator/TestJsons/InputHierarchicalStructures/TemplateSubmodel.json` — HierarchicalStructures blueprint with an Entity template inside `SMT/CollectionMappingInfo` carrying `SMT/MappingInfo/idShort`, `SMT/MappingInfo/globalAssetId`, and `SMT/MappingInfo/entityType` qualifiers, plus a RelationshipElement template with `SMT/MappingInfo/first` and `SMT/MappingInfo/second`
+- [x] T037 [P] [US5] Create test fixture `Core.Tests/AasGenerator/TestJsons/InputHierarchicalStructures/Data.json` with VEC-derived component array data
+- [x] T038 [P] [US5] Create test fixture `Core.Tests/AasGenerator/TestJsons/InputHierarchicalStructures/ExpectedResult.json` with the expected HierarchicalStructures submodel containing dynamically generated Entities and HasPart RelationshipElements
+- [x] T039 [US5] Add test method `AddDataToAasAsync_InputHierarchicalStructures_Success` in Core.Tests/AasGenerator/AasGeneratorTests.cs
 
 ### Verification for User Story 5
 
-- [x] T040 [US5] Run test `AddDataToAasAsync_InputHierarchicalStructuresVec_Success` and verify the generated submodel matches the expected output
+- [x] T040 [US5] Run test `AddDataToAasAsync_InputHierarchicalStructures_Success` and verify the generated submodel matches the expected output
 
 **Checkpoint**: Full HierarchicalStructures BOM generation from VEC data works end-to-end.
 
