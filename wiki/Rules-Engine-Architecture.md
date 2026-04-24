@@ -209,6 +209,50 @@ Element created only if both conditions are true
 - **Missing optional data**: Empty value assignment
 - **Structured errors**: Include qualifier, path, and processing context
 
+## Workflow Logging
+
+The AAS Generator includes a workflow-level logging system that captures a chronological log trail across the entire Submodel generation lifecycle. This provides full observability into the generation process for debugging and error diagnosis.
+
+### WorkflowLogger
+
+`WorkflowLogger` (`MnestixCore/AASGenerator/WorkflowLogger.cs`) is a lightweight dual-write logger that:
+1. **Accumulates** log entries in an `IList<string>` for inclusion in API responses
+2. **Forwards** each entry to the injected `ILogger` at the appropriate log level
+
+A new `WorkflowLogger` instance is created per blueprint in `AddDataToAasAsync`, ensuring each blueprint has an independent log trail.
+
+### Log Format
+
+All entries follow the convention: `SEVERITY [timestamp] - message`
+
+```
+INFO [4/24/2026 10:30:01 AM] - Mapping blueprint contact-template-v1 to AAS aHR0cHM6...
+INFO [4/24/2026 10:30:01 AM] - Fetching blueprint: contact-template-v1
+INFO [4/24/2026 10:30:01 AM] - Blueprint fetched successfully
+ERROR [4/24/2026 10:30:01 AM] - Data mapping failed for blueprint contact-template-v1: ...
+```
+
+This matches the format used by the existing `DataMappingContext` pipeline logs, so all log entries are consistent when merged.
+
+### Logged Workflow Phases
+
+Each phase of `AddDataToAasAsync` is instrumented:
+
+| Phase | Log Entries |
+|-------|------------|
+| **Context Preamble** | Optional caller-provided preamble (e.g. `Created a new AAS with aasId {aasId}` from AasCreator), then `Mapping blueprint {id} to AAS {aasId}` |
+| **Blueprint Retrieval** | `Fetching blueprint: {id}`, `Blueprint fetched successfully` |
+| **IdShort Extraction** | `Extracted idShort: {idShort}` |
+| **ID Generation** | `Generating submodel ID`, `Submodel ID generated: {id}` |
+| **Data Mapping** | `Starting data mapping`, pipeline step logs (merged via `AddRange`), `Data mapping completed` |
+| **Repository Persistence** | `Posting submodel to repository`, `Adding submodel reference to shell`, `Submodel reference added to shell` |
+
+### Log Inclusion in API Responses
+
+- **`debug=true` + success**: `DebugInfo.Logs` contains the full log trail from all phases
+- **`debug=false` + success**: `DebugInfo` is `null` (no logs returned)
+- **Error (any `debug` value)**: `ErrorInfo.Logs` always contains the log trail up to and including the failure point — this aids error diagnosis without requiring the caller to opt into debug mode
+
 ## Current Limitations
 1. **SubmodelElementList**: Partial support  
 2. **MultiLanguageProperty**: Single language only per generation call

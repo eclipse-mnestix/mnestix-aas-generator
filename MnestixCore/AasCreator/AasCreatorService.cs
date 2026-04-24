@@ -97,7 +97,8 @@ public class AasCreatorService(
             }
 
             // Generate and add submodels to the newly created AAS
-            submodelResults = await aasGenerator.AddDataToAasAsync(base64EncodedAasId, blueprintsIds, data, language, debug);
+            submodelResults = await aasGenerator.AddDataToAasAsync(base64EncodedAasId, blueprintsIds, data, language, debug,
+                preamble: $"Created a new AAS with aasId {aasIds.aasId}");
             
             // Check if any submodel generation failed
             if (submodelResults.Any(r => !r.Success))
