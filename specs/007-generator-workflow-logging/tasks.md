@@ -24,8 +24,8 @@
 
 **Purpose**: Create the new WorkflowLogger helper class that all user stories depend on
 
-- [ ] T001 Create WorkflowLogger class with LogInfo, LogWarning, LogError, and AddRange methods in MnestixCore/AASGenerator/WorkflowLogger.cs
-- [ ] T002 [P] Create WorkflowLogger unit tests verifying log format, dual-write to ILogger, and AddRange merge behavior in Core.Tests/AasGenerator/WorkflowLoggerTests.cs
+- [X] T001 Create WorkflowLogger class with LogInfo, LogWarning, LogError, and AddRange methods in MnestixCore/AASGenerator/WorkflowLogger.cs
+- [X] T002 [P] Create WorkflowLogger unit tests verifying log format, dual-write to ILogger, and AddRange merge behavior in Core.Tests/AasGenerator/WorkflowLoggerTests.cs
 
 ---
 
@@ -37,19 +37,19 @@
 
 ### Tests for User Story 1
 
-- [ ] T003 [US1] Add test: successful generation with `debug=true` returns DebugInfo.Logs containing entries from all four workflow phases in Core.Tests/AasGenerator/AasGeneratorTests.cs
-- [ ] T004 [US1] Add test: successful generation with `debug=false` returns null DebugInfo (no logs) in Core.Tests/AasGenerator/AasGeneratorTests.cs
-- [ ] T005 [US1] Add test: multiple blueprints with `debug=true` returns independent log trails per blueprint in Core.Tests/AasGenerator/AasGeneratorTests.cs
+- [X] T003 [US1] Add test: successful generation with `debug=true` returns DebugInfo.Logs containing entries from all four workflow phases in Core.Tests/AasGenerator/AasGeneratorTests.cs
+- [X] T004 [US1] Add test: successful generation with `debug=false` returns null DebugInfo (no logs) in Core.Tests/AasGenerator/AasGeneratorTests.cs
+- [X] T005 [US1] Add test: multiple blueprints with `debug=true` returns independent log trails per blueprint in Core.Tests/AasGenerator/AasGeneratorTests.cs
 
 ### Implementation for User Story 1
 
-- [ ] T006 [US1] Modify AddDataToAasAsync to create a WorkflowLogger instance per blueprint at the start of the per-blueprint lambda in MnestixCore/AASGenerator/AASGenerator.cs
-- [ ] T007 [US1] Add workflow log entries to TryGetBlueprintFromBlueprintProviderAsync (start/success) and pass WorkflowLogger parameter in MnestixCore/AASGenerator/AASGenerator.cs
-- [ ] T008 [US1] Add workflow log entries to TryGetIdShortFromBlueprint (extracted idShort) and pass WorkflowLogger parameter in MnestixCore/AASGenerator/AASGenerator.cs
-- [ ] T009 [US1] Add workflow log entries to TryGenerateSubmodelIdAsync (start/generated ID) and pass WorkflowLogger parameter in MnestixCore/AASGenerator/AASGenerator.cs
-- [ ] T010 [US1] Add workflow log entries around TryMapDataToInstance (start/end) and merge DataMappingContext.Logs into WorkflowLogger via AddRange in MnestixCore/AASGenerator/AASGenerator.cs
-- [ ] T011 [US1] Add workflow log entries to TryAddSubmodelToAasAsync (post submodel/post reference) and pass WorkflowLogger parameter in MnestixCore/AASGenerator/AASGenerator.cs
-- [ ] T012 [US1] Populate AasGeneratorResult.DebugInfo.Logs from WorkflowLogger.Logs on success when debug=true in MnestixCore/AASGenerator/AASGenerator.cs
+- [X] T006 [US1] Modify AddDataToAasAsync to create a WorkflowLogger instance per blueprint at the start of the per-blueprint lambda in MnestixCore/AASGenerator/AASGenerator.cs
+- [X] T007 [US1] Add workflow log entries to TryGetBlueprintFromBlueprintProviderAsync (start/success) and pass WorkflowLogger parameter in MnestixCore/AASGenerator/AASGenerator.cs
+- [X] T008 [US1] Add workflow log entries to TryGetIdShortFromBlueprint (extracted idShort) and pass WorkflowLogger parameter in MnestixCore/AASGenerator/AASGenerator.cs
+- [X] T009 [US1] Add workflow log entries to TryGenerateSubmodelIdAsync (start/generated ID) and pass WorkflowLogger parameter in MnestixCore/AASGenerator/AASGenerator.cs
+- [X] T010 [US1] Add workflow log entries around TryMapDataToInstance (start/end) and merge DataMappingContext.Logs into WorkflowLogger via AddRange in MnestixCore/AASGenerator/AASGenerator.cs
+- [X] T011 [US1] Add workflow log entries to TryAddSubmodelToAasAsync (post submodel/post reference) and pass WorkflowLogger parameter in MnestixCore/AASGenerator/AASGenerator.cs
+- [X] T012 [US1] Populate AasGeneratorResult.DebugInfo.Logs from WorkflowLogger.Logs on success when debug=true in MnestixCore/AASGenerator/AASGenerator.cs
 
 **Checkpoint**: Debug responses now contain full workflow logs. Existing DataMapper pipeline logs are preserved within the trail.
 
@@ -63,19 +63,19 @@
 
 ### Tests for User Story 2
 
-- [ ] T013 [US2] Add test: blueprint fetch failure returns ErrorInfo.Logs with retrieval attempt entry in Core.Tests/AasGenerator/AasGeneratorTests.cs
-- [ ] T014 [US2] Add test: ID generation failure returns ErrorInfo.Logs with blueprint success + ID failure entries in Core.Tests/AasGenerator/AasGeneratorTests.cs
-- [ ] T015 [US2] Add test: data mapping failure returns ErrorInfo.Logs with preceding steps + mapping error, and preserves existing ErrorInfo.Qualifier/QualifierPath behavior in Core.Tests/AasGenerator/AasGeneratorTests.cs
-- [ ] T016 [US2] Add test: repo persistence failure returns ErrorInfo.Logs with all preceding step entries in Core.Tests/AasGenerator/AasGeneratorTests.cs
+- [X] T013 [US2] Add test: blueprint fetch failure returns ErrorInfo.Logs with retrieval attempt entry in Core.Tests/AasGenerator/AasGeneratorTests.cs
+- [X] T014 [US2] Add test: ID generation failure returns ErrorInfo.Logs with blueprint success + ID failure entries in Core.Tests/AasGenerator/AasGeneratorTests.cs
+- [X] T015 [US2] Add test: data mapping failure returns ErrorInfo.Logs with preceding steps + mapping error, and preserves existing ErrorInfo.Qualifier/QualifierPath behavior in Core.Tests/AasGenerator/AasGeneratorTests.cs
+- [X] T016 [US2] Add test: repo persistence failure returns ErrorInfo.Logs with all preceding step entries in Core.Tests/AasGenerator/AasGeneratorTests.cs
 
 ### Implementation for User Story 2
 
-- [ ] T017 [US2] Modify TryGetBlueprintFromBlueprintProviderAsync to log error entry and attach WorkflowLogger.Logs to ErrorInfo.Logs on failure in MnestixCore/AASGenerator/AASGenerator.cs
-- [ ] T018 [US2] Modify TryGetIdShortFromBlueprint to attach WorkflowLogger.Logs to ErrorInfo.Logs on missing idShort in MnestixCore/AASGenerator/AASGenerator.cs
-- [ ] T019 [US2] Modify TryGenerateSubmodelIdAsync to log error entry and attach WorkflowLogger.Logs to ErrorInfo.Logs on failure in MnestixCore/AASGenerator/AASGenerator.cs
-- [ ] T020 [US2] Modify TryMapDataToInstance to merge DataMappingContext.Logs from exception into WorkflowLogger, then attach WorkflowLogger.Logs to ErrorInfo.Logs on failure in MnestixCore/AASGenerator/AASGenerator.cs
-- [ ] T021 [US2] Modify TryAddSubmodelToAasAsync to log error entry and attach WorkflowLogger.Logs to ErrorInfo.Logs on failure (both validation and RepoProxyException) in MnestixCore/AASGenerator/AASGenerator.cs
-- [ ] T022 [US2] Ensure DebugInfo.Logs is also populated from WorkflowLogger.Logs on error when debug=true in MnestixCore/AASGenerator/AASGenerator.cs
+- [X] T017 [US2] Modify TryGetBlueprintFromBlueprintProviderAsync to log error entry and attach WorkflowLogger.Logs to ErrorInfo.Logs on failure in MnestixCore/AASGenerator/AASGenerator.cs
+- [X] T018 [US2] Modify TryGetIdShortFromBlueprint to attach WorkflowLogger.Logs to ErrorInfo.Logs on missing idShort in MnestixCore/AASGenerator/AASGenerator.cs
+- [X] T019 [US2] Modify TryGenerateSubmodelIdAsync to log error entry and attach WorkflowLogger.Logs to ErrorInfo.Logs on failure in MnestixCore/AASGenerator/AASGenerator.cs
+- [X] T020 [US2] Modify TryMapDataToInstance to merge DataMappingContext.Logs from exception into WorkflowLogger, then attach WorkflowLogger.Logs to ErrorInfo.Logs on failure in MnestixCore/AASGenerator/AASGenerator.cs
+- [X] T021 [US2] Modify TryAddSubmodelToAasAsync to log error entry and attach WorkflowLogger.Logs to ErrorInfo.Logs on failure (both validation and RepoProxyException) in MnestixCore/AASGenerator/AASGenerator.cs
+- [X] T022 [US2] Ensure DebugInfo.Logs is also populated from WorkflowLogger.Logs on error when debug=true in MnestixCore/AASGenerator/AASGenerator.cs
 
 **Checkpoint**: All error paths now include workflow logs. Mapping errors preserve existing Qualifier/QualifierPath alongside the new workflow log trail.
 
@@ -89,13 +89,13 @@
 
 ### Tests for User Story 3
 
-- [ ] T023 [US3] Add test: all log entries in a debug response match the format pattern `SEVERITY [timestamp] - message` in Core.Tests/AasGenerator/AasGeneratorTests.cs
+- [X] T023 [US3] Add test: all log entries in a debug response match the format pattern `SEVERITY [timestamp] - message` in Core.Tests/AasGenerator/AasGeneratorTests.cs
 
 ### Implementation for User Story 3
 
 > Note: If T001 (WorkflowLogger) correctly implements the format in LogInfo/LogWarning/LogError methods, this is already satisfied. T023 serves as the validation.
 
-- [ ] T024 [US3] Verify WorkflowLogger format matches DataMappingContext format (same severity prefixes, same timestamp format) in MnestixCore/AASGenerator/WorkflowLogger.cs
+- [X] T024 [US3] Verify WorkflowLogger format matches DataMappingContext format (same severity prefixes, same timestamp format) in MnestixCore/AASGenerator/WorkflowLogger.cs
 
 **Checkpoint**: All log entries — both from the workflow layer and the DataMapper pipeline — follow identical formatting conventions.
 
@@ -105,8 +105,8 @@
 
 **Purpose**: Final validation and cleanup
 
-- [ ] T025 Run all existing tests via `dotnet test` to verify no regressions in Core.Tests/
-- [ ] T026 Run quickstart.md validation: manually verify response format matches documented examples in specs/007-generator-workflow-logging/quickstart.md
+- [X] T025 Run all existing tests via `dotnet test` to verify no regressions in Core.Tests/
+- [X] T026 Run quickstart.md validation: manually verify response format matches documented examples in specs/007-generator-workflow-logging/quickstart.md
 
 ---
 
