@@ -55,7 +55,7 @@ A system integrator customises the ID generation rules — prefixes and dynamic 
 
 1. **Given** the asset ID prefix is currently `https://old.com/`, **When** the integrator patches it to `https://new.com/assets/`, **Then** subsequent ID generation calls produce asset IDs starting with `https://new.com/assets/`.
 
-2. **Given** incorrect settings are stored (e.g., an unrecognised enum value for a dynamic part), **When** ID generation is requested, **Then** the system falls back to GUID as the default dynamic part and logs a warning.
+2. **Given** incorrect settings are stored (e.g., an unrecognised enum value for a dynamic part), **When** ID generation is requested, **Then** the system falls back to the enum default dynamic part (effectively `GUID` for current enums) and logs an error.
 
 ---
 
@@ -76,7 +76,7 @@ A system integrator customises the ID generation rules — prefixes and dynamic 
 - **FR-004**: Generated GUIDs MUST be 32-character hexadecimal strings (standard GUID format without hyphens or special characters).
 - **FR-005**: System MUST generate submodel IDs in bulk, each composed of the configured submodel ID prefix and a unique 32-character GUID.
 - **FR-006**: System MUST load ID generation settings dynamically from the Configuration submodel in the AAS repository on each request.
-- **FR-007**: When a dynamic part enum value cannot be parsed from the stored settings, the system MUST fall back to `GUID` and log a warning.
+- **FR-007**: When a dynamic part enum value cannot be parsed from the stored settings, the system MUST fall back to the enum default value (currently `GUID`) and log an error.
 - **FR-008**: System MUST expose ID generation via `GET /api/v2/IdGenerator/aasIds/{assetIdShort}`, `GET /api/v2/IdGenerator/aasIds/`, and `GET /api/v2/IdGenerator/submodelIds/{count}`.
 - **FR-009**: All ID generation endpoints MUST disable HTTP caching (no-store).
 - **FR-010**: All endpoints MUST require authentication.

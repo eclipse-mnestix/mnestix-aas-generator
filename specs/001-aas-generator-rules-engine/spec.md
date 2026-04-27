@@ -73,8 +73,9 @@ A developer or asset manager troubleshoots a failing or incorrect generation by 
 - What happens when the provided JSON data is malformed (not valid JSON)? The API returns a 400 Bad Request before entering the pipeline.
 - What happens when a Jsonata expression references a path that does not exist in the data? The pipeline applies cardinality rules: mandatory fields error, optional fields produce empty values.
 - What happens when duplicate collection mapping references nested arrays? The system processes shallowest-first, recursively expanding inner collections.
-- What happens when elements like `Range`, `Blob`, `File`, `ReferenceElement`, or `Entity` appear in the blueprint? They are copied unchanged into the generated instance without mapping.
-- What happens when multiple blueprints are provided in a single request and one fails? Each blueprint is processed independently; failures are reported per-blueprint while successful ones are still persisted.
+- What happens when elements like `Range` or `ReferenceElement` appear in the blueprint? They are copied unchanged into the generated instance without mapping.
+- What happens when `Blob` or `File` elements have `SMT/MappingInfo` qualifiers? Their `value` fields are mapped like other supported value-carrying elements.
+- What happens when multiple blueprints are provided in a single request and one fails? Each blueprint is processed independently; failures are reported per-blueprint while successful ones are still persisted. The HTTP status is currently derived from the first blueprint result (200 when first result is success, otherwise 400).
 
 ## Requirements *(mandatory)*
 
@@ -92,10 +93,10 @@ A developer or asset manager troubleshoots a failing or incorrect generation by 
 - **FR-010**: System MUST persist generated Submodels in the connected AAS repository and create the submodel reference in the parent AAS.
 - **FR-011**: System MUST process each blueprint independently; a failure in one blueprint MUST NOT prevent processing of other blueprints in the same request.
 - **FR-012**: System MUST support `MultiLanguageProperty` elements, mapping values under the language tag specified in the request.
-- **FR-013**: System MUST copy non-mapped element types (`Range`, `Blob`, `File`, `ReferenceElement`, `Entity`) unchanged from blueprint to instance.
+- **FR-013**: System MUST copy element types without applicable mapping qualifiers unchanged from blueprint to instance. In the current implementation, `Range` and `ReferenceElement` are copy-through types, while `Blob` and `File` support `value` mapping.
 - **FR-014**: System MUST expose the Data Ingest operation via `POST /api/v2/DataIngest/{base64EncodedAasId}`.
 - **FR-015**: System MUST expose AAS creation via `POST /api/v2/AasCreator/{assetIdShort}`, optionally triggering submodel generation when blueprint IDs and data are provided.
-- **FR-016**: System MUST return structured results per blueprint, including success/failure status, generated submodel ID, error information, and debug logs (when requested).
+- **FR-016**: System MUST return structured results per blueprint, including success/failure status, generated submodel ID, error information, and debug logs (when requested). Current controller response status is derived from the first result entry.
 - **FR-017**: System MUST process the 7-step pipeline in fixed order: deep-clone blueprint → set kind to instance → duplicate collections → filter elements → map data → remove qualifiers → replace identification.
 - **FR-018**: System MUST support a debug mode (`debug: true`) that collects and returns pipeline processing logs.
 

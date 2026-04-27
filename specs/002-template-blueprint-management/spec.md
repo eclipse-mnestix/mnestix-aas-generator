@@ -81,6 +81,7 @@ A system integrator configures the AAS Generator to operate in either local mode
 
 - What happens when the repository is unreachable? The system propagates the HTTP error from the repository proxy client.
 - What happens when a blueprint ID to delete is not found? The system returns 404 Not Found.
+- What happens when a blueprint ID is missing for GET/UPDATE operations? The current controller behavior is to return 400 Bad Request on provider/processing exceptions.
 - What happens when the remote API returns an unexpected response format (neither array nor `{"result": [...]}`? The system raises an error describing the unexpected format.
 - What happens when a remote API returns an empty response body? The system raises an error indicating the endpoint returned an empty response.
 - What happens when a template is POSTed with duplicate `semanticId` keys? The system prepends the new key without deduplication; the template is stored as-is.
@@ -101,8 +102,8 @@ A system integrator configures the AAS Generator to operate in either local mode
 - **FR-009**: In remote mode, the system MUST route CRUD operations as HTTP calls to the configured remote URL, supporting standard REST verbs (GET, POST, PUT, DELETE).
 - **FR-010**: The blueprint retrieval endpoint MUST handle two response formats from remote APIs: direct JSON arrays (`[{...}]`) and wrapped arrays (`{"result": [{...}]}`).
 - **FR-011**: The template retrieval endpoint MUST handle the wrapped response format (`{"result": [{...}]}`) from remote APIs.
-- **FR-012**: All blueprint and template management endpoints MUST require authentication (JWT Bearer token or API key) with `admin.write` scope for modifying operations.
-- **FR-013**: System MUST return structured error responses: 400 for processing errors, 403 for forbidden operations, 404 for missing resources.
+- **FR-012**: All blueprint and template management endpoints MUST require authentication (JWT Bearer token or API key). Blueprint endpoints require `admin.write` scope; template endpoints currently require authentication without `admin.write` scope.
+- **FR-013**: System MUST return API error responses according to current controller behavior: primarily 400 for processing/provider errors, 403 when local template creation is disabled by remote template API configuration, and 404 for blueprint delete-not-found.
 
 ### Key Entities
 

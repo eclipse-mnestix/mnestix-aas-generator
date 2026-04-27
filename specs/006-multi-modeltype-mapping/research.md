@@ -23,7 +23,7 @@
 
 | Field | Applicable Model Types | Value Type |
 |-------|----------------------|------------|
-| `value` | Property, Range, Blob, MultiLanguageProperty | string (or MLP array) |
+| `value` | Property, Blob, File, MultiLanguageProperty | string (or MLP array) |
 | `idShort` | All submodel element types | string |
 | `globalAssetId` | Entity | string |
 | `entityType` | Entity | string (enum: SelfManagedEntity, CoManagedEntity) |
@@ -88,7 +88,7 @@ Known types and validation rules:
 | `xs:decimal`, `xs:double`, `xs:float` | Must parse as numeric |
 | `xs:dateTime` | Must match ISO 8601 datetime format |
 | `xs:date` | Must match ISO 8601 date format |
-| `xs:anyURI` | Must be a non-empty string (basic URI validation) |
+| `xs:anyURI` | Currently always passes (no URI-specific validation) |
 
 **Rationale**: Prevents silently producing non-compliant AAS instances. Warning-on-unknown is forward-compatible with future XSD types.
 
