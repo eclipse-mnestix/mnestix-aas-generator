@@ -24,13 +24,13 @@ public sealed class DataMappingContext
     
     public void LogInfo(string message)
     {
-        Logs.Add($"INFO [{DateTime.UtcNow}] - {message}");
+        Logs.Add($"INFO [{DateTime.UtcNow:O}] - {message}");
         _logger.LogInformation(message);
     }
     
     public void LogWarning(string message)
     {
-        Logs.Add($"WARNING [{DateTime.UtcNow}] - {message}");
+        Logs.Add($"WARNING [{DateTime.UtcNow:O}] - {message}");
         _logger.LogWarning(message);
     }
     

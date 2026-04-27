@@ -19,19 +19,19 @@ public sealed class WorkflowLogger
 
     public void LogInfo(string message)
     {
-        Logs.Add($"INFO [{DateTime.UtcNow}] - {message}");
+        Logs.Add($"INFO [{DateTime.UtcNow:O}] - {message}");
         _logger.LogInformation(message);
     }
 
     public void LogWarning(string message)
     {
-        Logs.Add($"WARNING [{DateTime.UtcNow}] - {message}");
+        Logs.Add($"WARNING [{DateTime.UtcNow:O}] - {message}");
         _logger.LogWarning(message);
     }
 
     public void LogError(string message)
     {
-        Logs.Add($"ERROR [{DateTime.UtcNow}] - {message}");
+        Logs.Add($"ERROR [{DateTime.UtcNow:O}] - {message}");
         _logger.LogError(message);
     }
 

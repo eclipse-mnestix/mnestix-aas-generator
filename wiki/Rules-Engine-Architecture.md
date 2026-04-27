@@ -223,13 +223,13 @@ A new `WorkflowLogger` instance is created per blueprint in `AddDataToAasAsync`,
 
 ### Log Format
 
-All entries follow the convention: `SEVERITY [timestamp] - message`
+All entries follow the convention: `SEVERITY [timestamp] - message` where timestamps use the ISO-8601 round-trip format (`"O"` specifier):
 
 ```
-INFO [4/24/2026 10:30:01 AM] - Mapping blueprint contact-template-v1 to AAS aHR0cHM6...
-INFO [4/24/2026 10:30:01 AM] - Fetching blueprint: contact-template-v1
-INFO [4/24/2026 10:30:01 AM] - Blueprint fetched successfully
-ERROR [4/24/2026 10:30:01 AM] - Data mapping failed for blueprint contact-template-v1: ...
+INFO [2026-04-24T10:30:01.0000000Z] - Mapping blueprint contact-template-v1 to AAS aHR0cHM6...
+INFO [2026-04-24T10:30:01.1000000Z] - Fetching blueprint: contact-template-v1
+INFO [2026-04-24T10:30:01.2000000Z] - Blueprint fetched successfully
+ERROR [2026-04-24T10:30:01.3000000Z] - Data mapping failed: ...
 ```
 
 This matches the format used by the existing `DataMappingContext` pipeline logs, so all log entries are consistent when merged.

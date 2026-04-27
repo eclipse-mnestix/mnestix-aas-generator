@@ -653,6 +653,32 @@ public class AasGeneratorTests
         allLogs.Should().Contain("Repository operation failed");
     }
 
+    // T024: Error results include DebugInfo.Logs when debug=true
+    [Test]
+    public async Task AddDataToAasAsync_ErrorWithDebugTrue_ReturnsDebugInfoWithLogs()
+    {
+        // ARRANGE
+        var templateIds = new List<string> { "urn:smtemplate:NonExistent" };
+
+        _templateSubmodelsProviderMock
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .ThrowsAsync(new Exception("Not found"));
+
+        // ACT
+        var result = await _aasGenerator.AddDataToAasAsync(TestBase64EncodedAasId, templateIds, new JObject(), "en", debug: true);
+
+        // ASSERT
+        var first = result.First();
+        first.Success.Should().BeFalse();
+        first.DebugInfo.Should().NotBeNull();
+        first.DebugInfo!.Logs.Should().NotBeNull();
+        first.DebugInfo.Logs!.Should().NotBeEmpty();
+
+        var allLogs = string.Join("\n", first.DebugInfo.Logs!);
+        allLogs.Should().Contain("Fetching blueprint");
+        allLogs.Should().Contain("Blueprint fetch failed");
+    }
+
     // T023: All log entries match the format pattern SEVERITY [timestamp] - message
     [Test]
     public async Task AddDataToAasAsync_DebugTrue_AllLogEntriesMatchFormatConvention()
