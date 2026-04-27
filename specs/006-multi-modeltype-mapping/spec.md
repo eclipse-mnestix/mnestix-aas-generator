@@ -43,7 +43,7 @@ As a template author, I want to use a `SMT/MappingInfo/idShort` qualifier on any
 
 **Acceptance Scenarios**:
 
-1. **Given** a blueprint Entity with qualifier `SMT/MappingInfo/idShort` set to `part.partNumber`, **When** input data contains `{"part": {"partNumber": "TE_2470646-9"}}`, **Then** the generated Entity has `idShort` set to `"TE_2470646-9"`.
+1. **Given** a blueprint Entity with qualifier `SMT/MappingInfo/idShort` set to `part.partNumber`, **When** input data contains `{"part": {"partNumber": "TE_24706469"}}`, **Then** the generated Entity has `idShort` set to `"TE_24706469"`.
 2. **Given** a blueprint with a duplicated collection containing elements with `SMT/MappingInfo/idShort`, **When** the collection expands for 3 array items, **Then** each generated element has a distinct `idShort` derived from its corresponding data item.
 3. **Given** a blueprint Entity with `SMT/MappingInfo/idShort` set to a Jsonata expression `$replace(part.name, " ", "_")`, **When** input data contains a part name with spaces, **Then** the generated `idShort` has spaces replaced with underscores.
 

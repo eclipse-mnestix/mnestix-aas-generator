@@ -67,7 +67,7 @@
 
 ## 5. idShort Sanitization
 
-**Decision**: Apply regex-based sanitization after mapping: replace characters not in `[a-zA-Z0-9_]` with `_`, prepend `_` if the result starts with a digit. Log a warning when sanitization changes the value.
+**Decision**: Apply regex-based sanitization after mapping: replace characters not in `[a-zA-Z0-9_]` with `_`, prepend `i` if the result starts with a digit. Log a warning when sanitization changes the value.
 
 **Rationale**: AAS Metamodel v3.0 defines idShort as `[a-zA-Z][a-zA-Z0-9_]*`. VEC data commonly contains hyphens (e.g., `TE_ConnectorHousing_2470646-9`). Auto-sanitizing provides a better developer experience than error-on-invalid, since the sanitization rules are deterministic and predictable.
 
