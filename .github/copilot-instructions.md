@@ -9,8 +9,8 @@ Auto-generated from all feature plans. Last updated: 2026-04-09
 ## Project Structure
 
 ```text
-src/
-tests/
+MnestixCore/
+Core.Tests/
 ```
 
 ## Commands
