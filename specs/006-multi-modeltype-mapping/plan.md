@@ -68,7 +68,9 @@ Core.Tests/
 ├── AasGenerator/
 │   ├── AasGeneratorTests.cs                       # Existing tests (unchanged, must pass)
 │   └── TestJsons/
-│       ├── InputMultiFieldMapping/                 # NEW: globalAssetId + idShort mapping test
+│       ├── InputMultiFieldGlobalAssetId/            # NEW: globalAssetId mapping test
+│       ├── InputMultiFieldIdShort/                 # NEW: idShort mapping test
+│       ├── InputIdShortSanitization/               # NEW: idShort auto-sanitize test
 │       ├── InputMultiFieldMappingLegacy/           # NEW: backwards compatibility test
 │       ├── InputMultiFieldEntityType/              # NEW: entityType mapping test
 │       ├── InputMultiFieldDisplayName/             # NEW: displayName MLP mapping test
@@ -79,8 +81,7 @@ Core.Tests/
 │       ├── InputValueTypeValidationSuccess/        # NEW: valueType validation pass test
 │       ├── InputValueTypeValidationFailure/        # NEW: valueType validation fail test
 │       ├── InputValueTypeUnknown/                  # NEW: unknown valueType pass-through test
-│       ├── InputHierarchicalStructures/            # NEW: end-to-end HierarchicalStructures test
-│       └── InputIdShortSanitization/               # NEW: idShort auto-sanitize test
+│       └── InputHierarchicalStructures/            # NEW: end-to-end HierarchicalStructures test
 
 wiki/
 └── Blueprint-and-Rules.md                          # UPDATED: document new SMT/MappingInfo/<FieldName> syntax

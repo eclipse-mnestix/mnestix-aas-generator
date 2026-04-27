@@ -5,11 +5,6 @@
 # Copilot instructions file. The shared dispatcher reads
 # .specify/integration.json and calls this script.
 #
-# NOTE: This script is not yet active. It will be activated in Stage 7
-# when the shared update-agent-context.sh replaces its case statement
-# with integration.json-based dispatch. The shared script must also be
-# refactored to support SPECKIT_SOURCE_ONLY (guard the main logic)
-# before sourcing will work.
 #
 # Until then, this delegates to the shared script as a subprocess.
 
