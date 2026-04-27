@@ -131,8 +131,9 @@ The tasks.md should be immediately executable - each task must be specific enoug
 
 **CRITICAL**: Tasks MUST be organized by user story to enable independent implementation and testing.
 
-**Tests are OPTIONAL**: Only generate test tasks if explicitly requested in the feature specification or if user requests TDD approach.
+**Tests are conditionally required**: Generate test tasks if explicitly requested in the feature specification or if the user requests a TDD approach. In addition, if the feature involves changes under `MnestixCore/AASGenerator/`, you MUST automatically include unit test tasks for those changes even when the specification does not explicitly ask for tests.
 
+**For `MnestixCore/AASGenerator/` changes**: Treat unit test coverage as mandatory. Ensure the generated `tasks.md` includes the necessary test implementation and validation tasks covering the affected generator behavior, and do not omit those tasks due to a missing or silent test requirement in the spec.
 ### Checklist Format (REQUIRED)
 
 Every task MUST strictly follow this format:
