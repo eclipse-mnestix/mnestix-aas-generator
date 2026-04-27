@@ -79,7 +79,7 @@
 ### Implementation for User Story 2
 
 - [x] T019 [US2] Add `idShort` field assignment case in the dispatch logic: write Jsonata result to the element's `idShort` JSON property in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
-- [x] T020 [US2] Add idShort sanitization method: replace characters not matching `[a-zA-Z0-9_]` with `_`, prepend `_` if result starts with a digit, log warning when sanitization changes the value in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
+- [x] T020 [US2] Add idShort sanitization method: replace characters not matching `[a-zA-Z0-9_]` with `_`, prepend `i` if result starts with a digit, log warning when sanitization changes the value in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
 - [x] T021 [US2] Run tests `AddDataToAasAsync_InputMultiFieldIdShort_Success` and `AddDataToAasAsync_InputIdShortSanitization_Success` to verify they pass
 
 **Checkpoint**: Element `idShort` can be dynamically set with AAS-conformant sanitization.
@@ -180,7 +180,7 @@
 
 **Purpose**: Documentation, final validation, and code quality
 
-- [x] T048 [P] Update docs/generator-rules.md with documentation for the new `SMT/MappingInfo/<FieldName>` qualifier format, supported fields table, examples, and error conditions
+- [x] T048 [P] Update wiki/Blueprints-and-Rules.md with documentation for the new `SMT/MappingInfo/<FieldName>` qualifier format, supported fields table, examples, and error conditions
 - [x] T049 [P] Run quickstart.md validation: verify the example in specs/006-multi-modeltype-mapping/quickstart.md works against the implementation
 - [x] T050 Run full `dotnet test` suite as final regression check
 - [x] T051 Run `dotnet build` and confirm zero compiler warnings

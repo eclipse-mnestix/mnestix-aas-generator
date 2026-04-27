@@ -15,11 +15,17 @@ Core.Tests/
 
 ## Commands
 
-# Add commands for C# / .NET 8 (LTS), nullable reference types enabled
+- Restore dependencies: `dotnet restore`
+- Build all projects: `dotnet build`
+- Run tests: `dotnet test`
+- Verify formatting (if `dotnet format` is available): `dotnet format --verify-no-changes`
 
 ## Code Style
 
-C# / .NET 8 (LTS), nullable reference types enabled: Follow standard conventions
+- Use standard C#/.NET 8 conventions with nullable reference types enabled.
+- Prefer clear PascalCase names for types and methods, and camelCase for locals and parameters.
+- Keep production code in `MnestixCore/` and tests in `Core.Tests/`.
+- Preserve existing JSON serialization and AAS integration patterns when modifying related code.
 
 ## Recent Changes
 
