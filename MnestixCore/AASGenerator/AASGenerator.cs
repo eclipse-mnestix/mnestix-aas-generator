@@ -164,7 +164,7 @@ public class AasGenerator : IAasGenerator
         if (subModelShortId == null)
         {
             workflowLogger.LogError($"Blueprint idShort is null for {blueprintId}");
-            throw new InvalidOperationException($"blueprint shortId of {blueprintId} needs to be not null");
+            throw new InvalidOperationException($"blueprint idShort of {blueprintId} needs to be not null");
         }
 
         workflowLogger.LogInfo($"Extracted idShort: {subModelShortId}");
@@ -198,7 +198,7 @@ public class AasGenerator : IAasGenerator
             });
 
             workflowLogger.LogInfo("Adding submodel reference to shell");
-            await _repoProxyClient.PostAsync($"shells/{base64EncodedAasId}/submodel-refs", submodelReferenceJson);
+            await _repoProxyClient.PostAsync($"{_repoProxyOptions.AasPath}/{base64EncodedAasId}/submodel-refs", submodelReferenceJson);
             workflowLogger.LogInfo("Submodel reference added to shell");
         }
         catch (RepoProxyException e)
