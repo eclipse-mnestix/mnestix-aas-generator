@@ -180,7 +180,7 @@
 
 **Purpose**: Documentation, final validation, and code quality
 
-- [x] T048 [P] Update wiki/Blueprints-and-Rules.md with documentation for the new `SMT/MappingInfo/<FieldName>` qualifier format, supported fields table, examples, and error conditions
+- [x] T048 [P] Update wiki/Blueprint-and-Rules.md with documentation for the new `SMT/MappingInfo/<FieldName>` qualifier format, supported fields table, examples, and error conditions
 - [x] T049 [P] Run quickstart.md validation: verify the example in specs/006-multi-modeltype-mapping/quickstart.md works against the implementation
 - [x] T050 Run full `dotnet test` suite as final regression check
 - [x] T051 Run `dotnet build` and confirm zero compiler warnings

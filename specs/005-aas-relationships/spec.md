@@ -30,7 +30,7 @@ An application developer or industrial engineer queries which AAS shells were de
 ### Edge Cases
 
 - What happens when the AAS repository database is unreachable? The query fails with a server error.
-- What happens when a derived AAS has no `specificAssetIds` entry with name `assetIdShort`? The system returns the AAS ID with a null asset ID short.
+- What happens when a derived AAS has no `specificAssetIds` entry with name `assetIdShort`? The current implementation returns the AAS ID with an empty-string asset ID short.
 - What happens when the `derivedFrom` field has multiple keys? The system matches only on the first key's value (`keys[0].value`).
 
 ## Requirements *(mandatory)*
