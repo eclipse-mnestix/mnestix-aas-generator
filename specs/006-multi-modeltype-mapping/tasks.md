@@ -79,7 +79,7 @@
 ### Implementation for User Story 2
 
 - [x] T019 [US2] Add `idShort` field assignment case in the dispatch logic: write Jsonata result to the element's `idShort` JSON property in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
-- [x] T020 [US2] Add idShort sanitization method: replace characters not matching `[a-zA-Z0-9_]` with `_`, prepend `i` if result starts with a digit, log warning when sanitization changes the value in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
+- [x] T020 [US2] Add idShort sanitization method: replace characters not matching `[a-zA-Z0-9_]` with `_`, prepend `i` if result starts with a non-letter character (e.g., digit or underscore), log warning when sanitization changes the value in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
 - [x] T021 [US2] Run tests `AddDataToAasAsync_InputMultiFieldIdShort_Success` and `AddDataToAasAsync_InputIdShortSanitization_Success` to verify they pass
 
 **Checkpoint**: Element `idShort` can be dynamically set with AAS-conformant sanitization.

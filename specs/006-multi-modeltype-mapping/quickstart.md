@@ -58,7 +58,7 @@ The AAS Generator now supports `SMT/MappingInfo/<FieldName>` qualifiers that map
 ## Key Behaviors
 
 - **Backwards compatible**: Existing `SMT/MappingInfo` qualifiers work exactly as before.
-- **idShort sanitization**: Invalid characters are auto-replaced with `_` (warning logged).
+- **idShort sanitization**: Invalid characters are auto-replaced with `_`; if the result starts with a non-letter character (e.g., digit or underscore), `i` is prepended (warning logged).
 - **Strict validation**: Using an unsupported field name or applying a field to an incompatible model type produces a clear error.
 - **Value type validation**: Mapped values are checked against the element's `valueType` (e.g., `xs:integer`). Unknown types pass through with a warning.
 
