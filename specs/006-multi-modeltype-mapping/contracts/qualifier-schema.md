@@ -36,7 +36,7 @@
 
 | FieldName | Target | Applicable Model Types | Expression Returns |
 |-----------|--------|----------------------|-------------------|
-| `value` | Element value | Property, Range, Blob, MultiLanguageProperty | String or appropriate value type |
+| `value` | Element value | Property, Blob, MultiLanguageProperty | For Property/Range/Blob: valueType-compatible data; for MultiLanguageProperty: scalar (`string`, `number`, `boolean`, `null`) converted to text |
 | `idShort` | Element identifier | All | String (auto-sanitized to `[a-zA-Z][a-zA-Z0-9_]*`) |
 | `globalAssetId` | Entity asset reference | Entity | String (URI) |
 | `entityType` | Entity type enum | Entity | String (`SelfManagedEntity` or `CoManagedEntity`) |
@@ -135,6 +135,7 @@
 | Field-modeltype mismatch | `"Field '<FieldName>' is not applicable to model type '<ModelType>'"` |
 | Duplicate field on element | `"Duplicate mapping for field '<FieldName>' on element '<idShort>'"` |
 | ValueType mismatch | `"Mapped value '<value>' does not conform to valueType '<valueType>'"` |
+| MultiLanguageProperty non-scalar value | `"MultiLanguageProperty expects a string, number, boolean, or null value, but got <JTokenType>"` |
 
 ## REST API Impact
 

@@ -131,7 +131,7 @@ public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<Da
         }
     }
 
-    private static JArray ConvertToMultiLanguageProperty(JToken text, string language)
+    private static JArray ConvertToMultiLanguageProperty(string text, string language)
     {
         // Currently only one language is supported
         // See docs/rules-engine.md -> MultiLanguageProperty for more information
@@ -153,7 +153,12 @@ public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<Da
 
         if (modelType == "MultiLanguageProperty")
         {
-            blueprintValue.Replace(ConvertToMultiLanguageProperty(dataFromMappingPath, language));
+            if (dataFromMappingPath.Type is not (JTokenType.String or JTokenType.Integer or JTokenType.Float or JTokenType.Boolean or JTokenType.Null))
+            {
+                throw new SubmodelDataToInstanceMapperException(
+                    $"MultiLanguageProperty expects a string, number, boolean, or null value, but got {dataFromMappingPath.Type}", ctx);
+            }
+            blueprintValue.Replace(ConvertToMultiLanguageProperty(dataFromMappingPath.ToString(), language));
             return;
         }
 
@@ -216,20 +221,20 @@ public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<Da
             // JSONATA returns Undefined (JToken with Type=Undefined) for missing paths instead of null
             var query = new JsonataQuery(mappingPath);
             var result = query.EvalNewtonsoft(dataJson);
-            
+
             // Convert JSONATA Undefined to null for backward compatibility
             if (result?.Type == JTokenType.Undefined)
             {
                 return null;
             }
-            
+
             return result;
         }
         catch (Exception e) when (!(e is SubmodelDataToInstanceMapperException))
         {
-            
+
             throw new SubmodelDataToInstanceMapperException($"Error while evaluating JSONATA expression '{mappingPath}': " + e.Message, e, ctx);
-            
+
         }
     }
 

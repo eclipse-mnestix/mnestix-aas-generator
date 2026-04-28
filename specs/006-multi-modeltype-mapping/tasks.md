@@ -171,6 +171,13 @@
 - [x] T045 [US6] Add valueType validation method with static known-type lookup table (xs:string, xs:boolean, xs:integer, xs:int, xs:long, xs:short, xs:decimal, xs:double, xs:float, xs:dateTime, xs:date, xs:anyURI) in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
 - [x] T046 [US6] Integrate valueType validation call into `value` field assignment path: validate after Jsonata evaluation, before assignment in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
 - [x] T047 [US6] Run all US6 tests to verify they pass
+- [x] T052 [P] [US6] Create test fixture directory `Core.Tests/AasGenerator/TestJsons/InputMultiLanguagePropertyValidationSuccess/` with TemplateSubmodel.json, Data.json, ExpectedResult.json for string scalar mapping into MultiLanguageProperty
+- [x] T053 [P] [US6] Create test fixture directory `Core.Tests/AasGenerator/TestJsons/InputMultiLanguagePropertyValidationFailure/` with TemplateSubmodel.json and Data.json for object mapping failure in MultiLanguageProperty
+- [x] T054 [P] [US6] Create test fixture directory `Core.Tests/AasGenerator/TestJsons/InputMLPValidationFailureArray/` with TemplateSubmodel.json and Data.json for array mapping failure in MultiLanguageProperty
+- [x] T055 [P] [US6] Create test fixture directory `Core.Tests/AasGenerator/TestJsons/InputMLPValidationFailureNestedArray/` with TemplateSubmodel.json and Data.json for nested array/object mapping failure in MultiLanguageProperty
+- [x] T056 [P] [US6] Create test fixture directories `Core.Tests/AasGenerator/TestJsons/InputMLPValidationSuccessInteger/`, `Core.Tests/AasGenerator/TestJsons/InputMLPValidationSuccessBoolean/`, and `Core.Tests/AasGenerator/TestJsons/InputMLPValidationSuccessFloat/` for numeric/boolean scalar-to-text success cases
+- [x] T057 [US6] Add test methods `AddDataToAasAsync_InputMultiLanguagePropertyValidationSuccess_Success`, `AddDataToAasAsync_InputMultiLanguagePropertyValidationFailure_ShouldFail`, `AddDataToAasAsync_InputMLPValidationFailureArray_ShouldFail`, `AddDataToAasAsync_InputMLPValidationFailureNestedArray_ShouldFail`, `AddDataToAasAsync_InputMLPValidationSuccessInteger_Success`, `AddDataToAasAsync_InputMLPValidationSuccessBoolean_Success`, and `AddDataToAasAsync_InputMLPValidationSuccessFloat_Success` in Core.Tests/AasGenerator/AasGeneratorTests.cs
+- [x] T058 [US6] Add MultiLanguageProperty value-shape validation in `AssignValueField()` to reject non-scalar JSON token types (object/array) while allowing string, number, boolean, and null in MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs
 
 **Checkpoint**: Value type validation catches type mismatches and warns on unknown types.
 

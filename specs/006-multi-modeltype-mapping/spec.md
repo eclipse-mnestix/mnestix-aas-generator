@@ -110,6 +110,9 @@ As a template author, I want the generator to validate that mapped values confor
 2. **Given** a blueprint Property with `valueType: xs:integer` and qualifier `SMT/MappingInfo/value` set to `product.name`, **When** input data contains `{"product": {"name": "Widget"}}`, **Then** the generator raises a validation error indicating the mapped value does not conform to `xs:integer`.
 3. **Given** a blueprint Property with `valueType: xs:dateTime` and qualifier `SMT/MappingInfo/value` set to `event.timestamp`, **When** input data contains a valid ISO 8601 datetime string, **Then** validation passes.
 4. **Given** a blueprint Property with an unknown `valueType` (e.g., `xs:customType`) and qualifier `SMT/MappingInfo/value`, **When** the generator processes the template, **Then** the value is passed through without validation and a warning is logged indicating the valueType is not recognized.
+5. **Given** a blueprint MultiLanguageProperty with qualifier `SMT/MappingInfo/value` set to `product.name`, **When** input data contains a string scalar, **Then** the generated MultiLanguageProperty `value` contains one language-text entry with the mapped text.
+6. **Given** a blueprint MultiLanguageProperty with qualifier `SMT/MappingInfo/value` set to `product.price` or `product.active`, **When** input data contains a numeric or boolean scalar, **Then** the generator converts it to text and writes it as the MultiLanguageProperty language-text value.
+7. **Given** a blueprint MultiLanguageProperty with qualifier `SMT/MappingInfo/value` set to an object or array path, **When** the generator processes the template, **Then** the generator raises a validation error indicating only scalar or null input is allowed for MultiLanguageProperty value mapping.
 
 ---
 
@@ -119,6 +122,7 @@ As a template author, I want the generator to validate that mapped values confor
 - What happens when multiple `SMT/MappingInfo/<FieldName>` qualifiers exist on the same element targeting the same field? → Generator MUST fail with an error indicating duplicate field mapping detected.
 - What happens when an `idShort` mapping produces a value with characters invalid in AAS idShort (e.g., containing dots or slashes)? → Auto-sanitize: replace invalid characters with underscores, prepend `i` if the result starts with a non-letter character (e.g., `"123abc"` → `"i123abc"`, `"_value"` → `"i_value"`), and log a warning.
 - How does the system behave when a `SMT/MappingInfo/value` qualifier coexists with a legacy `SMT/MappingInfo` qualifier on the same element? → Generator MUST fail with an error indicating duplicate field mapping detected.
+- What happens when `SMT/MappingInfo/value` targets a MultiLanguageProperty and the expression resolves to an object or array? → Generator MUST fail with a clear error indicating MultiLanguageProperty accepts only scalar or null values.
 
 ## Requirements *(mandatory)*
 
@@ -144,6 +148,7 @@ As a template author, I want the generator to validate that mapped values confor
 - **FR-018**: System MUST fail with a clear error if multiple qualifiers on the same element resolve to the same target field (e.g., both `SMT/MappingInfo` and `SMT/MappingInfo/value` on one element).
 - **FR-019**: For `SMT/MappingInfo/value`, the system MUST validate that the mapped value conforms to the element's declared `valueType` (e.g., `xs:string`, `xs:integer`, `xs:dateTime`, `xs:boolean`, `xs:double`) and raise a validation error on type mismatch.
 - **FR-020**: If the element's `valueType` is not recognized by the validator, the system MUST pass the value through without validation and log a warning.
+- **FR-021**: For `SMT/MappingInfo/value` on `MultiLanguageProperty`, the system MUST accept only scalar JSON token types (`string`, `number`, `boolean`, `null`), convert the mapped token to text, and map it to the current language entry; it MUST fail for `array` or `object` results.
 
 ### Key Entities
 
