@@ -158,7 +158,8 @@ public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<Da
                 throw new SubmodelDataToInstanceMapperException(
                     $"MultiLanguageProperty expects a string, number, boolean, or null value, but got {dataFromMappingPath.Type}", ctx);
             }
-            blueprintValue.Replace(ConvertToMultiLanguageProperty(dataFromMappingPath.ToString(), language)); return;
+            blueprintValue.Replace(ConvertToMultiLanguageProperty(dataFromMappingPath.ToString(), language));
+            return;
         }
 
         blueprintValue.Replace(dataFromMappingPath);

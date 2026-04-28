@@ -36,7 +36,7 @@
 
 | FieldName | Target | Applicable Model Types | Expression Returns |
 |-----------|--------|----------------------|-------------------|
-| `value` | Element value | Property, Range, Blob, MultiLanguageProperty | For Property/Range/Blob: valueType-compatible data; for MultiLanguageProperty: scalar (`string`, `number`, `boolean`, `null`) converted to text |
+| `value` | Element value | Property, Blob, MultiLanguageProperty | For Property/Range/Blob: valueType-compatible data; for MultiLanguageProperty: scalar (`string`, `number`, `boolean`, `null`) converted to text |
 | `idShort` | Element identifier | All | String (auto-sanitized to `[a-zA-Z][a-zA-Z0-9_]*`) |
 | `globalAssetId` | Entity asset reference | Entity | String (URI) |
 | `entityType` | Entity type enum | Entity | String (`SelfManagedEntity` or `CoManagedEntity`) |

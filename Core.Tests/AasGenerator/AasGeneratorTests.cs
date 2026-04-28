@@ -305,6 +305,12 @@ public class AasGeneratorTests
     {
         await RunDataIngestTest("InputMLPValidationSuccessFloat");
     }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMLPValidationSuccessNull_Success()
+    {
+        await RunDataIngestTest("InputMLPValidationSuccessNull");
+    }
     
     private async Task RunDataIngestTest(string testCaseName)
     {
