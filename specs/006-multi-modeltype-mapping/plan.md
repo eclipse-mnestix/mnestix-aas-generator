@@ -81,6 +81,13 @@ Core.Tests/
 │       ├── InputValueTypeValidationSuccess/        # NEW: valueType validation pass test
 │       ├── InputValueTypeValidationFailure/        # NEW: valueType validation fail test
 │       ├── InputValueTypeUnknown/                  # NEW: unknown valueType pass-through test
+│       ├── InputMultiLanguagePropertyValidationSuccess/ # NEW: MLP string scalar mapping success
+│       ├── InputMultiLanguagePropertyValidationFailure/ # NEW: MLP object mapping failure
+│       ├── InputMLPValidationFailureArray/         # NEW: MLP array mapping failure
+│       ├── InputMLPValidationFailureNestedArray/   # NEW: MLP nested array mapping failure
+│       ├── InputMLPValidationSuccessInteger/       # NEW: MLP integer scalar mapping success
+│       ├── InputMLPValidationSuccessBoolean/       # NEW: MLP boolean scalar mapping success
+│       ├── InputMLPValidationSuccessFloat/         # NEW: MLP float scalar mapping success
 │       └── InputHierarchicalStructures/            # NEW: end-to-end HierarchicalStructures test
 
 wiki/
