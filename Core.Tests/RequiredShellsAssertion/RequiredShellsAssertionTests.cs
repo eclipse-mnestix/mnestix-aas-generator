@@ -62,7 +62,7 @@ public class RequiredShellsAssertionTests
         var repoProxyClientMock = new Mock<IRepoProxyClient>();
         repoProxyClientMock
             .Setup(client => client.GetAsync(It.IsAny<string>()))
-            .ReturnsAsync((true, string.Empty));
+            .ReturnsAsync(string.Empty);
 
         var configurationOptions = new ConfigurationOptions
         {

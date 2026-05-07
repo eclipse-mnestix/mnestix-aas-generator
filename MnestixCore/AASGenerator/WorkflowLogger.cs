@@ -10,7 +10,7 @@ public sealed class WorkflowLogger
 {
     private readonly ILogger _logger;
 
-    public IList<string> Logs { get; } = new List<string>();
+    public List<string> Logs { get; } = new List<string>();
 
     public WorkflowLogger(ILogger logger)
     {
@@ -37,9 +37,6 @@ public sealed class WorkflowLogger
 
     public void AddRange(IEnumerable<string> entries)
     {
-        foreach (var entry in entries)
-        {
-            Logs.Add(entry);
-        }
+        Logs.AddRange(entries);
     }
 }

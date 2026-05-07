@@ -34,7 +34,7 @@ public class ConfigurationService : IConfigurationService
 
     public async Task<JObject?> GetIdGenerationSettings()
     {
-        var (_, result) = await _repoProxyClient.GetAsync($"{_repoProxyOptions.SubmodelPath}/{_base64ConfigurationSmId}");
+        var result = await _repoProxyClient.GetAsync($"{_repoProxyOptions.SubmodelPath}/{_base64ConfigurationSmId}");
 
         if (string.IsNullOrWhiteSpace(result)) {
             _logger.LogWarning("No configuration submodel found");

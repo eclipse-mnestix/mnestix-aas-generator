@@ -25,7 +25,7 @@ public class RepoProxyClient(
 
 
     /// <inheritdoc />
-    public async Task<(bool IsSuccess, string Result)> GetAsync(string repoProxyPath)
+    public async Task<string?> GetAsync(string repoProxyPath)
     {
         try
         {
@@ -33,14 +33,9 @@ public class RepoProxyClient(
             var request = new RestRequest("/" + repoProxyPath);
             request.AddHeader(ApiKeyHeaderKey, _customerEndpointsSecurityOptions.ApiKey);
 
-            var response = await client.ExecuteAsync(request);
+            var response = await client.GetAsync(request);
 
-            if (response.IsSuccessful == false || response.Content == null)
-            {
-                return new ValueTuple<bool, string>(false, response.ErrorMessage ?? "Could not get from repository.");
-            }
-
-            return new ValueTuple<bool, string>(true, response.Content);
+            return response.Content;
         }
         catch (Exception ex) when (ex is not RepoProxyException)
         {

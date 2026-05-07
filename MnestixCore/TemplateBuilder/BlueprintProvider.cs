@@ -51,7 +51,7 @@ public class BlueprintProvider : IBlueprintProvider
         }
 
         var submodelsRefsFromRepo = await _repoProxyClient.GetAsync($"{_repoProxyOptions.AasPath}/{_base64BlueprintAasId}/submodel-refs");
-        var submodelRefs = JObject.Parse(submodelsRefsFromRepo.Result);
+        var submodelRefs = JObject.Parse(submodelsRefsFromRepo!);
 
         var submodelsIds = _submodelHandler.GetSubmodelsIdsFromSubmodelsRefs(submodelRefs);
 
@@ -68,7 +68,7 @@ public class BlueprintProvider : IBlueprintProvider
         }
 
         var submodelFromRepo = await _repoProxyClient.GetAsync(_repoProxyOptions.SubmodelPath + "/" + submodelIdShort);
-        return JObject.Parse(submodelFromRepo.Result);
+        return JObject.Parse(submodelFromRepo!);
     }
 
     private async Task<string> GetBlueprintsFromReference(IEnumerable<string> submodelsIds)
@@ -77,7 +77,7 @@ public class BlueprintProvider : IBlueprintProvider
         submodels.Append('[');
         foreach (var submodelIdEncoded in submodelsIds.Select(Base64StringDeAndEncoder.EncodeTo64))
         {
-            var (_, result) = await _repoProxyClient.GetAsync(_repoProxyOptions.SubmodelPath + "/" + submodelIdEncoded);
+            var result = await _repoProxyClient.GetAsync(_repoProxyOptions.SubmodelPath + "/" + submodelIdEncoded);
             if(JsonHelper.IsValidJson(result)){
                 submodels.Append(result + ",");
             }

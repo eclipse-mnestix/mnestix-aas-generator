@@ -30,7 +30,7 @@ public class BlueprintProviderTest
         // ARRANGE
 
         var repoProxyClientMock = new Mock<IRepoProxyClient>();
-        repoProxyClientMock.Setup(s => s.GetAsync(BlueprintPath)).ReturnsAsync((true, _reference));
+        repoProxyClientMock.Setup(s => s.GetAsync(BlueprintPath)).ReturnsAsync(_reference);
 
         var submodelHandlerMock =  new Mock<ISubmodelHandler>();
         submodelHandlerMock.Setup(sh => sh.GetSubmodelsIdsFromSubmodelsRefs(It.IsAny<JObject>()))
@@ -67,7 +67,7 @@ public class BlueprintProviderTest
         var pathToCall = SubmodelPath + "/" + submodelIdentifier;
     
         var repoProxyClientMock = new Mock<IRepoProxyClient>();
-        repoProxyClientMock.Setup(s => s.GetAsync(pathToCall)).ReturnsAsync((true, _blueprint));
+        repoProxyClientMock.Setup(s => s.GetAsync(pathToCall)).ReturnsAsync(_blueprint);
     
         var submodelHandlerMock =  new Mock<ISubmodelHandler>();
 

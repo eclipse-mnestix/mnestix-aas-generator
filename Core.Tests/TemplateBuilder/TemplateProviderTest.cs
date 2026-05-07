@@ -35,10 +35,10 @@ public class TemplateProviderTest
         var template = TestFileProvider.GetTemplateSubmodelNameplate();
 
         repoProxyClientMock.Setup(s => s.GetAsync(pathToCall))
-            .ReturnsAsync((true, reference));
+            .ReturnsAsync(reference);
 
         repoProxyClientMock.Setup(s => s.GetAsync(pathToCallSubmodel))
-            .ReturnsAsync((true, template));
+            .ReturnsAsync(template);
 
         var submodelHandlerMock = new Mock<ISubmodelHandler>();
         submodelHandlerMock.Setup(sh => sh.GetSubmodelsIdsFromSubmodelsRefs(It.IsAny<JObject>()))

@@ -679,6 +679,82 @@ public class AasGeneratorTests
         allLogs.Should().Contain("Blueprint fetch failed");
     }
 
+    // T025: Preamble appears as the first log entry when provided
+    [Test]
+    public async Task AddDataToAasAsync_WithPreamble_PreambleIsFirstLogEntry()
+    {
+        // ARRANGE
+        var templateSubmodel = DataIngestTestFileProvider.GetTemplateSubmodel("MandatoryAndOptionalField");
+        var templateData = DataIngestTestFileProvider.GetData("MandatoryAndOptionalField");
+        var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
+
+        _templateSubmodelsProviderMock
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .ReturnsAsync(templateSubmodel);
+
+        _repoProxyClientMock
+            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync("created");
+
+        // ACT
+        var result = await _aasGenerator.AddDataToAasAsync(TestBase64EncodedAasId, templateIds, templateData, "en", debug: true, preamble: "Called by integration test XYZ");
+
+        // ASSERT
+        var first = result.First();
+        first.DebugInfo.Should().NotBeNull();
+        first.DebugInfo!.Logs.Should().NotBeNull();
+        first.DebugInfo.Logs!.First().Should().Contain("Called by integration test XYZ");
+    }
+
+    // T026: No preamble provided means first log is the blueprint mapping entry
+    [Test]
+    public async Task AddDataToAasAsync_WithoutPreamble_FirstLogIsBlueprintMapping()
+    {
+        // ARRANGE
+        var templateSubmodel = DataIngestTestFileProvider.GetTemplateSubmodel("MandatoryAndOptionalField");
+        var templateData = DataIngestTestFileProvider.GetData("MandatoryAndOptionalField");
+        var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
+
+        _templateSubmodelsProviderMock
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .ReturnsAsync(templateSubmodel);
+
+        _repoProxyClientMock
+            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync("created");
+
+        // ACT
+        var result = await _aasGenerator.AddDataToAasAsync(TestBase64EncodedAasId, templateIds, templateData, "en", debug: true, preamble: null);
+
+        // ASSERT
+        var first = result.First();
+        first.DebugInfo.Should().NotBeNull();
+        first.DebugInfo!.Logs.Should().NotBeNull();
+        first.DebugInfo.Logs!.First().Should().Contain("Mapping blueprint");
+    }
+
+    // T027: Error with debug=false still returns null DebugInfo
+    [Test]
+    public async Task AddDataToAasAsync_ErrorWithDebugFalse_ReturnsNullDebugInfo()
+    {
+        // ARRANGE
+        var templateIds = new List<string> { "urn:smtemplate:NonExistent" };
+
+        _templateSubmodelsProviderMock
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .ThrowsAsync(new Exception("Not found"));
+
+        // ACT
+        var result = await _aasGenerator.AddDataToAasAsync(TestBase64EncodedAasId, templateIds, new JObject(), "en", debug: false);
+
+        // ASSERT
+        var first = result.First();
+        first.Success.Should().BeFalse();
+        first.DebugInfo.Should().BeNull();
+        first.ErrorInfo.Should().NotBeNull();
+        first.ErrorInfo!.Logs.Should().NotBeEmpty();
+    }
+
     // T023: All log entries match the format pattern SEVERITY [timestamp] - message
     [Test]
     public async Task AddDataToAasAsync_DebugTrue_AllLogEntriesMatchFormatConvention()
