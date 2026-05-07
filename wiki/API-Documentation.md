@@ -66,7 +66,7 @@ If you want to create an AAS with submodels, include a JSON body:
 | `blueprintsIds` | string[] | No | List of blueprint IDs to use for submodel generation |
 | `data` | object | No | JSON data to map into the submodel templates |
 | `language` | string | No | Language code for MultiLanguageProperties (e.g., `"en"`, `"de"`) |
-| `debug` | boolean | No | Include debug logs in response (default: `false`) |
+| `debug` | boolean | No | Include workflow logs in response (default: `false`). When enabled, the response includes a chronological log trail spanning all generation phases: blueprint retrieval, ID generation, data mapping, and repository persistence. |
 
 #### Response
 
@@ -89,6 +89,7 @@ If you want to create an AAS with submodels, include a JSON body:
   ]
 }
 ```
+
 
 **Error (400 Bad Request)**
 
@@ -137,11 +138,11 @@ POST /api/v2/DataIngest/{base64EncodedAasId}
 | `blueprintsIds` | string[] | Yes | List of blueprint IDs to generate submodels from |
 | `data` | object | Yes | JSON data to map into templates. Use `{}` if no mapping is defined. |
 | `language` | string | Yes | Language code for MultiLanguageProperties (e.g., `"en"`, `"de"`) |
-| `debug` | boolean | No | Include debug logs in response (default: `false`) |
+| `debug` | boolean | No | Include workflow logs in response (default: `false`). When enabled, the response includes a chronological log trail spanning all generation phases: blueprint retrieval, ID generation, data mapping, and repository persistence. |
 
 #### Response
 
-**Success (200 OK)**
+**Success (200 OK)** — with `debug: true`
 
 ```json
 {
@@ -152,14 +153,49 @@ POST /api/v2/DataIngest/{base64EncodedAasId}
       "message": "",
       "generatedSubmodelId": "https://example.com/submodels/contact-001",
       "debugInfo": {
-        "logs": ["Step 1: DeepCloneTemplate completed", "..."]
+        "logs": [
+          "INFO [2026-04-24T10:30:01.0000000Z] - Mapping blueprint contact-template-v1 to AAS aHR0cHM6Ly9leGFtcGxlLmNvbS9hYXMvbXktbWFjaGluZQ==",
+          "INFO [2026-04-24T10:30:01.1000000Z] - Fetching blueprint: contact-template-v1",
+          "INFO [2026-04-24T10:30:01.2000000Z] - Blueprint fetched successfully",
+          "INFO [2026-04-24T10:30:01.2100000Z] - Extracted idShort: ContactInformation",
+          "INFO [2026-04-24T10:30:01.2200000Z] - Generating submodel ID",
+          "INFO [2026-04-24T10:30:01.3000000Z] - Submodel ID generated: https://example.com/submodels/contact-001",
+          "INFO [2026-04-24T10:30:01.3100000Z] - Starting data mapping",
+          "INFO [2026-04-24T10:30:01.3200000Z] - Started DeepCloneTemplateStep",
+          "INFO [2026-04-24T10:30:01.3300000Z] - Finished DeepCloneTemplateStep",
+          "INFO [2026-04-24T10:30:01.3400000Z] - Started MapDataToInstanceStep",
+          "INFO [2026-04-24T10:30:01.3500000Z] - Finished MapDataToInstanceStep",
+          "INFO [2026-04-24T10:30:01.3600000Z] - Data mapping completed",
+          "INFO [2026-04-24T10:30:02.0000000Z] - Posting submodel to repository",
+          "INFO [2026-04-24T10:30:02.1000000Z] - Adding submodel reference to shell",
+          "INFO [2026-04-24T10:30:02.2000000Z] - Submodel reference added to shell"
+        ]
       }
     }
   ]
 }
 ```
 
+**Success (200 OK)** — with `debug: false` (default)
+
+```json
+{
+  "results": [
+    {
+      "blueprintId": "contact-template-v1",
+      "success": true,
+      "message": "",
+      "generatedSubmodelId": "https://example.com/submodels/contact-001"
+    }
+  ]
+}
+```
+
+> **Note**: When `debug` is `false` or omitted, the `debugInfo` field is `null` and omitted from the response.
+
 **Error (400 Bad Request)**
+
+On error, `errorInfo.logs` always contains the workflow log trail up to (and including) the failure point, regardless of the `debug` flag:
 
 ```json
 {
@@ -170,7 +206,15 @@ POST /api/v2/DataIngest/{base64EncodedAasId}
       "message": "Missing required data at path: contacts.name",
       "generatedSubmodelId": "",
       "errorInfo": {
-        "logs": ["Error occurred during mapping"],
+        "logs": [
+          "INFO [2026-04-24T10:30:01.0000000Z] - Mapping blueprint contact-template-v1 to AAS aHR0cHM6Ly9leGFtcGxlLmNvbS9hYXMvbXktbWFjaGluZQ==",
+          "INFO [2026-04-24T10:30:01.1000000Z] - Fetching blueprint: contact-template-v1",
+          "INFO [2026-04-24T10:30:01.2000000Z] - Blueprint fetched successfully",
+          "INFO [2026-04-24T10:30:01.2200000Z] - Generating submodel ID",
+          "INFO [2026-04-24T10:30:01.3000000Z] - Submodel ID generated: https://example.com/submodels/contact-001",
+          "INFO [2026-04-24T10:30:01.3100000Z] - Starting data mapping",
+          "ERROR [2026-04-24T10:30:01.3200000Z] - Data mapping failed: Missing required data at path: contacts.name"
+        ],
         "qualifier": "SMT/MappingInfo",
         "qualifierPath": "contacts.name"
       }

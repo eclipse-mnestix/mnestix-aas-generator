@@ -8,6 +8,7 @@ using MnestixCore.Dtos.AppSettingsOptions;
 using MnestixCore.Errors;
 using MnestixCore.IdGenerator.Interfaces;
 using MnestixCore.RepoProxyClient.Interfaces;
+using MnestixCore.Shared;
 using MnestixCore.TemplateBuilder.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -56,171 +57,132 @@ public class AasGenerator : IAasGenerator
     /// <param name="language">Preferred language code for localized text within the generated submodels.</param>
     /// <param name="debug">Whether to include debug logs in the results.</param>
     /// <returns>Collection of results indicating success or failure for each processed blueprint.</returns>
-    public async Task<IEnumerable<AasGeneratorResult>> AddDataToAasAsync(string base64EncodedAasId, IEnumerable<string> blueprintsIds, JObject data, string language, bool debug = false)
+    public async Task<IEnumerable<AasGeneratorResult>> AddDataToAasAsync(string base64EncodedAasId, IEnumerable<string> blueprintsIds, JObject data, string language, bool debug = false, string? preamble = null)
     {
         var blueprintsResults = blueprintsIds.Select(async blueprintId =>
         {
-            var (blueprintError, blueprint) = await TryGetBlueprintFromBlueprintProviderAsync(blueprintId);
-            if (blueprintError != null)
-            {
-                return blueprintError;
-            }
+            var workflowLogger = new WorkflowLogger(_logger);
 
-            var (shortIdError, blueprintShortId) = TryGetIdShortFromBlueprint(blueprint!, blueprintId);
-            if (shortIdError != null)
+            if (preamble != null)
             {
-                return shortIdError;
+                workflowLogger.LogInfo(preamble);
             }
+            workflowLogger.LogInfo($"Mapping blueprint {blueprintId} to AAS {base64EncodedAasId}");
 
-            var (idGeneratorError, newSubmodelId) = await TryGenerateSubmodelIdAsync(blueprintId);
-            if (idGeneratorError != null)
+            try
             {
-                return idGeneratorError;
+                var blueprint = await GetBlueprintAsync(blueprintId, workflowLogger);
+                ValidateIdShort(blueprint, blueprintId, workflowLogger);
+                var newSubmodelId = await GenerateSubmodelIdAsync(workflowLogger);
+                var instance = MapDataToInstance(blueprint, data, language, newSubmodelId, workflowLogger);
+                await AddSubmodelToAasAsync(base64EncodedAasId, instance, workflowLogger);
+
+                return new AasGeneratorResult
+                {
+                    Success = true,
+                    BlueprintId = blueprintId,
+                    GeneratedSubmodelId = newSubmodelId,
+                    DebugInfo = debug ? new AasGeneratorDebugInfo { Logs = workflowLogger.Logs } : null
+                };
             }
-
-            var (mappingError, instance, logs) = TryMapDataToInstance(blueprint!, data, language, blueprintId, newSubmodelId!, debug);
-            if (mappingError != null)
+            catch (SubmodelDataToInstanceMapperException e)
             {
-                return mappingError;
+                _logger.LogError(e, "Failed to map data to instance. BlueprintId: {BlueprintId}, Message: {Message}", blueprintId, e.Message);
+                return new AasGeneratorResult
+                {
+                    Success = false,
+                    BlueprintId = blueprintId,
+                    Message = e.Message,
+                    ErrorInfo = new AasGeneratorErrorInfo
+                    {
+                        Logs = workflowLogger.Logs,
+                        Qualifier = e.Context?.Qualifier.ToString(Formatting.None),
+                        QualifierPath = e.Context?.Qualifier.Path
+                    },
+                    DebugInfo = debug ? new AasGeneratorDebugInfo { Logs = workflowLogger.Logs } : null
+                };
             }
-
-            var errorWhileAdding = await TryAddSubmodelToAasAsync(base64EncodedAasId, instance!, blueprintId);
-            if (errorWhileAdding != null)
+            catch (Exception e)
             {
-                return errorWhileAdding;
+                _logger.LogError(e, "Blueprint workflow failed. BlueprintId: {BlueprintId}, Message: {Message}", blueprintId, e.Message);
+                return new AasGeneratorResult
+                {
+                    Success = false,
+                    BlueprintId = blueprintId,
+                    Message = e.Message,
+                    ErrorInfo = new AasGeneratorErrorInfo { Logs = workflowLogger.Logs },
+                    DebugInfo = debug ? new AasGeneratorDebugInfo { Logs = workflowLogger.Logs } : null
+                };
             }
-
-            // when everything went through, we can return a success for this blueprint id
-            return new AasGeneratorResult
-            {
-                Success = true,
-                BlueprintId = blueprintId,
-                GeneratedSubmodelId = newSubmodelId!,
-                DebugInfo = debug && logs != null ? new AasGeneratorDebugInfo { Logs = logs } : null
-            };
         });
 
         return await Task.WhenAll(blueprintsResults);
     }
 
-    /// <summary>
-    /// Attempts to fetch a blueprint from the provider and wraps any failure into an <see cref="AasGeneratorResult"/>.
-    /// </summary>
-    /// <param name="blueprintId">Identifier of the blueprint to retrieve.</param>
-    /// <returns>Tuple containing an error result or the fetched blueprint.</returns>
-    private async Task<(AasGeneratorResult? Error, JObject? Result)> TryGetBlueprintFromBlueprintProviderAsync(string blueprintId)
+    private async Task<JObject> GetBlueprintAsync(string blueprintId, WorkflowLogger workflowLogger)
     {
-        var base64BlueprintId = Base64UrlTextEncoder.Encode(Encoding.UTF8.GetBytes(blueprintId));
+        var base64BlueprintId = Base64StringDeAndEncoder.EncodeTo64(blueprintId);
 
+        workflowLogger.LogInfo($"Fetching blueprint: {blueprintId}");
         try
         {
             var blueprint = await _blueprintProvider.GetBlueprintAsync(base64BlueprintId);
-            return (null, blueprint);
+            workflowLogger.LogInfo("Blueprint fetched successfully");
+            return blueprint;
         }
         catch (Exception e)
         {
-            var error = new AasGeneratorResult
-            {
-                Message = "Failed to fetch blueprint from blueprint provider: " + e.Message,
-                BlueprintId = blueprintId,
-                Success = false
-            };
-            _logger.LogError(e, $"Failed to fetch blueprint from blueprint provider. BlueprintId: {blueprintId}, Message: {e.Message}");
-            return (error, null);
+            workflowLogger.LogError($"Blueprint fetch failed: {e.Message}");
+            throw;
         }
     }
 
-    /// <summary>
-    /// Maps incoming data onto the provided blueprint while handling mapping failures.
-    /// </summary>
-    /// <param name="blueprint">Blueprint that should receive the payload values.</param>
-    /// <param name="data">Payload values to apply.</param>
-    /// <param name="language">Language code used for localization during mapping.</param>
-    /// <param name="blueprintId">Identifier of the processed blueprint.</param>
-    /// <param name="newSubmodelId">Identifier allocated for the produced submodel instance.</param>
-    /// <param name="debug">Whether to include debug logs in the result.</param>
-    /// <returns>Tuple containing an error result or the generated submodel instance with optional logs.</returns>
-    private (AasGeneratorResult? Error, JObject? Result, IList<string>? Logs) TryMapDataToInstance(JObject blueprint, JObject data, string language, string blueprintId, string newSubmodelId, bool debug)
+    private JObject MapDataToInstance(JObject blueprint, JObject data, string language, string newSubmodelId, WorkflowLogger workflowLogger)
     {
+        workflowLogger.LogInfo("Starting data mapping");
         try
         {
-            var (instance, context) = _dataToInstanceMapper.CreateSubmodelInstanceFromDataJson(blueprint, data, language, newSubmodelId);
-            return (null, instance, debug ? context.Logs : null);
+            var (instance, _) = _dataToInstanceMapper.CreateSubmodelInstanceFromDataJson(blueprint, data, language, newSubmodelId, workflowLogger);
+            workflowLogger.LogInfo("Data mapping completed");
+            return instance;
         }
         catch (SubmodelDataToInstanceMapperException e)
         {
-            var error = new AasGeneratorResult
-            {
-                Success = false,
-                BlueprintId = blueprintId,
-                Message = e.Message,
-                ErrorInfo = new AasGeneratorErrorInfo
-                {
-                    Logs = e.Context?.Logs,
-                    Qualifier = e.Context?.Qualifier.ToString(Formatting.None),
-                    QualifierPath = e.Context?.Qualifier.Path
-                },
-                DebugInfo = debug && e.Context?.Logs != null ? new AasGeneratorDebugInfo { Logs = e.Context.Logs } : null
-            };
-            _logger.LogError(e, $"Failed to map data to instance. BlueprintId: {blueprintId}, Message: {e.Message}, ErrorInfo: {error.ErrorInfo}");
-            return (error, null, null);
+            workflowLogger.LogError($"Data mapping failed: {e.Message}");
+            throw;
         }
     }
 
-    /// <summary>
-    /// Extracts the submodel short identifier from the blueprint and validates its presence.
-    /// </summary>
-    /// <param name="blueprint">Blueprint that should contain the short identifier.</param>
-    /// <param name="blueprintId">Identifier used in error reporting.</param>
-    /// <returns>Tuple containing an error when the short id is missing or the extracted value.</returns>
-    private (AasGeneratorResult? Error, string? Result) TryGetIdShortFromBlueprint(JObject blueprint, string blueprintId)
+    private void ValidateIdShort(JObject blueprint, string blueprintId, WorkflowLogger workflowLogger)
     {
         var subModelShortId = blueprint["idShort"]?.Value<string>();
         if (subModelShortId == null)
         {
-            var error = new AasGeneratorResult
-            {
-                Success = false,
-                BlueprintId = blueprintId,
-                Message = $"blueprint shortId of {blueprintId} needs to be not null"
-            };
-            return (error, null);
+            workflowLogger.LogError($"Blueprint idShort is null for {blueprintId}");
+            throw new InvalidOperationException($"blueprint idShort of {blueprintId} needs to be not null");
         }
 
-        return (null, subModelShortId);
+        workflowLogger.LogInfo($"Extracted idShort: {subModelShortId}");
     }
 
-    /// <summary>
-    /// Persists a generated submodel instance and links it to the target shell, converting repository errors into results.
-    /// </summary>
-    /// <param name="base64EncodedAasId">Encoded identifier of the shell that receives the submodel reference.</param>
-    /// <param name="submodelInstance">Instance Submodel to store in the repository.</param>
-    /// <param name="blueprintId">Blueprint identifier used for logging and error messages.</param>
-    /// <returns>Null when the operation succeeds or an error result describing the failure.</returns>
-    private async Task<AasGeneratorResult?> TryAddSubmodelToAasAsync(string base64EncodedAasId, JObject submodelInstance, string blueprintId)
+    private async Task AddSubmodelToAasAsync(string base64EncodedAasId, JObject submodelInstance, WorkflowLogger workflowLogger)
     {
+        if (string.IsNullOrWhiteSpace(base64EncodedAasId))
+        {
+            workflowLogger.LogError("The AAS id is empty");
+            throw new ArgumentException("The aas id cannot be empty!", nameof(base64EncodedAasId));
+        }
+
+        var submodelId = submodelInstance["id"]?.Value<string>();
+        if (string.IsNullOrWhiteSpace(submodelId))
+        {
+            workflowLogger.LogError("The submodel id is empty");
+            throw new ArgumentException("The submodel id cannot be empty!");
+        }
+
+        workflowLogger.LogInfo("Posting submodel to repository");
         try
         {
-            if (string.IsNullOrWhiteSpace(base64EncodedAasId))
-            {
-                return new AasGeneratorResult
-                {
-                    Success = false,
-                    BlueprintId = blueprintId,
-                    Message = "The aas id cannot be empty!"
-                };
-            }
-
-            var submodelId = submodelInstance["id"]?.Value<string>();
-            if (string.IsNullOrWhiteSpace(submodelId))
-            {
-                return new AasGeneratorResult
-                {
-                    Success = false,
-                    BlueprintId = blueprintId,
-                    Message = "The submodel id cannot be empty!"
-                };
-            }
             await _repoProxyClient.PostAsync(_repoProxyOptions.SubmodelPath, submodelInstance.ToString());
 
             var submodelReference =
@@ -229,45 +191,32 @@ public class AasGenerator : IAasGenerator
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             });
-            await _repoProxyClient.PostAsync($"shells/{base64EncodedAasId}/submodel-refs", submodelReferenceJson);
 
-            return null;
+            workflowLogger.LogInfo("Adding submodel reference to shell");
+            await _repoProxyClient.PostAsync($"{_repoProxyOptions.AasPath}/{base64EncodedAasId}/submodel-refs", submodelReferenceJson);
+            workflowLogger.LogInfo("Submodel reference added to shell");
         }
         catch (RepoProxyException e)
         {
-            var error = new AasGeneratorResult
-            {
-                Success = false,
-                BlueprintId = blueprintId,
-                Message = e.Message
-            };
-            _logger.LogError(e, $"Failed to add submodel to AAS. BlueprintId: {blueprintId}, AasId: {base64EncodedAasId}, Message: {e.Message}");
-            return error;
+            workflowLogger.LogError($"Repository operation failed: {e.Message}");
+            throw;
         }
     }
 
-    /// <summary>
-    /// Generates a new submodel identifier using the configured generator service.
-    /// </summary>
-    /// <param name="blueprintId">Blueprint identifier used for contextual error reporting.</param>
-    /// <returns>Tuple containing a failure result or the generated identifier.</returns>
-    private async Task<(AasGeneratorResult?, string?)> TryGenerateSubmodelIdAsync(string blueprintId)
+    private async Task<string> GenerateSubmodelIdAsync(WorkflowLogger workflowLogger)
     {
+        workflowLogger.LogInfo("Generating submodel ID");
         try
         {
             var ids = await _idGenerator.GenerateSubmodelIdsAsync();
-            return (null, ids.First());
+            var newId = ids.First();
+            workflowLogger.LogInfo($"Submodel ID generated: {newId}");
+            return newId;
         }
         catch (Exception e)
         {
-            var error = new AasGeneratorResult
-            {
-                Success = false,
-                BlueprintId = blueprintId,
-                Message = "could not generate submodel id"
-            };
-            _logger.LogError(e, $"Could not generate submodel id. BlueprintId: {blueprintId}, Message: {e.Message}");
-            return (error, null);
+            workflowLogger.LogError($"Submodel ID generation failed: {e.Message}");
+            throw;
         }
     }
 }

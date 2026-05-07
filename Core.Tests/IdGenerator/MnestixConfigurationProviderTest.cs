@@ -26,7 +26,7 @@ public class MnestixConfigurationProviderTest
         var aasProviderMock = new Mock<IRepoProxyClient>();
         var submodelWithDynamicPartValues = TestFileProvider.GetIdGeneratorSettingsSubmodelWithDynamicPartValues();
         aasProviderMock.Setup(s => s.GetAsync(It.IsAny<string>()))
-            .ReturnsAsync((true, submodelWithDynamicPartValues));
+            .ReturnsAsync(submodelWithDynamicPartValues);
         
         var repoProxyOptionsMock = new Mock<IOptions<RepoProxyOptions>>();
         repoProxyOptionsMock.Setup(s => s.Value).Returns(new RepoProxyOptions());
@@ -58,7 +58,7 @@ public class MnestixConfigurationProviderTest
         var aasProviderMock = new Mock<IRepoProxyClient>();
         var submodelWithEmptyValues = TestFileProvider.GetIdGeneratorSettingsSubmodelWithValues();
         aasProviderMock.Setup(s => s.GetAsync(It.IsAny<string>()))
-            .ReturnsAsync((true, submodelWithEmptyValues));
+            .ReturnsAsync(submodelWithEmptyValues);
         
         var repoProxyOptionsMock = new Mock<IOptions<RepoProxyOptions>>();
         repoProxyOptionsMock.Setup(s => s.Value).Returns(new RepoProxyOptions());
@@ -90,7 +90,7 @@ public class MnestixConfigurationProviderTest
         var aasProviderMock = new Mock<IRepoProxyClient>();
         var submodelWithEmptyValues = TestFileProvider.GetIdGeneratorSettingsSubmodelWithoutValues();
         aasProviderMock.Setup(s => s.GetAsync(It.IsAny<string>()))
-            .ReturnsAsync((true, submodelWithEmptyValues));
+            .ReturnsAsync(submodelWithEmptyValues);
         
         var repoProxyOptionsMock = new Mock<IOptions<RepoProxyOptions>>();
         repoProxyOptionsMock.Setup(s => s.Value).Returns(new RepoProxyOptions());

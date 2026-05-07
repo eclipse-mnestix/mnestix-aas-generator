@@ -2,10 +2,12 @@
 using MnestixCore.AasGenerator.Interfaces;
 using MnestixCore.Dtos;
 using MnestixCore.Dtos.AppSettingsOptions;
+using MnestixCore.Errors;
 using MnestixCore.IdGenerator.Interfaces;
 using MnestixCore.RepoProxyClient.Interfaces;
 using Core.Tests.TestFiles;
 using FluentAssertions;
+using System.Net;
 using Microsoft.Extensions.Options;
 using Moq;
 
@@ -25,13 +27,12 @@ public class AasCreatorTest
         const string randomAssetIdShort = "assetId123";
         var aasIds = GetTestAasIds(randomAssetIdShort);
 
-        const bool correspondingAasAlreadyExists = false;
         var aasSentToRepo = "";
         var expectedAasSentToRepo = TestFileProvider.GetExampleAasJson();
 
         _aasIdGeneratorService.Setup(a => a.GenerateAasIdsAsync(It.IsAny<string>())).ReturnsAsync(aasIds);
         _repoProxyClientMock.Setup(r => r.GetAsync(It.IsAny<string>()))
-            .ReturnsAsync(new ValueTuple<bool, string>(correspondingAasAlreadyExists, ""));
+            .ThrowsAsync(new RepoProxyException(ErrorCodes.CouldNotGet, "Not found", new HttpRequestException("Not found", null, HttpStatusCode.NotFound)));
         _repoProxyClientMock
             .Setup(r => r.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
             .Callback((string _, string content) => aasSentToRepo = content)
@@ -55,12 +56,11 @@ public class AasCreatorTest
         var randomAssetIdShort = Guid.NewGuid().ToString();
         var aasIds = GetTestAasIds(randomAssetIdShort);
 
-        const bool correspondingAasAlreadyExists = true;
         var callsToRepo = 0;
 
         _aasIdGeneratorService.Setup(a => a.GenerateAasIdsAsync(It.IsAny<string>())).ReturnsAsync(aasIds);
         _repoProxyClientMock.Setup(r => r.GetAsync(It.IsAny<string>()))
-            .ReturnsAsync(new ValueTuple<bool, string>(correspondingAasAlreadyExists, ""));
+            .ReturnsAsync("{}");
         _repoProxyClientMock
             .Setup(r => r.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
             .Callback(() => callsToRepo++)

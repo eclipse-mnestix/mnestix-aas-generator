@@ -2,6 +2,7 @@
 using MnestixCore.AasCreator.Interfaces;
 using MnestixCore.AasGenerator.Interfaces;
 using MnestixCore.Dtos.AppSettingsOptions;
+using MnestixCore.Errors;
 using MnestixCore.IdGenerator.Interfaces;
 using MnestixCore.RepoProxyClient.Interfaces;
 using MnestixCore.Shared;
@@ -46,8 +47,15 @@ public class AasCreatorService(
 
     private async Task<bool> IsAasIdAlreadyExisting(string base64EncodedAasId)
     {
-        var existingAasWithThisId = await repoProxyClient.GetAsync($"{_repoProxyOptions.AasPath}/{base64EncodedAasId}");
-        return existingAasWithThisId.IsSuccess;
+        try
+        {
+            await repoProxyClient.GetAsync($"{_repoProxyOptions.AasPath}/{base64EncodedAasId}");
+            return true;
+        }
+        catch (RepoProxyException ex) when (ex.InnerException is HttpRequestException { StatusCode: System.Net.HttpStatusCode.NotFound })
+        {
+            return false;
+        }
     }
 
     /// <inheritdoc />
@@ -97,7 +105,8 @@ public class AasCreatorService(
             }
 
             // Generate and add submodels to the newly created AAS
-            submodelResults = await aasGenerator.AddDataToAasAsync(base64EncodedAasId, blueprintsIds, data, language, debug);
+            submodelResults = await aasGenerator.AddDataToAasAsync(base64EncodedAasId, blueprintsIds, data, language, debug,
+                preamble: $"Created a new AAS with aasId {aasIds.aasId}");
             
             // Check if any submodel generation failed
             if (submodelResults.Any(r => !r.Success))

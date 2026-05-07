@@ -1,13 +1,11 @@
 ﻿using System.Diagnostics;
 using MnestixCore.AasGenerator;
 using MnestixCore.AasGenerator.Interfaces;
-using MnestixCore.AasGenerator.Pipelines;
 using MnestixCore.Dtos.AppSettingsOptions;
 using MnestixCore.IdGenerator.Interfaces;
 using MnestixCore.RepoProxyClient.Interfaces;
 using MnestixCore.TemplateBuilder.Interfaces;
 using FluentAssertions;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -33,13 +31,7 @@ public class AasGeneratorTests
     [SetUp]
     public void SetUp()
     {
-        // Set up a real ServiceProvider for the SubmodelDataToInstanceMapper
-        var services = new ServiceCollection();
-        services.AddLogging(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
-        services.AddTransient<ILogger<DataMappingContext>, Logger<DataMappingContext>>();
-        var serviceProvider = services.BuildServiceProvider();
-        
-        _dataToInstanceMapper = new DataMapper(serviceProvider);
+        _dataToInstanceMapper = new DataMapper();
         _repoProxyClientMock = new Mock<IRepoProxyClient>();
         _templateSubmodelsProviderMock = new Mock<IBlueprintProvider>();
         _idGeneratorMock = new Mock<IAasIdGeneratorService>();
@@ -483,4 +475,357 @@ public class AasGeneratorTests
         // Assert performance requirement (adjust threshold as needed)
         elapsedMs.Should().BeLessThan(30000, "Processing 20,000 elements should complete within 30 seconds");
     }
+
+    #region Workflow Logging Tests
+
+    // T003: Successful generation with debug=true returns DebugInfo.Logs from all workflow phases
+    [Test]
+    public async Task AddDataToAasAsync_DebugTrue_ReturnsWorkflowLogsFromAllPhases()
+    {
+        // ARRANGE
+        var templateSubmodel = DataIngestTestFileProvider.GetTemplateSubmodel("MandatoryAndOptionalField");
+        var templateData = DataIngestTestFileProvider.GetData("MandatoryAndOptionalField");
+        var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
+
+        _templateSubmodelsProviderMock
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .ReturnsAsync(templateSubmodel);
+
+        _repoProxyClientMock
+            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync("created");
+
+        // ACT
+        var result = await _aasGenerator.AddDataToAasAsync(TestBase64EncodedAasId, templateIds, templateData, "en", debug: true);
+
+        // ASSERT
+        var first = result.First();
+        first.Success.Should().BeTrue();
+        first.DebugInfo.Should().NotBeNull();
+        first.DebugInfo!.Logs.Should().NotBeNull();
+        first.DebugInfo.Logs!.Should().NotBeEmpty();
+
+        var allLogs = string.Join("\n", first.DebugInfo.Logs!);
+        allLogs.Should().Contain("Fetching blueprint");
+        allLogs.Should().Contain("Blueprint fetched successfully");
+        allLogs.Should().Contain("Generating submodel ID");
+        allLogs.Should().Contain("Starting data mapping");
+        allLogs.Should().Contain("Data mapping completed");
+        allLogs.Should().Contain("Posting submodel to repository");
+        allLogs.Should().Contain("Submodel reference added to shell");
+    }
+
+    // T004: Successful generation with debug=false returns null DebugInfo
+    [Test]
+    public async Task AddDataToAasAsync_DebugFalse_ReturnsNullDebugInfo()
+    {
+        // ARRANGE
+        var templateSubmodel = DataIngestTestFileProvider.GetTemplateSubmodel("MandatoryAndOptionalField");
+        var templateData = DataIngestTestFileProvider.GetData("MandatoryAndOptionalField");
+        var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
+
+        _templateSubmodelsProviderMock
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .ReturnsAsync(templateSubmodel);
+
+        _repoProxyClientMock
+            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync("created");
+
+        // ACT
+        var result = await _aasGenerator.AddDataToAasAsync(TestBase64EncodedAasId, templateIds, templateData, "en", debug: false);
+
+        // ASSERT
+        var first = result.First();
+        first.Success.Should().BeTrue();
+        first.DebugInfo.Should().BeNull();
+    }
+
+    // T005: Multiple blueprints with debug=true returns independent log trails
+    [Test]
+    public async Task AddDataToAasAsync_MultipleBlueprintsDebugTrue_ReturnsIndependentLogTrails()
+    {
+        // ARRANGE
+        var templateSubmodel = DataIngestTestFileProvider.GetTemplateSubmodel("MandatoryAndOptionalField");
+        var templateData = DataIngestTestFileProvider.GetData("MandatoryAndOptionalField");
+        var templateIds = new List<string> { "urn:smtemplate:Blueprint1", "urn:smtemplate:Blueprint2" };
+
+        _templateSubmodelsProviderMock
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .ReturnsAsync(templateSubmodel);
+
+        _repoProxyClientMock
+            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync("created");
+
+        // ACT
+        var results = (await _aasGenerator.AddDataToAasAsync(TestBase64EncodedAasId, templateIds, templateData, "en", debug: true)).ToList();
+
+        // ASSERT
+        results.Should().HaveCount(2);
+        results[0].DebugInfo.Should().NotBeNull();
+        results[1].DebugInfo.Should().NotBeNull();
+
+        var logs0 = string.Join("\n", results[0].DebugInfo!.Logs!);
+        var logs1 = string.Join("\n", results[1].DebugInfo!.Logs!);
+
+        logs0.Should().Contain("Blueprint1");
+        logs1.Should().Contain("Blueprint2");
+    }
+
+    // T013: Blueprint fetch failure returns ErrorInfo.Logs with retrieval attempt entry
+    [Test]
+    public async Task AddDataToAasAsync_BlueprintFetchFails_ReturnsErrorInfoWithLogs()
+    {
+        // ARRANGE
+        var templateIds = new List<string> { "urn:smtemplate:NonExistent" };
+
+        _templateSubmodelsProviderMock
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .ThrowsAsync(new Exception("Not found"));
+
+        // ACT
+        var result = await _aasGenerator.AddDataToAasAsync(TestBase64EncodedAasId, templateIds, new JObject(), "en");
+
+        // ASSERT
+        var first = result.First();
+        first.Success.Should().BeFalse();
+        first.ErrorInfo.Should().NotBeNull();
+        first.ErrorInfo!.Logs.Should().NotBeNull();
+
+        var allLogs = string.Join("\n", first.ErrorInfo.Logs!);
+        allLogs.Should().Contain("Fetching blueprint");
+        allLogs.Should().Contain("Blueprint fetch failed");
+    }
+
+    // T014: ID generation failure returns ErrorInfo.Logs with blueprint success + ID failure
+    [Test]
+    public async Task AddDataToAasAsync_IdGenerationFails_ReturnsErrorInfoWithLogs()
+    {
+        // ARRANGE
+        var templateSubmodel = DataIngestTestFileProvider.GetTemplateSubmodel("MandatoryAndOptionalField");
+        var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
+
+        _templateSubmodelsProviderMock
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .ReturnsAsync(templateSubmodel);
+
+        _idGeneratorMock
+            .Setup(x => x.GenerateSubmodelIdsAsync(It.IsAny<uint>()))
+            .ThrowsAsync(new Exception("ID service down"));
+
+        // ACT
+        var result = await _aasGenerator.AddDataToAasAsync(TestBase64EncodedAasId, templateIds, new JObject(), "en");
+
+        // ASSERT
+        var first = result.First();
+        first.Success.Should().BeFalse();
+        first.ErrorInfo.Should().NotBeNull();
+        first.ErrorInfo!.Logs.Should().NotBeNull();
+
+        var allLogs = string.Join("\n", first.ErrorInfo.Logs!);
+        allLogs.Should().Contain("Blueprint fetched successfully");
+        allLogs.Should().Contain("Generating submodel ID");
+        allLogs.Should().Contain("Submodel ID generation failed");
+    }
+
+    // T015: Data mapping failure returns ErrorInfo.Logs with preceding steps + preserves Qualifier
+    [Test]
+    public async Task AddDataToAasAsync_DataMappingFails_ReturnsErrorInfoWithLogsAndPreservesQualifier()
+    {
+        // ARRANGE - use a test case known to fail mapping
+        await RunDataIngestFailureTest("InputOnlyOptionalField");
+
+        // The RunDataIngestFailureTest already validates Success=false.
+        // Re-run with debug to check error logs:
+        var templateSubmodel = DataIngestTestFileProvider.GetTemplateSubmodel("InputOnlyOptionalField");
+        var templateData = DataIngestTestFileProvider.GetData("InputOnlyOptionalField");
+        var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
+
+        _templateSubmodelsProviderMock
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .ReturnsAsync(templateSubmodel);
+
+        var result = await _aasGenerator.AddDataToAasAsync(TestBase64EncodedAasId, templateIds, templateData, "en");
+        var first = result.First();
+
+        first.Success.Should().BeFalse();
+        first.ErrorInfo.Should().NotBeNull();
+        first.ErrorInfo!.Logs.Should().NotBeNull();
+
+        var allLogs = string.Join("\n", first.ErrorInfo.Logs!);
+        allLogs.Should().Contain("Blueprint fetched successfully");
+        allLogs.Should().Contain("Starting data mapping");
+        allLogs.Should().Contain("Data mapping failed");
+    }
+
+    // T016: Repo persistence failure returns ErrorInfo.Logs with all preceding step entries
+    [Test]
+    public async Task AddDataToAasAsync_RepoPersistenceFails_ReturnsErrorInfoWithLogs()
+    {
+        // ARRANGE
+        var templateSubmodel = DataIngestTestFileProvider.GetTemplateSubmodel("MandatoryAndOptionalField");
+        var templateData = DataIngestTestFileProvider.GetData("MandatoryAndOptionalField");
+        var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
+
+        _templateSubmodelsProviderMock
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .ReturnsAsync(templateSubmodel);
+
+        _repoProxyClientMock
+            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .ThrowsAsync(new MnestixCore.Errors.RepoProxyException(MnestixCore.Errors.ErrorCodes.CouldNotPutSubmodel, "Repository unavailable"));
+
+        // ACT
+        var result = await _aasGenerator.AddDataToAasAsync(TestBase64EncodedAasId, templateIds, templateData, "en");
+
+        // ASSERT
+        var first = result.First();
+        first.Success.Should().BeFalse();
+        first.ErrorInfo.Should().NotBeNull();
+        first.ErrorInfo!.Logs.Should().NotBeNull();
+
+        var allLogs = string.Join("\n", first.ErrorInfo.Logs!);
+        allLogs.Should().Contain("Blueprint fetched successfully");
+        allLogs.Should().Contain("Submodel ID generated");
+        allLogs.Should().Contain("Data mapping completed");
+        allLogs.Should().Contain("Posting submodel to repository");
+        allLogs.Should().Contain("Repository operation failed");
+    }
+
+    // T024: Error results include DebugInfo.Logs when debug=true
+    [Test]
+    public async Task AddDataToAasAsync_ErrorWithDebugTrue_ReturnsDebugInfoWithLogs()
+    {
+        // ARRANGE
+        var templateIds = new List<string> { "urn:smtemplate:NonExistent" };
+
+        _templateSubmodelsProviderMock
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .ThrowsAsync(new Exception("Not found"));
+
+        // ACT
+        var result = await _aasGenerator.AddDataToAasAsync(TestBase64EncodedAasId, templateIds, new JObject(), "en", debug: true);
+
+        // ASSERT
+        var first = result.First();
+        first.Success.Should().BeFalse();
+        first.DebugInfo.Should().NotBeNull();
+        first.DebugInfo!.Logs.Should().NotBeNull();
+        first.DebugInfo.Logs!.Should().NotBeEmpty();
+
+        var allLogs = string.Join("\n", first.DebugInfo.Logs!);
+        allLogs.Should().Contain("Fetching blueprint");
+        allLogs.Should().Contain("Blueprint fetch failed");
+    }
+
+    // T025: Preamble appears as the first log entry when provided
+    [Test]
+    public async Task AddDataToAasAsync_WithPreamble_PreambleIsFirstLogEntry()
+    {
+        // ARRANGE
+        var templateSubmodel = DataIngestTestFileProvider.GetTemplateSubmodel("MandatoryAndOptionalField");
+        var templateData = DataIngestTestFileProvider.GetData("MandatoryAndOptionalField");
+        var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
+
+        _templateSubmodelsProviderMock
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .ReturnsAsync(templateSubmodel);
+
+        _repoProxyClientMock
+            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync("created");
+
+        // ACT
+        var result = await _aasGenerator.AddDataToAasAsync(TestBase64EncodedAasId, templateIds, templateData, "en", debug: true, preamble: "Called by integration test XYZ");
+
+        // ASSERT
+        var first = result.First();
+        first.DebugInfo.Should().NotBeNull();
+        first.DebugInfo!.Logs.Should().NotBeNull();
+        first.DebugInfo.Logs!.First().Should().Contain("Called by integration test XYZ");
+    }
+
+    // T026: No preamble provided means first log is the blueprint mapping entry
+    [Test]
+    public async Task AddDataToAasAsync_WithoutPreamble_FirstLogIsBlueprintMapping()
+    {
+        // ARRANGE
+        var templateSubmodel = DataIngestTestFileProvider.GetTemplateSubmodel("MandatoryAndOptionalField");
+        var templateData = DataIngestTestFileProvider.GetData("MandatoryAndOptionalField");
+        var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
+
+        _templateSubmodelsProviderMock
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .ReturnsAsync(templateSubmodel);
+
+        _repoProxyClientMock
+            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync("created");
+
+        // ACT
+        var result = await _aasGenerator.AddDataToAasAsync(TestBase64EncodedAasId, templateIds, templateData, "en", debug: true, preamble: null);
+
+        // ASSERT
+        var first = result.First();
+        first.DebugInfo.Should().NotBeNull();
+        first.DebugInfo!.Logs.Should().NotBeNull();
+        first.DebugInfo.Logs!.First().Should().Contain("Mapping blueprint");
+    }
+
+    // T027: Error with debug=false still returns null DebugInfo
+    [Test]
+    public async Task AddDataToAasAsync_ErrorWithDebugFalse_ReturnsNullDebugInfo()
+    {
+        // ARRANGE
+        var templateIds = new List<string> { "urn:smtemplate:NonExistent" };
+
+        _templateSubmodelsProviderMock
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .ThrowsAsync(new Exception("Not found"));
+
+        // ACT
+        var result = await _aasGenerator.AddDataToAasAsync(TestBase64EncodedAasId, templateIds, new JObject(), "en", debug: false);
+
+        // ASSERT
+        var first = result.First();
+        first.Success.Should().BeFalse();
+        first.DebugInfo.Should().BeNull();
+        first.ErrorInfo.Should().NotBeNull();
+        first.ErrorInfo!.Logs.Should().NotBeEmpty();
+    }
+
+    // T023: All log entries match the format pattern SEVERITY [timestamp] - message
+    [Test]
+    public async Task AddDataToAasAsync_DebugTrue_AllLogEntriesMatchFormatConvention()
+    {
+        // ARRANGE
+        var templateSubmodel = DataIngestTestFileProvider.GetTemplateSubmodel("MandatoryAndOptionalField");
+        var templateData = DataIngestTestFileProvider.GetData("MandatoryAndOptionalField");
+        var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
+
+        _templateSubmodelsProviderMock
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .ReturnsAsync(templateSubmodel);
+
+        _repoProxyClientMock
+            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync("created");
+
+        // ACT
+        var result = await _aasGenerator.AddDataToAasAsync(TestBase64EncodedAasId, templateIds, templateData, "en", debug: true);
+
+        // ASSERT
+        var first = result.First();
+        first.DebugInfo.Should().NotBeNull();
+        first.DebugInfo!.Logs.Should().NotBeNull();
+
+        var pattern = new System.Text.RegularExpressions.Regex(@"^(INFO|WARNING|ERROR) \[.+\] - .+$");
+        foreach (var log in first.DebugInfo.Logs!)
+        {
+            pattern.IsMatch(log).Should().BeTrue($"Log entry '{log}' should match SEVERITY [timestamp] - message format");
+        }
+    }
+
+    #endregion
 }

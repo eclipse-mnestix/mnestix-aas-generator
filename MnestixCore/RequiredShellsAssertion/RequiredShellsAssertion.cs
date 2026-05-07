@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MnestixCore.Dtos.AppSettingsOptions;
+using MnestixCore.Errors;
 using MnestixCore.RepoProxyClient.Interfaces;
 using MnestixCore.RequiredShellsAssertion.Interfaces;
 using MnestixCore.Shared;
@@ -195,15 +196,29 @@ public class RequiredShellsAssertion(ILogger<RequiredShellsAssertion> logger,
 
     private async Task<bool> IsAasIdAlreadyExisting(string base64EncodedAasId)
     {
-        var (isSuccess, _) = await repoProxyClient.GetAsync($"{_repoProxyOptions.AasPath}/{base64EncodedAasId}");
-        return isSuccess;
+        try
+        {
+            await repoProxyClient.GetAsync($"{_repoProxyOptions.AasPath}/{base64EncodedAasId}");
+            return true;
+        }
+        catch (RepoProxyException ex) when (ex.InnerException is HttpRequestException { StatusCode: System.Net.HttpStatusCode.NotFound })
+        {
+            return false;
+        }
     }
 
     private async Task<bool> IsSubmodelAlreadyExisting(string submodelIdNotEncoded)
     {
         var base64EncodedSubmodelId = Base64StringDeAndEncoder.EncodeTo64(submodelIdNotEncoded);
-        var (isSuccess, _) = await repoProxyClient.GetAsync($"{_repoProxyOptions.SubmodelPath}/{base64EncodedSubmodelId}");
-        return isSuccess;
+        try
+        {
+            await repoProxyClient.GetAsync($"{_repoProxyOptions.SubmodelPath}/{base64EncodedSubmodelId}");
+            return true;
+        }
+        catch (RepoProxyException ex) when (ex.InnerException is HttpRequestException { StatusCode: System.Net.HttpStatusCode.NotFound })
+        {
+            return false;
+        }
     }
 
     private async Task UploadThumbnailToAas(RequiredShells requiredShell)

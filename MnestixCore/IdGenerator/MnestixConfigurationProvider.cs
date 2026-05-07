@@ -97,7 +97,7 @@ public class MnestixConfigurationProvider : IMnestixConfigurationProvider
     {
         var idGeneratingSettingsSubmodel =
             await _repoProxyClient.GetAsync($"{_repoProxyOptions.SubmodelPath}/{_base64ConfigurationSmId}");
-        var submodel = JObject.Parse(idGeneratingSettingsSubmodel.Result);
+        var submodel = JObject.Parse(idGeneratingSettingsSubmodel!);
 
         return submodel;
     }

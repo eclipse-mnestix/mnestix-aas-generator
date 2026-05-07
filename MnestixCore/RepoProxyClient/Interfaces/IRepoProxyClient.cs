@@ -6,8 +6,8 @@ public interface IRepoProxyClient
     /// Gets a submodel from the given path via the repository proxy.
     /// </summary>
     /// <param name="repoProxyPath">The relative path to the submodel.</param>
-    /// <returns>A task which holds the submodel as a string.</returns>
-    Task<(bool IsSuccess, string Result)> GetAsync(string repoProxyPath);
+    /// <returns>Response content from repository</returns>
+    Task<string?> GetAsync(string repoProxyPath);
 
     /// <summary>
     /// Posts the given <paramref name="jsonContent" /> to the given path via POST-Call to the repository proxy. 

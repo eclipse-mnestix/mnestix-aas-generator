@@ -65,7 +65,7 @@ public class TemplateProvider : ITemplateProvider
         {
             var submodelIdEncoded = Base64StringDeAndEncoder.EncodeTo64(submodelsId);
             var fetchedSubmodel = await _repoProxyClient.GetAsync(_repoProxyOptions.SubmodelPath + "/" + submodelIdEncoded);
-            submodels.Append(fetchedSubmodel.Result + ",");
+            submodels.Append(fetchedSubmodel + ",");
         }
         submodels.Append("]");
 
@@ -74,16 +74,16 @@ public class TemplateProvider : ITemplateProvider
 
     private async Task<JArray> FetchTemplatesFromAasGeneratorApiAsync()
         {
-            var (IsSuccess, Result) = await _repoProxyClient.GetAsync($"{_repoProxyOptions.AasPath}/{_base64TemplateAasId}/submodel-refs");
+            var result = await _repoProxyClient.GetAsync($"{_repoProxyOptions.AasPath}/{_base64TemplateAasId}/submodel-refs");
 
-            if (!IsSuccess)
+            if (string.IsNullOrWhiteSpace(result))
             {
                 const string message = "Failed to fetch submodel references from repository proxy.";
                 _logger.LogError(message);
                 throw new InvalidOperationException(message);
             }
 
-            var submodelRefs = JObject.Parse(Result);
+            var submodelRefs = JObject.Parse(result);
             var submodelsIds = _submodelHandler.GetSubmodelsIdsFromSubmodelsRefs(submodelRefs);
 
             var submodels = await GetTemplatesFromReference(submodelsIds);
