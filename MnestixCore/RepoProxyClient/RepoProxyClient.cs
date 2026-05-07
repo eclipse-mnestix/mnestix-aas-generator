@@ -33,8 +33,8 @@ public class RepoProxyClient(
             var client = await httpClientProvider.GetConfiguredClientAsync(baseUrlProvider.GetBaseUrl());
             var request = new RestRequest("/" + repoProxyPath);
             request.AddHeader(ApiKeyHeaderKey, _customerEndpointsSecurityOptions.ApiKey);
-            // We need to use ExecuteAsync here, because GetAsync does not return the status code in case of an error, which we need for error handling
-            var response = await client.ExecuteAsync(request, Method.Get);
+
+            var response = await client.GetAsync(request);
 
             if (!response.IsSuccessStatusCode)
             {
