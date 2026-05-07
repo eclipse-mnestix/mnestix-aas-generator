@@ -1,13 +1,11 @@
 ﻿using System.Diagnostics;
 using MnestixCore.AasGenerator;
 using MnestixCore.AasGenerator.Interfaces;
-using MnestixCore.AasGenerator.Pipelines;
 using MnestixCore.Dtos.AppSettingsOptions;
 using MnestixCore.IdGenerator.Interfaces;
 using MnestixCore.RepoProxyClient.Interfaces;
 using MnestixCore.TemplateBuilder.Interfaces;
 using FluentAssertions;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -33,13 +31,7 @@ public class AasGeneratorTests
     [SetUp]
     public void SetUp()
     {
-        // Set up a real ServiceProvider for the SubmodelDataToInstanceMapper
-        var services = new ServiceCollection();
-        services.AddLogging(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
-        services.AddTransient<ILogger<DataMappingContext>, Logger<DataMappingContext>>();
-        var serviceProvider = services.BuildServiceProvider();
-        
-        _dataToInstanceMapper = new DataMapper(serviceProvider);
+        _dataToInstanceMapper = new DataMapper();
         _repoProxyClientMock = new Mock<IRepoProxyClient>();
         _templateSubmodelsProviderMock = new Mock<IBlueprintProvider>();
         _idGeneratorMock = new Mock<IAasIdGeneratorService>();

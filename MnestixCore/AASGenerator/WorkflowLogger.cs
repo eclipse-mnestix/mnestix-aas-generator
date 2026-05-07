@@ -34,9 +34,4 @@ public sealed class WorkflowLogger
         Logs.Add($"ERROR [{DateTime.UtcNow:O}] - {message}");
         _logger.LogError(message);
     }
-
-    public void AddRange(IEnumerable<string> entries)
-    {
-        Logs.AddRange(entries);
-    }
 }

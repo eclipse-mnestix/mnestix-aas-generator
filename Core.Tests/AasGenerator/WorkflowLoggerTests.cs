@@ -91,19 +91,6 @@ public class WorkflowLoggerTests
     }
 
     [Test]
-    public void AddRange_MergesExternalEntriesIntoLogs()
-    {
-        _workflowLogger.LogInfo("step 1");
-        var externalLogs = new List<string> { "INFO [2026-01-01T00:00:00Z] - external step A", "WARNING [2026-01-01T00:00:01Z] - external step B" };
-
-        _workflowLogger.AddRange(externalLogs);
-
-        _workflowLogger.Logs.Should().HaveCount(3);
-        _workflowLogger.Logs[1].Should().Contain("external step A");
-        _workflowLogger.Logs[2].Should().Contain("external step B");
-    }
-
-    [Test]
     public void Logs_PreservesChronologicalOrder()
     {
         _workflowLogger.LogInfo("first");

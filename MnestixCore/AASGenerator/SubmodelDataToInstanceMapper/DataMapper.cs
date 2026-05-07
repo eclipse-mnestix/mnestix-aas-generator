@@ -1,5 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using MnestixCore.AasGenerator.Interfaces;
 using MnestixCore.AasGenerator.Pipelines;
 using MnestixCore.AasGenerator.Pipelines.Steps;
@@ -16,13 +14,6 @@ namespace MnestixCore.AasGenerator;
 /// </remarks>
 public sealed class DataMapper : IDataMapper
 {
-    private readonly IServiceProvider _serviceProvider;
-
-    public DataMapper(IServiceProvider serviceProvider)
-    {
-        _serviceProvider = serviceProvider;
-    }
-
     /// <summary>
     /// Builds and executes the mapping pipeline to create a submodel instance from the incoming data payload.
     /// </summary>
@@ -30,11 +21,11 @@ public sealed class DataMapper : IDataMapper
     /// <param name="data">Payload with the values that should be injected into the submodel.</param>
     /// <param name="language">Preferred language code used for localized text elements.</param>
     /// <param name="newSubmodelId">Identifier assigned to the generated submodel instance.</param>
-    /// <returns>Tuple containing the newly created submodel and the context with logs.</returns>
-    public (JObject Instance, DataMappingContext Context) CreateSubmodelInstanceFromDataJson(JObject blueprint, JObject data, string language, string newSubmodelId)
+    /// <param name="workflowLogger">Shared workflow logger for accumulating log entries.</param>
+    /// <returns>Tuple containing the newly created submodel and the context.</returns>
+    public (JObject Instance, DataMappingContext Context) CreateSubmodelInstanceFromDataJson(JObject blueprint, JObject data, string language, string newSubmodelId, WorkflowLogger workflowLogger)
     {
-        var logger = _serviceProvider.GetRequiredService<ILogger<DataMappingContext>>();
-        var context = new DataMappingContext(blueprint, data, language, newSubmodelId, logger);
+        var context = new DataMappingContext(blueprint, data, language, newSubmodelId, workflowLogger);
 
         // Build pipeline with all the steps in the correct order
         var pipeline = new Pipelines.Core.PipelineBuilder<DataMappingContext>()

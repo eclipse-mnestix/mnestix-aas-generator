@@ -142,17 +142,12 @@ public class AasGenerator : IAasGenerator
         workflowLogger.LogInfo("Starting data mapping");
         try
         {
-            var (instance, context) = _dataToInstanceMapper.CreateSubmodelInstanceFromDataJson(blueprint, data, language, newSubmodelId);
-            workflowLogger.AddRange(context.Logs);
+            var (instance, _) = _dataToInstanceMapper.CreateSubmodelInstanceFromDataJson(blueprint, data, language, newSubmodelId, workflowLogger);
             workflowLogger.LogInfo("Data mapping completed");
             return instance;
         }
         catch (SubmodelDataToInstanceMapperException e)
         {
-            if (e.Context?.Logs != null)
-            {
-                workflowLogger.AddRange(e.Context.Logs);
-            }
             workflowLogger.LogError($"Data mapping failed: {e.Message}");
             throw;
         }

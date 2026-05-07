@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 
 namespace MnestixCore.AasGenerator.Pipelines;
@@ -11,8 +10,8 @@ public sealed class DataMappingContext
     public string Language { get; }
     public string NewSubmodelId { get; }
     
-    // Logger for diagnostics
-    private readonly ILogger<DataMappingContext> _logger;
+    // Shared workflow logger
+    private readonly WorkflowLogger _workflowLogger;
 
     // Mutable working object
     public JObject SubmodelInstance { get; set; }
@@ -24,29 +23,27 @@ public sealed class DataMappingContext
     
     public void LogInfo(string message)
     {
-        Logs.Add($"INFO [{DateTime.UtcNow:O}] - {message}");
-        _logger.LogInformation(message);
+        _workflowLogger.LogInfo(message);
     }
     
     public void LogWarning(string message)
     {
-        Logs.Add($"WARNING [{DateTime.UtcNow:O}] - {message}");
-        _logger.LogWarning(message);
+        _workflowLogger.LogWarning(message);
     }
     
-    // Optional: diagnostics/logs for each step
-    public IList<string> Logs { get; } = new List<string>();
+    // Logs are stored in the shared WorkflowLogger
+    public IList<string> Logs => _workflowLogger.Logs;
 
     // Optional: The currently processed qualifiers (for error reporting)
     public JToken Qualifier { get; set; } = new JObject();
 
-    public DataMappingContext(JObject blueprint, JObject data, string language, string newSubmodelId, ILogger<DataMappingContext> logger)
+    public DataMappingContext(JObject blueprint, JObject data, string language, string newSubmodelId, WorkflowLogger workflowLogger)
     {
         Blueprint = blueprint;
         Data = data;
         Language = language;
         NewSubmodelId = newSubmodelId;
-        _logger = logger;
+        _workflowLogger = workflowLogger;
         SubmodelInstance = new JObject();
     }
 }
