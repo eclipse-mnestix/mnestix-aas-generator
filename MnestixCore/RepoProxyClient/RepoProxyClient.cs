@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Net.Http;
 using Microsoft.Extensions.Options;
 using MnestixCore.Dtos.AppSettingsOptions;
 using MnestixCore.Errors;
@@ -32,8 +33,16 @@ public class RepoProxyClient(
             var client = await httpClientProvider.GetConfiguredClientAsync(baseUrlProvider.GetBaseUrl());
             var request = new RestRequest("/" + repoProxyPath);
             request.AddHeader(ApiKeyHeaderKey, _customerEndpointsSecurityOptions.ApiKey);
+            // We need to use ExecuteAsync here, because GetAsync does not return the status code in case of an error, which we need for error handling
+            var response = await client.ExecuteAsync(request, Method.Get);
 
-            var response = await client.GetAsync(request);
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException(
+                    $"Response status code does not indicate success: {(int)response.StatusCode} ({response.StatusCode}).",
+                    null,
+                    response.StatusCode);
+            }
 
             return response.Content;
         }
