@@ -1,4 +1,4 @@
-﻿{
+{
   "semanticId": {
     "keys": [
       {
@@ -26,7 +26,6 @@
     "revision": "0"
   },
   "idShort": "Nameplate",
-  "category": null,
   "modelType": "Submodel",
   "submodelElements": [
     {
@@ -41,7 +40,6 @@
         "type": "ExternalReference"
       },
       "idShort": "URIOfTheProduct",
-      "category": null,
       "modelType": "Property",
       "valueType": "xs:string",
       "qualifiers": [
@@ -79,7 +77,6 @@
         "type": "ExternalReference"
       },
       "idShort": "ManufacturerName",
-      "category": null,
       "modelType": "MultiLanguageProperty",
       "value": [
         {
@@ -122,7 +119,6 @@
         "type": "ExternalReference"
       },
       "idShort": "ManufacturerProductDesignation",
-      "category": null,
       "modelType": "MultiLanguageProperty",
       "value": [
         {
@@ -165,7 +161,6 @@
         "type": "ExternalReference"
       },
       "idShort": "ContactInformation",
-      "category": null,
       "modelType": "SubmodelElementCollection",
       "value": [
         {
@@ -180,7 +175,6 @@
             "type": "ExternalReference"
           },
           "idShort": "RoleOfContactPerson",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
           "qualifiers": [
@@ -218,7 +212,6 @@
             "type": "ExternalReference"
           },
           "idShort": "NationalCode",
-          "category": null,
           "modelType": "MultiLanguageProperty",
           "value": [
             {
@@ -262,7 +255,6 @@
             "type": "ExternalReference"
           },
           "idShort": "Language",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
           "qualifiers": [
@@ -301,7 +293,6 @@
             "type": "ExternalReference"
           },
           "idShort": "TimeZone",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
           "qualifiers": [
@@ -339,7 +330,6 @@
             "type": "ExternalReference"
           },
           "idShort": "CityTown",
-          "category": null,
           "modelType": "MultiLanguageProperty",
           "value": [
             {
@@ -382,7 +372,6 @@
             "type": "ExternalReference"
           },
           "idShort": "Company",
-          "category": null,
           "modelType": "MultiLanguageProperty",
           "value": [
             {
@@ -419,7 +408,6 @@
             "type": "ExternalReference"
           },
           "idShort": "Department",
-          "category": null,
           "modelType": "MultiLanguageProperty",
           "value": [
             {
@@ -456,7 +444,6 @@
             "type": "ExternalReference"
           },
           "idShort": "Phone",
-          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -470,7 +457,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "TelephoneNumber",
-              "category": null,
               "modelType": "MultiLanguageProperty",
               "value": [
                 {
@@ -514,7 +500,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "TypeOfTelephone",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
               "qualifiers": [
@@ -552,7 +537,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "AvailableTime",
-              "category": null,
               "modelType": "MultiLanguageProperty",
               "value": [
                 {
@@ -608,7 +592,6 @@
             "type": "ExternalReference"
           },
           "idShort": "Fax",
-          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -622,7 +605,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "FaxNumber",
-              "category": null,
               "modelType": "MultiLanguageProperty",
               "value": [
                 {
@@ -666,7 +648,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "TypeOfFaxNumber",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
               "qualifiers": [
@@ -723,7 +704,6 @@
             "type": "ExternalReference"
           },
           "idShort": "Email",
-          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -738,7 +718,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "EmailAddress",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
               "qualifiers": [
@@ -770,7 +749,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "PublicKey",
-              "category": null,
               "modelType": "MultiLanguageProperty",
               "value": [],
               "qualifiers": [
@@ -809,7 +787,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "TypeOfEmailAddress",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
               "qualifiers": [
@@ -847,7 +824,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "TypeOfPublicKey",
-              "category": null,
               "modelType": "MultiLanguageProperty",
               "value": [],
               "qualifiers": [
@@ -898,7 +874,6 @@
             "type": "ExternalReference"
           },
           "idShort": "IPCommunication{00}",
-          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -913,7 +888,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "AddressOfAdditionalLink",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
               "qualifiers": [
@@ -946,7 +920,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "TypeOfCommunication",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
               "qualifiers": [
@@ -978,7 +951,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "AvailableTime",
-              "category": null,
               "modelType": "MultiLanguageProperty",
               "value": [
                 {
@@ -1034,7 +1006,6 @@
             "type": "ExternalReference"
           },
           "idShort": "Street",
-          "category": null,
           "modelType": "MultiLanguageProperty",
           "value": [
             {
@@ -1077,7 +1048,6 @@
             "type": "ExternalReference"
           },
           "idShort": "Zipcode",
-          "category": null,
           "modelType": "MultiLanguageProperty",
           "value": [
             {
@@ -1120,7 +1090,6 @@
             "type": "ExternalReference"
           },
           "idShort": "POBox",
-          "category": null,
           "modelType": "MultiLanguageProperty",
           "value": [
             {
@@ -1157,7 +1126,6 @@
             "type": "ExternalReference"
           },
           "idShort": "ZipCodeOfPOBox",
-          "category": null,
           "modelType": "MultiLanguageProperty",
           "value": [
             {
@@ -1200,7 +1168,6 @@
             "type": "ExternalReference"
           },
           "idShort": "StateCounty",
-          "category": null,
           "modelType": "MultiLanguageProperty",
           "value": [
             {
@@ -1237,7 +1204,6 @@
             "type": "ExternalReference"
           },
           "idShort": "NameOfContact",
-          "category": null,
           "modelType": "MultiLanguageProperty",
           "value": [],
           "qualifiers": [
@@ -1269,7 +1235,6 @@
             "type": "ExternalReference"
           },
           "idShort": "FirstName",
-          "category": null,
           "modelType": "MultiLanguageProperty",
           "value": [],
           "qualifiers": [
@@ -1301,7 +1266,6 @@
             "type": "ExternalReference"
           },
           "idShort": "MiddleNames",
-          "category": null,
           "modelType": "MultiLanguageProperty",
           "value": [],
           "qualifiers": [
@@ -1333,7 +1297,6 @@
             "type": "ExternalReference"
           },
           "idShort": "Title",
-          "category": null,
           "modelType": "MultiLanguageProperty",
           "value": [],
           "qualifiers": [
@@ -1365,7 +1328,6 @@
             "type": "ExternalReference"
           },
           "idShort": "AcademicTitle",
-          "category": null,
           "modelType": "MultiLanguageProperty",
           "value": [],
           "qualifiers": [
@@ -1397,7 +1359,6 @@
             "type": "ExternalReference"
           },
           "idShort": "FurtherDetailsOfContact",
-          "category": null,
           "modelType": "MultiLanguageProperty",
           "value": [],
           "qualifiers": [
@@ -1430,7 +1391,6 @@
             "type": "ExternalReference"
           },
           "idShort": "AddressOfAdditionalLink",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
           "qualifiers": [
@@ -1487,7 +1447,6 @@
         "type": "ExternalReference"
       },
       "idShort": "ManufacturerProductRoot",
-      "category": null,
       "modelType": "MultiLanguageProperty",
       "value": [
         {
@@ -1524,7 +1483,6 @@
         "type": "ExternalReference"
       },
       "idShort": "ManufacturerProductFamily",
-      "category": null,
       "modelType": "MultiLanguageProperty",
       "value": [
         {
@@ -1567,7 +1525,6 @@
         "type": "ExternalReference"
       },
       "idShort": "ManufacturerProductType",
-      "category": null,
       "modelType": "MultiLanguageProperty",
       "value": [
         {
@@ -1610,7 +1567,6 @@
         "type": "ExternalReference"
       },
       "idShort": "OrderCodeOfManufacturer",
-      "category": null,
       "modelType": "MultiLanguageProperty",
       "value": [
         {
@@ -1653,7 +1609,6 @@
         "type": "ExternalReference"
       },
       "idShort": "ProductArticleNumberOfManufacturer",
-      "category": null,
       "modelType": "MultiLanguageProperty",
       "value": [
         {
@@ -1697,7 +1652,6 @@
         "type": "ExternalReference"
       },
       "idShort": "SerialNumber",
-      "category": null,
       "modelType": "Property",
       "valueType": "xs:string",
       "qualifiers": [
@@ -1736,7 +1690,6 @@
         "type": "ExternalReference"
       },
       "idShort": "YearOfConstruction",
-      "category": null,
       "modelType": "Property",
       "valueType": "xs:string",
       "qualifiers": [
@@ -1775,7 +1728,6 @@
         "type": "ExternalReference"
       },
       "idShort": "DateOfManufacture",
-      "category": null,
       "modelType": "Property",
       "valueType": "xs:date",
       "qualifiers": [
@@ -1813,7 +1765,6 @@
         "type": "ExternalReference"
       },
       "idShort": "HardwareVersion",
-      "category": null,
       "modelType": "MultiLanguageProperty",
       "value": [
         {
@@ -1856,7 +1807,6 @@
         "type": "ExternalReference"
       },
       "idShort": "FirmwareVersion",
-      "category": null,
       "modelType": "MultiLanguageProperty",
       "value": [
         {
@@ -1899,7 +1849,6 @@
         "type": "ExternalReference"
       },
       "idShort": "SoftwareVersion",
-      "category": null,
       "modelType": "MultiLanguageProperty",
       "value": [
         {
@@ -1943,7 +1892,6 @@
         "type": "ExternalReference"
       },
       "idShort": "CountryOfOrigin",
-      "category": null,
       "modelType": "Property",
       "valueType": "xs:string",
       "qualifiers": [
@@ -1983,7 +1931,6 @@
         "type": "ExternalReference"
       },
       "idShort": "CompanyLogo",
-      "category": null,
       "modelType": "File",
       "qualifiers": [
         {
@@ -2014,7 +1961,6 @@
         "type": "ExternalReference"
       },
       "idShort": "Markings",
-      "category": null,
       "modelType": "SubmodelElementCollection",
       "value": [
         {
@@ -2028,7 +1974,6 @@
             "type": "ExternalReference"
           },
           "idShort": "Marking",
-          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -2043,7 +1988,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "MarkingName",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
               "qualifiers": [
@@ -2082,7 +2026,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "DesignationOfCertificateOrApproval",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
               "qualifiers": [
@@ -2121,9 +2064,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "IssueDate",
-              "category": null,
               "modelType": "Property",
-              "valueType": "xs:Date",
+              "valueType": "xs:date",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -2160,9 +2102,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "ExpiryDate",
-              "category": null,
               "modelType": "Property",
-              "valueType": "xs:Date",
+              "valueType": "xs:date",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -2200,7 +2141,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "MarkingFile",
-              "category": null,
               "modelType": "File",
               "qualifiers": [
                 {
@@ -2232,7 +2172,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "MarkingAdditionalText",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
               "qualifiers": [
@@ -2270,7 +2209,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "ExplosionSafeties",
-              "category": null,
               "modelType": "SubmodelElementCollection",
               "value": [
                 {
@@ -2284,7 +2222,6 @@
                     "type": "ExternalReference"
                   },
                   "idShort": "ExplosionSafety",
-                  "category": null,
                   "modelType": "SubmodelElementCollection",
                   "value": [
                     {
@@ -2299,7 +2236,6 @@
                         "type": "ExternalReference"
                       },
                       "idShort": "DesignationOfCertificateOrApproval",
-                      "category": null,
                       "modelType": "Property",
                       "valueType": "xs:string",
                       "qualifiers": [
@@ -2337,7 +2273,6 @@
                         "type": "ExternalReference"
                       },
                       "idShort": "TypeOfApproval",
-                      "category": null,
                       "modelType": "MultiLanguageProperty",
                       "value": [
                         {
@@ -2380,7 +2315,6 @@
                         "type": "ExternalReference"
                       },
                       "idShort": "ApprovalAgencyTestingAgency",
-                      "category": null,
                       "modelType": "MultiLanguageProperty",
                       "value": [
                         {
@@ -2424,7 +2358,6 @@
                         "type": "ExternalReference"
                       },
                       "idShort": "TypeOfProtection",
-                      "category": null,
                       "modelType": "Property",
                       "valueType": "xs:string",
                       "qualifiers": [
@@ -2463,9 +2396,8 @@
                         "type": "ExternalReference"
                       },
                       "idShort": "RatedInsulationVoltage",
-                      "category": null,
                       "modelType": "Property",
-                      "valueType": "xs:Decimal",
+                      "valueType": "xs:decimal",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -2501,7 +2433,6 @@
                         "type": "ExternalReference"
                       },
                       "idShort": "InstructionsControlDrawing",
-                      "category": null,
                       "modelType": "ReferenceElement",
                       "qualifiers": [
                         {
@@ -2539,7 +2470,6 @@
                         "type": "ExternalReference"
                       },
                       "idShort": "SpecificConditionsForUse",
-                      "category": null,
                       "modelType": "Property",
                       "valueType": "xs:string",
                       "qualifiers": [
@@ -2578,7 +2508,6 @@
                         "type": "ExternalReference"
                       },
                       "idShort": "IncompleteDevice",
-                      "category": null,
                       "modelType": "Property",
                       "valueType": "xs:string",
                       "qualifiers": [
@@ -2610,7 +2539,6 @@
                         "type": "ExternalReference"
                       },
                       "idShort": "AmbientConditions",
-                      "category": null,
                       "modelType": "SubmodelElementCollection",
                       "value": [
                         {
@@ -2625,7 +2553,6 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "DeviceCategory",
-                          "category": null,
                           "modelType": "Property",
                           "valueType": "xs:string",
                           "qualifiers": [
@@ -2663,7 +2590,6 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "EquipmentProtectionLevel",
-                          "category": null,
                           "modelType": "MultiLanguageProperty",
                           "value": [
                             {
@@ -2707,7 +2633,6 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "RegionalSpecificMarking",
-                          "category": null,
                           "modelType": "Property",
                           "valueType": "xs:string",
                           "qualifiers": [
@@ -2740,7 +2665,6 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "TypeOfProtection",
-                          "category": null,
                           "modelType": "Property",
                           "valueType": "xs:string",
                           "qualifiers": [
@@ -2779,7 +2703,6 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "ExplosionGroup",
-                          "category": null,
                           "modelType": "Property",
                           "valueType": "xs:string",
                           "qualifiers": [
@@ -2818,9 +2741,8 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "MinimumAmbientTemperature",
-                          "category": null,
                           "modelType": "Property",
-                          "valueType": "xs:Decimal",
+                          "valueType": "xs:decimal",
                           "qualifiers": [
                             {
                               "semanticId": {
@@ -2857,9 +2779,8 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "MaxAmbientTemperature",
-                          "category": null,
                           "modelType": "Property",
-                          "valueType": "xs:Decimal",
+                          "valueType": "xs:decimal",
                           "qualifiers": [
                             {
                               "semanticId": {
@@ -2896,9 +2817,8 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "MaxSurfaceTemperatureForDustProof",
-                          "category": null,
                           "modelType": "Property",
-                          "valueType": "xs:Decimal",
+                          "valueType": "xs:decimal",
                           "qualifiers": [
                             {
                               "semanticId": {
@@ -2935,7 +2855,6 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "TemperatureClass",
-                          "category": null,
                           "modelType": "Property",
                           "valueType": "xs:string",
                           "qualifiers": [
@@ -2998,7 +2917,6 @@
                         "type": "ExternalReference"
                       },
                       "idShort": "ProcessConditions",
-                      "category": null,
                       "modelType": "SubmodelElementCollection",
                       "value": [
                         {
@@ -3013,7 +2931,6 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "DeviceCategory",
-                          "category": null,
                           "modelType": "Property",
                           "valueType": "xs:string",
                           "qualifiers": [
@@ -3051,7 +2968,6 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "EquipmentProtectionLevel",
-                          "category": null,
                           "modelType": "MultiLanguageProperty",
                           "value": [
                             {
@@ -3095,7 +3011,6 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "RegionalSpecificMarking",
-                          "category": null,
                           "modelType": "Property",
                           "valueType": "xs:string",
                           "qualifiers": [
@@ -3128,7 +3043,6 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "TypeOfProtection",
-                          "category": null,
                           "modelType": "Property",
                           "valueType": "xs:string",
                           "qualifiers": [
@@ -3167,7 +3081,6 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "ExplosionGroup",
-                          "category": null,
                           "modelType": "Property",
                           "valueType": "xs:string",
                           "qualifiers": [
@@ -3206,9 +3119,8 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "LowerLimitingValueOfProcessTemperature",
-                          "category": null,
                           "modelType": "Property",
-                          "valueType": "xs:Decimal",
+                          "valueType": "xs:decimal",
                           "qualifiers": [
                             {
                               "semanticId": {
@@ -3245,9 +3157,8 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "UpperLimitingValueOfProcessTemperature",
-                          "category": null,
                           "modelType": "Property",
-                          "valueType": "xs:Decimal",
+                          "valueType": "xs:decimal",
                           "qualifiers": [
                             {
                               "semanticId": {
@@ -3284,9 +3195,8 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "MaxSurfaceTemperatureForDustProof",
-                          "category": null,
                           "modelType": "Property",
-                          "valueType": "xs:Decimal",
+                          "valueType": "xs:decimal",
                           "qualifiers": [
                             {
                               "semanticId": {
@@ -3323,7 +3233,6 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "TemperatureClass",
-                          "category": null,
                           "modelType": "Property",
                           "valueType": "xs:string",
                           "qualifiers": [
@@ -3386,7 +3295,6 @@
                         "type": "ExternalReference"
                       },
                       "idShort": "ExternalElectricalCircuit",
-                      "category": null,
                       "modelType": "SubmodelElementCollection",
                       "value": [
                         {
@@ -3401,7 +3309,6 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "DesignationOfElectricalTerminal",
-                          "category": null,
                           "modelType": "Property",
                           "valueType": "xs:string",
                           "qualifiers": [
@@ -3440,7 +3347,6 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "TypeOfProtection",
-                          "category": null,
                           "modelType": "Property",
                           "valueType": "xs:string",
                           "qualifiers": [
@@ -3478,7 +3384,6 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "EquipmentProtectionLevel",
-                          "category": null,
                           "modelType": "MultiLanguageProperty",
                           "value": [
                             {
@@ -3522,7 +3427,6 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "ExplosionGroup",
-                          "category": null,
                           "modelType": "Property",
                           "valueType": "xs:string",
                           "qualifiers": [
@@ -3561,7 +3465,6 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "Characteristics",
-                          "category": null,
                           "modelType": "Property",
                           "valueType": "xs:string",
                           "qualifiers": [
@@ -3600,7 +3503,6 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "Fisco",
-                          "category": null,
                           "modelType": "Property",
                           "valueType": "xs:string",
                           "qualifiers": [
@@ -3639,7 +3541,6 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "TwoWISE",
-                          "category": null,
                           "modelType": "Property",
                           "valueType": "xs:string",
                           "qualifiers": [
@@ -3677,7 +3578,6 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "SafetyRelatedPropertiesForPassiveBehaviour",
-                          "category": null,
                           "modelType": "SubmodelElementCollection",
                           "value": [
                             {
@@ -3692,9 +3592,8 @@
                                 "type": "ExternalReference"
                               },
                               "idShort": "MaxInputPower",
-                              "category": null,
                               "modelType": "Property",
-                              "valueType": "xs:Decimal",
+                              "valueType": "xs:decimal",
                               "qualifiers": [
                                 {
                                   "semanticId": {
@@ -3731,9 +3630,8 @@
                                 "type": "ExternalReference"
                               },
                               "idShort": "MaxInputVoltage",
-                              "category": null,
                               "modelType": "Property",
-                              "valueType": "xs:Decimal",
+                              "valueType": "xs:decimal",
                               "qualifiers": [
                                 {
                                   "semanticId": {
@@ -3770,9 +3668,8 @@
                                 "type": "ExternalReference"
                               },
                               "idShort": "MaxInputCurrent",
-                              "category": null,
                               "modelType": "Property",
-                              "valueType": "xs:Decimal",
+                              "valueType": "xs:decimal",
                               "qualifiers": [
                                 {
                                   "semanticId": {
@@ -3809,9 +3706,8 @@
                                 "type": "ExternalReference"
                               },
                               "idShort": "MaxInternalCapacitance",
-                              "category": null,
                               "modelType": "Property",
-                              "valueType": "xs:Decimal",
+                              "valueType": "xs:decimal",
                               "qualifiers": [
                                 {
                                   "semanticId": {
@@ -3848,9 +3744,8 @@
                                 "type": "ExternalReference"
                               },
                               "idShort": "MaxInternalInductance",
-                              "category": null,
                               "modelType": "Property",
-                              "valueType": "xs:Decimal",
+                              "valueType": "xs:decimal",
                               "qualifiers": [
                                 {
                                   "semanticId": {
@@ -3911,7 +3806,6 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "SafetyRelatedPropertiesForActiveBehaviour",
-                          "category": null,
                           "modelType": "SubmodelElementCollection",
                           "value": [
                             {
@@ -3926,9 +3820,8 @@
                                 "type": "ExternalReference"
                               },
                               "idShort": "MaxOutputPower",
-                              "category": null,
                               "modelType": "Property",
-                              "valueType": "xs:Decimal",
+                              "valueType": "xs:decimal",
                               "qualifiers": [
                                 {
                                   "semanticId": {
@@ -3965,9 +3858,8 @@
                                 "type": "ExternalReference"
                               },
                               "idShort": "MaxOutputVoltage",
-                              "category": null,
                               "modelType": "Property",
-                              "valueType": "xs:Decimal",
+                              "valueType": "xs:decimal",
                               "qualifiers": [
                                 {
                                   "semanticId": {
@@ -4004,9 +3896,8 @@
                                 "type": "ExternalReference"
                               },
                               "idShort": "MaxOutputCurrent",
-                              "category": null,
                               "modelType": "Property",
-                              "valueType": "xs:Decimal",
+                              "valueType": "xs:decimal",
                               "qualifiers": [
                                 {
                                   "semanticId": {
@@ -4043,9 +3934,8 @@
                                 "type": "ExternalReference"
                               },
                               "idShort": "MaxExternalCapacitance",
-                              "category": null,
                               "modelType": "Property",
-                              "valueType": "xs:Decimal",
+                              "valueType": "xs:decimal",
                               "qualifiers": [
                                 {
                                   "semanticId": {
@@ -4082,9 +3972,8 @@
                                 "type": "ExternalReference"
                               },
                               "idShort": "MaxExternalInductance",
-                              "category": null,
                               "modelType": "Property",
-                              "valueType": "xs:Decimal",
+                              "valueType": "xs:decimal",
                               "qualifiers": [
                                 {
                                   "semanticId": {
@@ -4121,9 +4010,8 @@
                                 "type": "ExternalReference"
                               },
                               "idShort": "MaxExternalInductanceResistanceRatio",
-                              "category": null,
                               "modelType": "Property",
-                              "valueType": "xs:Decimal",
+                              "valueType": "xs:decimal",
                               "qualifiers": [
                                 {
                                   "semanticId": {
@@ -4280,7 +4168,6 @@
         "type": "ExternalReference"
       },
       "idShort": "AssetSpecificProperties",
-      "category": null,
       "modelType": "SubmodelElementCollection",
       "value": [
         {
@@ -4294,7 +4181,6 @@
             "type": "ExternalReference"
           },
           "idShort": "GuidelineSpecificProperties{00}",
-          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -4309,7 +4195,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "GuidelineForConformityDeclaration",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
               "qualifiers": [
@@ -4342,7 +4227,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "{arbitrary}",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
               "qualifiers": [
@@ -4394,7 +4278,6 @@
             "type": "ExternalReference"
           },
           "idShort": "{arbitrary}",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
           "qualifiers": [

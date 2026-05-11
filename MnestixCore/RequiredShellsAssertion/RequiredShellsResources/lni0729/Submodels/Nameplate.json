@@ -1,7 +1,6 @@
 {
   "idShort": "Nameplate",
   "id": "https://aas.uni-h.de/sm/aHR0cHM6Ly9hYXMyLnVuaS1oLmRlL2Fhcy9sbmkwNzI5_DNP",
-  "dataSpecification": [],
   "embeddedDataSpecifications": [],
   "modelType": "Submodel",
   "kind": "Instance",
@@ -28,17 +27,6 @@
       },
       "idShort": "ManufacturerName",
       "category": "PARAMETER",
-      "kind": "Instance",
-      "parent": {
-        "keys": [
-          {
-            "type": "Submodel",
-            "local": true,
-            "value": "https://aas.uni-h.de/sm/aHR0cHM6Ly9hYXMyLnVuaS1oLmRlL2Fhcy9sbmkwNzI5_DNP",
-            "idType": "IRI"
-          }
-        ]
-      },
       "modelType": "MultiLanguageProperty"
     },
     {
@@ -55,22 +43,9 @@
       "idShort": "SerialNumber",
       "category": "PARAMETER",
       "valueType": "xs:string",
-      "kind": "Instance",
-      "parent": {
-        "keys": [
-          {
-            "type": "Submodel",
-            "local": true,
-            "value": "https://aas.uni-h.de/sm/aHR0cHM6Ly9hYXMyLnVuaS1oLmRlL2Fhcy9sbmkwNzI5_DNP",
-            "idType": "IRI"
-          }
-        ]
-      },
       "modelType": "Property"
     },
     {
-      "ordered": false,
-      "allowDuplicates": false,
       "semanticId": {
         "keys": [
           {
@@ -104,7 +79,6 @@
           },
           "idShort": "Department",
           "category": "PARAMETER",
-          "kind": "Instance",
           "modelType": "MultiLanguageProperty"
         },
         {
@@ -129,7 +103,6 @@
           },
           "idShort": "Street",
           "category": "PARAMETER",
-          "kind": "Instance",
           "modelType": "MultiLanguageProperty"
         },
         {
@@ -154,7 +127,6 @@
           },
           "idShort": "Zipcode",
           "category": "PARAMETER",
-          "kind": "Instance",
           "modelType": "MultiLanguageProperty"
         },
         {
@@ -179,7 +151,6 @@
           },
           "idShort": "CityTown",
           "category": "PARAMETER",
-          "kind": "Instance",
           "modelType": "MultiLanguageProperty"
         },
         {
@@ -204,7 +175,6 @@
           },
           "idShort": "NationalCode",
           "category": "PARAMETER",
-          "kind": "Instance",
           "modelType": "MultiLanguageProperty"
         },
         {
@@ -221,12 +191,9 @@
           "idShort": "AddressOfAdditionalLink",
           "category": "PARAMETER",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property"
         },
         {
-          "ordered": false,
-          "allowDuplicates": false,
           "semanticId": {
             "keys": [
               {
@@ -257,7 +224,6 @@
               },
               "idShort": "TelephoneNumber",
               "category": "PARAMETER",
-              "kind": "Instance",
               "modelType": "MultiLanguageProperty"
             },
             {
@@ -274,16 +240,12 @@
               "idShort": "TypeOfTelephone",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property"
             }
           ],
-          "kind": "Instance",
           "modelType": "SubmodelElementCollection"
         },
         {
-          "ordered": false,
-          "allowDuplicates": false,
           "semanticId": {
             "keys": [
               {
@@ -309,11 +271,9 @@
               "idShort": "EmailAddress",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property"
             }
           ],
-          "kind": "Instance",
           "modelType": "SubmodelElementCollection"
         },
         {
@@ -334,7 +294,6 @@
           },
           "idShort": "StateCounty",
           "category": "PARAMETER",
-          "kind": "Instance",
           "modelType": "MultiLanguageProperty",
           "description": [
             {
@@ -344,17 +303,6 @@
           ]
         }
       ],
-      "kind": "Instance",
-      "parent": {
-        "keys": [
-          {
-            "type": "Submodel",
-            "local": true,
-            "value": "https://aas.uni-h.de/sm/aHR0cHM6Ly9hYXMyLnVuaS1oLmRlL2Fhcy9sbmkwNzI5_DNP",
-            "idType": "IRI"
-          }
-        ]
-      },
       "modelType": "SubmodelElementCollection"
     },
     {
@@ -379,21 +327,10 @@
       },
       "idShort": "ManufacturerProductDesignation",
       "category": "PARAMETER",
-      "kind": "Instance",
-      "parent": {
-        "keys": [
-          {
-            "type": "Submodel",
-            "local": true,
-            "value": "https://aas.uni-h.de/sm/aHR0cHM6Ly9hYXMyLnVuaS1oLmRlL2Fhcy9sbmkwNzI5_DNP",
-            "idType": "IRI"
-          }
-        ]
-      },
       "modelType": "MultiLanguageProperty"
     },
     {
-      "value": 2023,
+      "value": "2023",
       "semanticId": {
         "keys": [
           {
@@ -406,17 +343,6 @@
       "idShort": "YearOfConstruction",
       "category": "PARAMETER",
       "valueType": "xs:string",
-      "kind": "Instance",
-      "parent": {
-        "keys": [
-          {
-            "type": "Submodel",
-            "local": true,
-            "value": "https://aas.uni-h.de/sm/aHR0cHM6Ly9hYXMyLnVuaS1oLmRlL2Fhcy9sbmkwNzI5_DNP",
-            "idType": "IRI"
-          }
-        ]
-      },
       "modelType": "Property"
     },
     {
@@ -441,17 +367,6 @@
       },
       "idShort": "ManufacturerProductFamily",
       "category": "PARAMETER",
-      "kind": "Instance",
-      "parent": {
-        "keys": [
-          {
-            "type": "Submodel",
-            "local": true,
-            "value": "https://aas.uni-h.de/sm/aHR0cHM6Ly9hYXMyLnVuaS1oLmRlL2Fhcy9sbmkwNzI5_DNP",
-            "idType": "IRI"
-          }
-        ]
-      },
       "modelType": "MultiLanguageProperty"
     }
   ],

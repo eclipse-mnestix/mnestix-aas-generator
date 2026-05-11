@@ -1,4 +1,4 @@
-﻿{
+{
   "semanticId": {
     "keys": [
       {
@@ -26,7 +26,6 @@
     "revision": "2"
   },
   "idShort": "TechnicalData",
-  "category": null,
   "modelType": "Submodel",
   "kind": "Template",
   "submodelElements": [
@@ -41,7 +40,6 @@
         "type": "ExternalReference"
       },
       "idShort": "GeneralInformation",
-      "category": null,
       "modelType": "SubmodelElementCollection",
       "value": [
         {
@@ -59,7 +57,6 @@
           "category": "PARAMETER",
           "modelType": "Property",
           "valueType": "xs:string",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -111,9 +108,7 @@
             "type": "ExternalReference"
           },
           "idShort": "ManufacturerLogo",
-          "category": null,
           "modelType": "File",
-          "kind": "Template",
           "contentType": "image/png",
           "qualifiers": [
             {
@@ -152,7 +147,6 @@
           "idShort": "ManufacturerProductDesignation",
           "category": "PARAMETER",
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -207,7 +201,6 @@
           "category": "PARAMETER",
           "modelType": "Property",
           "valueType": "xs:string",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -262,7 +255,6 @@
           "category": "PARAMETER",
           "modelType": "Property",
           "valueType": "xs:string",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -314,9 +306,7 @@
             "type": "ExternalReference"
           },
           "idShort": "ProductImage",
-          "category": null,
           "modelType": "File",
-          "kind": "Template",
           "contentType": "image/png",
           "qualifiers": [
             {
@@ -343,7 +333,6 @@
           ]
         }
       ],
-      "kind": "Template",
       "qualifiers": [
         {
           "semanticId": {
@@ -379,7 +368,6 @@
         "type": "ExternalReference"
       },
       "idShort": "ProductClassifications",
-      "category": null,
       "modelType": "SubmodelElementCollection",
       "value": [
         {
@@ -393,7 +381,6 @@
             "type": "ExternalReference"
           },
           "idShort": "ProductClassificationItem",
-          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -411,7 +398,6 @@
               "category": "PARAMETER",
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -466,7 +452,6 @@
               "category": "PARAMETER",
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -521,7 +506,6 @@
               "category": "PARAMETER",
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -562,7 +546,6 @@
               ]
             }
           ],
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -588,7 +571,6 @@
           ]
         }
       ],
-      "kind": "Template",
       "qualifiers": [
         {
           "semanticId": {
@@ -624,7 +606,6 @@
         "type": "ExternalReference"
       },
       "idShort": "TechnicalProperties",
-      "category": null,
       "modelType": "SubmodelElementCollection",
       "value": [
         {
@@ -640,7 +621,6 @@
           "idShort": "{arbitrary}",
           "category": "PARAMETER",
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -695,7 +675,6 @@
           "category": "PARAMETER",
           "modelType": "Property",
           "valueType": "xs:string",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -746,7 +725,6 @@
             "type": "ExternalReference"
           },
           "idShort": "MainSection",
-          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -760,10 +738,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "SubSection",
-              "category": null,
               "modelType": "SubmodelElementCollection",
               "value": [],
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -789,7 +765,6 @@
               ]
             }
           ],
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -825,10 +800,8 @@
             "type": "ExternalReference"
           },
           "idShort": "SubSection",
-          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [],
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -854,7 +827,6 @@
           ]
         }
       ],
-      "kind": "Template",
       "qualifiers": [
         {
           "semanticId": {
@@ -890,7 +862,6 @@
         "type": "ExternalReference"
       },
       "idShort": "FurtherInformation",
-      "category": null,
       "modelType": "SubmodelElementCollection",
       "value": [
         {
@@ -906,7 +877,6 @@
           "idShort": "TextStatement",
           "category": "PARAMETER",
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -961,7 +931,6 @@
           "category": "PARAMETER",
           "modelType": "Property",
           "valueType": "xs:date",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -1002,7 +971,6 @@
           ]
         }
       ],
-      "kind": "Template",
       "qualifiers": [
         {
           "semanticId": {

@@ -1,4 +1,4 @@
-﻿{
+{
   "semanticId": {
     "keys": [
       {
@@ -67,7 +67,6 @@
           "idShort": "Summary",
           "category": "CONSTANT",
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -97,7 +96,6 @@
             "type": "ExternalReference"
           },
           "idShort": "SimPurpose",
-          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -112,10 +110,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "PosSimPurpose",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -146,10 +142,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "NegSimPurpose",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -169,7 +163,6 @@
               ]
             }
           ],
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -200,10 +193,8 @@
             "type": "ExternalReference"
           },
           "idShort": "TypeOfModel",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -234,10 +225,8 @@
             "type": "ExternalReference"
           },
           "idShort": "ScopeOfModel",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -268,10 +257,8 @@
             "type": "ExternalReference"
           },
           "idShort": "LicenseModel",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -302,10 +289,8 @@
             "type": "ExternalReference"
           },
           "idShort": "EngineeringDomain",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -335,7 +320,6 @@
             "type": "ExternalReference"
           },
           "idShort": "Environment",
-          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -350,10 +334,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "OperatingSystem",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -394,10 +376,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "ToolEnvironment",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -429,7 +409,6 @@
               "idShort": "DependencyEnvironment",
               "category": "CONSTANT",
               "modelType": "MultiLanguageProperty",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -460,10 +439,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "VisualizationInformation",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -511,7 +488,6 @@
                   "category": "CONSTANT",
                   "modelType": "Property",
                   "valueType": "xs:string",
-                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -545,7 +521,6 @@
                   "category": "CONSTANT",
                   "modelType": "Property",
                   "valueType": "xs:string",
-                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -579,7 +554,6 @@
                   "category": "CONSTANT",
                   "modelType": "Property",
                   "valueType": "xs:string",
-                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -615,7 +589,6 @@
                     "type": "ExternalReference"
                   },
                   "idShort": "SolverAndTolerances",
-                  "category": null,
                   "modelType": "SubmodelElementCollection",
                   "value": [
                     {
@@ -630,10 +603,8 @@
                         "type": "ExternalReference"
                       },
                       "idShort": "StepSizeControlNeeded",
-                      "category": null,
                       "modelType": "Property",
                       "valueType": "xs:boolean",
-                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -664,10 +635,8 @@
                         "type": "ExternalReference"
                       },
                       "idShort": "FixedStepSize",
-                      "category": null,
                       "modelType": "Property",
                       "valueType": "xs:float",
-                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -698,10 +667,8 @@
                         "type": "ExternalReference"
                       },
                       "idShort": "StiffSolverNeeded",
-                      "category": null,
                       "modelType": "Property",
                       "valueType": "xs:boolean",
-                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -732,10 +699,8 @@
                         "type": "ExternalReference"
                       },
                       "idShort": "SolverIncluded",
-                      "category": null,
                       "modelType": "Property",
                       "valueType": "xs:boolean",
-                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -765,7 +730,6 @@
                         "type": "ExternalReference"
                       },
                       "idShort": "TestedToolSolverAlgorithm",
-                      "category": null,
                       "modelType": "SubmodelElementCollection",
                       "value": [
                         {
@@ -780,10 +744,8 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "SolverAlgorithm",
-                          "category": null,
                           "modelType": "Property",
                           "valueType": "xs:string",
-                          "kind": "Template",
                           "qualifiers": [
                             {
                               "semanticId": {
@@ -814,10 +776,8 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "ToolSolverFurtherDescription",
-                          "category": null,
                           "modelType": "Property",
                           "valueType": "xs:string",
-                          "kind": "Template",
                           "qualifiers": [
                             {
                               "semanticId": {
@@ -848,10 +808,8 @@
                             "type": "ExternalReference"
                           },
                           "idShort": "Tolerance",
-                          "category": null,
                           "modelType": "Property",
                           "valueType": "xs:float",
-                          "kind": "Template",
                           "qualifiers": [
                             {
                               "semanticId": {
@@ -871,7 +829,6 @@
                           ]
                         }
                       ],
-                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -891,7 +848,6 @@
                       ]
                     }
                   ],
-                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -911,7 +867,6 @@
                   ]
                 }
               ],
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -931,7 +886,6 @@
               ]
             }
           ],
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -963,9 +917,7 @@
             "type": "ExternalReference"
           },
           "idShort": "RefSimDocumentation",
-          "category": null,
           "modelType": "File",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -1010,10 +962,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "ModelFileType",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1058,10 +1008,8 @@
                     "type": "ExternalReference"
                   },
                   "idShort": "ModelVersionId",
-                  "category": null,
                   "modelType": "Property",
                   "valueType": "xs:string",
-                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -1095,7 +1043,6 @@
                   "idShort": "ModelPreviewImage",
                   "category": "CONSTANT",
                   "modelType": "File",
-                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -1129,7 +1076,6 @@
                   "idShort": "DigitalFile",
                   "category": "CONSTANT",
                   "modelType": "File",
-                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -1161,7 +1107,6 @@
                   "idShort": "ModelFileReleaseNotesTxt",
                   "category": "",
                   "modelType": "MultiLanguageProperty",
-                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -1193,9 +1138,7 @@
                     "type": "ExternalReference"
                   },
                   "idShort": "ModelFileReleaseNotesFile",
-                  "category": null,
                   "modelType": "File",
-                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -1215,7 +1158,6 @@
                   ]
                 }
               ],
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1235,7 +1177,6 @@
               ]
             }
           ],
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -1266,10 +1207,8 @@
             "type": "ExternalReference"
           },
           "idShort": "ParamMethod",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -1301,9 +1240,7 @@
             "type": "ExternalReference"
           },
           "idShort": "ParamFile",
-          "category": null,
           "modelType": "File",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -1334,10 +1271,8 @@
             "type": "ExternalReference"
           },
           "idShort": "InitStateMethod",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -1369,9 +1304,7 @@
             "type": "ExternalReference"
           },
           "idShort": "InitStateFile",
-          "category": null,
           "modelType": "File",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -1402,10 +1335,8 @@
             "type": "ExternalReference"
           },
           "idShort": "DefaultSimTime",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:float",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -1450,10 +1381,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "Company",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1484,10 +1413,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "Language",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1517,7 +1444,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "Email",
-              "category": null,
               "modelType": "SubmodelElementCollection",
               "value": [
                 {
@@ -1532,10 +1458,8 @@
                     "type": "ExternalReference"
                   },
                   "idShort": "TypeOfEmailAddress",
-                  "category": null,
                   "modelType": "Property",
                   "valueType": "xs:string",
-                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -1566,10 +1490,8 @@
                     "type": "ExternalReference"
                   },
                   "idShort": "EmailAddress",
-                  "category": null,
                   "modelType": "Property",
                   "valueType": "xs:string",
-                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -1600,10 +1522,8 @@
                     "type": "ExternalReference"
                   },
                   "idShort": "TypeOfPublicKey",
-                  "category": null,
                   "modelType": "Property",
                   "valueType": "xs:string",
-                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -1634,10 +1554,8 @@
                     "type": "ExternalReference"
                   },
                   "idShort": "PublicKey",
-                  "category": null,
                   "modelType": "Property",
                   "valueType": "xs:string",
-                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -1657,7 +1575,6 @@
                   ]
                 }
               ],
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1687,7 +1604,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "Phone",
-              "category": null,
               "modelType": "SubmodelElementCollection",
               "value": [
                 {
@@ -1702,10 +1618,8 @@
                     "type": "ExternalReference"
                   },
                   "idShort": "TypeOfTelephone",
-                  "category": null,
                   "modelType": "Property",
                   "valueType": "xs:string",
-                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -1736,10 +1650,8 @@
                     "type": "ExternalReference"
                   },
                   "idShort": "TelephoneNumber",
-                  "category": null,
                   "modelType": "Property",
                   "valueType": "xs:string",
-                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -1770,10 +1682,8 @@
                     "type": "ExternalReference"
                   },
                   "idShort": "AvailableTime",
-                  "category": null,
                   "modelType": "Property",
                   "valueType": "xs:string",
-                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -1793,7 +1703,6 @@
                   ]
                 }
               ],
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1813,7 +1722,6 @@
               ]
             }
           ],
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -1843,7 +1751,6 @@
             "type": "ExternalReference"
           },
           "idShort": "Ports",
-          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -1857,7 +1764,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "PortsConnector",
-              "category": null,
               "modelType": "SubmodelElementCollection",
               "value": [
                 {
@@ -1872,10 +1778,8 @@
                     "type": "ExternalReference"
                   },
                   "idShort": "PortConnectorName",
-                  "category": null,
                   "modelType": "Property",
                   "valueType": "xs:string",
-                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -1905,9 +1809,7 @@
                     "type": "ExternalReference"
                   },
                   "idShort": "PortConDescription",
-                  "category": null,
                   "modelType": "MultiLanguageProperty",
-                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -1937,7 +1839,6 @@
                     "type": "ExternalReference"
                   },
                   "idShort": "Variable",
-                  "category": null,
                   "modelType": "SubmodelElementCollection",
                   "value": [
                     {
@@ -1952,10 +1853,8 @@
                         "type": "ExternalReference"
                       },
                       "idShort": "VariableName",
-                      "category": null,
                       "modelType": "Property",
                       "valueType": "xs:string",
-                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -1986,10 +1885,8 @@
                         "type": "ExternalReference"
                       },
                       "idShort": "Range",
-                      "category": null,
                       "modelType": "Property",
                       "valueType": "xs:string",
-                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -2020,10 +1917,8 @@
                         "type": "ExternalReference"
                       },
                       "idShort": "VariableType",
-                      "category": null,
                       "modelType": "Property",
                       "valueType": "xs:string",
-                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -2053,9 +1948,7 @@
                         "type": "ExternalReference"
                       },
                       "idShort": "VariableDescription",
-                      "category": null,
                       "modelType": "MultiLanguageProperty",
-                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -2086,10 +1979,8 @@
                         "type": "ExternalReference"
                       },
                       "idShort": "UnitList",
-                      "category": null,
                       "modelType": "Property",
                       "valueType": "xs:string",
-                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -2119,9 +2010,7 @@
                         "type": "ExternalReference"
                       },
                       "idShort": "UnitDescription",
-                      "category": null,
                       "modelType": "MultiLanguageProperty",
-                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -2152,10 +2041,8 @@
                         "type": "ExternalReference"
                       },
                       "idShort": "VariableCausality",
-                      "category": null,
                       "modelType": "Property",
                       "valueType": "xs:string",
-                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -2186,10 +2073,8 @@
                         "type": "ExternalReference"
                       },
                       "idShort": "VariablePrefix",
-                      "category": null,
                       "modelType": "Property",
                       "valueType": "xs:string",
-                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -2209,7 +2094,6 @@
                       ]
                     }
                   ],
-                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -2230,7 +2114,6 @@
                 },
                 {
                   "idShort": "BinaryConnector",
-                  "category": null,
                   "modelType": "SubmodelElementCollection",
                   "value": [
                     {
@@ -2245,10 +2128,8 @@
                         "type": "ExternalReference"
                       },
                       "idShort": "BinaryConName",
-                      "category": null,
                       "modelType": "Property",
                       "valueType": "xs:string",
-                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -2278,9 +2159,7 @@
                         "type": "ExternalReference"
                       },
                       "idShort": "BinaryConDescription",
-                      "category": null,
                       "modelType": "MultiLanguageProperty",
-                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -2299,11 +2178,9 @@
                         }
                       ]
                     }
-                  ],
-                  "kind": "Template"
+                  ]
                 }
               ],
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -2323,7 +2200,6 @@
               ]
             }
           ],
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {

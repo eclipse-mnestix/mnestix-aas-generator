@@ -1,4 +1,4 @@
-﻿{
+{
   "semanticId": {
     "keys": [
       {
@@ -28,7 +28,6 @@
     }
   ],
   "modelType": "Submodel",
-  "category": null,
   "submodelElements": [
     {
       "semanticId": {
@@ -41,10 +40,7 @@
         "type": "ExternalReference"
       },
       "idShort": "Entity",
-      "kind": "Template",
       "statements": [],
-      "asset": null,
-      "category": null,
       "modelType": "Entity",
       "entityType": "CoManagedEntity",
       "qualifiers": [
@@ -82,8 +78,6 @@
         "type": "ExternalReference"
       },
       "idShort": "Document",
-      "kind": "Template",
-      "category": null,
       "value": [
         {
           "semanticId": {
@@ -96,8 +90,6 @@
             "type": "ExternalReference"
           },
           "idShort": "DocumentId",
-          "kind": "Template",
-          "category": null,
           "value": [
             {
               "semanticId": {
@@ -110,7 +102,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "IsPrimary",
-              "kind": "Template",
               "valueType": "xs:boolean",
               "category": "PARAMETER",
               "value": "",
@@ -165,7 +156,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "DocumentDomainId",
-              "kind": "Template",
               "valueType": "xs:string",
               "category": "PARAMETER",
               "value": "",
@@ -220,7 +210,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "ValueId",
-              "kind": "Template",
               "valueType": "xs:string",
               "category": "PARAMETER",
               "value": "",
@@ -301,8 +290,6 @@
             "type": "ExternalReference"
           },
           "idShort": "DocumentClassification",
-          "kind": "Template",
-          "category": null,
           "value": [
             {
               "semanticId": {
@@ -315,7 +302,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "ClassificationSystem",
-              "kind": "Template",
               "valueType": "xs:string",
               "category": "PARAMETER",
               "value": "",
@@ -370,7 +356,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "ClassName",
-              "kind": "Template",
               "category": "PARAMETER",
               "modelType": "MultiLanguageProperty",
               "value": [],
@@ -424,7 +409,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "ClassId",
-              "kind": "Template",
               "valueType": "xs:string",
               "category": "PARAMETER",
               "value": "",
@@ -505,8 +489,6 @@
             "type": "ExternalReference"
           },
           "idShort": "DocumentVersion",
-          "kind": "Template",
-          "category": null,
           "value": [
             {
               "semanticId": {
@@ -519,7 +501,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "OrganizationName",
-              "kind": "Template",
               "valueType": "xs:string",
               "category": "PARAMETER",
               "value": "",
@@ -574,7 +555,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "StatusSetDate",
-              "kind": "Template",
               "valueType": "xs:date",
               "category": "PARAMETER",
               "value": "",
@@ -629,7 +609,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "RefersTo",
-              "kind": "Template",
               "category": "PARAMETER",
               "modelType": "ReferenceElement",
               "qualifiers": [
@@ -667,8 +646,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "PreviewFile",
-              "kind": "Template",
-              "category": null,
               "modelType": "File",
               "contentType": "application/pdf",
               "qualifiers": [
@@ -721,7 +698,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "Title",
-              "kind": "Template",
               "category": "PARAMETER",
               "modelType": "MultiLanguageProperty",
               "value": [],
@@ -775,7 +751,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "DocumentVersionId",
-              "kind": "Template",
               "valueType": "xs:string",
               "category": "PARAMETER",
               "value": "",
@@ -830,7 +805,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "KeyWords",
-              "kind": "Template",
               "category": "PARAMETER",
               "modelType": "MultiLanguageProperty",
               "value": [],
@@ -884,7 +858,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "Language",
-              "kind": "Template",
               "valueType": "xs:string",
               "category": "PARAMETER",
               "value": "",
@@ -939,7 +912,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "BasedOn",
-              "kind": "Template",
               "category": "PARAMETER",
               "modelType": "ReferenceElement",
               "qualifiers": [
@@ -977,7 +949,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "Summary",
-              "kind": "Template",
               "category": "PARAMETER",
               "modelType": "MultiLanguageProperty",
               "value": [],
@@ -1031,8 +1002,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "DigitalFile",
-              "kind": "Template",
-              "category": null,
               "modelType": "File",
               "contentType": "application/pdf",
               "qualifiers": [
@@ -1085,7 +1054,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "StatusValue",
-              "kind": "Template",
               "valueType": "xs:string",
               "category": "PARAMETER",
               "value": "",
@@ -1140,7 +1108,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "SubTitle",
-              "kind": "Template",
               "category": "PARAMETER",
               "modelType": "MultiLanguageProperty",
               "value": [],
@@ -1194,7 +1161,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "OrganizationOfficialName",
-              "kind": "Template",
               "valueType": "xs:string",
               "category": "PARAMETER",
               "value": "",
@@ -1249,7 +1215,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "TranslationOf",
-              "kind": "Template",
               "category": "PARAMETER",
               "modelType": "ReferenceElement",
               "qualifiers": [
@@ -1313,7 +1278,6 @@
             "type": "ExternalReference"
           },
           "idShort": "DocumentedEntity",
-          "kind": "Template",
           "category": "PARAMETER",
           "modelType": "ReferenceElement",
           "qualifiers": [

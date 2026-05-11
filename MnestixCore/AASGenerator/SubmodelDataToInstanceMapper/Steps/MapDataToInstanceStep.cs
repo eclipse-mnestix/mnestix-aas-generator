@@ -305,6 +305,16 @@ public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<Da
                     CheckIfValueKeyExists(element);
                 }
 
+                // BaSyx Go strips empty-string values on round-trip; ensure Property elements
+                // have a "value" key present (same pattern as MultiLanguageProperty above)
+                if (fieldName == "value" && modelType == "Property")
+                {
+                    if (element["value"] == null)
+                    {
+                        element["value"] = "";
+                    }
+                }
+
                 var mappingPath = qualifier["value"]?.Value<string>() ?? throw new SubmodelDataToInstanceMapperException("Mapping Info cannot be null", ctx);
                 var isMandatory = GetCardinalityQualifier(qualifier)?["value"]?.Value<string>()?.StartsWith("One") ?? false;
                 var dataFromMappingPath = SelectTokenFromDataJson(data, mappingPath, ctx);

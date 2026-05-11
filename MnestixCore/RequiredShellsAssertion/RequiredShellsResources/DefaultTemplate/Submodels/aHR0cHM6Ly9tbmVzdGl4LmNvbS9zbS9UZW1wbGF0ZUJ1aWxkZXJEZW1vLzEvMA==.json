@@ -1,4 +1,4 @@
-﻿{
+{
   "semanticId": {
     "keys": [
       {
@@ -13,7 +13,6 @@
     "version": "1",
     "revision": "0"
   },
-  "dataSpecification": [],
   "qualifiers": [
     {
       "valueType": "xs:string",
@@ -39,7 +38,6 @@
         "type": "ExternalReference"
       },
       "idShort": "Boolean",
-      "kind": "Template",
       "valueType": "xs:boolean",
       "category": "PARAMETER",
       "value": "",
@@ -56,7 +54,6 @@
         "type": "ExternalReference"
       },
       "idShort": "Long",
-      "kind": "Template",
       "valueType": "xs:long",
       "category": "PARAMETER",
       "value": "",
@@ -73,7 +70,6 @@
         "type": "ExternalReference"
       },
       "idShort": "Date",
-      "kind": "Template",
       "valueType": "xs:date",
       "category": "PARAMETER",
       "value": "",

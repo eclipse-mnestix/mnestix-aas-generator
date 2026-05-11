@@ -1,12 +1,23 @@
 ﻿namespace MnestixCore.Dtos.AppSettingsOptions;
 
 /// <summary>
-/// Holds the configuration of the Mongo database used by the BaSyx AasServer and in Mnestix included lookup service.
+/// Holds the configuration of the database used by the BaSyx server and in Mnestix included lookup service.
 /// </summary>
 public class BasyxDbConnectionConfiguration
 {
     /// <summary>
-    /// Connection string for the MongoDb
+    /// Connection string for PostgreSQL (used by BaSyx Go).
+    /// </summary>
+    public string PostgresConnectionString { get; init; } = string.Empty;
+
+    /// <summary>
+    /// Name of the PostgreSQL table where AAS documents are stored.
+    /// Defaults to "aas" which is the BaSyx Go convention.
+    /// </summary>
+    public string AasTableName { get; init; } = "aas";
+
+    /// <summary>
+    /// Connection string for the MongoDb (legacy, used by BaSyx Java).
     /// </summary>
     public string MongoConnectionString { get; init; } = string.Empty;
 

@@ -1,4 +1,4 @@
-﻿{
+{
   "semanticId": {
     "keys": [
       {
@@ -26,7 +26,6 @@
     "revision": "0"
   },
   "idShort": "Reliability",
-  "category": null,
   "modelType": "Submodel",
   "kind": "Template",
   "submodelElements": [
@@ -42,10 +41,8 @@
         "type": "ExternalReference"
       },
       "idShort": "NumberOfReliabilitySets",
-      "category": null,
       "modelType": "Property",
       "valueType": "xs:int",
-      "kind": "Template",
       "description": [
         {
           "language": "en",
@@ -68,7 +65,6 @@
         "type": "ExternalReference"
       },
       "idShort": "OperatingConditionsOfReliabilityCharacteristics",
-      "category": null,
       "modelType": "SubmodelElementCollection",
       "value": [
         {
@@ -81,17 +77,11 @@
               },
               {
                 "type": "GlobalReference",
-                "local": false,
-                "value": "0112/2///61987#ABL838#001",
-                "index": 1,
-                "idType": "IRDI"
+                "value": "0112/2///61987#ABL838#001"
               },
               {
                 "type": "GlobalReference",
-                "local": false,
-                "value": "0112/2///61987#ABI407#004",
-                "index": 2,
-                "idType": "IRDI"
+                "value": "0112/2///61987#ABI407#004"
               }
             ],
             "type": "ExternalReference"
@@ -106,10 +96,8 @@
             "type": "ExternalReference"
           },
           "idShort": "TypeOfVoltage",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
-          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -137,10 +125,8 @@
             "type": "ExternalReference"
           },
           "idShort": "RatedVoltage",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:double",
-          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -168,10 +154,8 @@
             "type": "ExternalReference"
           },
           "idShort": "MinimumRatedVoltage",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:double",
-          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -199,10 +183,8 @@
             "type": "ExternalReference"
           },
           "idShort": "MaximumRatedVoltage",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:double",
-          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -230,10 +212,8 @@
             "type": "ExternalReference"
           },
           "idShort": "RatedOperationalCurrent",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:double",
-          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -251,24 +231,15 @@
               },
               {
                 "type": "GlobalReference",
-                "local": false,
-                "value": "0112/2///62683#ACH674#001",
-                "index": 1,
-                "idType": "IRDI"
+                "value": "0112/2///62683#ACH674#001"
               },
               {
                 "type": "GlobalReference",
-                "local": false,
-                "value": "0112/2///62683#ACH675#001",
-                "index": 2,
-                "idType": "IRDI"
+                "value": "0112/2///62683#ACH675#001"
               },
               {
                 "type": "GlobalReference",
-                "local": false,
-                "value": "0112/2///62683#ACH676#001",
-                "index": 3,
-                "idType": "IRDI"
+                "value": "0112/2///62683#ACH676#001"
               }
             ],
             "type": "ExternalReference"
@@ -283,10 +254,8 @@
             "type": "ExternalReference"
           },
           "idShort": "TypeOfInterlockingDevice",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
-          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -310,10 +279,8 @@
             "type": "ExternalReference"
           },
           "idShort": "OtherOperatingConditions",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
-          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -337,10 +304,8 @@
             "type": "ExternalReference"
           },
           "idShort": "UsefulLifeInNumberOfOperations",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:double",
-          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -364,10 +329,8 @@
             "type": "ExternalReference"
           },
           "idShort": "UsefulLifeInTimeInterval",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:double",
-          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -380,7 +343,6 @@
           ]
         }
       ],
-      "kind": "Template",
       "description": [
         {
           "language": "en",
@@ -403,7 +365,6 @@
         "type": "ExternalReference"
       },
       "idShort": "ReliabilityCharacteristics",
-      "category": null,
       "modelType": "SubmodelElementCollection",
       "value": [
         {
@@ -418,10 +379,8 @@
             "type": "ExternalReference"
           },
           "idShort": "MTTF",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:int",
-          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -457,10 +416,8 @@
             "type": "ExternalReference"
           },
           "idShort": "MTBF",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:int",
-          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -492,10 +449,8 @@
             "type": "ExternalReference"
           },
           "idShort": "B10",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:int",
-          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -504,7 +459,6 @@
           ]
         }
       ],
-      "kind": "Template",
       "description": [
         {
           "language": "en",

@@ -1,4 +1,4 @@
-﻿{
+{
   "semanticId": {
     "keys": [
       {
@@ -26,7 +26,6 @@
     "revision": "0"
   },
   "idShort": "FunctionalSafety",
-  "category": null,
   "modelType": "Submodel",
   "kind": "Template",
   "submodelElements": [
@@ -42,10 +41,8 @@
         "type": "ExternalReference"
       },
       "idShort": "NumberOfFunctionalSafetySetsOfCharacteristics",
-      "category": null,
       "modelType": "Property",
       "valueType": "xs:int",
-      "kind": "Template",
       "description": [
         {
           "language": "en",
@@ -68,7 +65,6 @@
         "type": "ExternalReference"
       },
       "idShort": "OperatingConditionsOfFunctionalSafetyCharacteristics",
-      "category": null,
       "modelType": "SubmodelElementCollection",
       "value": [
         {
@@ -81,17 +77,11 @@
               },
               {
                 "type": "GlobalReference",
-                "local": false,
-                "value": "0112/2///61987#ABL838#001",
-                "index": 1,
-                "idType": "IRDI"
+                "value": "0112/2///61987#ABL838#001"
               },
               {
                 "type": "GlobalReference",
-                "local": false,
-                "value": "0112/2///61987#ABI407#004",
-                "index": 2,
-                "idType": "IRDI"
+                "value": "0112/2///61987#ABI407#004"
               }
             ],
             "type": "ExternalReference"
@@ -106,10 +96,8 @@
             "type": "ExternalReference"
           },
           "idShort": "TypeOfVoltage",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
-          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -137,10 +125,8 @@
             "type": "ExternalReference"
           },
           "idShort": "RatedVoltage",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:double",
-          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -168,10 +154,8 @@
             "type": "ExternalReference"
           },
           "idShort": "MinimumRatedVoltage",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:double",
-          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -199,10 +183,8 @@
             "type": "ExternalReference"
           },
           "idShort": "MaximumRatedVoltage",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:double",
-          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -230,10 +212,8 @@
             "type": "ExternalReference"
           },
           "idShort": "RatedOperationalCurrent",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:double",
-          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -251,24 +231,15 @@
               },
               {
                 "type": "GlobalReference",
-                "local": false,
-                "value": "0112/2///62683#ACH674#001",
-                "index": 1,
-                "idType": "IRDI"
+                "value": "0112/2///62683#ACH674#001"
               },
               {
                 "type": "GlobalReference",
-                "local": false,
-                "value": "0112/2///62683#ACH675#001",
-                "index": 2,
-                "idType": "IRDI"
+                "value": "0112/2///62683#ACH675#001"
               },
               {
                 "type": "GlobalReference",
-                "local": false,
-                "value": "0112/2///62683#ACH676#001",
-                "index": 3,
-                "idType": "IRDI"
+                "value": "0112/2///62683#ACH676#001"
               }
             ],
             "type": "ExternalReference"
@@ -283,10 +254,8 @@
             "type": "ExternalReference"
           },
           "idShort": "TypeOfInterlockingDevice",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
-          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -310,10 +279,8 @@
             "type": "ExternalReference"
           },
           "idShort": "OtherOperatingConditions",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
-          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -337,10 +304,8 @@
             "type": "ExternalReference"
           },
           "idShort": "UsefulLifeInNumberOfOperations",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:double",
-          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -364,10 +329,8 @@
             "type": "ExternalReference"
           },
           "idShort": "UsefulLifeInTimeInterval",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:double",
-          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -380,7 +343,6 @@
           ]
         }
       ],
-      "kind": "Template",
       "description": [
         {
           "language": "en",
@@ -403,7 +365,6 @@
         "type": "ExternalReference"
       },
       "idShort": "SafetyDeviceTypes",
-      "category": null,
       "modelType": "SubmodelElementCollection",
       "value": [
         {
@@ -416,24 +377,15 @@
               },
               {
                 "type": "GlobalReference",
-                "local": false,
-                "value": "0112/2///62683#ACH688",
-                "index": 1,
-                "idType": "IRDI"
+                "value": "0112/2///62683#ACH688"
               },
               {
                 "type": "GlobalReference",
-                "local": false,
-                "value": "0112/2///62683#ACH689",
-                "index": 2,
-                "idType": "IRDI"
+                "value": "0112/2///62683#ACH689"
               },
               {
                 "type": "GlobalReference",
-                "local": false,
-                "value": "0112/2///62683#ACH690",
-                "index": 3,
-                "idType": "IRDI"
+                "value": "0112/2///62683#ACH690"
               }
             ],
             "type": "ExternalReference"
@@ -448,10 +400,8 @@
             "type": "ExternalReference"
           },
           "idShort": "FunctionalSafetyDeviceType",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
-          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -474,7 +424,6 @@
             "type": "ExternalReference"
           },
           "idShort": "SafetySubsystem",
-          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -487,17 +436,11 @@
                   },
                   {
                     "type": "GlobalReference",
-                    "local": false,
-                    "value": "0112/2///62683#ACH671#001",
-                    "index": 1,
-                    "idType": "IRDI"
+                    "value": "0112/2///62683#ACH671#001"
                   },
                   {
                     "type": "GlobalReference",
-                    "local": false,
-                    "value": "0112/2///62683#ACH672#001",
-                    "index": 2,
-                    "idType": "IRDI"
+                    "value": "0112/2///62683#ACH672#001"
                   }
                 ],
                 "type": "ExternalReference"
@@ -512,10 +455,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "SIL",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "description": [
                 {
                   "language": "en",
@@ -539,10 +480,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "PFH",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:double",
-              "kind": "Template",
               "description": [
                 {
                   "language": "en",
@@ -566,10 +505,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "ProofTestInterval",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:double",
-              "kind": "Template",
               "description": [
                 {
                   "language": "en",
@@ -591,31 +528,19 @@
                   },
                   {
                     "type": "GlobalReference",
-                    "local": false,
-                    "value": "0112/2///62683#ACH678#001",
-                    "index": 1,
-                    "idType": "IRDI"
+                    "value": "0112/2///62683#ACH678#001"
                   },
                   {
                     "type": "GlobalReference",
-                    "local": false,
-                    "value": "0112/2///62683#ACH679#001",
-                    "index": 2,
-                    "idType": "IRDI"
+                    "value": "0112/2///62683#ACH679#001"
                   },
                   {
                     "type": "GlobalReference",
-                    "local": false,
-                    "value": "0112/2///62683#ACH680#001",
-                    "index": 3,
-                    "idType": "IRDI"
+                    "value": "0112/2///62683#ACH680#001"
                   },
                   {
                     "type": "GlobalReference",
-                    "local": false,
-                    "value": "0112/2///62683#ACH681#001",
-                    "index": 4,
-                    "idType": "IRDI"
+                    "value": "0112/2///62683#ACH681#001"
                   }
                 ],
                 "type": "ExternalReference"
@@ -629,19 +554,9 @@
                 ],
                 "type": "ExternalReference"
               },
-              "hasDataSpecification": [
-                {
-                  "dataSpecification": {
-                    "keys": []
-                  },
-                  "dataSpecificationContent": null
-                }
-              ],
               "idShort": "PL",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "description": [
                 {
                   "language": "en",
@@ -663,31 +578,19 @@
                   },
                   {
                     "type": "GlobalReference",
-                    "local": false,
-                    "value": "0112/2///62683#ACH683#001",
-                    "index": 1,
-                    "idType": "IRDI"
+                    "value": "0112/2///62683#ACH683#001"
                   },
                   {
                     "type": "GlobalReference",
-                    "local": false,
-                    "value": "0112/2///62683#ACH684#001",
-                    "index": 2,
-                    "idType": "IRDI"
+                    "value": "0112/2///62683#ACH684#001"
                   },
                   {
                     "type": "GlobalReference",
-                    "local": false,
-                    "value": "0112/2///62683#ACH685#001",
-                    "index": 3,
-                    "idType": "IRDI"
+                    "value": "0112/2///62683#ACH685#001"
                   },
                   {
                     "type": "GlobalReference",
-                    "local": false,
-                    "value": "0112/2///62683#ACH686#001",
-                    "index": 4,
-                    "idType": "IRDI"
+                    "value": "0112/2///62683#ACH686#001"
                   }
                 ],
                 "type": "ExternalReference"
@@ -702,10 +605,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "Category",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "description": [
                 {
                   "language": "en",
@@ -718,7 +619,6 @@
               ]
             }
           ],
-          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -741,7 +641,6 @@
             "type": "ExternalReference"
           },
           "idShort": "ElectronicElement",
-          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -756,10 +655,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "MTTFD",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:int",
-              "kind": "Template",
               "description": [
                 {
                   "language": "en",
@@ -783,10 +680,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "RDF",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:int",
-              "kind": "Template",
               "description": [
                 {
                   "language": "en",
@@ -806,10 +701,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "ProofTestInterval",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:double",
-              "kind": "Template",
               "description": [
                 {
                   "language": "en",
@@ -822,7 +715,6 @@
               ]
             }
           ],
-          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -845,7 +737,6 @@
             "type": "ExternalReference"
           },
           "idShort": "ElectromechanicalElement",
-          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -860,10 +751,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "B10D",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:double",
-              "kind": "Template",
               "description": [
                 {
                   "language": "en",
@@ -887,10 +776,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "ProofTestInterval",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:double",
-              "kind": "Template",
               "description": [
                 {
                   "language": "en",
@@ -903,7 +790,6 @@
               ]
             }
           ],
-          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -926,7 +812,6 @@
             "type": "ExternalReference"
           },
           "idShort": "InherentlySafeSubsystem",
-          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -939,17 +824,11 @@
                   },
                   {
                     "type": "GlobalReference",
-                    "local": false,
-                    "value": "0112/2///62683#ACH671#001",
-                    "index": 1,
-                    "idType": "IRDI"
+                    "value": "0112/2///62683#ACH671#001"
                   },
                   {
                     "type": "GlobalReference",
-                    "local": false,
-                    "value": "0112/2///62683#ACH672#001",
-                    "index": 2,
-                    "idType": "IRDI"
+                    "value": "0112/2///62683#ACH672#001"
                   }
                 ],
                 "type": "ExternalReference"
@@ -964,10 +843,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "SIL",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "description": [
                 {
                   "language": "en",
@@ -991,10 +868,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "ProofTestInterval",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:double",
-              "kind": "Template",
               "description": [
                 {
                   "language": "en",
@@ -1016,31 +891,19 @@
                   },
                   {
                     "type": "GlobalReference",
-                    "local": false,
-                    "value": "0112/2///62683#ACH678#001",
-                    "index": 1,
-                    "idType": "IRDI"
+                    "value": "0112/2///62683#ACH678#001"
                   },
                   {
                     "type": "GlobalReference",
-                    "local": false,
-                    "value": "0112/2///62683#ACH679#001",
-                    "index": 2,
-                    "idType": "IRDI"
+                    "value": "0112/2///62683#ACH679#001"
                   },
                   {
                     "type": "GlobalReference",
-                    "local": false,
-                    "value": "0112/2///62683#ACH680#001",
-                    "index": 3,
-                    "idType": "IRDI"
+                    "value": "0112/2///62683#ACH680#001"
                   },
                   {
                     "type": "GlobalReference",
-                    "local": false,
-                    "value": "0112/2///62683#ACH681#001",
-                    "index": 4,
-                    "idType": "IRDI"
+                    "value": "0112/2///62683#ACH681#001"
                   }
                 ],
                 "type": "ExternalReference"
@@ -1055,10 +918,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "PL",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "description": [
                 {
                   "language": "en",
@@ -1080,31 +941,19 @@
                   },
                   {
                     "type": "GlobalReference",
-                    "local": false,
-                    "value": "0112/2///62683#ACH683#001",
-                    "index": 1,
-                    "idType": "IRDI"
+                    "value": "0112/2///62683#ACH683#001"
                   },
                   {
                     "type": "GlobalReference",
-                    "local": false,
-                    "value": "0112/2///62683#ACH684#001",
-                    "index": 2,
-                    "idType": "IRDI"
+                    "value": "0112/2///62683#ACH684#001"
                   },
                   {
                     "type": "GlobalReference",
-                    "local": false,
-                    "value": "0112/2///62683#ACH685#001",
-                    "index": 3,
-                    "idType": "IRDI"
+                    "value": "0112/2///62683#ACH685#001"
                   },
                   {
                     "type": "GlobalReference",
-                    "local": false,
-                    "value": "0112/2///62683#ACH686#001",
-                    "index": 4,
-                    "idType": "IRDI"
+                    "value": "0112/2///62683#ACH686#001"
                   }
                 ],
                 "type": "ExternalReference"
@@ -1119,10 +968,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "Category",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "description": [
                 {
                   "language": "en",
@@ -1135,7 +982,6 @@
               ]
             }
           ],
-          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -1148,7 +994,6 @@
           ]
         }
       ],
-      "kind": "Template",
       "description": [
         {
           "language": "en",

@@ -33,7 +33,8 @@
             {
               "value": "finished",
               "semanticId": {
-                "keys": []
+                "keys": [],
+                "type": "ExternalReference"
               },
               "idShort": "State",
               "modelType": "Property",
@@ -42,7 +43,8 @@
             {
               "value": "2023-04-17T11:53:26Z",
               "semanticId": {
-                "keys": []
+                "keys": [],
+                "type": "ExternalReference"
               },
               "idShort": "TimeStamp",
               "modelType": "Property",
@@ -51,7 +53,8 @@
             {
               "value": "MDZH Konfigurator",
               "semanticId": {
-                "keys": []
+                "keys": [],
+                "type": "ExternalReference"
               },
               "idShort": "ToolName",
               "modelType": "Property",
@@ -495,8 +498,6 @@
               "valueType": "xs:string"
             },
             {
-              "ordered": false,
-              "allowDuplicates": false,
               "semanticId": {
                 "type": "ExternalReference",
                 "keys": [

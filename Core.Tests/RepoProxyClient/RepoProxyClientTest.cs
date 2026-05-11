@@ -7,6 +7,7 @@ using MnestixCore.Errors;
 using MnestixCore.RestClientProvider.Interfaces;
 using MnestixCore.Shared;
 using Moq;
+using Newtonsoft.Json.Linq;
 using RestSharp;
 
 namespace Core.Tests.RepoProxyClient;
@@ -162,6 +163,108 @@ public class RepoProxyClientTest
         ex.Which.ErrorCode.Should().Be(ErrorCodes.CouldNotDelete);
         ex.Which.InnerException.Should().BeOfType<HttpRequestException>();
     }
+
+    #region NormalizeJsonForRepository Tests
+
+    [Test]
+    public void NormalizeJson_ShouldStripNullProperties()
+    {
+        var json = JObject.Parse("{\"id\": \"x\", \"description\": null, \"value\": \"hello\"}");
+        var result = MnestixCore.RepoProxyClient.RepoProxyClient.NormalizeJsonForRepository(json);
+        result["description"].Should().BeNull();
+        result["id"]!.Value<string>().Should().Be("x");
+        result["value"]!.Value<string>().Should().Be("hello");
+    }
+
+    [Test]
+    public void NormalizeJson_ShouldStripDataSpecificationAndHasDataSpecification()
+    {
+        var json = JObject.Parse("{\"id\": \"x\", \"dataSpecification\": [], \"hasDataSpecification\": []}");
+        var result = MnestixCore.RepoProxyClient.RepoProxyClient.NormalizeJsonForRepository(json);
+        result["dataSpecification"].Should().BeNull();
+        result["hasDataSpecification"].Should().BeNull();
+    }
+
+    [Test]
+    public void NormalizeJson_ShouldStripParentBackReferences()
+    {
+        var json = JObject.Parse("{\"idShort\": \"x\", \"parent\": {\"keys\": []}}");
+        var result = MnestixCore.RepoProxyClient.RepoProxyClient.NormalizeJsonForRepository(json);
+        result["parent"].Should().BeNull();
+    }
+
+    [Test]
+    public void NormalizeJson_ShouldStripV2KeyFields()
+    {
+        var json = JObject.Parse("{\"semanticId\": {\"keys\": [{\"type\": \"GlobalReference\", \"value\": \"x\", \"local\": false, \"idType\": \"IRI\", \"index\": 0}]}}");
+        var result = MnestixCore.RepoProxyClient.RepoProxyClient.NormalizeJsonForRepository(json);
+        var key = result["semanticId"]!["keys"]![0]!;
+        key["local"].Should().BeNull();
+        key["idType"].Should().BeNull();
+        key["index"].Should().BeNull();
+        key["type"]!.Value<string>().Should().Be("GlobalReference");
+    }
+
+    [Test]
+    public void NormalizeJson_ShouldStripKindFromNonSubmodelElements()
+    {
+        var json = JObject.Parse("{\"modelType\": \"Property\", \"kind\": \"Instance\", \"value\": \"1\"}");
+        var result = MnestixCore.RepoProxyClient.RepoProxyClient.NormalizeJsonForRepository(json);
+        result["kind"].Should().BeNull();
+    }
+
+    [Test]
+    public void NormalizeJson_ShouldKeepKindOnSubmodel()
+    {
+        var json = JObject.Parse("{\"modelType\": \"Submodel\", \"kind\": \"Template\"}");
+        var result = MnestixCore.RepoProxyClient.RepoProxyClient.NormalizeJsonForRepository(json);
+        result["kind"]!.Value<string>().Should().Be("Template");
+    }
+
+    [Test]
+    public void NormalizeJson_ShouldNormalizeValueTypeCase()
+    {
+        var json = JObject.Parse("{\"modelType\": \"Property\", \"valueType\": \"xs:Date\", \"value\": \"2024-01-01\"}");
+        var result = MnestixCore.RepoProxyClient.RepoProxyClient.NormalizeJsonForRepository(json);
+        result["valueType"]!.Value<string>().Should().Be("xs:date");
+    }
+
+    [Test]
+    public void NormalizeJson_ShouldCoercePropertyValueToString()
+    {
+        var json = JObject.Parse("{\"modelType\": \"Property\", \"valueType\": \"xs:integer\", \"value\": 42}");
+        var result = MnestixCore.RepoProxyClient.RepoProxyClient.NormalizeJsonForRepository(json);
+        result["value"]!.Type.Should().Be(Newtonsoft.Json.Linq.JTokenType.String);
+        result["value"]!.Value<string>().Should().Be("42");
+    }
+
+    [Test]
+    public void NormalizeJson_ShouldCoerceBooleanPropertyValueToString()
+    {
+        var json = JObject.Parse("{\"modelType\": \"Property\", \"valueType\": \"xs:boolean\", \"value\": true}");
+        var result = MnestixCore.RepoProxyClient.RepoProxyClient.NormalizeJsonForRepository(json);
+        result["value"]!.Type.Should().Be(Newtonsoft.Json.Linq.JTokenType.String);
+        result["value"]!.Value<string>().Should().Be("True");
+    }
+
+    [Test]
+    public void NormalizeJson_ShouldInjectValueTypeOnQualifiersMissingIt()
+    {
+        var json = JObject.Parse("{\"qualifiers\": [{\"type\": \"SMT/MappingInfo\", \"value\": \"$.name\"}]}");
+        var result = MnestixCore.RepoProxyClient.RepoProxyClient.NormalizeJsonForRepository(json);
+        result["qualifiers"]![0]!["valueType"]!.Value<string>().Should().Be("xs:string");
+    }
+
+    [Test]
+    public void NormalizeJson_ShouldStripOrderedAndAllowDuplicates()
+    {
+        var json = JObject.Parse("{\"modelType\": \"SubmodelElementCollection\", \"ordered\": false, \"allowDuplicates\": false}");
+        var result = MnestixCore.RepoProxyClient.RepoProxyClient.NormalizeJsonForRepository(json);
+        result["ordered"].Should().BeNull();
+        result["allowDuplicates"].Should().BeNull();
+    }
+
+    #endregion
 
     [Test]
     public async Task GetAsync_WhenHttpClientProviderThrows_ShouldThrowRepoProxyException()

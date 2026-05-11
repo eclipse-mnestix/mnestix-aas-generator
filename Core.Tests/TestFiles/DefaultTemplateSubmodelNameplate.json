@@ -1,4 +1,4 @@
-﻿{
+{
   "semanticId": {
     "keys": [
       {
@@ -39,7 +39,6 @@
       "idShort": "ManufacturerName",
       "category": "PARAMETER",
       "modelType": "MultiLanguageProperty",
-      "kind": "Template",
       "qualifiers": [
         {
           "semanticId": {
@@ -93,7 +92,6 @@
       "idShort": "ManufacturerProductDesignation",
       "category": "PARAMETER",
       "modelType": "MultiLanguageProperty",
-      "kind": "Template",
       "qualifiers": [
         {
           "semanticId": {
@@ -147,7 +145,6 @@
       "idShort": "ManufacturerProductFamily",
       "category": "PARAMETER",
       "modelType": "MultiLanguageProperty",
-      "kind": "Template",
       "qualifiers": [
         {
           "semanticId": {
@@ -202,7 +199,6 @@
       "category": "PARAMETER",
       "modelType": "Property",
       "valueType": "xs:string",
-      "kind": "Template",
       "qualifiers": [
         {
           "semanticId": {
@@ -257,7 +253,6 @@
       "category": "PARAMETER",
       "modelType": "Property",
       "valueType": "xs:string",
-      "kind": "Template",
       "qualifiers": [
         {
           "semanticId": {
@@ -324,7 +319,6 @@
           "idShort": "Department",
           "category": "PARAMETER",
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -378,7 +372,6 @@
           "idShort": "Street",
           "category": "PARAMETER",
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -432,7 +425,6 @@
           "idShort": "Zipcode",
           "category": "PARAMETER",
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -486,7 +478,6 @@
           "idShort": "POBox",
           "category": "PARAMETER",
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -540,7 +531,6 @@
           "idShort": "ZipCodeOfPOBox",
           "category": "PARAMETER",
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -593,7 +583,6 @@
           },
           "idShort": "CityTown",
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -647,7 +636,6 @@
           "idShort": "StateCounty",
           "category": "PARAMETER",
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -701,7 +689,6 @@
           "idShort": "NationalCode",
           "category": "PARAMETER",
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -755,7 +742,6 @@
           "idShort": "VATNumber",
           "category": "PARAMETER",
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -809,7 +795,6 @@
           "idShort": "AddressRemarks",
           "category": "PARAMETER",
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -849,7 +834,6 @@
           "category": "PARAMETER",
           "modelType": "Property",
           "valueType": "xs:string",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -917,7 +901,6 @@
               "idShort": "TelephoneNumber",
               "category": "PARAMETER",
               "modelType": "MultiLanguageProperty",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -972,7 +955,6 @@
               "category": "PARAMETER",
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1028,7 +1010,6 @@
               ]
             }
           ],
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -1074,7 +1055,6 @@
               "idShort": "FaxNumber",
               "category": "PARAMETER",
               "modelType": "MultiLanguageProperty",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1128,7 +1108,6 @@
               "idShort": "TypeOfFaxNumber",
               "category": "PARAMETER",
               "modelType": "MultiLanguageProperty",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1184,7 +1163,6 @@
               ]
             }
           ],
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -1231,7 +1209,6 @@
               "category": "PARAMETER",
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1285,7 +1262,6 @@
               "idShort": "PublicKey",
               "category": "PARAMETER",
               "modelType": "MultiLanguageProperty",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1325,7 +1301,6 @@
               "category": "PARAMETER",
               "modelType": "Property",
               "valueType": "",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1394,7 +1369,6 @@
               "idShort": "TypeOfPublicKey",
               "category": "PARAMETER",
               "modelType": "MultiLanguageProperty",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1420,7 +1394,6 @@
               ]
             }
           ],
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -1440,7 +1413,6 @@
           ]
         }
       ],
-      "kind": "Template",
       "qualifiers": [
         {
           "semanticId": {
@@ -1506,7 +1478,6 @@
               "category": "PARAMETER",
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1560,7 +1531,6 @@
               "idShort": "MarkingFile",
               "category": "PARAMETER",
               "modelType": "File",
-              "kind": "Template",
               "contentType": "image/jpeg",
               "qualifiers": [
                 {
@@ -1616,7 +1586,6 @@
               "category": "PARAMETER",
               "modelType": "Property",
               "valueType": "",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1657,7 +1626,6 @@
               ]
             }
           ],
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -1683,7 +1651,6 @@
           ]
         }
       ],
-      "kind": "Template",
       "qualifiers": [
         {
           "semanticId": {
@@ -1749,7 +1716,6 @@
               "category": "PARAMETER",
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1792,13 +1758,13 @@
             {
               "value": "",
               "semanticId": {
-                "keys": []
+                "keys": [],
+                "type": "ExternalReference"
               },
               "idShort": "{arbitrary}",
               "category": "PARAMETER",
               "modelType": "Property",
               "valueType": "",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1818,7 +1784,6 @@
               ]
             }
           ],
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -1844,7 +1809,6 @@
           ]
         }
       ],
-      "kind": "Template",
       "qualifiers": [
         {
           "semanticId": {

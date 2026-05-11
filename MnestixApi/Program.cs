@@ -124,7 +124,7 @@ namespace MnestixApi
             builder.Services.AddTransient<IDataMapper, DataMapper>();
 
             // AasInheritance
-            builder.Services.AddTransient<IAasInheritanceService, MongoDbBasedAasInheritanceService>();
+            builder.Services.AddTransient<IAasInheritanceService, PostgresBasedAasInheritanceService>();
 
             // Ensure mandatory shells are available in repository
             builder.Services.Configure<List<RequiredShells>>(

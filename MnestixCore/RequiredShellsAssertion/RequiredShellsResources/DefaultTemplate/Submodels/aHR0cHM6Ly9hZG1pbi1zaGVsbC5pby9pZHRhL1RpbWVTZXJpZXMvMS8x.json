@@ -1,4 +1,4 @@
-﻿{
+{
   "semanticId": {
     "keys": [
       {
@@ -26,7 +26,6 @@
     "revision": "1"
   },
   "idShort": "TimeSeries",
-  "category": null,
   "modelType": "Submodel",
   "kind": "Template",
   "submodelElements": [
@@ -41,7 +40,6 @@
         "type": "ExternalReference"
       },
       "idShort": "Metadata",
-      "category": null,
       "modelType": "SubmodelElementCollection",
       "value": [
         {
@@ -57,7 +55,6 @@
           "idShort": "Name",
           "category": "PARAMETER",
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -89,7 +86,6 @@
           "idShort": "Description",
           "category": "PARAMETER",
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -119,7 +115,6 @@
             "type": "ExternalReference"
           },
           "idShort": "Record",
-          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -137,7 +132,6 @@
               "category": "VARIABLE",
               "modelType": "Property",
               "valueType": "xs:long",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -171,7 +165,6 @@
               "category": "VARIABLE",
               "modelType": "Property",
               "valueType": "xs:long",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -205,7 +198,6 @@
               "category": "VARIABLE",
               "modelType": "Property",
               "valueType": "xs:long",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -239,7 +231,6 @@
               "category": "VARIABLE",
               "modelType": "Property",
               "valueType": "xs:long",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -259,7 +250,6 @@
               ]
             }
           ],
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -279,7 +269,6 @@
           ]
         }
       ],
-      "kind": "Template",
       "qualifiers": [
         {
           "semanticId": {
@@ -309,7 +298,6 @@
         "type": "ExternalReference"
       },
       "idShort": "Segments",
-      "category": null,
       "modelType": "SubmodelElementCollection",
       "value": [
         {
@@ -323,7 +311,6 @@
             "type": "ExternalReference"
           },
           "idShort": "ExternalSegment",
-          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -339,7 +326,6 @@
               "idShort": "Name",
               "category": "PARAMETER",
               "modelType": "MultiLanguageProperty",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -371,7 +357,6 @@
               "idShort": "Description",
               "category": "PARAMETER",
               "modelType": "MultiLanguageProperty",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -405,7 +390,6 @@
               "category": "VARIABLE",
               "modelType": "Property",
               "valueType": "xs:long",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -439,7 +423,6 @@
               "category": "VARIABLE",
               "modelType": "Property",
               "valueType": "xs:dateTime",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -473,7 +456,6 @@
               "category": "VARIABLE",
               "modelType": "Property",
               "valueType": "xs:dateTime",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -507,7 +489,6 @@
               "category": "VARIABLE",
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -541,7 +522,6 @@
               "category": "PARAMETER",
               "modelType": "Property",
               "valueType": "xs:long",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -575,7 +555,6 @@
               "category": "PARAMETER",
               "modelType": "Property",
               "valueType": "xs:long",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -609,7 +588,6 @@
               "category": "PARAMETER",
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -643,7 +621,6 @@
               "category": "VARIABLE",
               "modelType": "Property",
               "valueType": "xs:dateTime",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -675,7 +652,6 @@
               "idShort": "File",
               "category": "PARAMETER",
               "modelType": "File",
-              "kind": "Template",
               "contentType": "application/pdf",
               "qualifiers": [
                 {
@@ -710,7 +686,6 @@
               "idShort": "Blob",
               "category": "VARIABLE",
               "modelType": "Blob",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -730,7 +705,6 @@
               ]
             }
           ],
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -760,7 +734,6 @@
             "type": "ExternalReference"
           },
           "idShort": "LinkedSegment",
-          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -776,7 +749,6 @@
               "idShort": "Name",
               "category": "PARAMETER",
               "modelType": "MultiLanguageProperty",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -808,7 +780,6 @@
               "idShort": "Description",
               "category": "PARAMETER",
               "modelType": "MultiLanguageProperty",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -842,7 +813,6 @@
               "category": "VARIABLE",
               "modelType": "Property",
               "valueType": "xs:long",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -876,7 +846,6 @@
               "category": "VARIABLE",
               "modelType": "Property",
               "valueType": "xs:dateTime",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -910,7 +879,6 @@
               "category": "VARIABLE",
               "modelType": "Property",
               "valueType": "xs:dateTime",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -944,7 +912,6 @@
               "category": "VARIABLE",
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -978,7 +945,6 @@
               "category": "PARAMETER",
               "modelType": "Property",
               "valueType": "xs:long",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1012,7 +978,6 @@
               "category": "PARAMETER",
               "modelType": "Property",
               "valueType": "xs:long",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1046,7 +1011,6 @@
               "category": "PARAMETER",
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1080,7 +1044,6 @@
               "category": "VARIABLE",
               "modelType": "Property",
               "valueType": "xs:dateTime",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1114,7 +1077,6 @@
               "category": "PARAMETER",
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1148,7 +1110,6 @@
               "category": "PARAMETER",
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1168,7 +1129,6 @@
               ]
             }
           ],
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -1198,7 +1158,6 @@
             "type": "ExternalReference"
           },
           "idShort": "InternalSegment",
-          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -1214,7 +1173,6 @@
               "idShort": "Name",
               "category": "PARAMETER",
               "modelType": "MultiLanguageProperty",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1246,7 +1204,6 @@
               "idShort": "Description",
               "category": "PARAMETER",
               "modelType": "MultiLanguageProperty",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1280,7 +1237,6 @@
               "category": "VARIABLE",
               "modelType": "Property",
               "valueType": "xs:long",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1314,7 +1270,6 @@
               "category": "VARIABLE",
               "modelType": "Property",
               "valueType": "xs:dateTime",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1348,7 +1303,6 @@
               "category": "VARIABLE",
               "modelType": "Property",
               "valueType": "xs:dateTime",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1382,7 +1336,6 @@
               "category": "VARIABLE",
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1416,7 +1369,6 @@
               "category": "PARAMETER",
               "modelType": "Property",
               "valueType": "xs:long",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1450,7 +1402,6 @@
               "category": "PARAMETER",
               "modelType": "Property",
               "valueType": "xs:long",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1484,7 +1435,6 @@
               "category": "PARAMETER",
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1518,7 +1468,6 @@
               "category": "VARIABLE",
               "modelType": "Property",
               "valueType": "xs:dateTime",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1548,7 +1497,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "Records",
-              "category": null,
               "modelType": "SubmodelElementCollection",
               "value": [
                 {
@@ -1562,7 +1510,6 @@
                     "type": "ExternalReference"
                   },
                   "idShort": "Record",
-                  "category": null,
                   "modelType": "SubmodelElementCollection",
                   "value": [
                     {
@@ -1580,7 +1527,6 @@
                       "category": "VARIABLE",
                       "modelType": "Property",
                       "valueType": "xs:long",
-                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -1614,7 +1560,6 @@
                       "category": "VARIABLE",
                       "modelType": "Property",
                       "valueType": "xs:long",
-                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -1648,7 +1593,6 @@
                       "category": "VARIABLE",
                       "modelType": "Property",
                       "valueType": "xs:long",
-                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -1682,7 +1626,6 @@
                       "category": "VARIABLE",
                       "modelType": "Property",
                       "valueType": "xs:long",
-                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -1702,7 +1645,6 @@
                       ]
                     }
                   ],
-                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -1722,7 +1664,6 @@
                   ]
                 }
               ],
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1742,7 +1683,6 @@
               ]
             }
           ],
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -1762,7 +1702,6 @@
           ]
         }
       ],
-      "kind": "Template",
       "qualifiers": [
         {
           "semanticId": {

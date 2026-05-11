@@ -1,4 +1,4 @@
-﻿{
+{
   "semanticId": {
     "keys": [
       {
@@ -26,7 +26,6 @@
     "revision": "0"
   },
   "idShort": "ContactInformations",
-  "category": null,
   "modelType": "Submodel",
   "kind": "Template",
   "submodelElements": [
@@ -41,7 +40,6 @@
         "type": "ExternalReference"
       },
       "idShort": "ContactInformation",
-      "category": null,
       "modelType": "SubmodelElementCollection",
       "value": [
         {
@@ -56,10 +54,8 @@
             "type": "ExternalReference"
           },
           "idShort": "RoleOfContactPerson",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -85,10 +81,12 @@
           ]
         },
         {
-          "value": {
-            "language": "en",
-            "text": "DE"
-          },
+          "value": [
+            {
+              "language": "en",
+              "text": "DE"
+            }
+          ],
           "semanticId": {
             "keys": [
               {
@@ -99,9 +97,7 @@
             "type": "ExternalReference"
           },
           "idShort": "NationalCode",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -138,10 +134,8 @@
             "type": "ExternalReference"
           },
           "idShort": "Language",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -178,10 +172,8 @@
             "type": "ExternalReference"
           },
           "idShort": "TimeZone",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -207,10 +199,12 @@
           ]
         },
         {
-          "value": {
-            "language": "de",
-            "text": "Musterstadt"
-          },
+          "value": [
+            {
+              "language": "de",
+              "text": "Musterstadt"
+            }
+          ],
           "semanticId": {
             "keys": [
               {
@@ -221,9 +215,7 @@
             "type": "ExternalReference"
           },
           "idShort": "CityTown",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -253,9 +245,7 @@
             "type": "ExternalReference"
           },
           "idShort": "Company",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "value": [
             {
               "language": "en",
@@ -291,9 +281,7 @@
             "type": "ExternalReference"
           },
           "idShort": "Department",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "value": [
             {
               "language": "de",
@@ -329,7 +317,6 @@
             "type": "ExternalReference"
           },
           "idShort": "Phone",
-          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -343,9 +330,7 @@
                 "type": "ExternalReference"
               },
               "idShort": "TelephoneNumber",
-              "category": null,
               "modelType": "MultiLanguageProperty",
-              "kind": "Template",
               "value": [
                 {
                   "language": "en",
@@ -388,10 +373,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "TypeOfTelephone",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -427,9 +410,7 @@
                 "type": "ExternalReference"
               },
               "idShort": "AvailableTime",
-              "category": null,
               "modelType": "MultiLanguageProperty",
-              "kind": "Template",
               "value": [
                 {
                   "language": "de",
@@ -455,7 +436,6 @@
               ]
             }
           ],
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -485,7 +465,6 @@
             "type": "ExternalReference"
           },
           "idShort": "Fax",
-          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -499,9 +478,7 @@
                 "type": "ExternalReference"
               },
               "idShort": "FaxNumber",
-              "category": null,
               "modelType": "MultiLanguageProperty",
-              "kind": "Template",
               "value": [
                 {
                   "language": "en",
@@ -544,10 +521,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "TypeOfFaxNumber",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -573,7 +548,6 @@
               ]
             }
           ],
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -603,7 +577,6 @@
             "type": "ExternalReference"
           },
           "idShort": "Email",
-          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -618,10 +591,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "EmailAddress",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -651,9 +622,7 @@
                 "type": "ExternalReference"
               },
               "idShort": "PublicKey",
-              "category": null,
               "modelType": "MultiLanguageProperty",
-              "kind": "Template",
               "value": [],
               "qualifiers": [
                 {
@@ -691,10 +660,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "TypeOfEmailAddress",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -730,9 +697,7 @@
                 "type": "ExternalReference"
               },
               "idShort": "TypeOfPublicKey",
-              "category": null,
               "modelType": "MultiLanguageProperty",
-              "kind": "Template",
               "value": [],
               "qualifiers": [
                 {
@@ -753,7 +718,6 @@
               ]
             }
           ],
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -783,7 +747,6 @@
             "type": "ExternalReference"
           },
           "idShort": "IPCommunication{00}",
-          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -798,10 +761,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "AddressOfAdditionalLink",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -832,10 +793,8 @@
                 "type": "ExternalReference"
               },
               "idShort": "TypeOfCommunication",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -865,9 +824,7 @@
                 "type": "ExternalReference"
               },
               "idShort": "AvailableTime",
-              "category": null,
               "modelType": "MultiLanguageProperty",
-              "kind": "Template",
               "value": [
                 {
                   "language": "de",
@@ -893,7 +850,6 @@
               ]
             }
           ],
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -923,9 +879,7 @@
             "type": "ExternalReference"
           },
           "idShort": "Street",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "value": [
             {
               "language": "de",
@@ -961,9 +915,7 @@
             "type": "ExternalReference"
           },
           "idShort": "Zipcode",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "value": [
             {
               "language": "de",
@@ -1005,9 +957,7 @@
             "type": "ExternalReference"
           },
           "idShort": "POBox",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "value": [
             {
               "language": "en",
@@ -1043,9 +993,7 @@
             "type": "ExternalReference"
           },
           "idShort": "ZipCodeOfPOBox",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "value": [
             {
               "language": "en",
@@ -1087,9 +1035,7 @@
             "type": "ExternalReference"
           },
           "idShort": "StateCounty",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "value": [
             {
               "language": "de",
@@ -1125,9 +1071,7 @@
             "type": "ExternalReference"
           },
           "idShort": "NameOfContact",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "value": [],
           "qualifiers": [
             {
@@ -1158,9 +1102,7 @@
             "type": "ExternalReference"
           },
           "idShort": "FirstName",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "value": [],
           "qualifiers": [
             {
@@ -1191,9 +1133,7 @@
             "type": "ExternalReference"
           },
           "idShort": "MiddleNames",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "value": [],
           "qualifiers": [
             {
@@ -1224,9 +1164,7 @@
             "type": "ExternalReference"
           },
           "idShort": "Title",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "value": [],
           "qualifiers": [
             {
@@ -1257,9 +1195,7 @@
             "type": "ExternalReference"
           },
           "idShort": "AcademicTitle",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "value": [],
           "qualifiers": [
             {
@@ -1290,9 +1226,7 @@
             "type": "ExternalReference"
           },
           "idShort": "FurtherDetailsOfContact",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "value": [],
           "qualifiers": [
             {
@@ -1324,10 +1258,8 @@
             "type": "ExternalReference"
           },
           "idShort": "AddressOfAdditionalLink",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -1347,7 +1279,6 @@
           ]
         }
       ],
-      "kind": "Template",
       "qualifiers": [
         {
           "semanticId": {
