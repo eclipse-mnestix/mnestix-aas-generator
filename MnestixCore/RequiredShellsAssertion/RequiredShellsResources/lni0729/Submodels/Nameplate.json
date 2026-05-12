@@ -1,7 +1,6 @@
 {
   "idShort": "Nameplate",
   "id": "https://aas.uni-h.de/sm/aHR0cHM6Ly9hYXMyLnVuaS1oLmRlL2Fhcy9sbmkwNzI5_DNP",
-  "embeddedDataSpecifications": [],
   "modelType": "Submodel",
   "kind": "Instance",
   "submodelElements": [
@@ -19,7 +18,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0173-1#02-AAO677#002"
           }
         ],
@@ -34,7 +33,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0173-1#02-AAM556#002"
           }
         ],
@@ -49,7 +48,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0173-1#02-AAQ832#005"
           }
         ],
@@ -71,7 +70,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO127#003"
               }
             ],
@@ -95,7 +94,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO128#002"
               }
             ],
@@ -119,7 +118,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO129#002"
               }
             ],
@@ -143,7 +142,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO132#002"
               }
             ],
@@ -167,7 +166,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO134#002"
               }
             ],
@@ -182,7 +181,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAQ326#002"
               }
             ],
@@ -197,7 +196,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAQ833#005"
               }
             ],
@@ -216,7 +215,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0173-1#02-AAO136#002"
                   }
                 ],
@@ -231,7 +230,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0173-1#02-AAO137#003"
                   }
                 ],
@@ -249,7 +248,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAQ836#005"
               }
             ],
@@ -262,7 +261,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0173-1#02-AAO198#002"
                   }
                 ],
@@ -286,7 +285,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO133#002"
               }
             ],
@@ -319,7 +318,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0173-1#02-AAW338#001"
           }
         ],
@@ -359,7 +358,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0173-1#02-AAU731#001"
           }
         ],
@@ -373,7 +372,7 @@
   "semanticId": {
     "keys": [
       {
-        "type": "Submodel",
+        "type": "GlobalReference",
         "value": "https://admin-shell.io/zvei/nameplate/1/0/Nameplate"
       }
     ],

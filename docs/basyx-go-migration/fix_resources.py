@@ -1,24 +1,42 @@
 #!/usr/bin/env python3
 """
-fix_resources.py - Rewrite legacy AAS v2 JSON resources for BaSyx Go v3 compliance.
+fix_resources.py - Rewrite legacy AAS JSON resources for BaSyx Go v3 compliance.
 
-Rules applied:
-  1. Strip UTF-8 BOM
-  2. Strip null-valued properties recursively
-  3. Remove deprecated fields: dataSpecification, hasDataSpecification
-  4. Strip v2 Key fields: local, idType, index
-  5. Strip v2 element fields: parent, allowDuplicates, ordered, asset (when null)
-  6. Inject "type": "ExternalReference" on References missing it (semanticId, etc.)
-  7. Coerce numeric/boolean Property.value to strings
-  8. Wrap single-object MultiLanguageProperty.value in arrays
-  9. Normalize valueType to canonical XSD case
- 10. Rename duplicate {arbitrary} idShort to {arbitraryProperty}
+Rules applied (v2 legacy cleanup):
+  1.  Strip UTF-8 BOM
+  2.  Strip null-valued properties recursively
+  3.  Remove deprecated fields: dataSpecification, hasDataSpecification
+  4.  Strip v2 Key fields: local, idType, index
+  5.  Strip v2 element fields: parent, allowDuplicates, ordered, asset (when null)
+  6.  Inject "type": "ExternalReference" on References missing it (semanticId, etc.)
+  7.  Coerce numeric/boolean Property.value to strings
+  8.  Wrap single-object MultiLanguageProperty.value in arrays
+  9.  Normalize valueType to canonical XSD case
+ 10.  Rename duplicate {arbitrary} idShort to {arbitraryProperty}
+
+Rules applied (BaSyx Go strict validation):
+ 11.  Remove empty "embeddedDataSpecifications": []
+ 12.  Fix key types: ConceptDescription/Submodel -> GlobalReference in ExternalReference keys
+ 13.  Remove qualifier kind (TemplateQualifier not supported)
+ 14.  Remove empty "submodels": [] from AAS shells
+ 15.  Remove empty "assetType": "" from AAS shells
+ 16.  Remove empty "value": "" from File elements
+ 17.  Remove empty "value": [] from MultiLanguageProperty elements
+ 18.  Remove empty "value": "" from non-string-typed Property elements
+ 19.  Remove empty "value": [] from SubmodelElementCollection/List elements
+ 20.  Remove empty "statements": [] from Entity elements
+ 21.  Remove semanticId/valueId with empty "keys": []
+ 22.  Remove description entries with empty text or empty language
+ 23.  Remove empty "category": ""
+ 24.  Fix invalid idShort patterns: {00} -> 00, spaces -> underscores
+ 25.  Trim trailing whitespace from File values
 
 Usage:
     python fix_resources.py <directory> [--dry-run]
 """
 import json
 import os
+import re
 import sys
 import codecs
 
@@ -75,11 +93,75 @@ def fix_node(node, parent_key=None, seen_idshorts=None):
             if isinstance(v, (int, float, bool)):
                 node["value"] = str(v).lower() if isinstance(v, bool) else str(v)
 
+        # Remove empty string value from Properties with non-string valueType
+        if model_type == "Property" and "value" in node and node["value"] == "":
+            vt = node.get("valueType", "")
+            if vt and vt != "xs:string":
+                del node["value"]
+
+        # Remove empty "value": "" from File elements
+        if model_type == "File" and "value" in node and node["value"] == "":
+            del node["value"]
+
+        # Trim trailing whitespace from File values
+        if model_type == "File" and "value" in node and isinstance(node["value"], str):
+            node["value"] = node["value"].rstrip()
+
         # Wrap single-object MultiLanguageProperty.value in array
         if model_type == "MultiLanguageProperty" and "value" in node:
             v = node["value"]
             if isinstance(v, dict):
                 node["value"] = [v]
+
+        # Remove empty "value": [] from MultiLanguageProperty
+        if model_type == "MultiLanguageProperty" and "value" in node and node["value"] == []:
+            del node["value"]
+
+        # Remove empty "value": [] from SubmodelElementCollection/SubmodelElementList
+        if model_type in ("SubmodelElementCollection", "SubmodelElementList"):
+            if "value" in node and node["value"] == []:
+                del node["value"]
+
+        # Remove empty "statements": [] from Entity
+        if model_type == "Entity":
+            if "statements" in node and node["statements"] == []:
+                del node["statements"]
+
+        # Remove empty "submodels": [] from AssetAdministrationShell
+        if model_type == "AssetAdministrationShell":
+            if "submodels" in node and node["submodels"] == []:
+                del node["submodels"]
+            # Remove empty assetType in assetInformation
+            ai = node.get("assetInformation")
+            if isinstance(ai, dict) and "assetType" in ai and ai["assetType"] == "":
+                del ai["assetType"]
+
+        # Remove empty embeddedDataSpecifications
+        if "embeddedDataSpecifications" in node and node["embeddedDataSpecifications"] == []:
+            del node["embeddedDataSpecifications"]
+
+        # Remove empty category
+        if "category" in node and node["category"] == "":
+            del node["category"]
+
+        # Fix description: remove entries with empty text or empty language
+        if "description" in node and isinstance(node["description"], list):
+            cleaned = [d for d in node["description"]
+                       if isinstance(d, dict) and d.get("text", "") != "" and d.get("language", "") != ""]
+            if len(cleaned) != len(node["description"]):
+                if cleaned:
+                    node["description"] = cleaned
+                else:
+                    del node["description"]
+
+        # Fix invalid idShort patterns
+        if "idShort" in node and isinstance(node["idShort"], str):
+            ids = node["idShort"]
+            # Remove curly braces around numeric suffixes: {00} -> 00
+            ids = re.sub(r'\{(\d+)\}$', r'\1', ids)
+            # Replace spaces with underscores
+            ids = ids.replace(" ", "_")
+            node["idShort"] = ids
 
         # Inject type on Reference objects missing it
         for ref_field in REFERENCE_FIELDS:
@@ -88,11 +170,36 @@ def fix_node(node, parent_key=None, seen_idshorts=None):
                 if "keys" in ref_obj and "type" not in ref_obj:
                     ref_obj["type"] = "ExternalReference"
 
-        # Inject valueType on qualifiers missing it
+        # Remove semanticId/valueId with empty keys
+        for ref_field in ("semanticId", "valueId"):
+            if ref_field in node and isinstance(node[ref_field], dict):
+                ref_obj = node[ref_field]
+                keys = ref_obj.get("keys", [])
+                if isinstance(keys, list):
+                    # Remove keys with empty value
+                    keys = [k for k in keys if not (isinstance(k, dict) and k.get("value", "") == "")]
+                    if not keys:
+                        del node[ref_field]
+                    else:
+                        ref_obj["keys"] = keys
+
+        # Fix key types in References: ConceptDescription/Submodel -> GlobalReference
+        for ref_field in REFERENCE_FIELDS | {"valueId"}:
+            if ref_field in node and isinstance(node[ref_field], dict):
+                ref_obj = node[ref_field]
+                if ref_obj.get("type") == "ExternalReference" and "keys" in ref_obj:
+                    for key in ref_obj["keys"]:
+                        if isinstance(key, dict) and key.get("type") in ("ConceptDescription", "Submodel"):
+                            key["type"] = "GlobalReference"
+
+        # Strip kind from qualifiers (TemplateQualifier -> just type/value)
         if "qualifiers" in node and isinstance(node["qualifiers"], list):
             for q in node["qualifiers"]:
-                if isinstance(q, dict) and "type" in q and "value" in q and "valueType" not in q:
-                    q["valueType"] = "xs:string"
+                if isinstance(q, dict):
+                    if "kind" in q:
+                        del q["kind"]
+                    if "type" in q and "value" in q and "valueType" not in q:
+                        q["valueType"] = "xs:string"
 
         # Track and rename duplicate idShorts within submodelElements
         if "submodelElements" in node and isinstance(node["submodelElements"], list):

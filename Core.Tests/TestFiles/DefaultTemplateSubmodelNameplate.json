@@ -883,7 +883,7 @@
             ],
             "type": "ExternalReference"
           },
-          "idShort": "Phone{00}",
+          "idShort": "Phone00",
           "category": "PARAMETER",
           "modelType": "SubmodelElementCollection",
           "value": [
@@ -1038,7 +1038,7 @@
             ],
             "type": "ExternalReference"
           },
-          "idShort": "Fax{00}",
+          "idShort": "Fax00",
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -1191,7 +1191,7 @@
             ],
             "type": "ExternalReference"
           },
-          "idShort": "Email{00}",
+          "idShort": "Email00",
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -1460,7 +1460,7 @@
             ],
             "type": "ExternalReference"
           },
-          "idShort": "Marking{00}",
+          "idShort": "Marking00",
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -1582,7 +1582,7 @@
                 ],
                 "type": "ExternalReference"
               },
-              "idShort": "MarkingAdditionalText{00}",
+              "idShort": "MarkingAdditionalText00",
               "category": "PARAMETER",
               "modelType": "Property",
               "valueType": "",
@@ -1698,7 +1698,7 @@
             ],
             "type": "ExternalReference"
           },
-          "idShort": "GuidelineSpecificProperties{00}",
+          "idShort": "GuidelineSpecificProperties00",
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -1761,7 +1761,7 @@
                 "keys": [],
                 "type": "ExternalReference"
               },
-              "idShort": "{arbitrary}",
+              "idShort": "arbitraryGuidelineProperty",
               "category": "PARAMETER",
               "modelType": "Property",
               "valueType": "",

@@ -942,7 +942,7 @@
                 "modelType": "Qualifier"
               }
             ],
-            "idShort": "Phone{00}",
+            "idShort": "Phone00",
             "category": "PARAMETER",
             "modelType": "SubmodelElementCollection",
             "value": [
@@ -1101,7 +1101,7 @@
                 "modelType": "Qualifier"
               }
             ],
-            "idShort": "Fax{00}",
+            "idShort": "Fax00",
             "modelType": "SubmodelElementCollection",
             "value": [
               {
@@ -1254,7 +1254,7 @@
                 "modelType": "Qualifier"
               }
             ],
-            "idShort": "Email{00}",
+            "idShort": "Email00",
             "modelType": "SubmodelElementCollection",
             "value": [
               {
@@ -1531,7 +1531,7 @@
                 "modelType": "Qualifier"
               }
             ],
-            "idShort": "Marking{00}",
+            "idShort": "Marking00",
             "modelType": "SubmodelElementCollection",
             "value": [
               {
@@ -1689,7 +1689,7 @@
                     "modelType": "Qualifier"
                   }
                 ],
-                "idShort": "MarkingAdditionalText{00}",
+                "idShort": "MarkingAdditionalText00",
                 "category": "PARAMETER",
                 "modelType": "Property",
                 "valueType": {
@@ -1777,7 +1777,7 @@
                 "modelType": "Qualifier"
               }
             ],
-            "idShort": "GuidelineSpecificProperties{00}",
+            "idShort": "GuidelineSpecificProperties00",
             "modelType": "SubmodelElementCollection",
             "value": [
               {
@@ -1861,7 +1861,7 @@
                     "modelType": "Qualifier"
                   }
                 ],
-                "idShort": "{arbitrary}",
+                "idShort": "arbitraryGuidelineProperty",
                 "category": "PARAMETER",
                 "modelType": "Property",
                 "valueType": {
@@ -2841,7 +2841,7 @@
                 "modelType": "Qualifier"
               }
             ],
-            "idShort": "Phone{00}",
+            "idShort": "Phone00",
             "category": "PARAMETER",
             "modelType": "SubmodelElementCollection",
             "value": [
@@ -3000,7 +3000,7 @@
                 "modelType": "Qualifier"
               }
             ],
-            "idShort": "Fax{00}",
+            "idShort": "Fax00",
             "modelType": "SubmodelElementCollection",
             "value": [
               {
@@ -3153,7 +3153,7 @@
                 "modelType": "Qualifier"
               }
             ],
-            "idShort": "Email{00}",
+            "idShort": "Email00",
             "modelType": "SubmodelElementCollection",
             "value": [
               {
@@ -3430,7 +3430,7 @@
                 "modelType": "Qualifier"
               }
             ],
-            "idShort": "Marking{00}",
+            "idShort": "Marking00",
             "modelType": "SubmodelElementCollection",
             "value": [
               {
@@ -3588,7 +3588,7 @@
                     "modelType": "Qualifier"
                   }
                 ],
-                "idShort": "MarkingAdditionalText{00}",
+                "idShort": "MarkingAdditionalText00",
                 "category": "PARAMETER",
                 "modelType": "Property",
                 "valueType": {
@@ -3676,7 +3676,7 @@
                 "modelType": "Qualifier"
               }
             ],
-            "idShort": "GuidelineSpecificProperties{00}",
+            "idShort": "GuidelineSpecificProperties00",
             "modelType": "SubmodelElementCollection",
             "value": [
               {
@@ -3760,7 +3760,7 @@
                     "modelType": "Qualifier"
                   }
                 ],
-                "idShort": "{arbitrary}",
+                "idShort": "arbitraryGuidelineProperty",
                 "category": "PARAMETER",
                 "modelType": "Property",
                 "valueType": {

@@ -2,7 +2,7 @@
   "semanticId": {
     "keys": [
       {
-        "type": "ConceptDescription",
+        "type": "GlobalReference",
         "value": "https://admin-shell.io/zvei/nameplate/2/0/Nameplate"
       }
     ],
@@ -33,7 +33,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0173-1#02-AAY811#001"
           }
         ],
@@ -53,7 +53,6 @@
               }
             ]
           },
-          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "One"
@@ -70,7 +69,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0173-1#02-AAO677#002"
           }
         ],
@@ -95,7 +94,6 @@
               }
             ]
           },
-          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "One"
@@ -112,7 +110,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0173-1#02-AAW338#001"
           }
         ],
@@ -137,7 +135,6 @@
               }
             ]
           },
-          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "One"
@@ -154,7 +151,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "https://admin-shell.io/zvei/nameplate/1/0/ContactInformations/ContactInformation"
           }
         ],
@@ -168,7 +165,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO204#003"
               }
             ],
@@ -188,7 +185,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -205,7 +201,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO134#002"
               }
             ],
@@ -230,7 +226,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -248,7 +243,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "https://admin-shell.io/zvei/nameplate/1/0/ContactInformations/ContactInformation/Language"
               }
             ],
@@ -268,7 +263,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToMany"
@@ -286,7 +280,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "https://admin-shell.io/zvei/nameplate/1/0/ContactInformations/ContactInformation/TimeZone"
               }
             ],
@@ -306,7 +300,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -323,7 +316,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO132#002"
               }
             ],
@@ -348,7 +341,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -365,7 +357,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAW001#001"
               }
             ],
@@ -390,7 +382,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -401,7 +392,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO127#003"
               }
             ],
@@ -426,7 +417,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -437,7 +427,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "https://admin-shell.io/zvei/nameplate/1/0/ContactInformations/ContactInformation/Phone"
               }
             ],
@@ -450,7 +440,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0173-1#02-AAO136#002"
                   }
                 ],
@@ -475,7 +465,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "One"
@@ -493,7 +482,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0173-1#02-AAO137#003"
                   }
                 ],
@@ -513,7 +502,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -530,7 +518,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "https://admin-shell.io/zvei/nameplate/1/0/ContactInformations/ContactInformation/AvailableTime/"
                   }
                 ],
@@ -555,7 +543,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -574,7 +561,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -585,7 +571,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAQ834#005"
               }
             ],
@@ -598,7 +584,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0173-1#02-AAO195#002"
                   }
                 ],
@@ -623,7 +609,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "One"
@@ -641,7 +626,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0173-1#02-AAO196#003"
                   }
                 ],
@@ -661,7 +646,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -686,7 +670,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -697,7 +680,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAQ836#005"
               }
             ],
@@ -711,7 +694,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0173-1#02-AAO198#002"
                   }
                 ],
@@ -731,7 +714,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "One"
@@ -742,7 +724,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0173-1#02-AAO200#002"
                   }
                 ],
@@ -750,7 +732,6 @@
               },
               "idShort": "PublicKey",
               "modelType": "MultiLanguageProperty",
-              "value": [],
               "qualifiers": [
                 {
                   "semanticId": {
@@ -762,7 +743,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -780,7 +760,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0173-1#02-AAO199#003"
                   }
                 ],
@@ -800,7 +780,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -817,7 +796,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0173-1#02-AAO201#002"
                   }
                 ],
@@ -825,7 +804,6 @@
               },
               "idShort": "TypeOfPublicKey",
               "modelType": "MultiLanguageProperty",
-              "value": [],
               "qualifiers": [
                 {
                   "semanticId": {
@@ -837,7 +815,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -856,7 +833,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -867,21 +843,20 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "https://admin-shell.io/zvei/nameplate/1/0/ContactInformations/"
               }
             ],
             "type": "ExternalReference"
           },
-          "idShort": "IPCommunication{00}",
+          "idShort": "IPCommunication00",
           "modelType": "SubmodelElementCollection",
           "value": [
             {
-              "value": "",
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0173-1#02-AAQ326#002"
                   }
                 ],
@@ -901,7 +876,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "One"
@@ -913,7 +887,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "https://admin-shell.io/zvei/nameplate/1/0/ ContactInformations/ContactInformation/IPCommunication/TypeOfCommunication"
                   }
                 ],
@@ -933,7 +907,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -944,7 +917,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "https://admin-shell.io/zvei/nameplate/1/0/ContactInformations/ContactInformation/AvailableTime/"
                   }
                 ],
@@ -969,7 +942,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -988,7 +960,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToMany"
@@ -999,7 +970,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO128#002"
               }
             ],
@@ -1024,7 +995,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -1041,7 +1011,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO129#002"
               }
             ],
@@ -1066,7 +1036,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -1083,7 +1052,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO130#002"
               }
             ],
@@ -1108,7 +1077,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -1119,7 +1087,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO131#002"
               }
             ],
@@ -1144,7 +1112,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -1161,7 +1128,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO133#002"
               }
             ],
@@ -1186,7 +1153,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -1197,7 +1163,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO205#002"
               }
             ],
@@ -1205,7 +1171,6 @@
           },
           "idShort": "NameOfContact",
           "modelType": "MultiLanguageProperty",
-          "value": [],
           "qualifiers": [
             {
               "semanticId": {
@@ -1217,7 +1182,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -1228,7 +1192,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO206#002"
               }
             ],
@@ -1236,7 +1200,6 @@
           },
           "idShort": "FirstName",
           "modelType": "MultiLanguageProperty",
-          "value": [],
           "qualifiers": [
             {
               "semanticId": {
@@ -1248,7 +1211,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -1259,7 +1221,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO207#002"
               }
             ],
@@ -1267,7 +1229,6 @@
           },
           "idShort": "MiddleNames",
           "modelType": "MultiLanguageProperty",
-          "value": [],
           "qualifiers": [
             {
               "semanticId": {
@@ -1279,7 +1240,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -1290,7 +1250,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO208#003"
               }
             ],
@@ -1298,7 +1258,6 @@
           },
           "idShort": "Title",
           "modelType": "MultiLanguageProperty",
-          "value": [],
           "qualifiers": [
             {
               "semanticId": {
@@ -1310,7 +1269,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -1321,7 +1279,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO209#003"
               }
             ],
@@ -1329,7 +1287,6 @@
           },
           "idShort": "AcademicTitle",
           "modelType": "MultiLanguageProperty",
-          "value": [],
           "qualifiers": [
             {
               "semanticId": {
@@ -1341,7 +1298,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -1352,7 +1308,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO210#002"
               }
             ],
@@ -1360,7 +1316,6 @@
           },
           "idShort": "FurtherDetailsOfContact",
           "modelType": "MultiLanguageProperty",
-          "value": [],
           "qualifiers": [
             {
               "semanticId": {
@@ -1372,7 +1327,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -1380,11 +1334,10 @@
           ]
         },
         {
-          "value": "",
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAQ326#002"
               }
             ],
@@ -1404,7 +1357,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -1423,7 +1375,6 @@
               }
             ]
           },
-          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "One"
@@ -1440,7 +1391,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0173-1#02-AAU732#001"
           }
         ],
@@ -1465,7 +1416,6 @@
               }
             ]
           },
-          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "ZeroToOne"
@@ -1476,7 +1426,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0173-1#02-AAU731#001"
           }
         ],
@@ -1501,7 +1451,6 @@
               }
             ]
           },
-          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "ZeroToOne"
@@ -1518,7 +1467,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0173-1#02-AAO057#002"
           }
         ],
@@ -1543,7 +1492,6 @@
               }
             ]
           },
-          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "ZeroToOne"
@@ -1560,7 +1508,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0173-1#02-AAO227#002"
           }
         ],
@@ -1585,7 +1533,6 @@
               }
             ]
           },
-          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "ZeroToOne"
@@ -1602,7 +1549,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0173-1#02-AAO676#003"
           }
         ],
@@ -1627,7 +1574,6 @@
               }
             ]
           },
-          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "ZeroToOne"
@@ -1645,7 +1591,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0173-1#02-AAM556#002"
           }
         ],
@@ -1665,7 +1611,6 @@
               }
             ]
           },
-          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "ZeroToOne"
@@ -1683,7 +1628,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0173-1#02-AAP906#001"
           }
         ],
@@ -1703,7 +1648,6 @@
               }
             ]
           },
-          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "One"
@@ -1721,7 +1665,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0173-1#02-AAR972#002"
           }
         ],
@@ -1741,7 +1685,6 @@
               }
             ]
           },
-          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "ZeroToOne"
@@ -1758,7 +1701,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0173-1#02-AAN270#002"
           }
         ],
@@ -1783,7 +1726,6 @@
               }
             ]
           },
-          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "ZeroToOne"
@@ -1800,7 +1742,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0173-1#02-AAM985#002"
           }
         ],
@@ -1825,7 +1767,6 @@
               }
             ]
           },
-          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "ZeroToOne"
@@ -1842,7 +1783,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0173-1#02-AAM737#002"
           }
         ],
@@ -1867,7 +1808,6 @@
               }
             ]
           },
-          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "ZeroToOne"
@@ -1885,7 +1825,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0173-1#02-AAO259#004"
           }
         ],
@@ -1905,7 +1845,6 @@
               }
             ]
           },
-          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "ZeroToOne"
@@ -1919,12 +1858,11 @@
       ]
     },
     {
-      "value": "",
       "contentType": "image/jpeg",
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "https://admin-shell.io/zvei/nameplate/2/0/Nameplate/CompanyLogo "
           }
         ],
@@ -1943,7 +1881,6 @@
               }
             ]
           },
-          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "ZeroToOne"
@@ -1954,7 +1891,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0173-1#01-AGZ673#001"
           }
         ],
@@ -1967,7 +1904,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#01-AHD206#001"
               }
             ],
@@ -1981,7 +1918,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "https://admin-shell.io/zvei/nameplate/2/0/Nameplate/Markings/Marking/MarkingName"
                   }
                 ],
@@ -2001,7 +1938,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "One"
@@ -2019,7 +1955,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0112/2///61987#ABH783#001"
                   }
                 ],
@@ -2039,7 +1975,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -2057,7 +1992,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "https://admin-shell.io/zvei/nameplate/2/0/Nameplate/Markings/Marking/IssueDate"
                   }
                 ],
@@ -2077,7 +2012,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -2095,7 +2029,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "https://admin-shell.io/zvei/nameplate/2/0/Nameplate/Markings/Marking/ExpiryDate"
                   }
                 ],
@@ -2115,7 +2049,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -2129,12 +2062,12 @@
               ]
             },
             {
-              "value": "/aasx/Nameplate/marking_ce.png ",
+              "value": "/aasx/Nameplate/marking_ce.png",
               "contentType": "image/png",
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "https://admin-shell.io/zvei/nameplate/2/0/Nameplate/Markings/Marking/MarkingFile"
                   }
                 ],
@@ -2153,7 +2086,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "One"
@@ -2165,7 +2097,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "https://admin-shell.io/zvei/nameplate/2/0/Nameplate/Markings/Marking/MarkingAdditionalText"
                   }
                 ],
@@ -2185,7 +2117,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToMany"
@@ -2202,7 +2133,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "https://admin-shell.io/zvei/nameplate/2/0/Nameplate/Markings/Marking/ExplosionSafeties"
                   }
                 ],
@@ -2215,7 +2146,7 @@
                   "semanticId": {
                     "keys": [
                       {
-                        "type": "ConceptDescription",
+                        "type": "GlobalReference",
                         "value": "https://admin-shell.io/zvei/nameplate/2/0/Nameplate/Markings/Marking/ExplosionSafeties/ExplosionSafety"
                       }
                     ],
@@ -2229,7 +2160,7 @@
                       "semanticId": {
                         "keys": [
                           {
-                            "type": "ConceptDescription",
+                            "type": "GlobalReference",
                             "value": "0112/2///61987#ABH783#001"
                           }
                         ],
@@ -2249,7 +2180,6 @@
                               }
                             ]
                           },
-                          "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "valueType": "xs:string",
                           "value": "ZeroToOne"
@@ -2266,7 +2196,7 @@
                       "semanticId": {
                         "keys": [
                           {
-                            "type": "ConceptDescription",
+                            "type": "GlobalReference",
                             "value": "0173-1#02-AAM812#003"
                           }
                         ],
@@ -2291,7 +2221,6 @@
                               }
                             ]
                           },
-                          "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "valueType": "xs:string",
                           "value": "ZeroToOne"
@@ -2308,7 +2237,7 @@
                       "semanticId": {
                         "keys": [
                           {
-                            "type": "ConceptDescription",
+                            "type": "GlobalReference",
                             "value": "0173-1#02-AAM632#001"
                           }
                         ],
@@ -2333,7 +2262,6 @@
                               }
                             ]
                           },
-                          "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "valueType": "xs:string",
                           "value": "ZeroToOne"
@@ -2351,7 +2279,7 @@
                       "semanticId": {
                         "keys": [
                           {
-                            "type": "ConceptDescription",
+                            "type": "GlobalReference",
                             "value": "0173-1#02-AAQ325#003"
                           }
                         ],
@@ -2371,7 +2299,6 @@
                               }
                             ]
                           },
-                          "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "valueType": "xs:string",
                           "value": "ZeroToOne"
@@ -2389,7 +2316,7 @@
                       "semanticId": {
                         "keys": [
                           {
-                            "type": "ConceptDescription",
+                            "type": "GlobalReference",
                             "value": "0173-1#02-AAN532#003"
                           }
                         ],
@@ -2409,7 +2336,6 @@
                               }
                             ]
                           },
-                          "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "valueType": "xs:string",
                           "value": "ZeroToOne"
@@ -2426,7 +2352,7 @@
                       "semanticId": {
                         "keys": [
                           {
-                            "type": "ConceptDescription",
+                            "type": "GlobalReference",
                             "value": "0112/2///61987#ABO102#001"
                           }
                         ],
@@ -2445,7 +2371,6 @@
                               }
                             ]
                           },
-                          "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "valueType": "xs:string",
                           "value": "ZeroToOne"
@@ -2463,7 +2388,7 @@
                       "semanticId": {
                         "keys": [
                           {
-                            "type": "ConceptDescription",
+                            "type": "GlobalReference",
                             "value": "https://admin-shell.io/zvei/nameplate/2/0/Nameplate/Markings/Marking/ExplosionSafeties/ExplosionSafety/SpecificConditionsForUse"
                           }
                         ],
@@ -2483,7 +2408,6 @@
                               }
                             ]
                           },
-                          "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "valueType": "xs:string",
                           "value": "ZeroToOne"
@@ -2501,7 +2425,7 @@
                       "semanticId": {
                         "keys": [
                           {
-                            "type": "ConceptDescription",
+                            "type": "GlobalReference",
                             "value": "https://admin-shell.io/zvei/nameplate/2/0/Nameplate/Markings/Marking/ExplosionSafeties/ExplosionSafety/IncompleteDevice"
                           }
                         ],
@@ -2521,7 +2445,6 @@
                               }
                             ]
                           },
-                          "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "valueType": "xs:string",
                           "value": "ZeroToOne"
@@ -2532,7 +2455,7 @@
                       "semanticId": {
                         "keys": [
                           {
-                            "type": "ConceptDescription",
+                            "type": "GlobalReference",
                             "value": "https://admin-shell.io/zvei/nameplate/2/0/Nameplate/Markings/Marking/ExplosionSafeties/ExplosionSafety/AmbientConditions"
                           }
                         ],
@@ -2546,7 +2469,7 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "ConceptDescription",
+                                "type": "GlobalReference",
                                 "value": "0173-1#02-AAK297#004"
                               }
                             ],
@@ -2566,7 +2489,6 @@
                                   }
                                 ]
                               },
-                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -2583,7 +2505,7 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "ConceptDescription",
+                                "type": "GlobalReference",
                                 "value": "0173-1#02-AAM668#001"
                               }
                             ],
@@ -2608,7 +2530,6 @@
                                   }
                                 ]
                               },
-                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -2626,7 +2547,7 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "ConceptDescription",
+                                "type": "GlobalReference",
                                 "value": "https://admin-shell.io/zvei/nameplate/2/0/Nameplate/Markings/Marking/ExplosionSafeties/ExplosionSafety/RegionalSpecificMarking"
                               }
                             ],
@@ -2646,7 +2567,6 @@
                                   }
                                 ]
                               },
-                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -2658,7 +2578,7 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "ConceptDescription",
+                                "type": "GlobalReference",
                                 "value": "0173-1#02-AAQ325#003"
                               }
                             ],
@@ -2678,7 +2598,6 @@
                                   }
                                 ]
                               },
-                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -2696,7 +2615,7 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "ConceptDescription",
+                                "type": "GlobalReference",
                                 "value": "0173-1#02-AAT372#001"
                               }
                             ],
@@ -2716,7 +2635,6 @@
                                   }
                                 ]
                               },
-                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -2734,7 +2652,7 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "ConceptDescription",
+                                "type": "GlobalReference",
                                 "value": "0173-1#02-AAZ952#001"
                               }
                             ],
@@ -2754,7 +2672,6 @@
                                   }
                                 ]
                               },
-                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -2772,7 +2689,7 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "ConceptDescription",
+                                "type": "GlobalReference",
                                 "value": "0173-1#02-BAA039#010"
                               }
                             ],
@@ -2792,7 +2709,6 @@
                                   }
                                 ]
                               },
-                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -2810,7 +2726,7 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "ConceptDescription",
+                                "type": "GlobalReference",
                                 "value": "0173-1#02-AAM666#005"
                               }
                             ],
@@ -2830,7 +2746,6 @@
                                   }
                                 ]
                               },
-                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -2848,7 +2763,7 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "ConceptDescription",
+                                "type": "GlobalReference",
                                 "value": "0173-1#02-AAO371#004"
                               }
                             ],
@@ -2868,7 +2783,6 @@
                                   }
                                 ]
                               },
-                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -2893,7 +2807,6 @@
                               }
                             ]
                           },
-                          "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "valueType": "xs:string",
                           "value": "ZeroToOne"
@@ -2910,7 +2823,7 @@
                       "semanticId": {
                         "keys": [
                           {
-                            "type": "ConceptDescription",
+                            "type": "GlobalReference",
                             "value": "https://admin-shell.io/zvei/nameplate/2/0/Nameplate/Markings/Marking/ExplosionSafeties/ExplosionSafety/ProcessConditions"
                           }
                         ],
@@ -2924,7 +2837,7 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "ConceptDescription",
+                                "type": "GlobalReference",
                                 "value": "0173-1#02-AAK297#004"
                               }
                             ],
@@ -2944,7 +2857,6 @@
                                   }
                                 ]
                               },
-                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -2961,7 +2873,7 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "ConceptDescription",
+                                "type": "GlobalReference",
                                 "value": "0173-1#02-AAM668#001"
                               }
                             ],
@@ -2986,7 +2898,6 @@
                                   }
                                 ]
                               },
-                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -3004,7 +2915,7 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "ConceptDescription",
+                                "type": "GlobalReference",
                                 "value": "https://admin-shell.io/zvei/nameplate/2/0/Nameplate/Markings/Marking/ExplosionSafeties/ExplosionSafety/RegionalSpecificMarking"
                               }
                             ],
@@ -3024,7 +2935,6 @@
                                   }
                                 ]
                               },
-                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -3036,7 +2946,7 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "ConceptDescription",
+                                "type": "GlobalReference",
                                 "value": "0173-1#02-AAQ325#003"
                               }
                             ],
@@ -3056,7 +2966,6 @@
                                   }
                                 ]
                               },
-                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -3074,7 +2983,7 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "ConceptDescription",
+                                "type": "GlobalReference",
                                 "value": "0173-1#02-AAT372#001"
                               }
                             ],
@@ -3094,7 +3003,6 @@
                                   }
                                 ]
                               },
-                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -3112,7 +3020,7 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "ConceptDescription",
+                                "type": "GlobalReference",
                                 "value": "0173-1#02-AAN309#004"
                               }
                             ],
@@ -3132,7 +3040,6 @@
                                   }
                                 ]
                               },
-                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -3150,7 +3057,7 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "ConceptDescription",
+                                "type": "GlobalReference",
                                 "value": "0173-1#02-AAN307#004"
                               }
                             ],
@@ -3170,7 +3077,6 @@
                                   }
                                 ]
                               },
-                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -3188,7 +3094,7 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "ConceptDescription",
+                                "type": "GlobalReference",
                                 "value": "0173-1#02-AAM666#005"
                               }
                             ],
@@ -3208,7 +3114,6 @@
                                   }
                                 ]
                               },
-                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -3226,7 +3131,7 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "ConceptDescription",
+                                "type": "GlobalReference",
                                 "value": "0173-1#02-AAO371#004"
                               }
                             ],
@@ -3246,7 +3151,6 @@
                                   }
                                 ]
                               },
-                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -3271,7 +3175,6 @@
                               }
                             ]
                           },
-                          "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "valueType": "xs:string",
                           "value": "ZeroToOne"
@@ -3288,7 +3191,7 @@
                       "semanticId": {
                         "keys": [
                           {
-                            "type": "ConceptDescription",
+                            "type": "GlobalReference",
                             "value": "https://admin-shell.io/zvei/nameplate/2/0/Nameplate/Markings/Marking/ExplosionSafeties/ExplosionSafety/ExternalElectricalCircuit"
                           }
                         ],
@@ -3302,7 +3205,7 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "ConceptDescription",
+                                "type": "GlobalReference",
                                 "value": "0112/2///61987#ABB147#004"
                               }
                             ],
@@ -3322,7 +3225,6 @@
                                   }
                                 ]
                               },
-                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -3340,7 +3242,7 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "ConceptDescription",
+                                "type": "GlobalReference",
                                 "value": "0173-1#02-AAQ325#003"
                               }
                             ],
@@ -3360,7 +3262,6 @@
                                   }
                                 ]
                               },
-                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -3377,7 +3278,7 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "ConceptDescription",
+                                "type": "GlobalReference",
                                 "value": "0173-1#02-AAM668#001"
                               }
                             ],
@@ -3402,7 +3303,6 @@
                                   }
                                 ]
                               },
-                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -3420,7 +3320,7 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "ConceptDescription",
+                                "type": "GlobalReference",
                                 "value": "0173-1#02-AAT372#001"
                               }
                             ],
@@ -3440,7 +3340,6 @@
                                   }
                                 ]
                               },
-                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -3458,7 +3357,7 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "ConceptDescription",
+                                "type": "GlobalReference",
                                 "value": "https://admin-shell.io/zvei/nameplate/2/0/Nameplate/Markings/Marking/ExplosionSafeties/ExplosionSafety/ExternalElectricalCircuit/Characteristics"
                               }
                             ],
@@ -3478,7 +3377,6 @@
                                   }
                                 ]
                               },
-                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -3496,7 +3394,7 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "ConceptDescription",
+                                "type": "GlobalReference",
                                 "value": "https://admin-shell.io/zvei/nameplate/2/0/Nameplate/Markings/Marking/ExplosionSafeties/ExplosionSafety/ExternalElectricalCircuit/Fisco"
                               }
                             ],
@@ -3516,7 +3414,6 @@
                                   }
                                 ]
                               },
-                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -3534,7 +3431,7 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "ConceptDescription",
+                                "type": "GlobalReference",
                                 "value": "https://admin-shell.io/zvei/nameplate/2/0/Nameplate/Markings/Marking/ExplosionSafeties/ExplosionSafety/ExternalElectricalCircuit/TwoWISE"
                               }
                             ],
@@ -3554,7 +3451,6 @@
                                   }
                                 ]
                               },
-                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -3571,7 +3467,7 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "ConceptDescription",
+                                "type": "GlobalReference",
                                 "value": "0173-1#02-AAQ380#006"
                               }
                             ],
@@ -3585,7 +3481,7 @@
                               "semanticId": {
                                 "keys": [
                                   {
-                                    "type": "ConceptDescription",
+                                    "type": "GlobalReference",
                                     "value": "0173-1#02-AAQ372#003"
                                   }
                                 ],
@@ -3605,7 +3501,6 @@
                                       }
                                     ]
                                   },
-                                  "kind": "TemplateQualifier",
                                   "type": "SMT/Cardinality",
                                   "valueType": "xs:string",
                                   "value": "ZeroToOne"
@@ -3623,7 +3518,7 @@
                               "semanticId": {
                                 "keys": [
                                   {
-                                    "type": "ConceptDescription",
+                                    "type": "GlobalReference",
                                     "value": "0173-1#02-AAM638#003"
                                   }
                                 ],
@@ -3643,7 +3538,6 @@
                                       }
                                     ]
                                   },
-                                  "kind": "TemplateQualifier",
                                   "type": "SMT/Cardinality",
                                   "valueType": "xs:string",
                                   "value": "ZeroToOne"
@@ -3661,7 +3555,7 @@
                               "semanticId": {
                                 "keys": [
                                   {
-                                    "type": "ConceptDescription",
+                                    "type": "GlobalReference",
                                     "value": "0173-1#02-AAM642#004"
                                   }
                                 ],
@@ -3681,7 +3575,6 @@
                                       }
                                     ]
                                   },
-                                  "kind": "TemplateQualifier",
                                   "type": "SMT/Cardinality",
                                   "valueType": "xs:string",
                                   "value": "ZeroToOne"
@@ -3699,7 +3592,7 @@
                               "semanticId": {
                                 "keys": [
                                   {
-                                    "type": "ConceptDescription",
+                                    "type": "GlobalReference",
                                     "value": "0173-1#02-AAM640#004"
                                   }
                                 ],
@@ -3719,7 +3612,6 @@
                                       }
                                     ]
                                   },
-                                  "kind": "TemplateQualifier",
                                   "type": "SMT/Cardinality",
                                   "valueType": "xs:string",
                                   "value": "ZeroToOne"
@@ -3737,7 +3629,7 @@
                               "semanticId": {
                                 "keys": [
                                   {
-                                    "type": "ConceptDescription",
+                                    "type": "GlobalReference",
                                     "value": "0173-1#02-AAM639#003"
                                   }
                                 ],
@@ -3757,7 +3649,6 @@
                                       }
                                     ]
                                   },
-                                  "kind": "TemplateQualifier",
                                   "type": "SMT/Cardinality",
                                   "valueType": "xs:string",
                                   "value": "ZeroToOne"
@@ -3782,7 +3673,6 @@
                                   }
                                 ]
                               },
-                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -3799,7 +3689,7 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "ConceptDescription",
+                                "type": "GlobalReference",
                                 "value": "0173-1#02-AAQ381#006"
                               }
                             ],
@@ -3813,7 +3703,7 @@
                               "semanticId": {
                                 "keys": [
                                   {
-                                    "type": "ConceptDescription",
+                                    "type": "GlobalReference",
                                     "value": "0173-1#02-AAQ371#003"
                                   }
                                 ],
@@ -3833,7 +3723,6 @@
                                       }
                                     ]
                                   },
-                                  "kind": "TemplateQualifier",
                                   "type": "SMT/Cardinality",
                                   "valueType": "xs:string",
                                   "value": "ZeroToOne"
@@ -3851,7 +3740,7 @@
                               "semanticId": {
                                 "keys": [
                                   {
-                                    "type": "ConceptDescription",
+                                    "type": "GlobalReference",
                                     "value": "0173-1#02-AAM635#003"
                                   }
                                 ],
@@ -3871,7 +3760,6 @@
                                       }
                                     ]
                                   },
-                                  "kind": "TemplateQualifier",
                                   "type": "SMT/Cardinality",
                                   "valueType": "xs:string",
                                   "value": "ZeroToOne"
@@ -3889,7 +3777,7 @@
                               "semanticId": {
                                 "keys": [
                                   {
-                                    "type": "ConceptDescription",
+                                    "type": "GlobalReference",
                                     "value": "0173-1#02-AAM641#004"
                                   }
                                 ],
@@ -3909,7 +3797,6 @@
                                       }
                                     ]
                                   },
-                                  "kind": "TemplateQualifier",
                                   "type": "SMT/Cardinality",
                                   "valueType": "xs:string",
                                   "value": "ZeroToOne"
@@ -3927,7 +3814,7 @@
                               "semanticId": {
                                 "keys": [
                                   {
-                                    "type": "ConceptDescription",
+                                    "type": "GlobalReference",
                                     "value": "0173-1#02-AAM637#004"
                                   }
                                 ],
@@ -3947,7 +3834,6 @@
                                       }
                                     ]
                                   },
-                                  "kind": "TemplateQualifier",
                                   "type": "SMT/Cardinality",
                                   "valueType": "xs:string",
                                   "value": "ZeroToOne"
@@ -3965,7 +3851,7 @@
                               "semanticId": {
                                 "keys": [
                                   {
-                                    "type": "ConceptDescription",
+                                    "type": "GlobalReference",
                                     "value": "0173-1#02-AAM636#003"
                                   }
                                 ],
@@ -3985,7 +3871,6 @@
                                       }
                                     ]
                                   },
-                                  "kind": "TemplateQualifier",
                                   "type": "SMT/Cardinality",
                                   "valueType": "xs:string",
                                   "value": "ZeroToOne"
@@ -3999,11 +3884,10 @@
                               ]
                             },
                             {
-                              "value": "",
                               "semanticId": {
                                 "keys": [
                                   {
-                                    "type": "ConceptDescription",
+                                    "type": "GlobalReference",
                                     "value": "0173-1#02-AAM634#003"
                                   }
                                 ],
@@ -4023,7 +3907,6 @@
                                       }
                                     ]
                                   },
-                                  "kind": "TemplateQualifier",
                                   "type": "SMT/Cardinality",
                                   "valueType": "xs:string",
                                   "value": "ZeroToOne"
@@ -4048,7 +3931,6 @@
                                   }
                                 ]
                               },
-                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -4073,7 +3955,6 @@
                               }
                             ]
                           },
-                          "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "valueType": "xs:string",
                           "value": "ZeroToMany"
@@ -4098,7 +3979,6 @@
                           }
                         ]
                       },
-                      "kind": "TemplateQualifier",
                       "type": "SMT/Cardinality",
                       "valueType": "xs:string",
                       "value": "OneToMany"
@@ -4117,7 +3997,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -4144,7 +4023,6 @@
               }
             ]
           },
-          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "ZeroToOne"
@@ -4161,7 +4039,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0173-1#01-AGZ672#001"
           }
         ],
@@ -4174,21 +4052,20 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#01-AHD205#001"
               }
             ],
             "type": "ExternalReference"
           },
-          "idShort": "GuidelineSpecificProperties{00}",
+          "idShort": "GuidelineSpecificProperties00",
           "modelType": "SubmodelElementCollection",
           "value": [
             {
-              "value": "",
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0173-1#02-AAO856#002"
                   }
                 ],
@@ -4208,7 +4085,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "One"
@@ -4216,17 +4092,16 @@
               ]
             },
             {
-              "value": "",
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "www.example.com/ids/cd/3325_9020_5022_1074"
                   }
                 ],
                 "type": "ExternalReference"
               },
-              "idShort": "{arbitrary}",
+              "idShort": "arbitraryGuidelineProperty",
               "modelType": "Property",
               "valueType": "xs:string",
               "qualifiers": [
@@ -4240,7 +4115,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "OneToMany"
@@ -4259,7 +4133,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "OneToMany"
@@ -4267,17 +4140,16 @@
           ]
         },
         {
-          "value": "",
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "www.example.com/ids/cd/3325_9020_5022_1964"
               }
             ],
             "type": "ExternalReference"
           },
-          "idShort": "{arbitrary}",
+          "idShort": "arbitraryAssetProperty",
           "modelType": "Property",
           "valueType": "xs:string",
           "qualifiers": [
@@ -4291,7 +4163,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "OneToMany"
@@ -4310,7 +4181,6 @@
               }
             ]
           },
-          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "ZeroToOne"

@@ -1,7 +1,6 @@
 {
   "idShort": "TechnicalData",
   "id": "https://aas.uni-h.de/sm/aHR0cHM6Ly9hYXMyLnVuaS1oLmRlL2Fhcy9sbmkwNzI5_TD",
-  "embeddedDataSpecifications": [],
   "modelType": "Submodel",
   "kind": "Instance",
   "submodelElements": [
@@ -20,10 +19,6 @@
         {
           "contentType": "image/png",
           "value": "https://aas.uni-h.de/images/MD_zentrum_hannover.svg",
-          "semanticId": {
-            "keys": [],
-            "type": "ExternalReference"
-          },
           "idShort": "ManufacturerLogo",
           "modelType": "File"
         },
@@ -157,7 +152,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "https://admin-shell.io/ZVEI/TechnicalData/TechnicalProperties/1/1"
           }
         ],
@@ -167,20 +162,12 @@
       "value": [
         {
           "value": "145 mm",
-          "semanticId": {
-            "keys": [],
-            "type": "ExternalReference"
-          },
           "idShort": "Length",
           "valueType": "xs:string",
           "modelType": "Property"
         },
         {
           "value": "12.8 mm",
-          "semanticId": {
-            "keys": [],
-            "type": "ExternalReference"
-          },
           "idShort": "Diameter",
           "category": "VARIABLE",
           "valueType": "xs:string",
@@ -188,13 +175,6 @@
         },
         {
           "value": "32 g",
-          "valueId": {
-            "keys": []
-          },
-          "semanticId": {
-            "keys": [],
-            "type": "ExternalReference"
-          },
           "idShort": "Weight",
           "valueType": "xs:string",
           "modelType": "Property"
@@ -204,7 +184,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAM556#002"
               }
             ],
@@ -217,20 +197,12 @@
         },
         {
           "value": "MDZH_LNI_v1.1",
-          "semanticId": {
-            "keys": [],
-            "type": "ExternalReference"
-          },
           "idShort": "HardwareRevision",
           "valueType": "xs:string",
           "modelType": "Property"
         },
         {
           "value": "aluminium",
-          "semanticId": {
-            "keys": [],
-            "type": "ExternalReference"
-          },
           "idShort": "Material",
           "category": "PARAMETER",
           "valueType": "xs:string",
@@ -238,10 +210,6 @@
         },
         {
           "value": "blue",
-          "semanticId": {
-            "keys": [],
-            "type": "ExternalReference"
-          },
           "idShort": "WritingColor",
           "category": "PARAMETER",
           "valueType": "xs:string",
@@ -249,50 +217,30 @@
         },
         {
           "value": "red",
-          "semanticId": {
-            "keys": [],
-            "type": "ExternalReference"
-          },
           "idShort": "LockColor",
           "valueType": "xs:string",
           "modelType": "Property"
         },
         {
           "value": "convex",
-          "semanticId": {
-            "keys": [],
-            "type": "ExternalReference"
-          },
           "idShort": "TipShape",
           "valueType": "xs:string",
           "modelType": "Property"
         },
         {
           "value": "0",
-          "semanticId": {
-            "keys": [],
-            "type": "ExternalReference"
-          },
           "idShort": "HandleShapeRadius",
           "valueType": "xs:string",
           "modelType": "Property"
         },
         {
           "value": "Dr. Robert Habeck",
-          "semanticId": {
-            "keys": [],
-            "type": "ExternalReference"
-          },
           "idShort": "EngravingText",
           "valueType": "xs:string",
           "modelType": "Property"
         },
         {
           "value": "BMWK",
-          "semanticId": {
-            "keys": [],
-            "type": "ExternalReference"
-          },
           "idShort": "EngravingTextBack",
           "valueType": "xs:string",
           "modelType": "Property"

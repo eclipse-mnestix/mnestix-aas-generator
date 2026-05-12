@@ -2,7 +2,7 @@
   "semanticId": {
     "keys": [
       {
-        "type": "Submodel",
+        "type": "GlobalReference",
         "value": "https://mnestix.com/sm/TemplateBuilderDemo/1/0"
       }
     ],
@@ -40,7 +40,6 @@
       "idShort": "Boolean",
       "valueType": "xs:boolean",
       "category": "PARAMETER",
-      "value": "",
       "modelType": "Property"
     },
     {
@@ -56,7 +55,6 @@
       "idShort": "Long",
       "valueType": "xs:long",
       "category": "PARAMETER",
-      "value": "",
       "modelType": "Property"
     },
     {
@@ -72,13 +70,11 @@
       "idShort": "Date",
       "valueType": "xs:date",
       "category": "PARAMETER",
-      "value": "",
       "modelType": "Property"
     }
   ],
   "id": "https://mnestix.com/sm/TemplateBuilderDemo/1/0",
   "idShort": "TemplateBuilderDemo",
-  "embeddedDataSpecifications": [],
   "description": [
     {
       "language": "en",

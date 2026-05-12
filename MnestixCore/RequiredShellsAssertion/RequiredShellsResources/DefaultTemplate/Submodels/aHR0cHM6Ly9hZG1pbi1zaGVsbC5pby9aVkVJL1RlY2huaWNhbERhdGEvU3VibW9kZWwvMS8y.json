@@ -2,7 +2,7 @@
   "semanticId": {
     "keys": [
       {
-        "type": "Submodel",
+        "type": "GlobalReference",
         "value": "https://admin-shell.io/ZVEI/TechnicalData/Submodel/1/2"
       }
     ],
@@ -68,7 +68,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -83,7 +82,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/ExampleValue",
               "valueType": "xs:string",
               "value": "Example Company"
@@ -97,7 +95,6 @@
           ]
         },
         {
-          "value": "",
           "semanticId": {
             "keys": [
               {
@@ -121,7 +118,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -158,7 +154,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -173,7 +168,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/ExampleValue",
               "valueType": "xs:string",
               "value": "Electrical energy accelerator@en"
@@ -212,7 +206,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -227,7 +220,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/ExampleValue",
               "valueType": "xs:string",
               "value": "A123-456"
@@ -266,7 +258,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -281,7 +272,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/ExampleValue",
               "valueType": "xs:string",
               "value": "EEA-EX-200-S/47-Q3"
@@ -295,7 +285,6 @@
           ]
         },
         {
-          "value": "",
           "semanticId": {
             "keys": [
               {
@@ -319,7 +308,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToMany"
@@ -344,7 +332,6 @@
               }
             ]
           },
-          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "One"
@@ -409,7 +396,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "One"
@@ -424,7 +410,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/ExampleValue",
                   "valueType": "xs:string",
                   "value": "ECLASS"
@@ -463,7 +448,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -478,7 +462,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/ExampleValue",
                   "valueType": "xs:string",
                   "value": "9.0 (BASIC)"
@@ -517,7 +500,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "One"
@@ -532,7 +514,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/ExampleValue",
                   "valueType": "xs:string",
                   "value": "27-01-88-77 | 0112/2///61987#ABA827#003"
@@ -557,7 +538,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToMany"
@@ -582,7 +562,6 @@
               }
             ]
           },
-          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "ZeroToOne"
@@ -609,16 +588,7 @@
       "modelType": "SubmodelElementCollection",
       "value": [
         {
-          "semanticId": {
-            "keys": [
-              {
-                "type": "GlobalReference",
-                "value": ""
-              }
-            ],
-            "type": "ExternalReference"
-          },
-          "idShort": "{arbitrary}",
+          "idShort": "arbitraryMultiLangProperty",
           "category": "PARAMETER",
           "modelType": "MultiLanguageProperty",
           "qualifiers": [
@@ -632,7 +602,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToMany"
@@ -647,7 +616,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/ExampleValue",
               "valueType": "xs:string",
               "value": "Width@en= 32 [mm]"
@@ -671,7 +639,7 @@
             ],
             "type": "ExternalReference"
           },
-          "idShort": "{arbitrary}",
+          "idShort": "arbitraryProperty",
           "category": "PARAMETER",
           "modelType": "Property",
           "valueType": "xs:string",
@@ -686,7 +654,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToMany"
@@ -701,7 +668,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/ExampleValue",
               "valueType": "xs:string",
               "value": "Length"
@@ -739,7 +705,6 @@
               },
               "idShort": "SubSection",
               "modelType": "SubmodelElementCollection",
-              "value": [],
               "qualifiers": [
                 {
                   "semanticId": {
@@ -751,7 +716,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToMany"
@@ -776,7 +740,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToMany"
@@ -801,7 +764,6 @@
           },
           "idShort": "SubSection",
           "modelType": "SubmodelElementCollection",
-          "value": [],
           "qualifiers": [
             {
               "semanticId": {
@@ -813,7 +775,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToMany"
@@ -838,7 +799,6 @@
               }
             ]
           },
-          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "One"
@@ -888,7 +848,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToMany"
@@ -903,7 +862,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/ExampleValue",
               "valueType": "xs:string",
               "value": "Restricted use@en"
@@ -917,7 +875,6 @@
           ]
         },
         {
-          "value": "",
           "semanticId": {
             "keys": [
               {
@@ -942,7 +899,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -957,7 +913,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/ExampleValue",
               "valueType": "xs:string",
               "value": "5/28/2021"
@@ -982,7 +937,6 @@
               }
             ]
           },
-          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "ZeroToOne"

@@ -2,7 +2,7 @@
   "semanticId": {
     "keys": [
       {
-        "type": "Submodel",
+        "type": "GlobalReference",
         "value": "https://admin-shell.io/idta/iec62683/1/0/Reliability"
       }
     ],
@@ -30,11 +30,10 @@
   "kind": "Template",
   "submodelElements": [
     {
-      "value": "",
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0112/2///62683#ACE006#001"
           }
         ],
@@ -58,7 +57,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0112/2///62683#ACG071#001"
           }
         ],
@@ -89,7 +88,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0112/2///61987#ABA969#007"
               }
             ],
@@ -114,11 +113,10 @@
           ]
         },
         {
-          "value": "",
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0112/2///61987#ABA588#004"
               }
             ],
@@ -143,11 +141,10 @@
           ]
         },
         {
-          "value": "",
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0112/2///61987#ABD461#004"
               }
             ],
@@ -172,11 +169,10 @@
           ]
         },
         {
-          "value": "",
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0112/2///61987#ABD462#004"
               }
             ],
@@ -201,11 +197,10 @@
           ]
         },
         {
-          "value": "",
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "https://admin-shell.io/idta/FunctionalSafety/RatedOperationalCurrent/1/0"
               }
             ],
@@ -247,7 +242,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0112/2///62683#ACE053#001"
               }
             ],
@@ -272,7 +267,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0112/2///62683#ACE070#001"
               }
             ],
@@ -293,11 +288,10 @@
           ]
         },
         {
-          "value": "",
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0112/2///62683#ACE055#001"
               }
             ],
@@ -318,11 +312,10 @@
           ]
         },
         {
-          "value": "",
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0112/2///62683#ACE054#001"
               }
             ],
@@ -358,7 +351,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0112/2///62683#ACG080#001"
           }
         ],
@@ -368,11 +361,10 @@
       "modelType": "SubmodelElementCollection",
       "value": [
         {
-          "value": "",
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0112/2///62683#ACE061#001"
               }
             ],
@@ -405,11 +397,10 @@
           ]
         },
         {
-          "value": "",
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0112/2///62683#ACE062#001"
               }
             ],
@@ -438,11 +429,10 @@
           ]
         },
         {
-          "value": "",
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "https://admin-shell.io/idta/Reliability/B10/1/0"
               }
             ],
@@ -450,13 +440,7 @@
           },
           "idShort": "B10",
           "modelType": "Property",
-          "valueType": "xs:int",
-          "description": [
-            {
-              "language": "en",
-              "text": ""
-            }
-          ]
+          "valueType": "xs:int"
         }
       ],
       "description": [

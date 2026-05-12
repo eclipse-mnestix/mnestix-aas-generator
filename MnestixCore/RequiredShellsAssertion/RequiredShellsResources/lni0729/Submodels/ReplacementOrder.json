@@ -1,16 +1,11 @@
 {
   "idShort": "ReplacementOrder",
   "id": "https://example.com/ids/sm/1084_4050_0132_2099",
-  "embeddedDataSpecifications": [],
   "modelType": "Submodel",
   "kind": "Instance",
   "submodelElements": [
     {
       "value": "LNI Ball Pen Refill",
-      "semanticId": {
-        "keys": [],
-        "type": "ExternalReference"
-      },
       "idShort": "OrderItems",
       "category": "PARAMETER",
       "valueType": "xs:string",
@@ -18,10 +13,6 @@
     },
     {
       "value": "No addons ",
-      "semanticId": {
-        "keys": [],
-        "type": "ExternalReference"
-      },
       "idShort": "Orderoptions",
       "category": "PARAMETER",
       "valueType": "xs:string",
@@ -29,10 +20,6 @@
     },
     {
       "value": "black",
-      "semanticId": {
-        "keys": [],
-        "type": "ExternalReference"
-      },
       "idShort": "Color",
       "category": "PARAMETER",
       "valueType": "xs:string",
@@ -40,10 +27,6 @@
     },
     {
       "value": "Order Number to be updated by ERP",
-      "semanticId": {
-        "keys": [],
-        "type": "ExternalReference"
-      },
       "idShort": "OrderNumber",
       "category": "PARAMETER",
       "valueType": "xs:string",
@@ -51,10 +34,6 @@
     },
     {
       "value": "Our reference: lni1394",
-      "semanticId": {
-        "keys": [],
-        "type": "ExternalReference"
-      },
       "idShort": "OrderState",
       "category": "VARIABLE",
       "valueType": "xs:string",
@@ -62,10 +41,6 @@
     },
     {
       "value": "Standard Delivery",
-      "semanticId": {
-        "keys": [],
-        "type": "ExternalReference"
-      },
       "idShort": "Orderpriority",
       "category": "PARAMETER",
       "valueType": "xs:string",
@@ -73,18 +48,10 @@
     },
     {
       "value": "06.01.2024",
-      "semanticId": {
-        "keys": [],
-        "type": "ExternalReference"
-      },
       "idShort": "OrderDate",
       "category": "PARAMETER",
       "valueType": "xs:string",
       "modelType": "Property"
     }
-  ],
-  "semanticId": {
-    "keys": [],
-    "type": "ExternalReference"
-  }
+  ]
 }

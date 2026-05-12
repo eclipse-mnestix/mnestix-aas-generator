@@ -2,7 +2,7 @@
   "semanticId": {
     "keys": [
       {
-        "type": "Submodel",
+        "type": "GlobalReference",
         "value": "https://admin-shell.io/idta/iec62683/1/0/FunctionalSafety"
       }
     ],
@@ -30,11 +30,10 @@
   "kind": "Template",
   "submodelElements": [
     {
-      "value": "",
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0112/2///62683#ACE005#001"
           }
         ],
@@ -58,7 +57,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0112/2///62683#ACG057#001"
           }
         ],
@@ -89,7 +88,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0112/2///61987#ABA969#007"
               }
             ],
@@ -114,11 +113,10 @@
           ]
         },
         {
-          "value": "",
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0112/2///61987#ABA588#004"
               }
             ],
@@ -143,11 +141,10 @@
           ]
         },
         {
-          "value": "",
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0112/2///61987#ABD461#004"
               }
             ],
@@ -172,11 +169,10 @@
           ]
         },
         {
-          "value": "",
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0112/2///61987#ABD462#004"
               }
             ],
@@ -201,11 +197,10 @@
           ]
         },
         {
-          "value": "",
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "https://admin-shell.io/idta/FunctionalSafety/RatedOperationalCurrent/1/0"
               }
             ],
@@ -247,7 +242,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0112/2///62683#ACE053#001"
               }
             ],
@@ -272,7 +267,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0112/2///62683#ACE070#001"
               }
             ],
@@ -293,11 +288,10 @@
           ]
         },
         {
-          "value": "",
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0112/2///62683#ACE055#001"
               }
             ],
@@ -318,11 +312,10 @@
           ]
         },
         {
-          "value": "",
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0112/2///62683#ACE054#001"
               }
             ],
@@ -358,7 +351,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0112/2///62683#ACG070#001"
           }
         ],
@@ -393,7 +386,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0112/2///62683#ACE071#001"
               }
             ],
@@ -417,7 +410,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0112/2///62683#ACG065#001"
               }
             ],
@@ -448,7 +441,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0112/2///62683#ACE051#001"
                   }
                 ],
@@ -469,11 +462,10 @@
               ]
             },
             {
-              "value": "",
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0112/2///62683#ACE052#001"
                   }
                 ],
@@ -494,11 +486,10 @@
               ]
             },
             {
-              "value": "",
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0112/2///62683#ACE058#001"
                   }
                 ],
@@ -548,7 +539,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0112/2///62683#ACE060#001"
                   }
                 ],
@@ -598,7 +589,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0112/2///62683#ACE063#001"
                   }
                 ],
@@ -634,7 +625,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0112/2///62683#ACG066#001"
               }
             ],
@@ -644,11 +635,10 @@
           "modelType": "SubmodelElementCollection",
           "value": [
             {
-              "value": "",
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0112/2///62683#ACE057#001"
                   }
                 ],
@@ -669,11 +659,10 @@
               ]
             },
             {
-              "value": "",
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "https://admin-shell.io/idta/FunctionalSafety/RDF/1/0"
                   }
                 ],
@@ -690,11 +679,10 @@
               ]
             },
             {
-              "value": "",
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0112/2///62683#ACE058#001"
                   }
                 ],
@@ -730,7 +718,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0112/2///62683#ACG067#001"
               }
             ],
@@ -740,11 +728,10 @@
           "modelType": "SubmodelElementCollection",
           "value": [
             {
-              "value": "",
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0112/2///62683#ACE056#001"
                   }
                 ],
@@ -765,11 +752,10 @@
               ]
             },
             {
-              "value": "",
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0112/2///62683#ACE058#001"
                   }
                 ],
@@ -805,7 +791,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0112/2///62683#ACG069#001"
               }
             ],
@@ -836,7 +822,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0112/2///62683#ACE051#001"
                   }
                 ],
@@ -857,11 +843,10 @@
               ]
             },
             {
-              "value": "",
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0112/2///62683#ACE058#001"
                   }
                 ],
@@ -911,7 +896,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0112/2///62683#ACE060#001"
                   }
                 ],
@@ -961,7 +946,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0112/2///62683#ACE063#001"
                   }
                 ],
