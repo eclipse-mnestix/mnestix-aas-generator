@@ -42,8 +42,10 @@ public class PostgresBasedAasInheritanceService : IAasInheritanceService
             var aasDataJson = reader.GetString(1);
 
             var aasData = JObject.Parse(aasDataJson);
-            var assetIdShort = aasData.SelectToken(
-                "assetInformation.specificAssetIds[?(@.name=='assetIdShort')].value")?.Value<string>() ?? string.Empty;
+            var assetIdShort = aasData
+                .SelectTokens("assetInformation.specificAssetIds[?(@.name=='assetIdShort')].value")
+                .FirstOrDefault()?
+                .Value<string>() ?? string.Empty;
 
             result.Add(new Aas(aasIdValue, assetIdShort));
         }
