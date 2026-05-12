@@ -1,6 +1,4 @@
 ﻿using System.Net;
-using System.Net.Http;
-using System.Text.RegularExpressions;
 using Microsoft.Extensions.Options;
 using MnestixCore.Dtos.AppSettingsOptions;
 using MnestixCore.Errors;
@@ -24,158 +22,6 @@ public class RepoProxyClient(
 
     private readonly CustomerEndpointsSecurityOptions _customerEndpointsSecurityOptions = customerEndpointsSecurityOptions.Value ??
                                                                                           throw new ArgumentNullException(nameof(customerEndpointsSecurityOptions));
-
-    // Canonical XSD value-type mapping (BaSyx Go requires lowercase)
-    private static readonly Dictionary<string, string> ValueTypeCaseMap = new(StringComparer.OrdinalIgnoreCase)
-    {
-        ["xs:string"] = "xs:string",
-        ["xs:boolean"] = "xs:boolean",
-        ["xs:integer"] = "xs:integer",
-        ["xs:int"] = "xs:int",
-        ["xs:long"] = "xs:long",
-        ["xs:short"] = "xs:short",
-        ["xs:decimal"] = "xs:decimal",
-        ["xs:double"] = "xs:double",
-        ["xs:float"] = "xs:float",
-        ["xs:dateTime"] = "xs:dateTime",
-        ["xs:date"] = "xs:date",
-        ["xs:time"] = "xs:time",
-        ["xs:anyURI"] = "xs:anyURI",
-        ["xs:base64Binary"] = "xs:base64Binary",
-        ["xs:hexBinary"] = "xs:hexBinary",
-        ["xs:byte"] = "xs:byte",
-        ["xs:unsignedByte"] = "xs:unsignedByte",
-        ["xs:unsignedShort"] = "xs:unsignedShort",
-        ["xs:unsignedInt"] = "xs:unsignedInt",
-        ["xs:unsignedLong"] = "xs:unsignedLong",
-        ["xs:positiveInteger"] = "xs:positiveInteger",
-        ["xs:nonNegativeInteger"] = "xs:nonNegativeInteger",
-        ["xs:negativeInteger"] = "xs:negativeInteger",
-        ["xs:nonPositiveInteger"] = "xs:nonPositiveInteger",
-        ["xs:duration"] = "xs:duration",
-        ["xs:gDay"] = "xs:gDay",
-        ["xs:gMonth"] = "xs:gMonth",
-        ["xs:gMonthDay"] = "xs:gMonthDay",
-        ["xs:gYear"] = "xs:gYear",
-        ["xs:gYearMonth"] = "xs:gYearMonth",
-    };
-
-    /// <summary>
-    /// Normalizes a JSON payload for compatibility with BaSyx Go's stricter AAS v3 compliance.
-    /// Applies 7 rules: strip nulls, remove dataSpecification, strip kind from non-Submodel,
-    /// strip parent, normalize valueType, inject qualifier valueType, coerce Property.value to string.
-    /// </summary>
-    internal static JObject NormalizeJsonForRepository(JObject json)
-    {
-        NormalizeToken(json, isRoot: true);
-        return json;
-    }
-
-    private static void NormalizeToken(JToken token, bool isRoot = false)
-    {
-        switch (token)
-        {
-            case JObject obj:
-                // Collect properties to remove (avoid modifying during enumeration)
-                var propsToRemove = new List<string>();
-
-                foreach (var prop in obj.Properties().ToList())
-                {
-                    // Rule 1: Strip null-valued properties
-                    if (prop.Value.Type == JTokenType.Null)
-                    {
-                        propsToRemove.Add(prop.Name);
-                        continue;
-                    }
-
-                    // Rule 2: Remove deprecated dataSpecification property
-                    if (prop.Name is "dataSpecification" or "hasDataSpecification")
-                    {
-                        propsToRemove.Add(prop.Name);
-                        continue;
-                    }
-
-                    // Rule 4: Strip parent back-references
-                    if (prop.Name == "parent")
-                    {
-                        propsToRemove.Add(prop.Name);
-                        continue;
-                    }
-
-                    // Strip v2 fields from Key objects
-                    if (prop.Name is "local" or "idType" or "index")
-                    {
-                        propsToRemove.Add(prop.Name);
-                        continue;
-                    }
-
-                    // Strip v2 ordered / allowDuplicates from SubmodelElementCollections
-                    if (prop.Name is "ordered" or "allowDuplicates")
-                    {
-                        propsToRemove.Add(prop.Name);
-                        continue;
-                    }
-                }
-
-                foreach (var name in propsToRemove)
-                {
-                    obj.Remove(name);
-                }
-
-                // Rule 3: Strip kind from non-Submodel elements
-                // Only the root-level Submodel (which has modelType=Submodel) may keep "kind"
-                var modelType = obj["modelType"]?.Value<string>();
-                if (obj.ContainsKey("kind") && modelType != null && modelType != "Submodel")
-                {
-                    obj.Remove("kind");
-                }
-
-                // Rule 5: Normalize valueType to canonical XSD case
-                if (obj["valueType"] is JToken vt && vt.Type == JTokenType.String)
-                {
-                    var raw = vt.Value<string>();
-                    if (raw != null && ValueTypeCaseMap.TryGetValue(raw, out var canonical))
-                    {
-                        obj["valueType"] = canonical;
-                    }
-                }
-
-                // Rule 6: Inject valueType on qualifiers missing it
-                if (modelType == null && obj["type"] != null && obj["value"] != null && !obj.ContainsKey("valueType"))
-                {
-                    // This looks like a qualifier object (has "type" and "value" but no "modelType")
-                    var parentArray = obj.Parent as JArray;
-                    var parentProp = parentArray?.Parent as JProperty;
-                    if (parentProp?.Name == "qualifiers")
-                    {
-                        obj["valueType"] = "xs:string";
-                    }
-                }
-
-                // Rule 7: Coerce non-string Property.value to string
-                if (modelType == "Property" && obj["value"] is JToken val)
-                {
-                    if (val.Type is JTokenType.Integer or JTokenType.Float or JTokenType.Boolean)
-                    {
-                        obj["value"] = val.ToString();
-                    }
-                }
-
-                // Recurse into remaining properties
-                foreach (var prop in obj.Properties().ToList())
-                {
-                    NormalizeToken(prop.Value);
-                }
-                break;
-
-            case JArray arr:
-                foreach (var item in arr.ToList())
-                {
-                    NormalizeToken(item);
-                }
-                break;
-        }
-    }
 
     /// <inheritdoc />
     public async Task<string?> GetAsync(string repoProxyPath)
@@ -220,7 +66,7 @@ public class RepoProxyClient(
             };
 
             restRequest.AddHeader(ApiKeyHeaderKey, _customerEndpointsSecurityOptions.ApiKey);
-            var normalized = NormalizeJsonForRepository(JObject.Parse(jsonContent));
+            var normalized = AasJsonNormalizer.NormalizeJsonForRepository(JObject.Parse(jsonContent));
             restRequest.AddBody(normalized.ToString(), "application/json");
 
             var response = await client.ExecuteAsync(restRequest);
@@ -257,7 +103,7 @@ public class RepoProxyClient(
             };
 
             restRequest.AddHeader(ApiKeyHeaderKey, _customerEndpointsSecurityOptions.ApiKey);
-            var normalized = NormalizeJsonForRepository(JObject.Parse(jsonContent));
+            var normalized = AasJsonNormalizer.NormalizeJsonForRepository(JObject.Parse(jsonContent));
             restRequest.AddBody(normalized.ToString(), "application/json");
 
             var response = await client.ExecuteAsync(restRequest);
@@ -297,7 +143,7 @@ public class RepoProxyClient(
             };
 
             restRequest.AddHeader(ApiKeyHeaderKey, _customerEndpointsSecurityOptions.ApiKey);
-            var normalized = NormalizeJsonForRepository(JObject.Parse(jsonContent));
+            var normalized = AasJsonNormalizer.NormalizeJsonForRepository(JObject.Parse(jsonContent));
             restRequest.AddBody(normalized.ToString(), "application/json");
 
             var response = await client.ExecuteAsync(restRequest);

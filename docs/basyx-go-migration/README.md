@@ -58,7 +58,7 @@ Use `fix_resources.py` to apply these same fixes to any additional resources.
 
 ### 3. MapDataToInstanceStep
 
-Added tolerance for empty-string `value` fields on `Property` elements. BaSyx Go strips empty-string values on round-trip, so the mapper now ensures the `value` key exists before mapping.
+Added tolerance for empty-string `value` fields on `Property` elements. BaSyx Go strips empty-string `value` fields on round-trip, so no empty-string placeholder is injected — the field is simply absent when no data is mapped.
 
 ### 4. AAS Inheritance (MongoDB → PostgreSQL)
 
