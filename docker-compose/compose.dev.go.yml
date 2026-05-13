@@ -58,8 +58,6 @@ services:
       Features__UseAuthentication: "false"
       ASPNETCORE_URLS: "http://+:5064"
       ServerUrls: "http://mnestix-proxy:5065/repo/"
-      BasyxDbConnectionConfiguration__PostgresConnectionString: "Host=basyx-db;Port=5432;Database=basyxdb;Username=basyx;Password=basyx"
-      BasyxDbConnectionConfiguration__AasTableName: "aas"
     depends_on:
       mnestix-proxy:
         condition: service_started
