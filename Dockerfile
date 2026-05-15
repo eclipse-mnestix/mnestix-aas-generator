@@ -18,7 +18,18 @@ RUN dotnet build "./MnestixApi.csproj" -c $BUILD_CONFIGURATION -o /app/build -a 
 
 # tests
 WORKDIR /src
-RUN dotnet test --logger "trx;LogFileName=TestResults.trx"
+# arm64 not supported by ephemeral-mongo
+# https://github.com/asimmon/ephemeral-mongo/issues/3
+RUN ARCH=$(uname -m); \
+    if [ "$ARCH" = "x86_64" ]; then \
+        # manually install libssl1.1 in the Docker container to ensure that our tests can run successfully.
+        # The .NET SDK 8.0 Docker image has been updated to Debian 12 (Bookworm), which no longer includes libssl1.1 by default.
+        # libssl1.1 is required for EphemeralMongo tests to run in the Docker container, as it is needed to establish secure communication with MongoDB.
+        # Therefore, we need to manually install libssl1.1 in the Docker container to ensure that our tests can run successfully.
+        wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2.24_amd64.deb; \
+        dpkg -i libssl1.1_1.1.1f-1ubuntu2.24_amd64.deb && rm libssl1.1_1.1.1f-1ubuntu2.24_amd64.deb; \
+        dotnet test --logger "trx;LogFileName=TestResults.trx"; \
+    fi
 
 WORKDIR "/src/MnestixApi"
 RUN dotnet publish "./MnestixApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false -a $TARGETARCH

@@ -1,8 +1,8 @@
-{
+﻿{
   "semanticId": {
     "keys": [
       {
-        "type": "GlobalReference",
+        "type": "Submodel",
         "value": "https://admin-shell.io/zvei/nameplate/1/0/Nameplate"
       }
     ],
@@ -13,6 +13,7 @@
     "version": "1",
     "revision": "0"
   },
+  "dataSpecification": [],
   "qualifiers": [
     {
       "valueType": "xs:string",
@@ -38,6 +39,7 @@
         "type": "ExternalReference"
       },
       "idShort": "ManufacturerName",
+      "kind": "Template",
       "modelType": "MultiLanguageProperty",
       "category": "PARAMETER",
       "qualifiers": [
@@ -51,6 +53,7 @@
               }
             ]
           },
+          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "One"
@@ -65,6 +68,7 @@
               }
             ]
           },
+          "kind": "TemplateQualifier",
           "type": "SMT/ExampleValue",
           "valueType": "xs:string",
           "value": "Muster AG@DE"
@@ -88,6 +92,7 @@
         "type": "ExternalReference"
       },
       "idShort": "SerialNumber",
+      "kind": "Template",
       "valueType": "xs:string",
       "modelType": "Property",
       "category": "PARAMETER",
@@ -103,6 +108,7 @@
               }
             ]
           },
+          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "ZeroToOne"
@@ -117,6 +123,7 @@
               }
             ]
           },
+          "kind": "TemplateQualifier",
           "type": "SMT/ExampleValue",
           "valueType": "xs:string",
           "value": "12345678"
@@ -140,6 +147,7 @@
         "type": "ExternalReference"
       },
       "idShort": "Address",
+      "kind": "Template",
       "modelType": "SubmodelElementCollection",
       "value": [
         {
@@ -153,6 +161,7 @@
             "type": "ExternalReference"
           },
           "idShort": "POBox",
+          "kind": "Template",
           "modelType": "MultiLanguageProperty",
           "category": "PARAMETER",
           "qualifiers": [
@@ -166,6 +175,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -180,6 +190,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/ExampleValue",
               "valueType": "xs:string",
               "value": "PF 1234@DE"
@@ -203,6 +214,7 @@
             "type": "ExternalReference"
           },
           "idShort": "VATNumber",
+          "kind": "Template",
           "modelType": "MultiLanguageProperty",
           "category": "PARAMETER",
           "qualifiers": [
@@ -216,6 +228,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -230,6 +243,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/ExampleValue",
               "valueType": "xs:string",
               "value": "DE123456789@DE"
@@ -253,6 +267,7 @@
             "type": "ExternalReference"
           },
           "idShort": "AddressRemarks",
+          "kind": "Template",
           "modelType": "MultiLanguageProperty",
           "category": "PARAMETER",
           "qualifiers": [
@@ -266,6 +281,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -289,6 +305,7 @@
             "type": "ExternalReference"
           },
           "idShort": "Department",
+          "kind": "Template",
           "modelType": "MultiLanguageProperty",
           "category": "PARAMETER",
           "qualifiers": [
@@ -302,6 +319,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -316,6 +334,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/ExampleValue",
               "valueType": "xs:string",
               "value": "Vertrieb@DE"
@@ -338,7 +357,8 @@
             ],
             "type": "ExternalReference"
           },
-          "idShort": "Fax00",
+          "idShort": "Fax{00}",
+          "kind": "Template",
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -352,6 +372,7 @@
                 "type": "ExternalReference"
               },
               "idShort": "TypeOfFaxNumber",
+              "kind": "Template",
               "modelType": "MultiLanguageProperty",
               "category": "PARAMETER",
               "qualifiers": [
@@ -365,6 +386,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -379,6 +401,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/ExampleValue",
                   "valueType": "xs:string",
                   "value": "office (ValueId=0173-1#07-AAS754#001)"
@@ -402,6 +425,7 @@
                 "type": "ExternalReference"
               },
               "idShort": "FaxNumber",
+              "kind": "Template",
               "modelType": "MultiLanguageProperty",
               "category": "PARAMETER",
               "qualifiers": [
@@ -415,6 +439,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "One"
@@ -429,6 +454,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/ExampleValue",
                   "valueType": "xs:string",
                   "value": "+491234567890@DE"
@@ -453,6 +479,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToMany"
@@ -470,6 +497,7 @@
             "type": "ExternalReference"
           },
           "idShort": "NationalCode",
+          "kind": "Template",
           "modelType": "MultiLanguageProperty",
           "category": "PARAMETER",
           "qualifiers": [
@@ -483,6 +511,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -497,6 +526,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/ExampleValue",
               "valueType": "xs:string",
               "value": "DE@DE"
@@ -520,6 +550,7 @@
             "type": "ExternalReference"
           },
           "idShort": "AddressOfAdditionalLink",
+          "kind": "Template",
           "valueType": "xs:string",
           "modelType": "Property",
           "category": "PARAMETER",
@@ -535,6 +566,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -549,6 +581,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/ExampleValue",
               "valueType": "xs:string",
               "value": "www.example.com"
@@ -572,6 +605,7 @@
             "type": "ExternalReference"
           },
           "idShort": "Zipcode",
+          "kind": "Template",
           "modelType": "MultiLanguageProperty",
           "category": "PARAMETER",
           "qualifiers": [
@@ -585,6 +619,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -599,6 +634,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/ExampleValue",
               "valueType": "xs:string",
               "value": "12345@DE"
@@ -622,6 +658,7 @@
             "type": "ExternalReference"
           },
           "idShort": "Street",
+          "kind": "Template",
           "modelType": "MultiLanguageProperty",
           "category": "PARAMETER",
           "qualifiers": [
@@ -635,6 +672,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -649,6 +687,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/ExampleValue",
               "valueType": "xs:string",
               "value": "Musterstraße 1@DE"
@@ -672,6 +711,7 @@
             "type": "ExternalReference"
           },
           "idShort": "StateCounty",
+          "kind": "Template",
           "modelType": "MultiLanguageProperty",
           "category": "PARAMETER",
           "qualifiers": [
@@ -685,6 +725,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -699,6 +740,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/ExampleValue",
               "valueType": "xs:string",
               "value": "Muster-Bundesland@DE"
@@ -721,7 +763,8 @@
             ],
             "type": "ExternalReference"
           },
-          "idShort": "Email00",
+          "idShort": "Email{00}",
+          "kind": "Template",
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -735,6 +778,7 @@
                 "type": "ExternalReference"
               },
               "idShort": "PublicKey",
+              "kind": "Template",
               "modelType": "MultiLanguageProperty",
               "category": "PARAMETER",
               "qualifiers": [
@@ -748,6 +792,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -771,6 +816,7 @@
                 "type": "ExternalReference"
               },
               "idShort": "TypeOfPublicKey",
+              "kind": "Template",
               "modelType": "MultiLanguageProperty",
               "category": "PARAMETER",
               "qualifiers": [
@@ -784,6 +830,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -807,6 +854,7 @@
                 "type": "ExternalReference"
               },
               "idShort": "EmailAddress",
+              "kind": "Template",
               "valueType": "xs:string",
               "modelType": "Property",
               "category": "PARAMETER",
@@ -822,6 +870,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "One"
@@ -845,6 +894,7 @@
                 "type": "ExternalReference"
               },
               "idShort": "TypeOfEmailAddress",
+              "kind": "Template",
               "valueType": "xs:string",
               "modelType": "Property",
               "category": "PARAMETER",
@@ -860,6 +910,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -874,6 +925,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/ExampleValue",
                   "valueType": "xs:string",
                   "value": "office (ValueId=173-1#07-AAS754#001)"
@@ -898,6 +950,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToMany"
@@ -915,6 +968,7 @@
             "type": "ExternalReference"
           },
           "idShort": "ZipCodeOfPOBox",
+          "kind": "Template",
           "modelType": "MultiLanguageProperty",
           "category": "PARAMETER",
           "qualifiers": [
@@ -928,6 +982,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -942,6 +997,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/ExampleValue",
               "valueType": "xs:string",
               "value": "12345@DE"
@@ -965,6 +1021,7 @@
             "type": "ExternalReference"
           },
           "idShort": "CityTown",
+          "kind": "Template",
           "modelType": "MultiLanguageProperty",
           "qualifiers": [
             {
@@ -977,6 +1034,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -991,6 +1049,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/ExampleValue",
               "valueType": "xs:string",
               "value": "Musterstadt@DE"
@@ -1013,7 +1072,8 @@
             ],
             "type": "ExternalReference"
           },
-          "idShort": "Phone00",
+          "idShort": "Phone{00}",
+          "kind": "Template",
           "modelType": "SubmodelElementCollection",
           "category": "PARAMETER",
           "value": [
@@ -1028,6 +1088,7 @@
                 "type": "ExternalReference"
               },
               "idShort": "TypeOfTelephone",
+              "kind": "Template",
               "valueType": "xs:string",
               "modelType": "Property",
               "category": "PARAMETER",
@@ -1043,6 +1104,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -1057,6 +1119,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/ExampleValue",
                   "valueType": "xs:string",
                   "value": "office (ValueId=0173-1#07-AAS754#001)"
@@ -1080,6 +1143,7 @@
                 "type": "ExternalReference"
               },
               "idShort": "TelephoneNumber",
+              "kind": "Template",
               "modelType": "MultiLanguageProperty",
               "category": "PARAMETER",
               "qualifiers": [
@@ -1093,6 +1157,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "One"
@@ -1107,6 +1172,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/ExampleValue",
                   "valueType": "xs:string",
                   "value": "+491234567890@DE"
@@ -1131,6 +1197,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToMany"
@@ -1149,6 +1216,7 @@
               }
             ]
           },
+          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "One"
@@ -1172,6 +1240,7 @@
         "type": "ExternalReference"
       },
       "idShort": "ManufacturerProductDesignation",
+      "kind": "Template",
       "modelType": "MultiLanguageProperty",
       "category": "PARAMETER",
       "qualifiers": [
@@ -1185,6 +1254,7 @@
               }
             ]
           },
+          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "One"
@@ -1199,6 +1269,7 @@
               }
             ]
           },
+          "kind": "TemplateQualifier",
           "type": "SMT/ExampleValue",
           "valueType": "xs:string",
           "value": "ABC-123@EN"
@@ -1222,6 +1293,7 @@
         "type": "ExternalReference"
       },
       "idShort": "AssetSpecificProperties",
+      "kind": "Template",
       "modelType": "SubmodelElementCollection",
       "value": [
         {
@@ -1234,7 +1306,8 @@
             ],
             "type": "ExternalReference"
           },
-          "idShort": "GuidelineSpecificProperties00",
+          "idShort": "GuidelineSpecificProperties{00}",
+          "kind": "Template",
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -1248,6 +1321,7 @@
                 "type": "ExternalReference"
               },
               "idShort": "GuidelineForConformityDeclaration",
+              "kind": "Template",
               "valueType": "xs:string",
               "modelType": "Property",
               "category": "PARAMETER",
@@ -1263,6 +1337,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "One"
@@ -1277,6 +1352,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/ExampleValue",
                   "valueType": "xs:string",
                   "value": "UL 1004-1"
@@ -1301,6 +1377,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "OneToMany"
@@ -1325,6 +1402,7 @@
               }
             ]
           },
+          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "ZeroToOne"
@@ -1348,6 +1426,7 @@
         "type": "ExternalReference"
       },
       "idShort": "YearOfConstruction",
+      "kind": "Template",
       "valueType": "xs:string",
       "modelType": "Property",
       "category": "PARAMETER",
@@ -1363,6 +1442,7 @@
               }
             ]
           },
+          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "One"
@@ -1377,6 +1457,7 @@
               }
             ]
           },
+          "kind": "TemplateQualifier",
           "type": "SMT/ExampleValue",
           "valueType": "xs:string",
           "value": "2020"
@@ -1400,6 +1481,7 @@
         "type": "ExternalReference"
       },
       "idShort": "Markings",
+      "kind": "Template",
       "modelType": "SubmodelElementCollection",
       "value": [
         {
@@ -1412,7 +1494,8 @@
             ],
             "type": "ExternalReference"
           },
-          "idShort": "Marking00",
+          "idShort": "Marking{00}",
+          "kind": "Template",
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -1427,8 +1510,10 @@
                 "type": "ExternalReference"
               },
               "idShort": "MarkingFile",
+              "kind": "Template",
               "modelType": "File",
               "category": "PARAMETER",
+              "value": "",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1440,6 +1525,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "One"
@@ -1454,6 +1540,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/ExampleValue",
                   "valueType": "xs:string",
                   "value": "https://example.com/fileshare/marking_ce.png"
@@ -1477,6 +1564,7 @@
                 "type": "ExternalReference"
               },
               "idShort": "MarkingName",
+              "kind": "Template",
               "valueType": "xs:string",
               "modelType": "Property",
               "category": "PARAMETER",
@@ -1492,6 +1580,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "One"
@@ -1506,6 +1595,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/ExampleValue",
                   "valueType": "xs:string",
                   "value": "CE (ValueId=0173-1#07-DAA603#004)"
@@ -1528,7 +1618,8 @@
                 ],
                 "type": "ExternalReference"
               },
-              "idShort": "MarkingAdditionalText00",
+              "idShort": "MarkingAdditionalText{00}",
+              "kind": "Template",
               "valueType": "xs:string",
               "modelType": "Property",
               "category": "PARAMETER",
@@ -1544,6 +1635,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToMany"
@@ -1558,6 +1650,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/ExampleValue",
                   "valueType": "xs:string",
                   "value": "0044"
@@ -1582,6 +1675,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "OneToMany"
@@ -1606,6 +1700,7 @@
               }
             ]
           },
+          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "ZeroToOne"
@@ -1629,6 +1724,7 @@
         "type": "ExternalReference"
       },
       "idShort": "ManufacturerProductFamily",
+      "kind": "Template",
       "modelType": "MultiLanguageProperty",
       "category": "PARAMETER",
       "qualifiers": [
@@ -1642,6 +1738,7 @@
               }
             ]
           },
+          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "One"
@@ -1656,6 +1753,7 @@
               }
             ]
           },
+          "kind": "TemplateQualifier",
           "type": "SMT/ExampleValue",
           "valueType": "xs:string",
           "value": "TypeABC@EN"
@@ -1671,6 +1769,7 @@
   ],
   "id": "https://admin-shell.io/zvei/nameplate/1/0/Nameplate",
   "idShort": "Nameplate",
+  "embeddedDataSpecifications": [],
   "description": [
     {
       "language": "en",

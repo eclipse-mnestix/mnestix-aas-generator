@@ -1,4 +1,4 @@
-{
+﻿{
   "idShort": "IdGenerationSettings",
   "administration": {
     "version": "1",
@@ -70,6 +70,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/AllowedValue",
               "valueType": "xs:string",
               "value": "(AssetIdShort)"
@@ -88,6 +89,7 @@
               }
             ]
           },
+          "kind": "TemplateQualifier",
           "type": "SMT/IdType",
           "valueType": "xs:string",
           "value": "string"
@@ -133,6 +135,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/ExampleValue",
               "valueType": "xs:string",
               "value": "aas_"
@@ -165,6 +168,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/AllowedValue",
               "valueType": "xs:string",
               "value": "(GUID|AssetIdShort)"
@@ -183,6 +187,7 @@
               }
             ]
           },
+          "kind": "TemplateQualifier",
           "type": "SMT/IdType",
           "valueType": "xs:string",
           "value": "string"
@@ -228,6 +233,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/ExampleValue",
               "valueType": "xs:string",
               "value": "https://example.com/aas/"
@@ -260,6 +266,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/AllowedValue",
               "valueType": "xs:string",
               "value": "(GUID|AssetIdShort|AASIdShort)"
@@ -278,6 +285,7 @@
               }
             ]
           },
+          "kind": "TemplateQualifier",
           "type": "SMT/IdType",
           "valueType": "xs:string",
           "value": "IRI"
@@ -323,6 +331,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/ExampleValue",
               "valueType": "xs:string",
               "value": "https://example.com/"
@@ -355,6 +364,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/AllowedValue",
               "valueType": "xs:string",
               "value": "(GUID|AssetIdShort)"
@@ -373,6 +383,7 @@
               }
             ]
           },
+          "kind": "TemplateQualifier",
           "type": "SMT/IdType",
           "valueType": "xs:string",
           "value": "IRI"
@@ -418,6 +429,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/ExampleValue",
               "valueType": "xs:string",
               "value": "https://example1234.com/sm/"
@@ -450,6 +462,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/AllowedValue",
               "valueType": "xs:string",
               "value": "(GUID)"
@@ -468,6 +481,7 @@
               }
             ]
           },
+          "kind": "TemplateQualifier",
           "type": "SMT/IdType",
           "valueType": "xs:string",
           "value": "IRI"
