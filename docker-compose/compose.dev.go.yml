@@ -4,8 +4,21 @@ services:
     container_name: mnestix-browser
     ports:
       - "3000:3000"
-    env_file:
-      - ./.env.local
+    environment:
+      - AAS_REPO_API_URL=http://mnestix-proxy:5065/repo
+      - SUBMODEL_REPO_API_URL=http://mnestix-proxy:5065/repo
+      - CONCEPT_DESCRIPTION_REPO_API_URL=http://mnestix-proxy:5065/repo/concept-descriptions
+      - SERIALIZATION_API_URL=http://mnestix-proxy:5065/repo
+      - DISCOVERY_API_URL=http://mnestix-proxy:5065/discovery
+      - MNESTIX_AAS_GENERATOR_API_URL=http://mnestix-proxy:5065
+      - MNESTIX_BACKEND_API_KEY=verySecureApiKey
+      - AAS_LIST_FEATURE_FLAG=true
+      - COMPARISON_FEATURE_FLAG=true
+      - AUTHENTICATION_FEATURE_FLAG=false
+      - LOCK_TIMESERIES_PERIOD_FEATURE_FLAG=true
+      - BASYX_RBAC_ENABLED=false
+      - NEXTAUTH_SECRET=verySecureNextAuthSecret
+      - SECRET_ENC_KEY=J+mMxwKo+aoFJ6uxMv6Acv54buuBir2EJ3z6LGFB+Vo=
     depends_on:
       mnestix-proxy:
         condition: service_started
@@ -17,10 +30,15 @@ services:
     container_name: mnestix-proxy
     ports:
       - "5065:5065"
-    env_file:
-      - ./.env.local
     environment:
       - ASPNETCORE_URLS=http://+:5065
+      - CustomerEndpointsSecurity__ApiKey=verySecureApiKey
+      - ReverseProxy__Clusters__mnestixApiCluster__Destinations__destination1__Address=http://mnestix-aas-generator:5064/
+      - ReverseProxy__Clusters__aasRepoCluster__Destinations__destination1__Address=http://aas-repository:8081/
+      - ReverseProxy__Clusters__submodelRepoCluster__Destinations__destination1__Address=http://submodel-repository:8081/
+      - ReverseProxy__Clusters__discoveryCluster__Destinations__destination1__Address=http://aas-discovery:8081/
+      - ReverseProxy__Clusters__influxCluster__Destinations__destination1__Address=http://example/
+      - ReverseProxy__Routes__InfluxRoute__Transforms__1__Set=Token 
     depends_on:
       aas-repository:
         condition: service_healthy
@@ -35,10 +53,11 @@ services:
     container_name: mnestix-aas-generator
     ports:
       - "5064:5064"
-    env_file:
-      - ./.env.local
     environment:
       - ASPNETCORE_URLS=http://+:5064
+      - CustomerEndpointsSecurity__ApiKey=verySecureApiKey
+      - Features__UseAuthentication=false
+      - ServerUrls=http://mnestix-proxy:5065/repo/
     depends_on:
       mnestix-proxy:
         condition: service_started
@@ -59,8 +78,10 @@ services:
     container_name: basyx-db
     ports:
       - "5432:5432"
-    env_file:
-      - ./.env.local
+    environment:
+      - POSTGRES_USER=basyx
+      - POSTGRES_PASSWORD=basyx
+      - POSTGRES_DB=basyxdb
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U basyx -d basyxdb"]
       interval: 5s
@@ -80,8 +101,21 @@ services:
     container_name: aas-repository
     ports:
       - "8081:8081"
-    env_file:
-      - ./.env.local
+    environment:
+      - SERVER_PORT=8081
+      - POSTGRES_HOST=basyx-db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DBNAME=basyxdb
+      - POSTGRES_USER=basyx
+      - POSTGRES_PASSWORD=basyx
+      - CORS_ALLOWEDORIGINS=*
+      - CORS_ALLOWEDMETHODS=GET,POST,PUT,PATCH,DELETE,OPTIONS
+      - CORS_ALLOWEDHEADERS=*
+      - CORS_ALLOWEDCREDENTIALS=true
+      - ABAC_ENABLED=false
+    depends_on:
+      basyx-db:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "/bin/healthprobe"]
       interval: 10s
@@ -100,8 +134,21 @@ services:
     container_name: submodel-repository
     ports:
       - "8082:8081"
-    env_file:
-      - ./.env.local
+    environment:
+      - SERVER_PORT=8081
+      - POSTGRES_HOST=basyx-db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DBNAME=basyxdb
+      - POSTGRES_USER=basyx
+      - POSTGRES_PASSWORD=basyx
+      - CORS_ALLOWEDORIGINS=*
+      - CORS_ALLOWEDMETHODS=GET,POST,PUT,PATCH,DELETE,OPTIONS
+      - CORS_ALLOWEDHEADERS=*
+      - CORS_ALLOWEDCREDENTIALS=true
+      - ABAC_ENABLED=false
+    depends_on:
+      basyx-db:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "/bin/healthprobe"]
       interval: 10s
@@ -120,8 +167,21 @@ services:
     container_name: aas-discovery
     ports:
       - "8083:8081"
-    env_file:
-      - ./.env.local
+    environment:
+      - SERVER_PORT=8081
+      - POSTGRES_HOST=basyx-db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DBNAME=basyxdb
+      - POSTGRES_USER=basyx
+      - POSTGRES_PASSWORD=basyx
+      - CORS_ALLOWEDORIGINS=*
+      - CORS_ALLOWEDMETHODS=GET,POST,PUT,PATCH,DELETE,OPTIONS
+      - CORS_ALLOWEDHEADERS=*
+      - CORS_ALLOWEDCREDENTIALS=true
+      - ABAC_ENABLED=false
+    depends_on:
+      basyx-db:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "/bin/healthprobe"]
       interval: 10s
