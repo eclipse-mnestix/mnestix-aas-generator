@@ -1,14 +1,10 @@
 {
   "idShort": "CarbonFootprint",
   "id": "https://aas2.uni-h.de/sm/lni0729_PCF",
-  "dataSpecification": [],
-  "embeddedDataSpecifications": [],
   "modelType": "Submodel",
   "kind": "Instance",
   "submodelElements": [
     {
-      "ordered": false,
-      "allowDuplicates": false,
       "semanticId": {
         "keys": [
           {
@@ -18,7 +14,7 @@
         ],
         "type": "ExternalReference"
       },
-      "idShort": "ProductCarbonFootprint A4",
+      "idShort": "ProductCarbonFootprint_A4",
       "value": [
         {
           "value": "GHG Protocol",
@@ -34,7 +30,6 @@
           "idShort": "PCFCalculationMethod",
           "category": "PARAMETER",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property",
           "qualifiers": [
             {
@@ -47,7 +42,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -74,7 +68,6 @@
           "idShort": "PCFCO2eq",
           "category": "PARAMETER",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property",
           "qualifiers": [
             {
@@ -87,7 +80,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -114,7 +106,6 @@
           "idShort": "PCFReferenceValueForCalculation",
           "category": "PARAMETER",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property",
           "qualifiers": [
             {
@@ -127,7 +118,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -154,7 +144,6 @@
           "idShort": "PCFQuantityOfMeasureForCalculation",
           "category": "PARAMETER",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property",
           "qualifiers": [
             {
@@ -167,7 +156,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -194,7 +182,6 @@
           "idShort": "PCFLiveCyclePhase",
           "category": "PARAMETER",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property",
           "qualifiers": [
             {
@@ -207,7 +194,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "OneToMany"
@@ -221,8 +207,6 @@
           ]
         },
         {
-          "ordered": false,
-          "allowDuplicates": false,
           "semanticId": {
             "keys": [
               {
@@ -248,7 +232,6 @@
               "idShort": "Street",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "qualifiers": [
                 {
@@ -261,7 +244,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -288,7 +270,6 @@
               "idShort": "HouseNumber",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "qualifiers": [
                 {
@@ -301,7 +282,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -328,7 +308,6 @@
               "idShort": "ZipCode",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "qualifiers": [
                 {
@@ -341,7 +320,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -368,7 +346,6 @@
               "idShort": "CityTown",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "qualifiers": [
                 {
@@ -381,7 +358,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -408,7 +384,6 @@
               "idShort": "Country",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "qualifiers": [
                 {
@@ -421,7 +396,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -448,7 +422,6 @@
               "idShort": "Latitude",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "qualifiers": [
                 {
@@ -461,7 +434,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -488,7 +460,6 @@
               "idShort": "Longitude",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "qualifiers": [
                 {
@@ -501,7 +472,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -515,7 +485,6 @@
               ]
             }
           ],
-          "kind": "Instance",
           "modelType": "SubmodelElementCollection",
           "qualifiers": [
             {
@@ -528,7 +497,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -542,17 +510,6 @@
           ]
         }
       ],
-      "kind": "Instance",
-      "parent": {
-        "keys": [
-          {
-            "type": "Submodel",
-            "local": true,
-            "value": "https://aas2.uni-h.de/sm/lni0729_PCF",
-            "idType": "IRDI"
-          }
-        ]
-      },
       "modelType": "SubmodelElementCollection",
       "qualifiers": [
         {
@@ -565,7 +522,6 @@
               }
             ]
           },
-          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "ZeroToMany"
@@ -579,8 +535,6 @@
       ]
     },
     {
-      "ordered": false,
-      "allowDuplicates": false,
       "semanticId": {
         "keys": [
           {
@@ -590,7 +544,7 @@
         ],
         "type": "ExternalReference"
       },
-      "idShort": "ProductCarbonFootprint A1",
+      "idShort": "ProductCarbonFootprint_A1",
       "value": [
         {
           "value": "GHG Protocol",
@@ -606,7 +560,6 @@
           "idShort": "PCFCalculationMethod",
           "category": "PARAMETER",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property",
           "qualifiers": [
             {
@@ -619,7 +572,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -646,7 +598,6 @@
           "idShort": "PCFCO2eq",
           "category": "PARAMETER",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property",
           "qualifiers": [
             {
@@ -659,7 +610,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -686,7 +636,6 @@
           "idShort": "PCFReferenceValueForCalculation",
           "category": "PARAMETER",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property",
           "qualifiers": [
             {
@@ -699,7 +648,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -726,7 +674,6 @@
           "idShort": "PCFQuantityOfMeasureForCalculation",
           "category": "PARAMETER",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property",
           "qualifiers": [
             {
@@ -739,7 +686,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -766,7 +712,6 @@
           "idShort": "PCFLiveCyclePhase",
           "category": "PARAMETER",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property",
           "qualifiers": [
             {
@@ -779,7 +724,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "OneToMany"
@@ -793,8 +737,6 @@
           ]
         },
         {
-          "ordered": false,
-          "allowDuplicates": false,
           "semanticId": {
             "keys": [
               {
@@ -820,7 +762,6 @@
               "idShort": "Street",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "qualifiers": [
                 {
@@ -833,7 +774,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -860,7 +800,6 @@
               "idShort": "HouseNumber",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "qualifiers": [
                 {
@@ -873,7 +812,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -900,7 +838,6 @@
               "idShort": "ZipCode",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "qualifiers": [
                 {
@@ -913,7 +850,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -940,7 +876,6 @@
               "idShort": "CityTown",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "qualifiers": [
                 {
@@ -953,7 +888,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -980,7 +914,6 @@
               "idShort": "Country",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "qualifiers": [
                 {
@@ -993,7 +926,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -1020,7 +952,6 @@
               "idShort": "Latitude",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "qualifiers": [
                 {
@@ -1033,7 +964,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -1060,7 +990,6 @@
               "idShort": "Longitude",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "qualifiers": [
                 {
@@ -1073,7 +1002,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -1087,7 +1015,6 @@
               ]
             }
           ],
-          "kind": "Instance",
           "modelType": "SubmodelElementCollection",
           "qualifiers": [
             {
@@ -1100,7 +1027,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -1114,17 +1040,6 @@
           ]
         }
       ],
-      "kind": "Instance",
-      "parent": {
-        "keys": [
-          {
-            "type": "Submodel",
-            "local": true,
-            "value": "https://aas2.uni-h.de/sm/lni0729_PCF",
-            "idType": "IRDI"
-          }
-        ]
-      },
       "modelType": "SubmodelElementCollection",
       "qualifiers": [
         {
@@ -1137,7 +1052,6 @@
               }
             ]
           },
-          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "ZeroToMany"
@@ -1151,8 +1065,6 @@
       ]
     },
     {
-      "ordered": false,
-      "allowDuplicates": false,
       "semanticId": {
         "keys": [
           {
@@ -1162,7 +1074,7 @@
         ],
         "type": "ExternalReference"
       },
-      "idShort": "ProductCarbonFootprint A3",
+      "idShort": "ProductCarbonFootprint_A3",
       "value": [
         {
           "value": "GHG Protocol",
@@ -1178,7 +1090,6 @@
           "idShort": "PCFCalculationMethod",
           "category": "PARAMETER",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property",
           "qualifiers": [
             {
@@ -1191,7 +1102,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -1218,7 +1128,6 @@
           "idShort": "PCFCO2eq",
           "category": "PARAMETER",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property",
           "qualifiers": [
             {
@@ -1231,7 +1140,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -1258,7 +1166,6 @@
           "idShort": "PCFReferenceValueForCalculation",
           "category": "PARAMETER",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property",
           "qualifiers": [
             {
@@ -1271,7 +1178,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -1298,7 +1204,6 @@
           "idShort": "PCFQuantityOfMeasureForCalculation",
           "category": "PARAMETER",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property",
           "qualifiers": [
             {
@@ -1311,7 +1216,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -1338,7 +1242,6 @@
           "idShort": "PCFLiveCyclePhase",
           "category": "PARAMETER",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property",
           "qualifiers": [
             {
@@ -1351,7 +1254,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "OneToMany"
@@ -1365,8 +1267,6 @@
           ]
         },
         {
-          "ordered": false,
-          "allowDuplicates": false,
           "semanticId": {
             "keys": [
               {
@@ -1392,7 +1292,6 @@
               "idShort": "Street",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "qualifiers": [
                 {
@@ -1405,7 +1304,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -1432,7 +1330,6 @@
               "idShort": "HouseNumber",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "qualifiers": [
                 {
@@ -1445,7 +1342,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -1459,7 +1355,7 @@
               ]
             },
             {
-              "value": 30521,
+              "value": "30521",
               "semanticId": {
                 "keys": [
                   {
@@ -1472,7 +1368,6 @@
               "idShort": "ZipCode",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "qualifiers": [
                 {
@@ -1485,7 +1380,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -1512,7 +1406,6 @@
               "idShort": "CityTown",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "qualifiers": [
                 {
@@ -1525,7 +1418,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -1552,7 +1444,6 @@
               "idShort": "Country",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "qualifiers": [
                 {
@@ -1565,7 +1456,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -1592,7 +1482,6 @@
               "idShort": "Latitude",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "qualifiers": [
                 {
@@ -1605,7 +1494,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -1632,7 +1520,6 @@
               "idShort": "Longitude",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "qualifiers": [
                 {
@@ -1645,7 +1532,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -1659,7 +1545,6 @@
               ]
             }
           ],
-          "kind": "Instance",
           "modelType": "SubmodelElementCollection",
           "qualifiers": [
             {
@@ -1672,7 +1557,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -1686,17 +1570,6 @@
           ]
         }
       ],
-      "kind": "Instance",
-      "parent": {
-        "keys": [
-          {
-            "type": "Submodel",
-            "local": true,
-            "value": "https://aas2.uni-h.de/sm/lni0729_PCF",
-            "idType": "IRDI"
-          }
-        ]
-      },
       "modelType": "SubmodelElementCollection",
       "qualifiers": [
         {
@@ -1709,7 +1582,6 @@
               }
             ]
           },
-          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "ZeroToMany"
@@ -1723,8 +1595,6 @@
       ]
     },
     {
-      "ordered": false,
-      "allowDuplicates": false,
       "semanticId": {
         "keys": [
           {
@@ -1734,7 +1604,7 @@
         ],
         "type": "ExternalReference"
       },
-      "idShort": "ProductCarbonFootprint A2",
+      "idShort": "ProductCarbonFootprint_A2",
       "value": [
         {
           "value": "GHG Protocol",
@@ -1750,7 +1620,6 @@
           "idShort": "PCFCalculationMethod",
           "category": "PARAMETER",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property",
           "qualifiers": [
             {
@@ -1763,7 +1632,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -1790,7 +1658,6 @@
           "idShort": "PCFCO2eq",
           "category": "PARAMETER",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property",
           "qualifiers": [
             {
@@ -1803,7 +1670,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -1830,7 +1696,6 @@
           "idShort": "PCFReferenceValueForCalculation",
           "category": "PARAMETER",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property",
           "qualifiers": [
             {
@@ -1843,7 +1708,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -1870,7 +1734,6 @@
           "idShort": "PCFQuantityOfMeasureForCalculation",
           "category": "PARAMETER",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property",
           "qualifiers": [
             {
@@ -1883,7 +1746,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -1910,7 +1772,6 @@
           "idShort": "PCFLiveCyclePhase",
           "category": "PARAMETER",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property",
           "qualifiers": [
             {
@@ -1923,7 +1784,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "OneToMany"
@@ -1937,8 +1797,6 @@
           ]
         },
         {
-          "ordered": false,
-          "allowDuplicates": false,
           "semanticId": {
             "keys": [
               {
@@ -1964,7 +1822,6 @@
               "idShort": "Street",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "qualifiers": [
                 {
@@ -1977,7 +1834,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -2004,7 +1860,6 @@
               "idShort": "HouseNumber",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "qualifiers": [
                 {
@@ -2017,7 +1872,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -2044,7 +1898,6 @@
               "idShort": "ZipCode",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "qualifiers": [
                 {
@@ -2057,7 +1910,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -2084,7 +1936,6 @@
               "idShort": "CityTown",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "qualifiers": [
                 {
@@ -2097,7 +1948,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -2124,7 +1974,6 @@
               "idShort": "Country",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "qualifiers": [
                 {
@@ -2137,7 +1986,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -2164,7 +2012,6 @@
               "idShort": "Latitude",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "qualifiers": [
                 {
@@ -2177,7 +2024,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -2204,7 +2050,6 @@
               "idShort": "Longitude",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "qualifiers": [
                 {
@@ -2217,7 +2062,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -2231,7 +2075,6 @@
               ]
             }
           ],
-          "kind": "Instance",
           "modelType": "SubmodelElementCollection",
           "qualifiers": [
             {
@@ -2244,7 +2087,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -2258,17 +2100,6 @@
           ]
         }
       ],
-      "kind": "Instance",
-      "parent": {
-        "keys": [
-          {
-            "type": "Submodel",
-            "local": true,
-            "value": "https://aas2.uni-h.de/sm/lni0729_PCF",
-            "idType": "IRDI"
-          }
-        ]
-      },
       "modelType": "SubmodelElementCollection",
       "qualifiers": [
         {
@@ -2281,7 +2112,6 @@
               }
             ]
           },
-          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "ZeroToMany"

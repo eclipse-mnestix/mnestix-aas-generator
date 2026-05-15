@@ -1,8 +1,6 @@
 {
   "idShort": "Nameplate",
   "id": "https://aas.uni-h.de/sm/aHR0cHM6Ly9hYXMyLnVuaS1oLmRlL2Fhcy9sbmkwNzI5_DNP",
-  "dataSpecification": [],
-  "embeddedDataSpecifications": [],
   "modelType": "Submodel",
   "kind": "Instance",
   "submodelElements": [
@@ -20,7 +18,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0173-1#02-AAO677#002"
           }
         ],
@@ -28,17 +26,6 @@
       },
       "idShort": "ManufacturerName",
       "category": "PARAMETER",
-      "kind": "Instance",
-      "parent": {
-        "keys": [
-          {
-            "type": "Submodel",
-            "local": true,
-            "value": "https://aas.uni-h.de/sm/aHR0cHM6Ly9hYXMyLnVuaS1oLmRlL2Fhcy9sbmkwNzI5_DNP",
-            "idType": "IRI"
-          }
-        ]
-      },
       "modelType": "MultiLanguageProperty"
     },
     {
@@ -46,7 +33,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0173-1#02-AAM556#002"
           }
         ],
@@ -55,26 +42,13 @@
       "idShort": "SerialNumber",
       "category": "PARAMETER",
       "valueType": "xs:string",
-      "kind": "Instance",
-      "parent": {
-        "keys": [
-          {
-            "type": "Submodel",
-            "local": true,
-            "value": "https://aas.uni-h.de/sm/aHR0cHM6Ly9hYXMyLnVuaS1oLmRlL2Fhcy9sbmkwNzI5_DNP",
-            "idType": "IRI"
-          }
-        ]
-      },
       "modelType": "Property"
     },
     {
-      "ordered": false,
-      "allowDuplicates": false,
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0173-1#02-AAQ832#005"
           }
         ],
@@ -96,7 +70,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO127#003"
               }
             ],
@@ -104,7 +78,6 @@
           },
           "idShort": "Department",
           "category": "PARAMETER",
-          "kind": "Instance",
           "modelType": "MultiLanguageProperty"
         },
         {
@@ -121,7 +94,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO128#002"
               }
             ],
@@ -129,7 +102,6 @@
           },
           "idShort": "Street",
           "category": "PARAMETER",
-          "kind": "Instance",
           "modelType": "MultiLanguageProperty"
         },
         {
@@ -146,7 +118,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO129#002"
               }
             ],
@@ -154,7 +126,6 @@
           },
           "idShort": "Zipcode",
           "category": "PARAMETER",
-          "kind": "Instance",
           "modelType": "MultiLanguageProperty"
         },
         {
@@ -171,7 +142,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO132#002"
               }
             ],
@@ -179,7 +150,6 @@
           },
           "idShort": "CityTown",
           "category": "PARAMETER",
-          "kind": "Instance",
           "modelType": "MultiLanguageProperty"
         },
         {
@@ -196,7 +166,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO134#002"
               }
             ],
@@ -204,7 +174,6 @@
           },
           "idShort": "NationalCode",
           "category": "PARAMETER",
-          "kind": "Instance",
           "modelType": "MultiLanguageProperty"
         },
         {
@@ -212,7 +181,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAQ326#002"
               }
             ],
@@ -221,16 +190,13 @@
           "idShort": "AddressOfAdditionalLink",
           "category": "PARAMETER",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property"
         },
         {
-          "ordered": false,
-          "allowDuplicates": false,
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAQ833#005"
               }
             ],
@@ -249,7 +215,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0173-1#02-AAO136#002"
                   }
                 ],
@@ -257,7 +223,6 @@
               },
               "idShort": "TelephoneNumber",
               "category": "PARAMETER",
-              "kind": "Instance",
               "modelType": "MultiLanguageProperty"
             },
             {
@@ -265,7 +230,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0173-1#02-AAO137#003"
                   }
                 ],
@@ -274,20 +239,16 @@
               "idShort": "TypeOfTelephone",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property"
             }
           ],
-          "kind": "Instance",
           "modelType": "SubmodelElementCollection"
         },
         {
-          "ordered": false,
-          "allowDuplicates": false,
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAQ836#005"
               }
             ],
@@ -300,7 +261,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0173-1#02-AAO198#002"
                   }
                 ],
@@ -309,11 +270,9 @@
               "idShort": "EmailAddress",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property"
             }
           ],
-          "kind": "Instance",
           "modelType": "SubmodelElementCollection"
         },
         {
@@ -326,7 +285,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO133#002"
               }
             ],
@@ -334,7 +293,6 @@
           },
           "idShort": "StateCounty",
           "category": "PARAMETER",
-          "kind": "Instance",
           "modelType": "MultiLanguageProperty",
           "description": [
             {
@@ -344,17 +302,6 @@
           ]
         }
       ],
-      "kind": "Instance",
-      "parent": {
-        "keys": [
-          {
-            "type": "Submodel",
-            "local": true,
-            "value": "https://aas.uni-h.de/sm/aHR0cHM6Ly9hYXMyLnVuaS1oLmRlL2Fhcy9sbmkwNzI5_DNP",
-            "idType": "IRI"
-          }
-        ]
-      },
       "modelType": "SubmodelElementCollection"
     },
     {
@@ -371,7 +318,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0173-1#02-AAW338#001"
           }
         ],
@@ -379,21 +326,10 @@
       },
       "idShort": "ManufacturerProductDesignation",
       "category": "PARAMETER",
-      "kind": "Instance",
-      "parent": {
-        "keys": [
-          {
-            "type": "Submodel",
-            "local": true,
-            "value": "https://aas.uni-h.de/sm/aHR0cHM6Ly9hYXMyLnVuaS1oLmRlL2Fhcy9sbmkwNzI5_DNP",
-            "idType": "IRI"
-          }
-        ]
-      },
       "modelType": "MultiLanguageProperty"
     },
     {
-      "value": 2023,
+      "value": "2023",
       "semanticId": {
         "keys": [
           {
@@ -406,17 +342,6 @@
       "idShort": "YearOfConstruction",
       "category": "PARAMETER",
       "valueType": "xs:string",
-      "kind": "Instance",
-      "parent": {
-        "keys": [
-          {
-            "type": "Submodel",
-            "local": true,
-            "value": "https://aas.uni-h.de/sm/aHR0cHM6Ly9hYXMyLnVuaS1oLmRlL2Fhcy9sbmkwNzI5_DNP",
-            "idType": "IRI"
-          }
-        ]
-      },
       "modelType": "Property"
     },
     {
@@ -433,7 +358,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "0173-1#02-AAU731#001"
           }
         ],
@@ -441,24 +366,13 @@
       },
       "idShort": "ManufacturerProductFamily",
       "category": "PARAMETER",
-      "kind": "Instance",
-      "parent": {
-        "keys": [
-          {
-            "type": "Submodel",
-            "local": true,
-            "value": "https://aas.uni-h.de/sm/aHR0cHM6Ly9hYXMyLnVuaS1oLmRlL2Fhcy9sbmkwNzI5_DNP",
-            "idType": "IRI"
-          }
-        ]
-      },
       "modelType": "MultiLanguageProperty"
     }
   ],
   "semanticId": {
     "keys": [
       {
-        "type": "Submodel",
+        "type": "GlobalReference",
         "value": "https://admin-shell.io/zvei/nameplate/1/0/Nameplate"
       }
     ],

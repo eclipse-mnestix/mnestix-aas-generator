@@ -1,4 +1,4 @@
-﻿{
+{
   "idShort": "MnestixDefaultSubmodels",
   "id": "https://mnestix.com/aas/F11BF9F696A3454EBA0AA4503783F142_4",
   "derivedFrom": {
@@ -24,6 +24,5 @@
       }
     ]
   },
-  "submodels": [],
   "modelType": "AssetAdministrationShell"
 }

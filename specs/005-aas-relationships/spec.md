@@ -62,7 +62,7 @@ An application developer or industrial engineer queries which AAS shells were de
 ## Assumptions
 
 - The AAS repository's database is accessible via a direct database connection (not only via the repository's REST API).
-- The database connection is configured via `BasyxDbConnectionConfiguration` settings (connection string, database name, collection name).
+- The database connection is configured via repository service settings.
 - The `derivedFrom` field follows the AAS Metamodel v3.0 structure with a `keys` array containing reference entries.
 - Only `derivedFrom` relationships are queryable; other AAS relationship types (e.g., `assetOf`, custom references) are out of scope.
 - The database schema matches the BaSyx AAS server's storage format; changes to BaSyx's internal schema may require updates to this query.

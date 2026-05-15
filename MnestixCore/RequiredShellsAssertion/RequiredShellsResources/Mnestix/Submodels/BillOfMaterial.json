@@ -31,13 +31,11 @@
       },
       "qualifiers": [
         {
-          "kind": "ConceptQualifier",
           "type": "Multiplicity",
           "valueType": "xs:string",
           "value": "One"
         },
         {
-          "kind": "ConceptQualifier",
           "type": "EditIdShort",
           "valueType": "xs:string",
           "value": "True"
@@ -137,13 +135,11 @@
           },
           "qualifiers": [
             {
-              "kind": "ConceptQualifier",
               "type": "Multiplicity",
               "valueType": "xs:string",
               "value": "ZeroToMany"
             },
             {
-              "kind": "ConceptQualifier",
               "type": "EditIdShort",
               "valueType": "xs:string",
               "value": "True"
@@ -215,13 +211,11 @@
           },
           "qualifiers": [
             {
-              "kind": "ConceptQualifier",
               "type": "Multiplicity",
               "valueType": "xs:string",
               "value": "ZeroToMany"
             },
             {
-              "kind": "ConceptQualifier",
               "type": "EditIdShort",
               "valueType": "xs:string",
               "value": "True"
@@ -293,13 +287,11 @@
           },
           "qualifiers": [
             {
-              "kind": "ConceptQualifier",
               "type": "Multiplicity",
               "valueType": "xs:string",
               "value": "ZeroToMany"
             },
             {
-              "kind": "ConceptQualifier",
               "type": "EditIdShort",
               "valueType": "xs:string",
               "value": "True"
@@ -375,13 +367,11 @@
           },
           "qualifiers": [
             {
-              "kind": "ConceptQualifier",
               "type": "Multiplicity",
               "valueType": "xs:string",
               "value": "ZeroToMany"
             },
             {
-              "kind": "ConceptQualifier",
               "type": "EditIdShort",
               "valueType": "xs:string",
               "value": "True"
@@ -457,13 +447,11 @@
           },
           "qualifiers": [
             {
-              "kind": "ConceptQualifier",
               "type": "Multiplicity",
               "valueType": "xs:string",
               "value": "ZeroToMany"
             },
             {
-              "kind": "ConceptQualifier",
               "type": "EditIdShort",
               "valueType": "xs:string",
               "value": "True"
@@ -539,13 +527,11 @@
           },
           "qualifiers": [
             {
-              "kind": "ConceptQualifier",
               "type": "Multiplicity",
               "valueType": "xs:string",
               "value": "ZeroToMany"
             },
             {
-              "kind": "ConceptQualifier",
               "type": "EditIdShort",
               "valueType": "xs:string",
               "value": "True"
@@ -621,13 +607,11 @@
           },
           "qualifiers": [
             {
-              "kind": "ConceptQualifier",
               "type": "Multiplicity",
               "valueType": "xs:string",
               "value": "ZeroToMany"
             },
             {
-              "kind": "ConceptQualifier",
               "type": "EditIdShort",
               "valueType": "xs:string",
               "value": "True"
@@ -703,13 +687,11 @@
           },
           "qualifiers": [
             {
-              "kind": "ConceptQualifier",
               "type": "Multiplicity",
               "valueType": "xs:string",
               "value": "ZeroToMany"
             },
             {
-              "kind": "ConceptQualifier",
               "type": "EditIdShort",
               "valueType": "xs:string",
               "value": "True"
@@ -785,13 +767,11 @@
           },
           "qualifiers": [
             {
-              "kind": "ConceptQualifier",
               "type": "Multiplicity",
               "valueType": "xs:string",
               "value": "ZeroToMany"
             },
             {
-              "kind": "ConceptQualifier",
               "type": "EditIdShort",
               "valueType": "xs:string",
               "value": "True"
@@ -867,13 +847,11 @@
           },
           "qualifiers": [
             {
-              "kind": "ConceptQualifier",
               "type": "Multiplicity",
               "valueType": "xs:string",
               "value": "ZeroToMany"
             },
             {
-              "kind": "ConceptQualifier",
               "type": "EditIdShort",
               "valueType": "xs:string",
               "value": "True"

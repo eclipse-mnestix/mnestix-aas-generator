@@ -957,7 +957,7 @@
               "valueType": "xs:string"
             }
           ],
-          "idShort": "IPCommunication{00}",
+          "idShort": "IPCommunication00",
           "value": [
             {
               "modelType": "Property",
@@ -4273,7 +4273,7 @@
               "valueType": "xs:string"
             }
           ],
-          "idShort": "GuidelineSpecificProperties{00}",
+          "idShort": "GuidelineSpecificProperties00",
           "value": [
             {
               "modelType": "Property",
@@ -4337,7 +4337,7 @@
                   "valueType": "xs:string"
                 }
               ],
-              "idShort": "{arbitrary}"
+              "idShort": "arbitraryGuidelineProperty"
             }
           ]
         },
@@ -4371,7 +4371,7 @@
               "valueType": "xs:string"
             }
           ],
-          "idShort": "{arbitrary}"
+          "idShort": "arbitraryAssetProperty"
         }
       ]
     }
