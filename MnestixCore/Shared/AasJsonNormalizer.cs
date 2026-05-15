@@ -6,8 +6,16 @@ namespace MnestixCore.Shared;
 
 /// <summary>
 /// Normalizes a JSON payload for compatibility with BaSyx Go's stricter AAS v3 compliance.
-/// Applies 7 rules: strip nulls, remove dataSpecification, strip kind from non-Submodel,
-/// strip parent, normalize valueType, inject qualifier valueType, coerce Property.value to string.
+/// Applies 9 rules:
+/// 1. Strip null-valued properties.
+/// 2. Remove deprecated dataSpecification / hasDataSpecification.
+/// 3. Strip kind from any object that is not a Submodel (including objects without modelType).
+/// 4. Strip parent back-references.
+/// 5. Strip AAS v2 Key fields: local, idType, index.
+/// 6. Strip AAS v2 collection fields: ordered, allowDuplicates.
+/// 7. Normalize valueType to canonical XSD casing.
+/// 8. Inject xs:string valueType on qualifiers that are missing it or have an empty value.
+/// 9. Coerce non-string Property.value (integer, float, boolean) to a JSON-formatted string.
 /// </summary>
 public static class AasJsonNormalizer
 {
@@ -68,7 +76,7 @@ public static class AasJsonNormalizer
                         continue;
                     }
 
-                    // Rule 2: Remove deprecated dataSpecification property
+                    // Rule 2: Remove deprecated dataSpecification / hasDataSpecification
                     if (prop.Name is "dataSpecification" or "hasDataSpecification")
                     {
                         propsToRemove.Add(prop.Name);
@@ -82,14 +90,14 @@ public static class AasJsonNormalizer
                         continue;
                     }
 
-                    // Strip v2 fields from Key objects
+                    // Rule 5: Strip AAS v2 Key fields
                     if (prop.Name is "local" or "idType" or "index")
                     {
                         propsToRemove.Add(prop.Name);
                         continue;
                     }
 
-                    // Strip v2 ordered / allowDuplicates from SubmodelElementCollections
+                    // Rule 6: Strip AAS v2 collection fields
                     if (prop.Name is "ordered" or "allowDuplicates")
                     {
                         propsToRemove.Add(prop.Name);
@@ -103,7 +111,7 @@ public static class AasJsonNormalizer
                 }
 
                 // Rule 3: Strip kind from non-Submodel elements
-                // Only objects with modelType=Submodel may keep "kind".
+                // Only objects with modelType="Submodel" may keep "kind".
                 // Objects with a different modelType OR with no modelType at all must have it removed.
                 var modelType = obj["modelType"]?.Value<string>();
                 if (obj.ContainsKey("kind") && modelType != "Submodel")
@@ -111,7 +119,7 @@ public static class AasJsonNormalizer
                     obj.Remove("kind");
                 }
 
-                // Rule 5: Normalize valueType to canonical XSD case
+                // Rule 7: Normalize valueType to canonical XSD casing
                 if (obj["valueType"] is JToken vt && vt.Type == JTokenType.String)
                 {
                     var raw = vt.Value<string>();
@@ -121,7 +129,7 @@ public static class AasJsonNormalizer
                     }
                 }
 
-                // Rule 6: Inject valueType on qualifiers missing it or with an empty valueType.
+                // Rule 8: Inject xs:string valueType on qualifiers missing it or with an empty value.
                 // Detect qualifier objects by their parent property name ("qualifiers") rather than
                 // by modelType == null, because AAS v3 qualifiers carry "modelType": "Qualifier".
                 // Also treat an empty-string valueType as missing.
@@ -136,7 +144,7 @@ public static class AasJsonNormalizer
                     }
                 }
 
-                // Rule 7: Coerce non-string Property.value to a JSON-formatted string.
+                // Rule 9: Coerce non-string Property.value to a JSON-formatted string.
                 // Use WriteTo(JsonWriter) instead of ToString() so booleans produce "true"/"false"
                 // (JSON casing) rather than "True"/"False" (C# casing).
                 if (modelType == "Property" && obj["value"] is JToken val)
