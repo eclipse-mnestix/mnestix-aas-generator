@@ -1,6 +1,6 @@
 services:
   mnestix-browser:
-    image: mnestix/mnestix-browser:2.2.0
+    image: mnestix/mnestix-browser:dev
     container_name: mnestix-browser
     ports:
       - "3000:3000"
@@ -28,7 +28,7 @@ services:
       - mnestix-database:/app/prisma/database
 
   mnestix-proxy:
-    image: mnestix/mnestix-proxy:1.0.0
+    image: mnestix/mnestix-proxy:dev
     container_name: mnestix-proxy
     ports:
       - "5065:5065"
