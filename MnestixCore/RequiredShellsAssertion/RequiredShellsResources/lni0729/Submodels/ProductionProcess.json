@@ -4,7 +4,6 @@
   "submodelElements": [
     {
       "entityType": "SelfManagedEntity",
-      "globalAssetId": "urn:lni0729:ProductionProcessFlow",
       "semanticId": {
         "type": "ExternalReference",
         "keys": [
@@ -33,18 +32,27 @@
           "statements": [
             {
               "value": "finished",
+              "semanticId": {
+                "keys": []
+              },
               "idShort": "State",
               "modelType": "Property",
               "valueType": "xs:string"
             },
             {
               "value": "2023-04-17T11:53:26Z",
+              "semanticId": {
+                "keys": []
+              },
               "idShort": "TimeStamp",
               "modelType": "Property",
               "valueType": "xs:string"
             },
             {
               "value": "MDZH Konfigurator",
+              "semanticId": {
+                "keys": []
+              },
               "idShort": "ToolName",
               "modelType": "Property",
               "valueType": "xs:string"
@@ -362,6 +370,9 @@
         },
         {
           "entityType": "CoManagedEntity",
+          "asset": {
+            "keys": []
+          },
           "semanticId": {
             "type": "ExternalReference",
             "keys": [
@@ -423,6 +434,9 @@
         },
         {
           "entityType": "CoManagedEntity",
+          "asset": {
+            "keys": []
+          },
           "semanticId": {
             "type": "ExternalReference",
             "keys": [
@@ -481,6 +495,8 @@
               "valueType": "xs:string"
             },
             {
+              "ordered": false,
+              "allowDuplicates": false,
               "semanticId": {
                 "type": "ExternalReference",
                 "keys": [
@@ -524,7 +540,7 @@
                   "valueType": "xs:string"
                 },
                 {
-                  "value": "/quality/certificate.pdf",
+                  "value": "",
                   "semanticId": {
                     "type": "ExternalReference",
                     "keys": [
@@ -535,8 +551,7 @@
                     ]
                   },
                   "idShort": "QualityCertificate",
-                  "modelType": "File",
-                  "contentType": "application/pdf"
+                  "modelType": "File"
                 }
               ]
             }

@@ -1,8 +1,8 @@
-{
+﻿{
   "semanticId": {
     "keys": [
       {
-        "type": "GlobalReference",
+        "type": "Submodel",
         "value": "https://admin-shell.io/idta/SimulationModels/SimulationModels/1/0"
       }
     ],
@@ -44,7 +44,7 @@
       "semanticId": {
         "keys": [
           {
-            "type": "GlobalReference",
+            "type": "ConceptDescription",
             "value": "https://admin-shell.io/idta/SimulationModels/SimulationModel/1/0"
           }
         ],
@@ -58,7 +58,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "https://admin-shell.io/idta/SimulationModels/Summary/1/0"
               }
             ],
@@ -67,6 +67,7 @@
           "idShort": "Summary",
           "category": "CONSTANT",
           "modelType": "MultiLanguageProperty",
+          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -78,6 +79,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -88,13 +90,14 @@
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "https://admin-shell.io/idta/SimulationModels/SimPurpose/1/0"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "SimPurpose",
+          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -102,15 +105,17 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "GlobalReference",
+                    "type": "ConceptDescription",
                     "value": "https://admin-shell.io/idta/SimulationModels/PosSimPurpose/1/0"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "PosSimPurpose",
+              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
+              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -122,6 +127,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "OneToMany"
@@ -133,15 +139,17 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "GlobalReference",
+                    "type": "ConceptDescription",
                     "value": "https://admin-shell.io/idta/SimulationModels/NegSimPurpose/1/0"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "NegSimPurpose",
+              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
+              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -153,6 +161,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToMany"
@@ -160,6 +169,7 @@
               ]
             }
           ],
+          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -171,6 +181,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -182,15 +193,17 @@
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "https://admin-shell.io/idta/SimulationModels/TypeOfModel/1/0"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "TypeOfModel",
+          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
+          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -202,6 +215,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToMany"
@@ -213,15 +227,17 @@
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "https://admin-shell.io/idta/SimulationModels/ScopeOfModel/1/0"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "ScopeOfModel",
+          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
+          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -233,6 +249,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "OneToMany"
@@ -244,15 +261,17 @@
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "https://admin-shell.io/idta/SimulationModels/LicenseModel/1/0"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "LicenseModel",
+          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
+          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -264,6 +283,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -275,15 +295,17 @@
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "https://admin-shell.io/idta/SimulationModels/EngineeringDomain/1/0"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "EngineeringDomain",
+          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
+          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -295,6 +317,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToMany"
@@ -305,13 +328,14 @@
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "https://admin-shell.io/idta/SimulationModels/Environment/1/0"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "Environment",
+          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -319,15 +343,17 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "GlobalReference",
+                    "type": "ConceptDescription",
                     "value": "https://admin-shell.io/idta/SimulationModels/OperatingSystem/1/0"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "OperatingSystem",
+              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
+              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -339,9 +365,20 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "One"
+                }
+              ],
+              "description": [
+                {
+                  "language": "en",
+                  "text": ""
+                },
+                {
+                  "language": "de",
+                  "text": ""
                 }
               ]
             },
@@ -350,15 +387,17 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "GlobalReference",
+                    "type": "ConceptDescription",
                     "value": "https://admin-shell.io/idta/SimulationModels/ToolEnvironment/1/0"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "ToolEnvironment",
+              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
+              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -370,6 +409,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToMany"
@@ -380,7 +420,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "GlobalReference",
+                    "type": "ConceptDescription",
                     "value": "https://admin-shell.io/idta/SimulationModels/DependencyEnvironment/1/0"
                   }
                 ],
@@ -389,6 +429,7 @@
               "idShort": "DependencyEnvironment",
               "category": "CONSTANT",
               "modelType": "MultiLanguageProperty",
+              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -400,6 +441,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -411,15 +453,17 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "GlobalReference",
+                    "type": "ConceptDescription",
                     "value": "https://admin-shell.io/idta/SimulationModels/VisualizationInformation/1/0"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "VisualizationInformation",
+              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
+              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -431,6 +475,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -441,7 +486,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "GlobalReference",
+                    "type": "ConceptDescription",
                     "value": "https://admin-shell.io/idta/SimulationModels/SimulationTool/1/0"
                   }
                 ],
@@ -456,7 +501,7 @@
                   "semanticId": {
                     "keys": [
                       {
-                        "type": "GlobalReference",
+                        "type": "ConceptDescription",
                         "value": "https://admin-shell.io/idta/SimulationModel/SimToolName/1/0"
                       }
                     ],
@@ -466,6 +511,7 @@
                   "category": "CONSTANT",
                   "modelType": "Property",
                   "valueType": "xs:string",
+                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -477,6 +523,7 @@
                           }
                         ]
                       },
+                      "kind": "TemplateQualifier",
                       "type": "SMT/Cardinality",
                       "valueType": "xs:string",
                       "value": "One"
@@ -488,7 +535,7 @@
                   "semanticId": {
                     "keys": [
                       {
-                        "type": "GlobalReference",
+                        "type": "ConceptDescription",
                         "value": "https://admin-shell.io/idta/SimulationModels/DependencySimTool/1/0"
                       }
                     ],
@@ -498,6 +545,7 @@
                   "category": "CONSTANT",
                   "modelType": "Property",
                   "valueType": "xs:string",
+                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -509,6 +557,7 @@
                           }
                         ]
                       },
+                      "kind": "TemplateQualifier",
                       "type": "SMT/Cardinality",
                       "valueType": "xs:string",
                       "value": "ZeroToMany"
@@ -520,7 +569,7 @@
                   "semanticId": {
                     "keys": [
                       {
-                        "type": "GlobalReference",
+                        "type": "ConceptDescription",
                         "value": "https://admin-shell.io/idta/SimulationModels/Compiler/1/0"
                       }
                     ],
@@ -530,6 +579,7 @@
                   "category": "CONSTANT",
                   "modelType": "Property",
                   "valueType": "xs:string",
+                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -541,9 +591,16 @@
                           }
                         ]
                       },
+                      "kind": "TemplateQualifier",
                       "type": "SMT/Cardinality",
                       "valueType": "xs:string",
                       "value": "ZeroToMany"
+                    }
+                  ],
+                  "description": [
+                    {
+                      "language": "",
+                      "text": ""
                     }
                   ]
                 },
@@ -551,28 +608,32 @@
                   "semanticId": {
                     "keys": [
                       {
-                        "type": "GlobalReference",
+                        "type": "ConceptDescription",
                         "value": "https://admin-shell.io/idta/SimulationModels/SolverAndTolerances/1/0"
                       }
                     ],
                     "type": "ExternalReference"
                   },
                   "idShort": "SolverAndTolerances",
+                  "category": null,
                   "modelType": "SubmodelElementCollection",
                   "value": [
                     {
+                      "value": "",
                       "semanticId": {
                         "keys": [
                           {
-                            "type": "GlobalReference",
+                            "type": "ConceptDescription",
                             "value": "https://admin-shell.io/idta/SimulationModels/StepSizeControlNeeded/1/0"
                           }
                         ],
                         "type": "ExternalReference"
                       },
                       "idShort": "StepSizeControlNeeded",
+                      "category": null,
                       "modelType": "Property",
                       "valueType": "xs:boolean",
+                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -584,6 +645,7 @@
                               }
                             ]
                           },
+                          "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "valueType": "xs:string",
                           "value": "One"
@@ -591,18 +653,21 @@
                       ]
                     },
                     {
+                      "value": "",
                       "semanticId": {
                         "keys": [
                           {
-                            "type": "GlobalReference",
+                            "type": "ConceptDescription",
                             "value": "https://admin-shell.io/idta/SimulationModels/FixedStepSize/1/0"
                           }
                         ],
                         "type": "ExternalReference"
                       },
                       "idShort": "FixedStepSize",
+                      "category": null,
                       "modelType": "Property",
                       "valueType": "xs:float",
+                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -614,6 +679,7 @@
                               }
                             ]
                           },
+                          "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "valueType": "xs:string",
                           "value": "ZeroToOne"
@@ -621,18 +687,21 @@
                       ]
                     },
                     {
+                      "value": "",
                       "semanticId": {
                         "keys": [
                           {
-                            "type": "GlobalReference",
+                            "type": "ConceptDescription",
                             "value": "https://admin-shell.io/idta/SimulationModels/StiffSolverNeeded/1/0"
                           }
                         ],
                         "type": "ExternalReference"
                       },
                       "idShort": "StiffSolverNeeded",
+                      "category": null,
                       "modelType": "Property",
                       "valueType": "xs:boolean",
+                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -644,6 +713,7 @@
                               }
                             ]
                           },
+                          "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "valueType": "xs:string",
                           "value": "One"
@@ -651,18 +721,21 @@
                       ]
                     },
                     {
+                      "value": "",
                       "semanticId": {
                         "keys": [
                           {
-                            "type": "GlobalReference",
+                            "type": "ConceptDescription",
                             "value": "https://admin-shell.io/idta/SimulationModels/SolverIncluded/1/0"
                           }
                         ],
                         "type": "ExternalReference"
                       },
                       "idShort": "SolverIncluded",
+                      "category": null,
                       "modelType": "Property",
                       "valueType": "xs:boolean",
+                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -674,6 +747,7 @@
                               }
                             ]
                           },
+                          "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "valueType": "xs:string",
                           "value": "One"
@@ -684,13 +758,14 @@
                       "semanticId": {
                         "keys": [
                           {
-                            "type": "GlobalReference",
+                            "type": "ConceptDescription",
                             "value": "https://admin-shell.io/idta/SimulationModels/TestedToolSolverAlgorithm/1/0"
                           }
                         ],
                         "type": "ExternalReference"
                       },
                       "idShort": "TestedToolSolverAlgorithm",
+                      "category": null,
                       "modelType": "SubmodelElementCollection",
                       "value": [
                         {
@@ -698,15 +773,17 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "GlobalReference",
+                                "type": "ConceptDescription",
                                 "value": "https://admin-shell.io/idta/SimulationModels/SolverAlgorithm/1/0"
                               }
                             ],
                             "type": "ExternalReference"
                           },
                           "idShort": "SolverAlgorithm",
+                          "category": null,
                           "modelType": "Property",
                           "valueType": "xs:string",
+                          "kind": "Template",
                           "qualifiers": [
                             {
                               "semanticId": {
@@ -718,6 +795,7 @@
                                   }
                                 ]
                               },
+                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "One"
@@ -729,15 +807,17 @@
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "GlobalReference",
+                                "type": "ConceptDescription",
                                 "value": "https://admin-shell.io/idta/SimulationModels/ToolSolverFurtherDescription/1/0"
                               }
                             ],
                             "type": "ExternalReference"
                           },
                           "idShort": "ToolSolverFurtherDescription",
+                          "category": null,
                           "modelType": "Property",
                           "valueType": "xs:string",
+                          "kind": "Template",
                           "qualifiers": [
                             {
                               "semanticId": {
@@ -749,6 +829,7 @@
                                   }
                                 ]
                               },
+                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -756,18 +837,21 @@
                           ]
                         },
                         {
+                          "value": "",
                           "semanticId": {
                             "keys": [
                               {
-                                "type": "GlobalReference",
+                                "type": "ConceptDescription",
                                 "value": "https://admin-shell.io/idta/SimulationModels/Tolerance/1/0"
                               }
                             ],
                             "type": "ExternalReference"
                           },
                           "idShort": "Tolerance",
+                          "category": null,
                           "modelType": "Property",
                           "valueType": "xs:float",
+                          "kind": "Template",
                           "qualifiers": [
                             {
                               "semanticId": {
@@ -779,6 +863,7 @@
                                   }
                                 ]
                               },
+                              "kind": "TemplateQualifier",
                               "type": "SMT/Cardinality",
                               "valueType": "xs:string",
                               "value": "ZeroToOne"
@@ -786,6 +871,7 @@
                           ]
                         }
                       ],
+                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -797,6 +883,7 @@
                               }
                             ]
                           },
+                          "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "valueType": "xs:string",
                           "value": "ZeroToMany"
@@ -804,6 +891,7 @@
                       ]
                     }
                   ],
+                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -815,6 +903,7 @@
                           }
                         ]
                       },
+                      "kind": "TemplateQualifier",
                       "type": "SMT/Cardinality",
                       "valueType": "xs:string",
                       "value": "One"
@@ -822,6 +911,7 @@
                   ]
                 }
               ],
+              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -833,6 +923,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "OneToMany"
@@ -840,6 +931,7 @@
               ]
             }
           ],
+          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -851,6 +943,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToMany"
@@ -858,18 +951,21 @@
           ]
         },
         {
+          "value": "",
           "contentType": "application/pdf",
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "https://admin-shell.io/idta/SimulationModels/RefSimDocumentation/1/0"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "RefSimDocumentation",
+          "category": null,
           "modelType": "File",
+          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -881,6 +977,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToMany"
@@ -891,7 +988,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "https://admin-shell.io/idta/SimulationModels/ModelFile/1/0"
               }
             ],
@@ -906,15 +1003,17 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "GlobalReference",
+                    "type": "ConceptDescription",
                     "value": "https://admin-shell.io/idta/SimulationModels/ModelFileType/1/0"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "ModelFileType",
+              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
+              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -926,6 +1025,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -936,7 +1036,7 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "GlobalReference",
+                    "type": "ConceptDescription",
                     "value": "https://admin-shell.io/idta/SimulationModels/ModelFileVersion/1/0"
                   }
                 ],
@@ -951,15 +1051,17 @@
                   "semanticId": {
                     "keys": [
                       {
-                        "type": "GlobalReference",
+                        "type": "ConceptDescription",
                         "value": "https://admin-shell.io/idta/SimulationModels/ModelVersionId/1/0"
                       }
                     ],
                     "type": "ExternalReference"
                   },
                   "idShort": "ModelVersionId",
+                  "category": null,
                   "modelType": "Property",
                   "valueType": "xs:string",
+                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -971,6 +1073,7 @@
                           }
                         ]
                       },
+                      "kind": "TemplateQualifier",
                       "type": "SMT/Cardinality",
                       "valueType": "xs:string",
                       "value": "One"
@@ -978,11 +1081,12 @@
                   ]
                 },
                 {
+                  "value": "",
                   "contentType": "image/png",
                   "semanticId": {
                     "keys": [
                       {
-                        "type": "GlobalReference",
+                        "type": "ConceptDescription",
                         "value": "https://admin-shell.io/idta/SimulationModels/ModelPreviewImage/1/0"
                       }
                     ],
@@ -991,6 +1095,7 @@
                   "idShort": "ModelPreviewImage",
                   "category": "CONSTANT",
                   "modelType": "File",
+                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -1002,6 +1107,7 @@
                           }
                         ]
                       },
+                      "kind": "TemplateQualifier",
                       "type": "SMT/Cardinality",
                       "valueType": "xs:string",
                       "value": "ZeroToOne"
@@ -1009,11 +1115,12 @@
                   ]
                 },
                 {
+                  "value": "",
                   "contentType": "application/pdf",
                   "semanticId": {
                     "keys": [
                       {
-                        "type": "GlobalReference",
+                        "type": "ConceptDescription",
                         "value": "https://admin-shell.io/idta/SimulationModels/DigitalFile/1/0"
                       }
                     ],
@@ -1022,6 +1129,7 @@
                   "idShort": "DigitalFile",
                   "category": "CONSTANT",
                   "modelType": "File",
+                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -1033,6 +1141,7 @@
                           }
                         ]
                       },
+                      "kind": "TemplateQualifier",
                       "type": "SMT/Cardinality",
                       "valueType": "xs:string",
                       "value": "One"
@@ -1043,14 +1152,16 @@
                   "semanticId": {
                     "keys": [
                       {
-                        "type": "GlobalReference",
+                        "type": "ConceptDescription",
                         "value": "https://admin-shell.io/idta/SimulationModels/ModelFileReleaseNotesTxt/1/0"
                       }
                     ],
                     "type": "ExternalReference"
                   },
                   "idShort": "ModelFileReleaseNotesTxt",
+                  "category": "",
                   "modelType": "MultiLanguageProperty",
+                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -1062,6 +1173,7 @@
                           }
                         ]
                       },
+                      "kind": "TemplateQualifier",
                       "type": "SMT/Cardinality",
                       "valueType": "xs:string",
                       "value": "ZeroToOne"
@@ -1069,18 +1181,21 @@
                   ]
                 },
                 {
+                  "value": "",
                   "contentType": "application/pdf",
                   "semanticId": {
                     "keys": [
                       {
-                        "type": "GlobalReference",
+                        "type": "ConceptDescription",
                         "value": "https://admin-shell.io/idta/SimulationModels/ModelFileReleaseNotesFile/1/0"
                       }
                     ],
                     "type": "ExternalReference"
                   },
                   "idShort": "ModelFileReleaseNotesFile",
+                  "category": null,
                   "modelType": "File",
+                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -1092,6 +1207,7 @@
                           }
                         ]
                       },
+                      "kind": "TemplateQualifier",
                       "type": "SMT/Cardinality",
                       "valueType": "xs:string",
                       "value": "ZeroToOne"
@@ -1099,6 +1215,7 @@
                   ]
                 }
               ],
+              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1110,6 +1227,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "OneToMany"
@@ -1117,6 +1235,7 @@
               ]
             }
           ],
+          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -1128,6 +1247,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -1139,15 +1259,17 @@
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "https://admin-shell.io/idta/SimulationModels/ParamMethod/1/0"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "ParamMethod",
+          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
+          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -1159,6 +1281,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -1166,18 +1289,21 @@
           ]
         },
         {
+          "value": "",
           "contentType": "application/pdf",
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "https://admin-shell.io/idta/SimulationModels/ParamFile/1/0"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "ParamFile",
+          "category": null,
           "modelType": "File",
+          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -1189,6 +1315,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -1200,15 +1327,17 @@
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "https://admin-shell.io/idta/SimulationModels/InitStateMethod/1/0"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "InitStateMethod",
+          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
+          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -1220,6 +1349,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "One"
@@ -1227,18 +1357,21 @@
           ]
         },
         {
+          "value": "",
           "contentType": "application/pdf",
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "https://admin-shell.io/idta/SimulationModels/InitStateFile/1/0"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "InitStateFile",
+          "category": null,
           "modelType": "File",
+          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -1250,6 +1383,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -1257,18 +1391,21 @@
           ]
         },
         {
+          "value": "",
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "https://admin-shell.io/idta/SimulationModels/DefaultSimTime/1/0"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "DefaultSimTime",
+          "category": null,
           "modelType": "Property",
           "valueType": "xs:float",
+          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -1280,6 +1417,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -1290,7 +1428,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "https://admin-shell.io/idta/SimulationModels/SimModManufacturerInformation/1/0"
               }
             ],
@@ -1305,15 +1443,17 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "GlobalReference",
+                    "type": "ConceptDescription",
                     "value": "0173-1#02-AAW001#001"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "Company",
+              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
+              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1325,6 +1465,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "One"
@@ -1336,15 +1477,17 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "GlobalReference",
+                    "type": "ConceptDescription",
                     "value": "0173-1#02-AAO895#003"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "Language",
+              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
+              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1356,6 +1499,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "OneToMany"
@@ -1366,13 +1510,14 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "GlobalReference",
+                    "type": "ConceptDescription",
                     "value": "0173-1#02-AAQ836#005"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "Email",
+              "category": null,
               "modelType": "SubmodelElementCollection",
               "value": [
                 {
@@ -1380,15 +1525,17 @@
                   "semanticId": {
                     "keys": [
                       {
-                        "type": "GlobalReference",
+                        "type": "ConceptDescription",
                         "value": "0173-1#02-AAO199#003"
                       }
                     ],
                     "type": "ExternalReference"
                   },
                   "idShort": "TypeOfEmailAddress",
+                  "category": null,
                   "modelType": "Property",
                   "valueType": "xs:string",
+                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -1400,6 +1547,7 @@
                           }
                         ]
                       },
+                      "kind": "TemplateQualifier",
                       "type": "SMT/Cardinality",
                       "valueType": "xs:string",
                       "value": "ZeroToOne"
@@ -1411,15 +1559,17 @@
                   "semanticId": {
                     "keys": [
                       {
-                        "type": "GlobalReference",
+                        "type": "ConceptDescription",
                         "value": "0173-1#02-AAO198#002"
                       }
                     ],
                     "type": "ExternalReference"
                   },
                   "idShort": "EmailAddress",
+                  "category": null,
                   "modelType": "Property",
                   "valueType": "xs:string",
+                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -1431,6 +1581,7 @@
                           }
                         ]
                       },
+                      "kind": "TemplateQualifier",
                       "type": "SMT/Cardinality",
                       "valueType": "xs:string",
                       "value": "One"
@@ -1442,15 +1593,17 @@
                   "semanticId": {
                     "keys": [
                       {
-                        "type": "GlobalReference",
+                        "type": "ConceptDescription",
                         "value": "0173-1#02-AAO201#002"
                       }
                     ],
                     "type": "ExternalReference"
                   },
                   "idShort": "TypeOfPublicKey",
+                  "category": null,
                   "modelType": "Property",
                   "valueType": "xs:string",
+                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -1462,6 +1615,7 @@
                           }
                         ]
                       },
+                      "kind": "TemplateQualifier",
                       "type": "SMT/Cardinality",
                       "valueType": "xs:string",
                       "value": "ZeroToOne"
@@ -1473,15 +1627,17 @@
                   "semanticId": {
                     "keys": [
                       {
-                        "type": "GlobalReference",
+                        "type": "ConceptDescription",
                         "value": "0173-1#02-AAO200#002"
                       }
                     ],
                     "type": "ExternalReference"
                   },
                   "idShort": "PublicKey",
+                  "category": null,
                   "modelType": "Property",
                   "valueType": "xs:string",
+                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -1493,6 +1649,7 @@
                           }
                         ]
                       },
+                      "kind": "TemplateQualifier",
                       "type": "SMT/Cardinality",
                       "valueType": "xs:string",
                       "value": "ZeroToOne"
@@ -1500,6 +1657,7 @@
                   ]
                 }
               ],
+              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1511,6 +1669,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -1521,13 +1680,14 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "GlobalReference",
+                    "type": "ConceptDescription",
                     "value": "https://admin-shell.io/zvei/nameplate/1/0/ContactInformations/ContactInformation/Phone"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "Phone",
+              "category": null,
               "modelType": "SubmodelElementCollection",
               "value": [
                 {
@@ -1535,15 +1695,17 @@
                   "semanticId": {
                     "keys": [
                       {
-                        "type": "GlobalReference",
+                        "type": "ConceptDescription",
                         "value": "0173-1#02-AAO137#003"
                       }
                     ],
                     "type": "ExternalReference"
                   },
                   "idShort": "TypeOfTelephone",
+                  "category": null,
                   "modelType": "Property",
                   "valueType": "xs:string",
+                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -1555,6 +1717,7 @@
                           }
                         ]
                       },
+                      "kind": "TemplateQualifier",
                       "type": "SMT/Cardinality",
                       "valueType": "xs:string",
                       "value": "ZeroToOne"
@@ -1566,15 +1729,17 @@
                   "semanticId": {
                     "keys": [
                       {
-                        "type": "GlobalReference",
+                        "type": "ConceptDescription",
                         "value": "0173-1#02-AAO136#002"
                       }
                     ],
                     "type": "ExternalReference"
                   },
                   "idShort": "TelephoneNumber",
+                  "category": null,
                   "modelType": "Property",
                   "valueType": "xs:string",
+                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -1586,6 +1751,7 @@
                           }
                         ]
                       },
+                      "kind": "TemplateQualifier",
                       "type": "SMT/Cardinality",
                       "valueType": "xs:string",
                       "value": "One"
@@ -1597,15 +1763,17 @@
                   "semanticId": {
                     "keys": [
                       {
-                        "type": "GlobalReference",
+                        "type": "ConceptDescription",
                         "value": "https://admin-shell.io/zvei/nameplate/1/0/ContactInformations/ContactInformation/AvailableTime/"
                       }
                     ],
                     "type": "ExternalReference"
                   },
                   "idShort": "AvailableTime",
+                  "category": null,
                   "modelType": "Property",
                   "valueType": "xs:string",
+                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -1617,6 +1785,7 @@
                           }
                         ]
                       },
+                      "kind": "TemplateQualifier",
                       "type": "SMT/Cardinality",
                       "valueType": "xs:string",
                       "value": "ZeroToOne"
@@ -1624,6 +1793,7 @@
                   ]
                 }
               ],
+              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -1635,6 +1805,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -1642,6 +1813,7 @@
               ]
             }
           ],
+          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -1653,6 +1825,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToMany"
@@ -1663,26 +1836,28 @@
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "https://admin-shell.io/idta/SimulationModels/Ports/1/0"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "Ports",
+          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
               "semanticId": {
                 "keys": [
                   {
-                    "type": "GlobalReference",
+                    "type": "ConceptDescription",
                     "value": "https://admin-shell.io/idta/SimulationModels/PortsConnector/1/0"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "PortsConnector",
+              "category": null,
               "modelType": "SubmodelElementCollection",
               "value": [
                 {
@@ -1690,15 +1865,17 @@
                   "semanticId": {
                     "keys": [
                       {
-                        "type": "GlobalReference",
+                        "type": "ConceptDescription",
                         "value": "https://admin-shell.io/idta/SimulationModels/PortsConnectorName/1/0"
                       }
                     ],
                     "type": "ExternalReference"
                   },
                   "idShort": "PortConnectorName",
+                  "category": null,
                   "modelType": "Property",
                   "valueType": "xs:string",
+                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -1710,6 +1887,7 @@
                           }
                         ]
                       },
+                      "kind": "TemplateQualifier",
                       "type": "SMT/Cardinality",
                       "valueType": "xs:string",
                       "value": "One"
@@ -1720,14 +1898,16 @@
                   "semanticId": {
                     "keys": [
                       {
-                        "type": "GlobalReference",
+                        "type": "ConceptDescription",
                         "value": "https://admin-shell.io/idta/SimulationModel/portConDescription/1/0"
                       }
                     ],
                     "type": "ExternalReference"
                   },
                   "idShort": "PortConDescription",
+                  "category": null,
                   "modelType": "MultiLanguageProperty",
+                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -1739,6 +1919,7 @@
                           }
                         ]
                       },
+                      "kind": "TemplateQualifier",
                       "type": "SMT/Cardinality",
                       "valueType": "xs:string",
                       "value": "ZeroToOne"
@@ -1749,13 +1930,14 @@
                   "semanticId": {
                     "keys": [
                       {
-                        "type": "GlobalReference",
+                        "type": "ConceptDescription",
                         "value": "https://admin-shell.io/idta/SimulationModels/Variable/1/0"
                       }
                     ],
                     "type": "ExternalReference"
                   },
                   "idShort": "Variable",
+                  "category": null,
                   "modelType": "SubmodelElementCollection",
                   "value": [
                     {
@@ -1763,15 +1945,17 @@
                       "semanticId": {
                         "keys": [
                           {
-                            "type": "GlobalReference",
+                            "type": "ConceptDescription",
                             "value": "https://admin-shell.io/idta/SimulationModels/VariableName/1/0"
                           }
                         ],
                         "type": "ExternalReference"
                       },
                       "idShort": "VariableName",
+                      "category": null,
                       "modelType": "Property",
                       "valueType": "xs:string",
+                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -1783,6 +1967,7 @@
                               }
                             ]
                           },
+                          "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "valueType": "xs:string",
                           "value": "One"
@@ -1794,15 +1979,17 @@
                       "semanticId": {
                         "keys": [
                           {
-                            "type": "GlobalReference",
+                            "type": "ConceptDescription",
                             "value": "https://admin-shell.io/idta/SimulationModels/Range/1/0"
                           }
                         ],
                         "type": "ExternalReference"
                       },
                       "idShort": "Range",
+                      "category": null,
                       "modelType": "Property",
                       "valueType": "xs:string",
+                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -1814,6 +2001,7 @@
                               }
                             ]
                           },
+                          "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "valueType": "xs:string",
                           "value": "ZeroToOne"
@@ -1825,15 +2013,17 @@
                       "semanticId": {
                         "keys": [
                           {
-                            "type": "GlobalReference",
+                            "type": "ConceptDescription",
                             "value": "https://admin-shell.io/idta/SimulationModels/VariableType/1/0"
                           }
                         ],
                         "type": "ExternalReference"
                       },
                       "idShort": "VariableType",
+                      "category": null,
                       "modelType": "Property",
                       "valueType": "xs:string",
+                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -1845,6 +2035,7 @@
                               }
                             ]
                           },
+                          "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "valueType": "xs:string",
                           "value": "One"
@@ -1855,14 +2046,16 @@
                       "semanticId": {
                         "keys": [
                           {
-                            "type": "GlobalReference",
+                            "type": "ConceptDescription",
                             "value": "https://admin-shell.io/idta/SimulationModels/VariableDescription/1/0"
                           }
                         ],
                         "type": "ExternalReference"
                       },
                       "idShort": "VariableDescription",
+                      "category": null,
                       "modelType": "MultiLanguageProperty",
+                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -1874,6 +2067,7 @@
                               }
                             ]
                           },
+                          "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "valueType": "xs:string",
                           "value": "ZeroToOne"
@@ -1885,15 +2079,17 @@
                       "semanticId": {
                         "keys": [
                           {
-                            "type": "GlobalReference",
+                            "type": "ConceptDescription",
                             "value": "https://admin-shell.io/idta/SimulationModels/UnitList/1/0"
                           }
                         ],
                         "type": "ExternalReference"
                       },
                       "idShort": "UnitList",
+                      "category": null,
                       "modelType": "Property",
                       "valueType": "xs:string",
+                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -1905,6 +2101,7 @@
                               }
                             ]
                           },
+                          "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "valueType": "xs:string",
                           "value": "One"
@@ -1915,14 +2112,16 @@
                       "semanticId": {
                         "keys": [
                           {
-                            "type": "GlobalReference",
+                            "type": "ConceptDescription",
                             "value": "https://admin-shell.io/idta/SimulationModels/UnitDescription/1/0"
                           }
                         ],
                         "type": "ExternalReference"
                       },
                       "idShort": "UnitDescription",
+                      "category": null,
                       "modelType": "MultiLanguageProperty",
+                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -1934,6 +2133,7 @@
                               }
                             ]
                           },
+                          "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "valueType": "xs:string",
                           "value": "ZeroToOne"
@@ -1945,15 +2145,17 @@
                       "semanticId": {
                         "keys": [
                           {
-                            "type": "GlobalReference",
+                            "type": "ConceptDescription",
                             "value": "https://admin-shell.io/idta/SimulationModels/VariableCausality/1/0"
                           }
                         ],
                         "type": "ExternalReference"
                       },
                       "idShort": "VariableCausality",
+                      "category": null,
                       "modelType": "Property",
                       "valueType": "xs:string",
+                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -1965,6 +2167,7 @@
                               }
                             ]
                           },
+                          "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "valueType": "xs:string",
                           "value": "One"
@@ -1976,15 +2179,17 @@
                       "semanticId": {
                         "keys": [
                           {
-                            "type": "GlobalReference",
+                            "type": "ConceptDescription",
                             "value": "https://admin-shell.io/idta/SimulationModels/VariablePrefix/1/0"
                           }
                         ],
                         "type": "ExternalReference"
                       },
                       "idShort": "VariablePrefix",
+                      "category": null,
                       "modelType": "Property",
                       "valueType": "xs:string",
+                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -1996,6 +2201,7 @@
                               }
                             ]
                           },
+                          "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "valueType": "xs:string",
                           "value": "ZeroToOne"
@@ -2003,6 +2209,7 @@
                       ]
                     }
                   ],
+                  "kind": "Template",
                   "qualifiers": [
                     {
                       "semanticId": {
@@ -2014,6 +2221,7 @@
                           }
                         ]
                       },
+                      "kind": "TemplateQualifier",
                       "type": "SMT/Cardinality",
                       "valueType": "xs:string",
                       "value": "ZeroToMany"
@@ -2022,6 +2230,7 @@
                 },
                 {
                   "idShort": "BinaryConnector",
+                  "category": null,
                   "modelType": "SubmodelElementCollection",
                   "value": [
                     {
@@ -2029,15 +2238,17 @@
                       "semanticId": {
                         "keys": [
                           {
-                            "type": "GlobalReference",
+                            "type": "ConceptDescription",
                             "value": "https://admin-shell.io/idta/SimulationModels/BinaryConnectorName/1/0"
                           }
                         ],
                         "type": "ExternalReference"
                       },
                       "idShort": "BinaryConName",
+                      "category": null,
                       "modelType": "Property",
                       "valueType": "xs:string",
+                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -2049,6 +2260,7 @@
                               }
                             ]
                           },
+                          "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "valueType": "xs:string",
                           "value": "One"
@@ -2059,14 +2271,16 @@
                       "semanticId": {
                         "keys": [
                           {
-                            "type": "GlobalReference",
+                            "type": "ConceptDescription",
                             "value": "https://admin-shell.io/idta/SimulationModels/BinaryConDescription/1/0"
                           }
                         ],
                         "type": "ExternalReference"
                       },
                       "idShort": "BinaryConDescription",
+                      "category": null,
                       "modelType": "MultiLanguageProperty",
+                      "kind": "Template",
                       "qualifiers": [
                         {
                           "semanticId": {
@@ -2078,15 +2292,18 @@
                               }
                             ]
                           },
+                          "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "valueType": "xs:string",
                           "value": "ZeroToOne"
                         }
                       ]
                     }
-                  ]
+                  ],
+                  "kind": "Template"
                 }
               ],
+              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -2098,6 +2315,7 @@
                       }
                     ]
                   },
+                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToMany"
@@ -2105,6 +2323,7 @@
               ]
             }
           ],
+          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -2116,6 +2335,7 @@
                   }
                 ]
               },
+              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -2134,6 +2354,7 @@
               }
             ]
           },
+          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "ZeroToMany"

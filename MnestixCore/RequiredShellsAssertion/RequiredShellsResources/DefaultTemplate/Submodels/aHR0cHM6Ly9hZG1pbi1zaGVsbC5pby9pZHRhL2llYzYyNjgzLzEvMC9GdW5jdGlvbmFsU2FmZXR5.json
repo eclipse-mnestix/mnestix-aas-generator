@@ -1,8 +1,8 @@
-{
+﻿{
   "semanticId": {
     "keys": [
       {
-        "type": "GlobalReference",
+        "type": "Submodel",
         "value": "https://admin-shell.io/idta/iec62683/1/0/FunctionalSafety"
       }
     ],
@@ -26,22 +26,26 @@
     "revision": "0"
   },
   "idShort": "FunctionalSafety",
+  "category": null,
   "modelType": "Submodel",
   "kind": "Template",
   "submodelElements": [
     {
+      "value": "",
       "semanticId": {
         "keys": [
           {
-            "type": "GlobalReference",
+            "type": "ConceptDescription",
             "value": "0112/2///62683#ACE005#001"
           }
         ],
         "type": "ExternalReference"
       },
       "idShort": "NumberOfFunctionalSafetySetsOfCharacteristics",
+      "category": null,
       "modelType": "Property",
       "valueType": "xs:int",
+      "kind": "Template",
       "description": [
         {
           "language": "en",
@@ -57,13 +61,14 @@
       "semanticId": {
         "keys": [
           {
-            "type": "GlobalReference",
+            "type": "ConceptDescription",
             "value": "0112/2///62683#ACG057#001"
           }
         ],
         "type": "ExternalReference"
       },
       "idShort": "OperatingConditionsOfFunctionalSafetyCharacteristics",
+      "category": null,
       "modelType": "SubmodelElementCollection",
       "value": [
         {
@@ -76,11 +81,17 @@
               },
               {
                 "type": "GlobalReference",
-                "value": "0112/2///61987#ABL838#001"
+                "local": false,
+                "value": "0112/2///61987#ABL838#001",
+                "index": 1,
+                "idType": "IRDI"
               },
               {
                 "type": "GlobalReference",
-                "value": "0112/2///61987#ABI407#004"
+                "local": false,
+                "value": "0112/2///61987#ABI407#004",
+                "index": 2,
+                "idType": "IRDI"
               }
             ],
             "type": "ExternalReference"
@@ -88,15 +99,17 @@
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "0112/2///61987#ABA969#007"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "TypeOfVoltage",
+          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
+          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -113,18 +126,21 @@
           ]
         },
         {
+          "value": "",
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "0112/2///61987#ABA588#004"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "RatedVoltage",
+          "category": null,
           "modelType": "Property",
           "valueType": "xs:double",
+          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -141,18 +157,21 @@
           ]
         },
         {
+          "value": "",
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "0112/2///61987#ABD461#004"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "MinimumRatedVoltage",
+          "category": null,
           "modelType": "Property",
           "valueType": "xs:double",
+          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -169,18 +188,21 @@
           ]
         },
         {
+          "value": "",
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "0112/2///61987#ABD462#004"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "MaximumRatedVoltage",
+          "category": null,
           "modelType": "Property",
           "valueType": "xs:double",
+          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -197,18 +219,21 @@
           ]
         },
         {
+          "value": "",
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "https://admin-shell.io/idta/FunctionalSafety/RatedOperationalCurrent/1/0"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "RatedOperationalCurrent",
+          "category": null,
           "modelType": "Property",
           "valueType": "xs:double",
+          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -226,15 +251,24 @@
               },
               {
                 "type": "GlobalReference",
-                "value": "0112/2///62683#ACH674#001"
+                "local": false,
+                "value": "0112/2///62683#ACH674#001",
+                "index": 1,
+                "idType": "IRDI"
               },
               {
                 "type": "GlobalReference",
-                "value": "0112/2///62683#ACH675#001"
+                "local": false,
+                "value": "0112/2///62683#ACH675#001",
+                "index": 2,
+                "idType": "IRDI"
               },
               {
                 "type": "GlobalReference",
-                "value": "0112/2///62683#ACH676#001"
+                "local": false,
+                "value": "0112/2///62683#ACH676#001",
+                "index": 3,
+                "idType": "IRDI"
               }
             ],
             "type": "ExternalReference"
@@ -242,15 +276,17 @@
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "0112/2///62683#ACE053#001"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "TypeOfInterlockingDevice",
+          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
+          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -267,15 +303,17 @@
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "0112/2///62683#ACE070#001"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "OtherOperatingConditions",
+          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
+          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -288,18 +326,21 @@
           ]
         },
         {
+          "value": "",
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "0112/2///62683#ACE055#001"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "UsefulLifeInNumberOfOperations",
+          "category": null,
           "modelType": "Property",
           "valueType": "xs:double",
+          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -312,18 +353,21 @@
           ]
         },
         {
+          "value": "",
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "0112/2///62683#ACE054#001"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "UsefulLifeInTimeInterval",
+          "category": null,
           "modelType": "Property",
           "valueType": "xs:double",
+          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -336,6 +380,7 @@
           ]
         }
       ],
+      "kind": "Template",
       "description": [
         {
           "language": "en",
@@ -351,13 +396,14 @@
       "semanticId": {
         "keys": [
           {
-            "type": "GlobalReference",
+            "type": "ConceptDescription",
             "value": "0112/2///62683#ACG070#001"
           }
         ],
         "type": "ExternalReference"
       },
       "idShort": "SafetyDeviceTypes",
+      "category": null,
       "modelType": "SubmodelElementCollection",
       "value": [
         {
@@ -370,15 +416,24 @@
               },
               {
                 "type": "GlobalReference",
-                "value": "0112/2///62683#ACH688"
+                "local": false,
+                "value": "0112/2///62683#ACH688",
+                "index": 1,
+                "idType": "IRDI"
               },
               {
                 "type": "GlobalReference",
-                "value": "0112/2///62683#ACH689"
+                "local": false,
+                "value": "0112/2///62683#ACH689",
+                "index": 2,
+                "idType": "IRDI"
               },
               {
                 "type": "GlobalReference",
-                "value": "0112/2///62683#ACH690"
+                "local": false,
+                "value": "0112/2///62683#ACH690",
+                "index": 3,
+                "idType": "IRDI"
               }
             ],
             "type": "ExternalReference"
@@ -386,15 +441,17 @@
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "0112/2///62683#ACE071#001"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "FunctionalSafetyDeviceType",
+          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
+          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -410,13 +467,14 @@
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "0112/2///62683#ACG065#001"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "SafetySubsystem",
+          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -429,11 +487,17 @@
                   },
                   {
                     "type": "GlobalReference",
-                    "value": "0112/2///62683#ACH671#001"
+                    "local": false,
+                    "value": "0112/2///62683#ACH671#001",
+                    "index": 1,
+                    "idType": "IRDI"
                   },
                   {
                     "type": "GlobalReference",
-                    "value": "0112/2///62683#ACH672#001"
+                    "local": false,
+                    "value": "0112/2///62683#ACH672#001",
+                    "index": 2,
+                    "idType": "IRDI"
                   }
                 ],
                 "type": "ExternalReference"
@@ -441,15 +505,17 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "GlobalReference",
+                    "type": "ConceptDescription",
                     "value": "0112/2///62683#ACE051#001"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "SIL",
+              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
+              "kind": "Template",
               "description": [
                 {
                   "language": "en",
@@ -462,18 +528,21 @@
               ]
             },
             {
+              "value": "",
               "semanticId": {
                 "keys": [
                   {
-                    "type": "GlobalReference",
+                    "type": "ConceptDescription",
                     "value": "0112/2///62683#ACE052#001"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "PFH",
+              "category": null,
               "modelType": "Property",
               "valueType": "xs:double",
+              "kind": "Template",
               "description": [
                 {
                   "language": "en",
@@ -486,18 +555,21 @@
               ]
             },
             {
+              "value": "",
               "semanticId": {
                 "keys": [
                   {
-                    "type": "GlobalReference",
+                    "type": "ConceptDescription",
                     "value": "0112/2///62683#ACE058#001"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "ProofTestInterval",
+              "category": null,
               "modelType": "Property",
               "valueType": "xs:double",
+              "kind": "Template",
               "description": [
                 {
                   "language": "en",
@@ -519,19 +591,31 @@
                   },
                   {
                     "type": "GlobalReference",
-                    "value": "0112/2///62683#ACH678#001"
+                    "local": false,
+                    "value": "0112/2///62683#ACH678#001",
+                    "index": 1,
+                    "idType": "IRDI"
                   },
                   {
                     "type": "GlobalReference",
-                    "value": "0112/2///62683#ACH679#001"
+                    "local": false,
+                    "value": "0112/2///62683#ACH679#001",
+                    "index": 2,
+                    "idType": "IRDI"
                   },
                   {
                     "type": "GlobalReference",
-                    "value": "0112/2///62683#ACH680#001"
+                    "local": false,
+                    "value": "0112/2///62683#ACH680#001",
+                    "index": 3,
+                    "idType": "IRDI"
                   },
                   {
                     "type": "GlobalReference",
-                    "value": "0112/2///62683#ACH681#001"
+                    "local": false,
+                    "value": "0112/2///62683#ACH681#001",
+                    "index": 4,
+                    "idType": "IRDI"
                   }
                 ],
                 "type": "ExternalReference"
@@ -539,15 +623,25 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "GlobalReference",
+                    "type": "ConceptDescription",
                     "value": "0112/2///62683#ACE060#001"
                   }
                 ],
                 "type": "ExternalReference"
               },
+              "hasDataSpecification": [
+                {
+                  "dataSpecification": {
+                    "keys": []
+                  },
+                  "dataSpecificationContent": null
+                }
+              ],
               "idShort": "PL",
+              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
+              "kind": "Template",
               "description": [
                 {
                   "language": "en",
@@ -569,19 +663,31 @@
                   },
                   {
                     "type": "GlobalReference",
-                    "value": "0112/2///62683#ACH683#001"
+                    "local": false,
+                    "value": "0112/2///62683#ACH683#001",
+                    "index": 1,
+                    "idType": "IRDI"
                   },
                   {
                     "type": "GlobalReference",
-                    "value": "0112/2///62683#ACH684#001"
+                    "local": false,
+                    "value": "0112/2///62683#ACH684#001",
+                    "index": 2,
+                    "idType": "IRDI"
                   },
                   {
                     "type": "GlobalReference",
-                    "value": "0112/2///62683#ACH685#001"
+                    "local": false,
+                    "value": "0112/2///62683#ACH685#001",
+                    "index": 3,
+                    "idType": "IRDI"
                   },
                   {
                     "type": "GlobalReference",
-                    "value": "0112/2///62683#ACH686#001"
+                    "local": false,
+                    "value": "0112/2///62683#ACH686#001",
+                    "index": 4,
+                    "idType": "IRDI"
                   }
                 ],
                 "type": "ExternalReference"
@@ -589,15 +695,17 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "GlobalReference",
+                    "type": "ConceptDescription",
                     "value": "0112/2///62683#ACE063#001"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "Category",
+              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
+              "kind": "Template",
               "description": [
                 {
                   "language": "en",
@@ -610,6 +718,7 @@
               ]
             }
           ],
+          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -625,28 +734,32 @@
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "0112/2///62683#ACG066#001"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "ElectronicElement",
+          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
+              "value": "",
               "semanticId": {
                 "keys": [
                   {
-                    "type": "GlobalReference",
+                    "type": "ConceptDescription",
                     "value": "0112/2///62683#ACE057#001"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "MTTFD",
+              "category": null,
               "modelType": "Property",
               "valueType": "xs:int",
+              "kind": "Template",
               "description": [
                 {
                   "language": "en",
@@ -659,18 +772,21 @@
               ]
             },
             {
+              "value": "",
               "semanticId": {
                 "keys": [
                   {
-                    "type": "GlobalReference",
+                    "type": "ConceptDescription",
                     "value": "https://admin-shell.io/idta/FunctionalSafety/RDF/1/0"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "RDF",
+              "category": null,
               "modelType": "Property",
               "valueType": "xs:int",
+              "kind": "Template",
               "description": [
                 {
                   "language": "en",
@@ -679,18 +795,21 @@
               ]
             },
             {
+              "value": "",
               "semanticId": {
                 "keys": [
                   {
-                    "type": "GlobalReference",
+                    "type": "ConceptDescription",
                     "value": "0112/2///62683#ACE058#001"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "ProofTestInterval",
+              "category": null,
               "modelType": "Property",
               "valueType": "xs:double",
+              "kind": "Template",
               "description": [
                 {
                   "language": "en",
@@ -703,6 +822,7 @@
               ]
             }
           ],
+          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -718,28 +838,32 @@
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "0112/2///62683#ACG067#001"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "ElectromechanicalElement",
+          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
+              "value": "",
               "semanticId": {
                 "keys": [
                   {
-                    "type": "GlobalReference",
+                    "type": "ConceptDescription",
                     "value": "0112/2///62683#ACE056#001"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "B10D",
+              "category": null,
               "modelType": "Property",
               "valueType": "xs:double",
+              "kind": "Template",
               "description": [
                 {
                   "language": "en",
@@ -752,18 +876,21 @@
               ]
             },
             {
+              "value": "",
               "semanticId": {
                 "keys": [
                   {
-                    "type": "GlobalReference",
+                    "type": "ConceptDescription",
                     "value": "0112/2///62683#ACE058#001"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "ProofTestInterval",
+              "category": null,
               "modelType": "Property",
               "valueType": "xs:double",
+              "kind": "Template",
               "description": [
                 {
                   "language": "en",
@@ -776,6 +903,7 @@
               ]
             }
           ],
+          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -791,13 +919,14 @@
           "semanticId": {
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "0112/2///62683#ACG069#001"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "InherentlySafeSubsystem",
+          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -810,11 +939,17 @@
                   },
                   {
                     "type": "GlobalReference",
-                    "value": "0112/2///62683#ACH671#001"
+                    "local": false,
+                    "value": "0112/2///62683#ACH671#001",
+                    "index": 1,
+                    "idType": "IRDI"
                   },
                   {
                     "type": "GlobalReference",
-                    "value": "0112/2///62683#ACH672#001"
+                    "local": false,
+                    "value": "0112/2///62683#ACH672#001",
+                    "index": 2,
+                    "idType": "IRDI"
                   }
                 ],
                 "type": "ExternalReference"
@@ -822,15 +957,17 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "GlobalReference",
+                    "type": "ConceptDescription",
                     "value": "0112/2///62683#ACE051#001"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "SIL",
+              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
+              "kind": "Template",
               "description": [
                 {
                   "language": "en",
@@ -843,18 +980,21 @@
               ]
             },
             {
+              "value": "",
               "semanticId": {
                 "keys": [
                   {
-                    "type": "GlobalReference",
+                    "type": "ConceptDescription",
                     "value": "0112/2///62683#ACE058#001"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "ProofTestInterval",
+              "category": null,
               "modelType": "Property",
               "valueType": "xs:double",
+              "kind": "Template",
               "description": [
                 {
                   "language": "en",
@@ -876,19 +1016,31 @@
                   },
                   {
                     "type": "GlobalReference",
-                    "value": "0112/2///62683#ACH678#001"
+                    "local": false,
+                    "value": "0112/2///62683#ACH678#001",
+                    "index": 1,
+                    "idType": "IRDI"
                   },
                   {
                     "type": "GlobalReference",
-                    "value": "0112/2///62683#ACH679#001"
+                    "local": false,
+                    "value": "0112/2///62683#ACH679#001",
+                    "index": 2,
+                    "idType": "IRDI"
                   },
                   {
                     "type": "GlobalReference",
-                    "value": "0112/2///62683#ACH680#001"
+                    "local": false,
+                    "value": "0112/2///62683#ACH680#001",
+                    "index": 3,
+                    "idType": "IRDI"
                   },
                   {
                     "type": "GlobalReference",
-                    "value": "0112/2///62683#ACH681#001"
+                    "local": false,
+                    "value": "0112/2///62683#ACH681#001",
+                    "index": 4,
+                    "idType": "IRDI"
                   }
                 ],
                 "type": "ExternalReference"
@@ -896,15 +1048,17 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "GlobalReference",
+                    "type": "ConceptDescription",
                     "value": "0112/2///62683#ACE060#001"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "PL",
+              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
+              "kind": "Template",
               "description": [
                 {
                   "language": "en",
@@ -926,19 +1080,31 @@
                   },
                   {
                     "type": "GlobalReference",
-                    "value": "0112/2///62683#ACH683#001"
+                    "local": false,
+                    "value": "0112/2///62683#ACH683#001",
+                    "index": 1,
+                    "idType": "IRDI"
                   },
                   {
                     "type": "GlobalReference",
-                    "value": "0112/2///62683#ACH684#001"
+                    "local": false,
+                    "value": "0112/2///62683#ACH684#001",
+                    "index": 2,
+                    "idType": "IRDI"
                   },
                   {
                     "type": "GlobalReference",
-                    "value": "0112/2///62683#ACH685#001"
+                    "local": false,
+                    "value": "0112/2///62683#ACH685#001",
+                    "index": 3,
+                    "idType": "IRDI"
                   },
                   {
                     "type": "GlobalReference",
-                    "value": "0112/2///62683#ACH686#001"
+                    "local": false,
+                    "value": "0112/2///62683#ACH686#001",
+                    "index": 4,
+                    "idType": "IRDI"
                   }
                 ],
                 "type": "ExternalReference"
@@ -946,15 +1112,17 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "GlobalReference",
+                    "type": "ConceptDescription",
                     "value": "0112/2///62683#ACE063#001"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "Category",
+              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
+              "kind": "Template",
               "description": [
                 {
                   "language": "en",
@@ -967,6 +1135,7 @@
               ]
             }
           ],
+          "kind": "Template",
           "description": [
             {
               "language": "en",
@@ -979,6 +1148,7 @@
           ]
         }
       ],
+      "kind": "Template",
       "description": [
         {
           "language": "en",

@@ -1,19 +1,20 @@
 {
-  "idShort": "aas_lni0729",
-  "id": "https://aas2.uni-h.de/aas/lni0729",
-  "assetInformation": {
-    "assetKind": "Instance",
-    "globalAssetId": "https://aas2.uni-h.de/lni0729",
-    "specificAssetIds": [
-      {
-        "name": "assetIdShort",
-        "value": "lni0729"
-      }
-    ],
-    "defaultThumbnail": {
-      "path": "https://aas.uni-h.de/images/kugelschreiber.1.jpg",
-      "contentType": "image/jpeg"
-    }
-  },
-  "modelType": "AssetAdministrationShell"
+    "idShort": "aas_lni0729",
+    "id": "https://aas2.uni-h.de/aas/lni0729",
+    "assetInformation": {
+        "assetKind": "Instance",
+        "globalAssetId": "https://aas2.uni-h.de/lni0729",
+        "specificAssetIds": [
+            {
+                "name": "assetIdShort",
+                "value": "lni0729"
+            }
+        ],
+        "assetType": "",
+        "defaultThumbnail": {
+            "path": "https://aas.uni-h.de/images/kugelschreiber.1.jpg",
+            "contentType": "image/jpeg"
+        }
+    },
+    "modelType": "AssetAdministrationShell"
 }

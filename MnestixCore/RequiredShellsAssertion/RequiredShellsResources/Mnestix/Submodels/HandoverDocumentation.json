@@ -55,6 +55,7 @@
           "value": "ZeroToMany"
         }
       ],
+      "embeddedDataSpecifications": [],
       "value": [
         {
           "category": "PARAMETER",
@@ -139,6 +140,7 @@
                   "value": "1213455566"
                 }
               ],
+              "embeddedDataSpecifications": [],
               "valueType": "xs:string",
               "value": "Mnestix",
               "modelType": "Property"
@@ -191,6 +193,7 @@
                   "value": "XF90-884"
                 }
               ],
+              "embeddedDataSpecifications": [],
               "valueType": "xs:string",
               "value": "1",
               "modelType": "Property"
@@ -243,6 +246,7 @@
                   "value": "true"
                 }
               ],
+              "embeddedDataSpecifications": [],
               "valueType": "xs:boolean",
               "value": "true",
               "modelType": "Property"
@@ -333,6 +337,7 @@
                   "value": "03-02"
                 }
               ],
+              "embeddedDataSpecifications": [],
               "valueType": "xs:string",
               "value": "",
               "modelType": "Property"
@@ -435,6 +440,7 @@
                   "value": "VDI2770:2018"
                 }
               ],
+              "embeddedDataSpecifications": [],
               "valueType": "xs:string",
               "value": "VDI2770 Blatt 1:2020",
               "modelType": "Property"
@@ -539,6 +545,7 @@
                   "value": "Language[\\d{2,3}]"
                 }
               ],
+              "embeddedDataSpecifications": [],
               "valueType": "xs:string",
               "value": "de",
               "modelType": "Property"
@@ -591,6 +598,7 @@
                   "value": "V1.2"
                 }
               ],
+              "embeddedDataSpecifications": [],
               "valueType": "xs:string",
               "value": "v1.0",
               "modelType": "Property"
@@ -849,6 +857,7 @@
                   "value": "2020-02-06"
                 }
               ],
+              "embeddedDataSpecifications": [],
               "valueType": "xs:date",
               "value": "2024-11-19",
               "modelType": "Property"
@@ -901,6 +910,7 @@
                   "value": "Released"
                 }
               ],
+              "embeddedDataSpecifications": [],
               "valueType": "xs:string",
               "value": "",
               "modelType": "Property"
@@ -953,6 +963,7 @@
                   "value": "Example company"
                 }
               ],
+              "embeddedDataSpecifications": [],
               "valueType": "xs:string",
               "value": "XITASO",
               "modelType": "Property"
@@ -1005,6 +1016,7 @@
                   "value": "Example company Ltd."
                 }
               ],
+              "embeddedDataSpecifications": [],
               "valueType": "xs:string",
               "value": "XITASO GmbH IT & Software Solutions",
               "modelType": "Property"

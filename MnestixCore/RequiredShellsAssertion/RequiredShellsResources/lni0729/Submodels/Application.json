@@ -73,6 +73,10 @@
                   "text": "URL der Anwendung"
                 }
               ],
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": []
+              },
               "valueType": "xs:string",
               "value": "https://www.amazon.de",
               "modelType": "Property"
@@ -116,6 +120,10 @@
                   "text": "URL der Anwendung"
                 }
               ],
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": []
+              },
               "valueType": "xs:string",
               "value": "https://www.otto.de",
               "modelType": "Property"

@@ -7,10 +7,10 @@
   "id": "https://vws.xitaso.com/sm/nameplate/5240_8927_2203_5742",
   "kind": "Instance",
   "semanticId": {
-    "type": "ExternalReference",
+    "type": "ModelReference",
     "keys": [
       {
-        "type": "GlobalReference",
+        "type": "ConceptDescription",
         "value": "https://admin-shell.io/zvei/nameplate/2/0/Nameplate"
       }
     ]
@@ -19,10 +19,10 @@
     {
       "idShort": "URIOfTheProduct",
       "semanticId": {
-        "type": "ExternalReference",
+        "type": "ModelReference",
         "keys": [
           {
-            "type": "GlobalReference",
+            "type": "ConceptDescription",
             "value": "0173-1#02-AAY811#001"
           }
         ]
@@ -34,10 +34,10 @@
     {
       "idShort": "ManufacturerName",
       "semanticId": {
-        "type": "ExternalReference",
+        "type": "ModelReference",
         "keys": [
           {
-            "type": "GlobalReference",
+            "type": "ConceptDescription",
             "value": "0173-1#02-AAO677#002"
           }
         ]
@@ -57,10 +57,10 @@
     {
       "idShort": "ManufacturerProductDesignation",
       "semanticId": {
-        "type": "ExternalReference",
+        "type": "ModelReference",
         "keys": [
           {
-            "type": "GlobalReference",
+            "type": "ConceptDescription",
             "value": "0173-1#02-AAW338#001"
           }
         ]
@@ -80,10 +80,10 @@
     {
       "idShort": "YearOfConstruction",
       "semanticId": {
-        "type": "ExternalReference",
+        "type": "ModelReference",
         "keys": [
           {
-            "type": "GlobalReference",
+            "type": "ConceptDescription",
             "value": "0173-1#02-AAP906#001"
           }
         ]
@@ -117,10 +117,10 @@
     {
       "idShort": "CountryOfOrigin",
       "semanticId": {
-        "type": "ExternalReference",
+        "type": "ModelReference",
         "keys": [
           {
-            "type": "GlobalReference",
+            "type": "ConceptDescription",
             "value": "0173-1#02-AAO259#004"
           }
         ]
@@ -132,10 +132,10 @@
     {
       "idShort": "ContactInformation",
       "semanticId": {
-        "type": "ExternalReference",
+        "type": "ModelReference",
         "keys": [
           {
-            "type": "GlobalReference",
+            "type": "ConceptDescription",
             "value": "https://admin-shell.io/zvei/nameplate/1/0/ContactInformations/ContactInformation"
           }
         ]
@@ -174,10 +174,10 @@
         {
           "idShort": "CityTown",
           "semanticId": {
-            "type": "ExternalReference",
+            "type": "ModelReference",
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "0173-1#02-AAO132#002"
               }
             ]
@@ -197,10 +197,10 @@
         {
           "idShort": "Zipcode",
           "semanticId": {
-            "type": "ExternalReference",
+            "type": "ModelReference",
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "0173-1#02-AAO129#002"
               }
             ]
@@ -220,10 +220,10 @@
         {
           "idShort": "Street",
           "semanticId": {
-            "type": "ExternalReference",
+            "type": "ModelReference",
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "0173-1#02-AAO128#002"
               }
             ]
@@ -243,10 +243,10 @@
         {
           "idShort": "NationalCode",
           "semanticId": {
-            "type": "ExternalReference",
+            "type": "ModelReference",
             "keys": [
               {
-                "type": "GlobalReference",
+                "type": "ConceptDescription",
                 "value": "0173-1#02-AAO134#002"
               }
             ]

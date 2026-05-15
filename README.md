@@ -12,6 +12,7 @@ The Mnestix AAS Generator enables automated creation of Asset Administration She
 - **Data Ingest** (`POST /api/v2/DataIngest/{aasId}`) - Generate Submodels from Blueprints using structured JSON data
 - **Blueprints & Templates** - Manage Submodel templates with embedded mapping rules
 - **ID Generator** - Generate standardized identifiers for AAS and Submodels
+- **AAS Relationships** - Navigate `derivedFrom` relationships between AAS
 
 > **Note:** The proxy functionality has been moved to [Mnestix Proxy](https://github.com/eclipse-mnestix/mnestix-proxy).
 
@@ -62,6 +63,12 @@ Example: `"ServerUrls": "http://localhost:5065/repo/"`
 
 - `Configuration__SubmodelTemplatesApiUrl` - Dedicated repository for templates
 - `Configuration__SubmodelBlueprintsApiUrl` - Dedicated repository for blueprints
+
+### MongoDB (for AasRelationship Endpoint)
+
+- `BasyxDbConnectionConfiguration__MongoConnectionString` - MongoDB connection string
+- `BasyxDbConnectionConfiguration__DatabaseName` - Database name (must match BaSyx's `SPRING__DATA__MONGODB__DATABASE`)
+- `BasyxDbConnectionConfiguration__AasCollectionName` - Collection name (default: `aas-repo`)
 
 ## Authentication
 
