@@ -8,7 +8,7 @@ namespace MnestixCore.Shared;
 /// Normalizes a JSON payload for compatibility with BaSyx Go's stricter AAS v3 compliance.
 /// Applies 9 rules:
 /// 1. Strip null-valued properties.
-/// 2. Remove deprecated dataSpecification / hasDataSpecification.
+/// 2. Remove deprecated v2 fields: "hasDataSpecification" (always) and "dataSpecification" (only when array).
 /// 3. Strip kind from any object that is not a Submodel (including objects without modelType).
 /// 4. Strip parent back-references.
 /// 5. Strip AAS v2 Key fields: local, idType, index.
@@ -77,8 +77,18 @@ public static class AasJsonNormalizer
                         continue;
                     }
 
-                    // Rule 2: Remove deprecated dataSpecification / hasDataSpecification
-                    if (prop.Name is "dataSpecification" or "hasDataSpecification")
+                    // Rule 2: Remove deprecated v2 fields.
+                    // - "hasDataSpecification" is always a v2 leftover → remove unconditionally.
+                    // - "dataSpecification" as an array on an AAS element (v2 pattern) → remove.
+                    //   But "dataSpecification" as an object inside EmbeddedDataSpecification is
+                    //   valid and required in AAS v3 → keep it.
+                    if (prop.Name == "hasDataSpecification")
+                    {
+                        propsToRemove.Add(prop.Name);
+                        continue;
+                    }
+
+                    if (prop.Name == "dataSpecification" && prop.Value.Type == JTokenType.Array)
                     {
                         propsToRemove.Add(prop.Name);
                         continue;

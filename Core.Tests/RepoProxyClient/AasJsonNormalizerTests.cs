@@ -21,12 +21,31 @@ public class AasJsonNormalizerTests
     // ── Rule 2: dataSpecification ────────────────────────────────────────────
 
     [Test]
-    public void NormalizeJsonForRepository_DataSpecification_IsStripped()
+    public void NormalizeJsonForRepository_DataSpecificationArray_IsStripped()
     {
         var input = JObject.Parse("""{"id":"test","dataSpecification":[{}],"hasDataSpecification":[{}]}""");
         var result = AasJsonNormalizer.NormalizeJsonForRepository(input);
         result.ContainsKey("dataSpecification").Should().BeFalse();
         result.ContainsKey("hasDataSpecification").Should().BeFalse();
+    }
+
+    [Test]
+    public void NormalizeJsonForRepository_DataSpecificationObjectInsideEmbedded_IsKept()
+    {
+        // In AAS v3, EmbeddedDataSpecification has a required "dataSpecification" (Reference object).
+        var input = JObject.Parse("""
+        {
+            "modelType":"ConceptDescription",
+            "id":"test",
+            "embeddedDataSpecifications":[{
+                "dataSpecification":{"type":"ExternalReference","keys":[{"type":"GlobalReference","value":"urn:example"}]},
+                "dataSpecificationContent":{"modelType":"DataSpecificationIec61360","preferredName":[{"language":"en","text":"Test"}]}
+            }]
+        }
+        """);
+        var result = AasJsonNormalizer.NormalizeJsonForRepository(input);
+        var embedded = result["embeddedDataSpecifications"]![0] as JObject;
+        embedded!.ContainsKey("dataSpecification").Should().BeTrue();
     }
 
     // ── Rule 3: kind ─────────────────────────────────────────────────────────
