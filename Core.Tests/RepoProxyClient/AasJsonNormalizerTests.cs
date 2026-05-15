@@ -47,6 +47,16 @@ public class AasJsonNormalizerTests
         result.ContainsKey("kind").Should().BeFalse();
     }
 
+    [Test]
+    public void NormalizeJsonForRepository_KindWithNoModelType_IsStripped()
+    {
+        // Objects without modelType (e.g., qualifier-like or legacy template objects)
+        // must also have "kind" removed — only explicit Submodel objects may keep it.
+        var input = JObject.Parse("""{"type":"SomeType","kind":"Instance"}""");
+        var result = AasJsonNormalizer.NormalizeJsonForRepository(input);
+        result.ContainsKey("kind").Should().BeFalse();
+    }
+
     // ── Rule 4: parent ───────────────────────────────────────────────────────
 
     [Test]
