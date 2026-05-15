@@ -56,8 +56,9 @@ public static class AasJsonNormalizer
 
     public static JObject NormalizeJsonForRepository(JObject json)
     {
-        NormalizeToken(json);
-        return json;
+        JObject normalized = (JObject)json.DeepClone();
+        NormalizeToken(normalized);
+        return normalized;
     }
 
     private static void NormalizeToken(JToken token)
