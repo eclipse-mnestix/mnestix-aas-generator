@@ -60,11 +60,9 @@ Use `fix_resources.py` to apply these same fixes to any additional resources.
 
 Added tolerance for empty-string `value` fields on `Property` elements. BaSyx Go strips empty-string `value` fields on round-trip, so no empty-string placeholder is injected — the field is simply absent when no data is mapped.
 
-### 4. AAS Inheritance (MongoDB → PostgreSQL)
+### 4. AAS Inheritance — Removed
 
-- `MongoDbBasedAasInheritanceService` replaced by `PostgresBasedAasInheritanceService`
-- Uses `Npgsql` to query BaSyx Go's PostgreSQL JSONB for `derivedFrom` relationships
-- `MongoDB.Driver` package replaced with `Npgsql` in `MnestixCore.csproj`
+The `AasInheritanceService` and the `AasRelationshipController` (`GET /api/v2/AasRelationship/GetDerivedFrom`) have been removed entirely. BaSyx Go is expected to expose `derivedFrom` filtering natively in a future release.
 
 ### 5. Docker Compose
 
@@ -81,26 +79,6 @@ Added tolerance for empty-string `value` fields on `Property` elements. BaSyx Go
 - Tests now run on all architectures
 - Removed `EphemeralMongo6` test package
 
-## Configuration
-
-### appsettings.json
-
-```json
-{
-  "BasyxDbConnectionConfiguration": {
-    "PostgresConnectionString": "Host=basyx-db;Port=5432;Database=basyxdb;Username=basyx;Password=basyx",
-    "AasTableName": "aas"
-  }
-}
-```
-
-### Docker Compose Environment Variables
-
-```yaml
-BasyxDbConnectionConfiguration__PostgresConnectionString: "Host=basyx-db;Port=5432;Database=basyxdb;Username=basyx;Password=basyx"
-BasyxDbConnectionConfiguration__AasTableName: "aas"
-```
-
 ## Helper Scripts
 
 - `fix_resources.py <directory>` — Rewrite legacy AAS v2 JSON resources for v3 compliance
@@ -112,4 +90,3 @@ BasyxDbConnectionConfiguration__AasTableName: "aas"
 2. `dotnet test` — All tests pass
 3. `docker compose -f docker-compose/compose.dev.yml up` — All Go services start healthy
 4. POST AAS + submodel through API → round-trips correctly
-5. `GetDerivedFrom` endpoint works against PostgreSQL
