@@ -54,6 +54,17 @@ public static class AasJsonNormalizer
         ["xs:gYearMonth"] = "xs:gYearMonth",
     };
 
+    /// <summary>
+    /// Normalizes any AAS JSON object for compatibility with BaSyx Go's stricter v3 schema.
+    /// Accepts any top-level AAS element: AssetAdministrationShell, Submodel, SubmodelElement,
+    /// ConceptDescription, or any nested structure thereof.
+    /// Returns a deep-cloned copy with all normalization rules applied recursively;
+    /// the original <paramref name="json"/> is not mutated.
+    /// </summary>
+    /// <param name="json">
+    /// A JSON object representing any AAS v3 element (shell, submodel, submodel element, etc.).
+    /// </param>
+    /// <returns>A normalized deep clone of <paramref name="json"/>.</returns>
     public static JObject NormalizeJsonForRepository(JObject json)
     {
         JObject normalized = (JObject)json.DeepClone();
