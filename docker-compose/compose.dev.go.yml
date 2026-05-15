@@ -6,21 +6,6 @@ services:
       - "3000:3000"
     env_file:
       - ./.env.local
-    environment:
-      - AAS_REPO_API_URL
-      - SUBMODEL_REPO_API_URL
-      - CONCEPT_DESCRIPTION_REPO_API_URL
-      - SERIALIZATION_API_URL
-      - DISCOVERY_API_URL
-      - MNESTIX_AAS_GENERATOR_API_URL
-      - MNESTIX_BACKEND_API_KEY
-      - AAS_LIST_FEATURE_FLAG
-      - COMPARISON_FEATURE_FLAG
-      - AUTHENTICATION_FEATURE_FLAG
-      - LOCK_TIMESERIES_PERIOD_FEATURE_FLAG
-      - BASYX_RBAC_ENABLED
-      - NEXTAUTH_SECRET
-      - SECRET_ENC_KEY
     depends_on:
       mnestix-proxy:
         condition: service_started
@@ -35,13 +20,6 @@ services:
     env_file:
       - ./.env.local
     environment:
-      - CustomerEndpointsSecurity__ApiKey
-      - ReverseProxy__Clusters__mnestixApiCluster__Destinations__destination1__Address
-      - ReverseProxy__Clusters__aasRepoCluster__Destinations__destination1__Address
-      - ReverseProxy__Clusters__submodelRepoCluster__Destinations__destination1__Address
-      - ReverseProxy__Clusters__discoveryCluster__Destinations__destination1__Address
-      - ReverseProxy__Clusters__influxCluster__Destinations__destination1__Address
-      - ReverseProxy__Routes__InfluxRoute__Transforms__1__Set
       - ASPNETCORE_URLS=http://+:5065
     depends_on:
       aas-repository:
@@ -60,10 +38,7 @@ services:
     env_file:
       - ./.env.local
     environment:
-      - CustomerEndpointsSecurity__ApiKey
-      - Features__UseAuthentication
       - ASPNETCORE_URLS=http://+:5064
-      - ServerUrls
     depends_on:
       mnestix-proxy:
         condition: service_started
@@ -86,10 +61,6 @@ services:
       - "5432:5432"
     env_file:
       - ./.env.local
-    environment:
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-      - POSTGRES_DB
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U basyx -d basyxdb"]
       interval: 5s
@@ -103,25 +74,6 @@ services:
         max-file: "5"
         max-size: "100m"
 
-  db-schema-init:
-    image: postgres:16-alpine
-    container_name: db-schema-init
-    env_file:
-      - ./.env.local
-    environment:
-      - POSTGRES_HOST
-      - POSTGRES_PORT
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-      - POSTGRES_DB
-    command: ["sh", "/init/init-schema.sh"]
-    volumes:
-      - ./data/basyxschema.sql:/schema/basyxschema.sql:ro
-      - ./data/db_init/init-schema.sh:/init/init-schema.sh:ro
-    depends_on:
-      basyx-db:
-        condition: service_healthy
-    restart: "no"
 
   aas-repository:
     image: eclipsebasyx/aasrepository-go:1.0.0-rc.1
@@ -130,21 +82,6 @@ services:
       - "8081:8081"
     env_file:
       - ./.env.local
-    environment:
-      - SERVER_PORT
-      - POSTGRES_HOST
-      - POSTGRES_PORT
-      - POSTGRES_DBNAME
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-      - CORS_ALLOWEDORIGINS
-      - CORS_ALLOWEDMETHODS
-      - CORS_ALLOWEDHEADERS
-      - CORS_ALLOWEDCREDENTIALS
-      - ABAC_ENABLED
-    depends_on:
-      db-schema-init:
-        condition: service_completed_successfully
     healthcheck:
       test: ["CMD", "/bin/healthprobe"]
       interval: 10s
@@ -165,21 +102,6 @@ services:
       - "8082:8081"
     env_file:
       - ./.env.local
-    environment:
-      - SERVER_PORT
-      - POSTGRES_HOST
-      - POSTGRES_PORT
-      - POSTGRES_DBNAME
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-      - CORS_ALLOWEDORIGINS
-      - CORS_ALLOWEDMETHODS
-      - CORS_ALLOWEDHEADERS
-      - CORS_ALLOWEDCREDENTIALS
-      - ABAC_ENABLED
-    depends_on:
-      db-schema-init:
-        condition: service_completed_successfully
     healthcheck:
       test: ["CMD", "/bin/healthprobe"]
       interval: 10s
@@ -200,21 +122,6 @@ services:
       - "8083:8081"
     env_file:
       - ./.env.local
-    environment:
-      - SERVER_PORT
-      - POSTGRES_HOST
-      - POSTGRES_PORT
-      - POSTGRES_DBNAME
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-      - CORS_ALLOWEDORIGINS
-      - CORS_ALLOWEDMETHODS
-      - CORS_ALLOWEDHEADERS
-      - CORS_ALLOWEDCREDENTIALS
-      - ABAC_ENABLED
-    depends_on:
-      db-schema-init:
-        condition: service_completed_successfully
     healthcheck:
       test: ["CMD", "/bin/healthprobe"]
       interval: 10s
