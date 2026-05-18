@@ -76,6 +76,42 @@ public class AasJsonNormalizerTests
         result.ContainsKey("kind").Should().BeFalse();
     }
 
+    [Test]
+    public void NormalizeJsonForRepository_KindWithV2ObjectModelTypeSubmodel_IsKept()
+    {
+        // AAS v2 format uses modelType as object: {"name": "Submodel"}
+        var input = JObject.Parse("""{"modelType":{"name":"Submodel"},"kind":"Instance","id":"test"}""");
+        var result = AasJsonNormalizer.NormalizeJsonForRepository(input);
+        result["kind"]!.Value<string>().Should().Be("Instance");
+    }
+
+    [Test]
+    public void NormalizeJsonForRepository_KindWithV2ObjectModelTypeNonSubmodel_IsStripped()
+    {
+        // AAS v2 format modelType object with non-Submodel value must have kind stripped
+        var input = JObject.Parse("""{"modelType":{"name":"Property"},"kind":"Instance","value":"test"}""");
+        var result = AasJsonNormalizer.NormalizeJsonForRepository(input);
+        result.ContainsKey("kind").Should().BeFalse();
+    }
+
+    [Test]
+    public void NormalizeJsonForRepository_QualifierWithV2ObjectModelType_DoesNotThrow()
+    {
+        // Qualifiers produced by legacy code may carry v2-style modelType: {"name": "Qualifier"}
+        // The normalizer must not crash on this.
+        var input = JObject.Parse("""
+            {
+                "qualifiers": [
+                    { "modelType": {"name": "Qualifier"}, "type": "displayName", "valueType": "xs:string", "value": "test" }
+                ]
+            }
+            """);
+        var act = () => AasJsonNormalizer.NormalizeJsonForRepository(input);
+        act.Should().NotThrow();
+        var result = act();
+        result["qualifiers"]![0]!["valueType"]!.Value<string>().Should().Be("xs:string");
+    }
+
     // ── Rule 4: parent ───────────────────────────────────────────────────────
 
     [Test]

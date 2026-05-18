@@ -135,7 +135,13 @@ public static class AasJsonNormalizer
                 // Rule 3: Strip kind from non-Submodel elements
                 // Only objects with modelType="Submodel" may keep "kind".
                 // Objects with a different modelType OR with no modelType at all must have it removed.
-                var modelType = obj["modelType"]?.Value<string>();
+                var modelTypeToken = obj["modelType"];
+                var modelType = modelTypeToken switch
+                {
+                    JValue jv => jv.Value<string>(),
+                    JObject jo => jo["name"]?.Value<string>(), // AAS v2 format: {"name": "..."}
+                    _ => null
+                };
                 if (obj.ContainsKey("kind") && modelType != "Submodel")
                 {
                     obj.Remove("kind");
