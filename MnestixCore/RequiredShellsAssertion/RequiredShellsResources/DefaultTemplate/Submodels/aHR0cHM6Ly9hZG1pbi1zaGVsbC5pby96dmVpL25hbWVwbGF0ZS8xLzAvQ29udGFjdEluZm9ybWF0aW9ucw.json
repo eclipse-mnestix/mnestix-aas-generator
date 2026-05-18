@@ -1,8 +1,8 @@
-﻿{
+{
   "semanticId": {
     "keys": [
       {
-        "type": "ConceptDescription",
+        "type": "GlobalReference",
         "value": "https://admin-shell.io/zvei/nameplate/1/0/ContactInformations"
       }
     ],
@@ -26,7 +26,6 @@
     "revision": "0"
   },
   "idShort": "ContactInformations",
-  "category": null,
   "modelType": "Submodel",
   "kind": "Template",
   "submodelElements": [
@@ -34,14 +33,13 @@
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "https://admin-shell.io/zvei/nameplate/1/0/ContactInformations/ContactInformation"
           }
         ],
         "type": "ExternalReference"
       },
       "idShort": "ContactInformation",
-      "category": null,
       "modelType": "SubmodelElementCollection",
       "value": [
         {
@@ -49,17 +47,15 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO204#003"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "RoleOfContactPerson",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -71,7 +67,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -85,23 +80,23 @@
           ]
         },
         {
-          "value": {
-            "language": "en",
-            "text": "DE"
-          },
+          "value": [
+            {
+              "language": "en",
+              "text": "DE"
+            }
+          ],
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO134#002"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "NationalCode",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -113,7 +108,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -131,17 +125,15 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "https://admin-shell.io/zvei/nameplate/1/0/ContactInformations/ContactInformation/Language"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "Language",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -153,7 +145,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToMany"
@@ -171,17 +162,15 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "https://admin-shell.io/zvei/nameplate/1/0/ContactInformations/ContactInformation/TimeZone"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "TimeZone",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -193,7 +182,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -207,23 +195,23 @@
           ]
         },
         {
-          "value": {
-            "language": "de",
-            "text": "Musterstadt"
-          },
+          "value": [
+            {
+              "language": "de",
+              "text": "Musterstadt"
+            }
+          ],
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO132#002"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "CityTown",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -235,7 +223,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -246,16 +233,14 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAW001#001"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "Company",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "value": [
             {
               "language": "en",
@@ -273,7 +258,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -284,16 +268,14 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO127#003"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "Department",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "value": [
             {
               "language": "de",
@@ -311,7 +293,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -322,30 +303,27 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "https://admin-shell.io/zvei/nameplate/1/0/ContactInformations/ContactInformation/Phone"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "Phone",
-          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0173-1#02-AAO136#002"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "TelephoneNumber",
-              "category": null,
               "modelType": "MultiLanguageProperty",
-              "kind": "Template",
               "value": [
                 {
                   "language": "en",
@@ -363,7 +341,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "One"
@@ -381,17 +358,15 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0173-1#02-AAO137#003"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "TypeOfTelephone",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -403,7 +378,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -420,16 +394,14 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "https://admin-shell.io/zvei/nameplate/1/0/ContactInformations/ContactInformation/AvailableTime/"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "AvailableTime",
-              "category": null,
               "modelType": "MultiLanguageProperty",
-              "kind": "Template",
               "value": [
                 {
                   "language": "de",
@@ -447,7 +419,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -455,7 +426,6 @@
               ]
             }
           ],
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -467,7 +437,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -478,30 +447,27 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAQ834#005"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "Fax",
-          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0173-1#02-AAO195#002"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "FaxNumber",
-              "category": null,
               "modelType": "MultiLanguageProperty",
-              "kind": "Template",
               "value": [
                 {
                   "language": "en",
@@ -519,7 +485,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "One"
@@ -537,17 +502,15 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0173-1#02-AAO196#003"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "TypeOfFaxNumber",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -559,7 +522,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -573,7 +535,6 @@
               ]
             }
           ],
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -585,7 +546,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -596,14 +556,13 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAQ836#005"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "Email",
-          "category": null,
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -611,17 +570,15 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0173-1#02-AAO198#002"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "EmailAddress",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -633,7 +590,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "One"
@@ -644,17 +600,14 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0173-1#02-AAO200#002"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "PublicKey",
-              "category": null,
               "modelType": "MultiLanguageProperty",
-              "kind": "Template",
-              "value": [],
               "qualifiers": [
                 {
                   "semanticId": {
@@ -666,7 +619,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -684,17 +636,15 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0173-1#02-AAO199#003"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "TypeOfEmailAddress",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -706,7 +656,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -723,17 +672,14 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0173-1#02-AAO201#002"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "TypeOfPublicKey",
-              "category": null,
               "modelType": "MultiLanguageProperty",
-              "kind": "Template",
-              "value": [],
               "qualifiers": [
                 {
                   "semanticId": {
@@ -745,7 +691,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -753,7 +698,6 @@
               ]
             }
           ],
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -765,7 +709,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -776,14 +719,13 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "https://admin-shell.io/zvei/nameplate/1/0/ContactInformations/"
               }
             ],
             "type": "ExternalReference"
           },
-          "idShort": "IPCommunication{00}",
-          "category": null,
+          "idShort": "IPCommunication00",
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -791,17 +733,15 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "0173-1#02-AAQ326#002"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "AddressOfAdditionalLink",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -813,7 +753,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "One"
@@ -825,17 +764,15 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "https://admin-shell.io/zvei/nameplate/1/0/ ContactInformations/ContactInformation/IPCommunication/TypeOfCommunication"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "TypeOfCommunication",
-              "category": null,
               "modelType": "Property",
               "valueType": "xs:string",
-              "kind": "Template",
               "qualifiers": [
                 {
                   "semanticId": {
@@ -847,7 +784,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -858,16 +794,14 @@
               "semanticId": {
                 "keys": [
                   {
-                    "type": "ConceptDescription",
+                    "type": "GlobalReference",
                     "value": "https://admin-shell.io/zvei/nameplate/1/0/ContactInformations/ContactInformation/AvailableTime/"
                   }
                 ],
                 "type": "ExternalReference"
               },
               "idShort": "AvailableTime",
-              "category": null,
               "modelType": "MultiLanguageProperty",
-              "kind": "Template",
               "value": [
                 {
                   "language": "de",
@@ -885,7 +819,6 @@
                       }
                     ]
                   },
-                  "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "valueType": "xs:string",
                   "value": "ZeroToOne"
@@ -893,7 +826,6 @@
               ]
             }
           ],
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -905,7 +837,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToMany"
@@ -916,16 +847,14 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO128#002"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "Street",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "value": [
             {
               "language": "de",
@@ -943,7 +872,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -954,16 +882,14 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO129#002"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "Zipcode",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "value": [
             {
               "language": "de",
@@ -981,7 +907,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -998,16 +923,14 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO130#002"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "POBox",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "value": [
             {
               "language": "en",
@@ -1025,7 +948,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -1036,16 +958,14 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO131#002"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "ZipCodeOfPOBox",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "value": [
             {
               "language": "en",
@@ -1063,7 +983,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -1080,16 +999,14 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO133#002"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "StateCounty",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
           "value": [
             {
               "language": "de",
@@ -1107,7 +1024,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -1118,17 +1034,14 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO205#002"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "NameOfContact",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
-          "value": [],
           "qualifiers": [
             {
               "semanticId": {
@@ -1140,7 +1053,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -1151,17 +1063,14 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO206#002"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "FirstName",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
-          "value": [],
           "qualifiers": [
             {
               "semanticId": {
@@ -1173,7 +1082,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -1184,17 +1092,14 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO207#002"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "MiddleNames",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
-          "value": [],
           "qualifiers": [
             {
               "semanticId": {
@@ -1206,7 +1111,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -1217,17 +1121,14 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO208#003"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "Title",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
-          "value": [],
           "qualifiers": [
             {
               "semanticId": {
@@ -1239,7 +1140,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -1250,17 +1150,14 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO209#003"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "AcademicTitle",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
-          "value": [],
           "qualifiers": [
             {
               "semanticId": {
@@ -1272,7 +1169,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -1283,17 +1179,14 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAO210#002"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "FurtherDetailsOfContact",
-          "category": null,
           "modelType": "MultiLanguageProperty",
-          "kind": "Template",
-          "value": [],
           "qualifiers": [
             {
               "semanticId": {
@@ -1305,7 +1198,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -1317,17 +1209,15 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAQ326#002"
               }
             ],
             "type": "ExternalReference"
           },
           "idShort": "AddressOfAdditionalLink",
-          "category": null,
           "modelType": "Property",
           "valueType": "xs:string",
-          "kind": "Template",
           "qualifiers": [
             {
               "semanticId": {
@@ -1339,7 +1229,6 @@
                   }
                 ]
               },
-              "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "valueType": "xs:string",
               "value": "ZeroToOne"
@@ -1347,7 +1236,6 @@
           ]
         }
       ],
-      "kind": "Template",
       "qualifiers": [
         {
           "semanticId": {
@@ -1359,7 +1247,6 @@
               }
             ]
           },
-          "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "valueType": "xs:string",
           "value": "OneToMany"

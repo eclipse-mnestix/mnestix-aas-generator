@@ -1,5 +1,9 @@
 {
   "product": {
-    "tags": ["electronics", "gadget", "sale"]
+    "tags": [
+      "electronics",
+      "gadget",
+      "sale"
+    ]
   }
 }

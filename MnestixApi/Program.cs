@@ -2,8 +2,6 @@ using MnestixCore.AasCreator.Interfaces;
 using MnestixCore.AasCreator;
 using MnestixCore.AasGenerator.Interfaces;
 using MnestixCore.AasGenerator;
-using MnestixCore.AasInheritance.Interfaces;
-using MnestixCore.AasInheritance;
 using MnestixCore.IdGenerator.Interfaces;
 using MnestixCore.IdGenerator;
 using MnestixCore.Shared.Interfaces;
@@ -40,9 +38,6 @@ namespace MnestixApi
             builder.Services.AddEndpointsApiExplorer();
 
             builder.Services.Configure<ConfigurationOptions>(builder.Configuration.GetSection(ConfigurationOptions.Configuration));
-
-            builder.Services.Configure<BasyxDbConnectionConfiguration>(
-                builder.Configuration.GetSection("BasyxDbConnectionConfiguration"));
 
             builder.Services.Configure<RepositoryOpenIdConfiguration>(
                 builder.Configuration.GetSection(RepositoryOpenIdConfiguration.Options));
@@ -123,8 +118,6 @@ namespace MnestixApi
             // Pipeline-based mapper
             builder.Services.AddTransient<IDataMapper, DataMapper>();
 
-            // AasInheritance
-            builder.Services.AddTransient<IAasInheritanceService, MongoDbBasedAasInheritanceService>();
 
             // Ensure mandatory shells are available in repository
             builder.Services.Configure<List<RequiredShells>>(
