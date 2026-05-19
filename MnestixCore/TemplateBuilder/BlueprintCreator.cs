@@ -167,12 +167,8 @@ public class BlueprintCreator : IBlueprintCreator
         var idShortQualifier = JToken.FromObject(new
         {
             type = "displayName",
-            valueType = "string",
-            value = displayName,
-            modelType = new
-            {
-                name = "Qualifier"
-            }
+            valueType = "xs:string",
+            value = displayName
         });
 
         if (submodel["qualifiers"] is not JArray)

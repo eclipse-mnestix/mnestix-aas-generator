@@ -1,4 +1,4 @@
-﻿{
+{
   "semanticId": {
     "keys": [
       {
@@ -15,11 +15,11 @@
     "version": "1",
     "revision": "0"
   },
-  "dataSpecification": [],
   "qualifiers": [
     {
       "semanticId": {
-        "keys": []
+        "keys": [],
+        "type": "ExternalReference"
       },
       "valueType": "",
       "modelType": "Qualifier",
@@ -28,7 +28,8 @@
     },
     {
       "semanticId": {
-        "keys": []
+        "keys": [],
+        "type": "ExternalReference"
       },
       "valueType": "",
       "modelType": "Qualifier",
@@ -50,7 +51,6 @@
         "type": "ExternalReference"
       },
       "idShort": "ManufacturerName",
-      "kind": "Instance",
       "modelType": "MultiLanguageProperty",
       "category": "PARAMETER",
       "value": [
@@ -71,7 +71,6 @@
         "type": "ExternalReference"
       },
       "idShort": "SerialNumber",
-      "kind": "Instance",
       "valueType": "xs:string",
       "modelType": "Property",
       "category": "PARAMETER",
@@ -88,7 +87,6 @@
         "type": "ExternalReference"
       },
       "idShort": "Address",
-      "kind": "Instance",
       "modelType": "SubmodelElementCollection",
       "value": [
         {
@@ -102,7 +100,6 @@
             "type": "ExternalReference"
           },
           "idShort": "Department",
-          "kind": "Instance",
           "modelType": "MultiLanguageProperty",
           "category": "PARAMETER",
           "value": []
@@ -118,7 +115,6 @@
             "type": "ExternalReference"
           },
           "idShort": "Phone01",
-          "kind": "Instance",
           "modelType": "SubmodelElementCollection",
           "category": "PARAMETER",
           "value": [
@@ -133,7 +129,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "TypeOfTelephone",
-              "kind": "Instance",
               "valueType": "xs:string",
               "modelType": "Property",
               "category": "PARAMETER",
@@ -150,7 +145,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "TelephoneNumber",
-              "kind": "Instance",
               "modelType": "MultiLanguageProperty",
               "category": "PARAMETER",
               "value": []
@@ -168,7 +162,6 @@
             "type": "ExternalReference"
           },
           "idShort": "NationalCode",
-          "kind": "Instance",
           "modelType": "MultiLanguageProperty",
           "category": "PARAMETER",
           "value": []
@@ -184,7 +177,6 @@
             "type": "ExternalReference"
           },
           "idShort": "AddressOfAdditionalLink",
-          "kind": "Instance",
           "valueType": "xs:string",
           "modelType": "Property",
           "category": "PARAMETER",
@@ -201,7 +193,6 @@
             "type": "ExternalReference"
           },
           "idShort": "Zipcode",
-          "kind": "Instance",
           "modelType": "MultiLanguageProperty",
           "value": []
         },
@@ -216,7 +207,6 @@
             "type": "ExternalReference"
           },
           "idShort": "Street",
-          "kind": "Instance",
           "modelType": "MultiLanguageProperty",
           "value": []
         },
@@ -231,7 +221,6 @@
             "type": "ExternalReference"
           },
           "idShort": "Email01",
-          "kind": "Instance",
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -245,7 +234,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "EmailAddress",
-              "kind": "Instance",
               "valueType": "xs:string",
               "modelType": "Property",
               "category": "PARAMETER",
@@ -264,7 +252,6 @@
             "type": "ExternalReference"
           },
           "idShort": "CityTown",
-          "kind": "Instance",
           "modelType": "MultiLanguageProperty",
           "value": []
         }
@@ -281,7 +268,6 @@
         "type": "ExternalReference"
       },
       "idShort": "ManufacturerProductDesignation",
-      "kind": "Instance",
       "modelType": "MultiLanguageProperty",
       "category": "PARAMETER",
       "value": []
@@ -297,7 +283,6 @@
         "type": "ExternalReference"
       },
       "idShort": "AssetSpecificProperties",
-      "kind": "Instance",
       "modelType": "SubmodelElementCollection",
       "value": [
         {
@@ -311,7 +296,6 @@
             "type": "ExternalReference"
           },
           "idShort": "CommutationOffset",
-          "kind": "Instance",
           "valueType": "",
           "modelType": "Property",
           "category": "PARAMETER",
@@ -328,7 +312,6 @@
             "type": "ExternalReference"
           },
           "idShort": "GuidelineSpecificProperties01",
-          "kind": "Instance",
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -342,7 +325,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "ratedPower",
-              "kind": "Instance",
               "valueType": "xs:long",
               "modelType": "Property",
               "category": "PARAMETER",
@@ -359,7 +341,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "ratedCurrent",
-              "kind": "Instance",
               "valueType": "xs:long",
               "modelType": "Property",
               "category": "PARAMETER",
@@ -376,7 +357,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "MaxMotorRotationSpeed",
-              "kind": "Instance",
               "valueType": "xs:long",
               "modelType": "Property",
               "category": "PARAMETER",
@@ -393,7 +373,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "ratedVoltage",
-              "kind": "Instance",
               "valueType": "",
               "modelType": "Property",
               "category": "PARAMETER",
@@ -410,7 +389,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "protectionClass",
-              "kind": "Instance",
               "valueType": "xs:string",
               "modelType": "Property",
               "category": "PARAMETER",
@@ -427,7 +405,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "ThermalInsulationClass",
-              "kind": "Instance",
               "valueType": "xs:string",
               "modelType": "Property",
               "category": "PARAMETER",
@@ -444,7 +421,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "ratedMotorRotationSpeed",
-              "kind": "Instance",
               "valueType": "",
               "modelType": "Property",
               "category": "PARAMETER",
@@ -461,7 +437,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "GuidelineForConformityDeclaration",
-              "kind": "Instance",
               "valueType": "xs:string",
               "modelType": "Property",
               "category": "PARAMETER",
@@ -480,15 +455,14 @@
             "type": "ExternalReference"
           },
           "idShort": "GuidelineSpecificProperties02",
-          "kind": "Instance",
           "modelType": "SubmodelElementCollection",
           "value": [
             {
               "semanticId": {
-                "keys": []
+                "keys": [],
+                "type": "ExternalReference"
               },
               "idShort": "MaxRotationalSpeed",
-              "kind": "Instance",
               "valueType": "",
               "modelType": "Property",
               "category": "PARAMETER",
@@ -505,7 +479,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "ratedCurrent",
-              "kind": "Instance",
               "valueType": "xs:double",
               "modelType": "Property",
               "category": "PARAMETER",
@@ -522,7 +495,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "protectionClass",
-              "kind": "Instance",
               "valueType": "xs:string",
               "modelType": "Property",
               "category": "PARAMETER",
@@ -539,7 +511,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "GuidelineForConformityDeclaration",
-              "kind": "Instance",
               "valueType": "xs:string",
               "modelType": "Property",
               "category": "PARAMETER",
@@ -558,7 +529,6 @@
             "type": "ExternalReference"
           },
           "idShort": "TempSensorType",
-          "kind": "Instance",
           "valueType": "",
           "modelType": "Property",
           "category": "PARAMETER",
@@ -575,7 +545,6 @@
             "type": "ExternalReference"
           },
           "idShort": "FeedbackSystem",
-          "kind": "Instance",
           "valueType": "xs:string",
           "modelType": "Property",
           "category": "PARAMETER",
@@ -592,7 +561,6 @@
             "type": "ExternalReference"
           },
           "idShort": "lubrication",
-          "kind": "Instance",
           "valueType": "xs:string",
           "modelType": "Property",
           "category": "PARAMETER",
@@ -609,7 +577,6 @@
             "type": "ExternalReference"
           },
           "idShort": "Weight",
-          "kind": "Instance",
           "valueType": "xs:long",
           "modelType": "Property",
           "category": "PARAMETER",
@@ -617,10 +584,10 @@
         },
         {
           "semanticId": {
-            "keys": []
+            "keys": [],
+            "type": "ExternalReference"
           },
           "idShort": "MountingPosition",
-          "kind": "Instance",
           "valueType": "",
           "modelType": "Property",
           "category": "PARAMETER",
@@ -639,7 +606,6 @@
         "type": "ExternalReference"
       },
       "idShort": "YearOfConstruction",
-      "kind": "Instance",
       "valueType": "xs:string",
       "modelType": "Property",
       "category": "PARAMETER",
@@ -656,7 +622,6 @@
         "type": "ExternalReference"
       },
       "idShort": "Markings",
-      "kind": "Instance",
       "modelType": "SubmodelElementCollection",
       "value": [
         {
@@ -670,7 +635,6 @@
             "type": "ExternalReference"
           },
           "idShort": "Marking01",
-          "kind": "Instance",
           "modelType": "SubmodelElementCollection",
           "value": [
             {
@@ -684,7 +648,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "MarkingFile",
-              "kind": "Instance",
               "modelType": "File",
               "category": "PARAMETER",
               "value": "",
@@ -701,7 +664,6 @@
                 "type": "ExternalReference"
               },
               "idShort": "MarkingName",
-              "kind": "Instance",
               "valueType": "xs:string",
               "modelType": "Property",
               "category": "PARAMETER",
@@ -722,7 +684,6 @@
         "type": "ExternalReference"
       },
       "idShort": "ManufacturerProductFamily",
-      "kind": "Instance",
       "modelType": "MultiLanguageProperty",
       "category": "PARAMETER",
       "value": []

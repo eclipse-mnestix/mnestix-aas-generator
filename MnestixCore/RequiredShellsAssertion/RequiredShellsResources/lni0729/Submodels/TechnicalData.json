@@ -1,14 +1,10 @@
 {
   "idShort": "TechnicalData",
   "id": "https://aas.uni-h.de/sm/aHR0cHM6Ly9hYXMyLnVuaS1oLmRlL2Fhcy9sbmkwNzI5_TD",
-  "dataSpecification": [],
-  "embeddedDataSpecifications": [],
   "modelType": "Submodel",
   "kind": "Instance",
   "submodelElements": [
     {
-      "ordered": false,
-      "allowDuplicates": false,
       "semanticId": {
         "keys": [
           {
@@ -23,11 +19,7 @@
         {
           "contentType": "image/png",
           "value": "https://aas.uni-h.de/images/MD_zentrum_hannover.svg",
-          "semanticId": {
-            "keys": []
-          },
           "idShort": "ManufacturerLogo",
-          "kind": "Instance",
           "modelType": "File"
         },
         {
@@ -43,26 +35,12 @@
             "type": "ExternalReference"
           },
           "idShort": "ProductImage",
-          "kind": "Instance",
           "modelType": "File"
         }
       ],
-      "kind": "Instance",
-      "parent": {
-        "keys": [
-          {
-            "type": "Submodel",
-            "local": true,
-            "value": "https://aas.uni-h.de/sm/aHR0cHM6Ly9hYXMyLnVuaS1oLmRlL2Fhcy9sbmkwNzI5_TD",
-            "idType": "IRI"
-          }
-        ]
-      },
       "modelType": "SubmodelElementCollection"
     },
     {
-      "ordered": false,
-      "allowDuplicates": false,
       "semanticId": {
         "keys": [
           {
@@ -75,8 +53,6 @@
       "idShort": "ProductClassifications",
       "value": [
         {
-          "ordered": false,
-          "allowDuplicates": false,
           "semanticId": {
             "keys": [
               {
@@ -102,7 +78,6 @@
               "idShort": "ProductClassificationSystem",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "description": [
                 {
@@ -125,7 +100,6 @@
               "idShort": "ClassificationSystemVersion",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "description": [
                 {
@@ -148,7 +122,6 @@
               "idShort": "ProductClassId",
               "category": "PARAMETER",
               "valueType": "xs:string",
-              "kind": "Instance",
               "modelType": "Property",
               "description": [
                 {
@@ -158,7 +131,6 @@
               ]
             }
           ],
-          "kind": "Instance",
           "modelType": "SubmodelElementCollection",
           "description": [
             {
@@ -168,17 +140,6 @@
           ]
         }
       ],
-      "kind": "Instance",
-      "parent": {
-        "keys": [
-          {
-            "type": "Submodel",
-            "local": true,
-            "value": "https://aas.uni-h.de/sm/aHR0cHM6Ly9hYXMyLnVuaS1oLmRlL2Fhcy9sbmkwNzI5_TD",
-            "idType": "IRI"
-          }
-        ]
-      },
       "modelType": "SubmodelElementCollection",
       "description": [
         {
@@ -188,12 +149,10 @@
       ]
     },
     {
-      "ordered": false,
-      "allowDuplicates": false,
       "semanticId": {
         "keys": [
           {
-            "type": "ConceptDescription",
+            "type": "GlobalReference",
             "value": "https://admin-shell.io/ZVEI/TechnicalData/TechnicalProperties/1/1"
           }
         ],
@@ -203,36 +162,21 @@
       "value": [
         {
           "value": "145 mm",
-          "semanticId": {
-            "keys": []
-          },
           "idShort": "Length",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property"
         },
         {
           "value": "12.8 mm",
-          "semanticId": {
-            "keys": []
-          },
           "idShort": "Diameter",
           "category": "VARIABLE",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property"
         },
         {
           "value": "32 g",
-          "valueId": {
-            "keys": []
-          },
-          "semanticId": {
-            "keys": []
-          },
           "idShort": "Weight",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property"
         },
         {
@@ -240,7 +184,7 @@
           "semanticId": {
             "keys": [
               {
-                "type": "ConceptDescription",
+                "type": "GlobalReference",
                 "value": "0173-1#02-AAM556#002"
               }
             ],
@@ -249,103 +193,59 @@
           "idShort": "SerialNumber",
           "category": "PARAMETER",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property"
         },
         {
           "value": "MDZH_LNI_v1.1",
-          "semanticId": {
-            "keys": []
-          },
           "idShort": "HardwareRevision",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property"
         },
         {
           "value": "aluminium",
-          "semanticId": {
-            "keys": []
-          },
           "idShort": "Material",
           "category": "PARAMETER",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property"
         },
         {
           "value": "blue",
-          "semanticId": {
-            "keys": []
-          },
           "idShort": "WritingColor",
           "category": "PARAMETER",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property"
         },
         {
           "value": "red",
-          "semanticId": {
-            "keys": []
-          },
           "idShort": "LockColor",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property"
         },
         {
           "value": "convex",
-          "semanticId": {
-            "keys": []
-          },
           "idShort": "TipShape",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property"
         },
         {
           "value": "0",
-          "semanticId": {
-            "keys": []
-          },
           "idShort": "HandleShapeRadius",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property"
         },
         {
           "value": "Dr. Robert Habeck",
-          "semanticId": {
-            "keys": []
-          },
           "idShort": "EngravingText",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property"
         },
         {
           "value": "BMWK",
-          "semanticId": {
-            "keys": []
-          },
           "idShort": "EngravingTextBack",
           "valueType": "xs:string",
-          "kind": "Instance",
           "modelType": "Property"
         }
       ],
-      "kind": "Instance",
-      "parent": {
-        "keys": [
-          {
-            "type": "Submodel",
-            "local": true,
-            "value": "https://aas.uni-h.de/sm/aHR0cHM6Ly9hYXMyLnVuaS1oLmRlL2Fhcy9sbmkwNzI5_TD",
-            "idType": "IRI"
-          }
-        ]
-      },
       "modelType": "SubmodelElementCollection"
     }
   ],
