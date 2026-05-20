@@ -171,7 +171,7 @@ if (modelType is "Property" or "Blob" or "File"&& dataFromMappingPath.Type is JT
         // Per AAS metamodel v3, "value" has cardinality 0..1 for Property, Blob, and File,
         // so it may be absent in blueprints or stripped by the repository (e.g. BaSyx Go strips empty strings).
         // Set it directly rather than requiring it to pre-exist.
-        element["value"] = dataFromMappingPath;
+        element["value"] = dataFromMappingPath.DeepClone();
     }
 
     private static void AssignField(JToken element, string fieldName, JToken dataFromMappingPath, string modelType, string language, DataMappingContext ctx)
