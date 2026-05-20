@@ -160,7 +160,7 @@ public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<Da
 
         // Per AAS JSON schema, Property, Blob, and File value must be a string (scalar).
         // Objects/arrays are not valid — the JSONata expression must resolve to a primitive.
-        if (dataFromMappingPath.Type is JTokenType.Object or JTokenType.Array)
+if (modelType is "Property" or "Blob" or "File"&& dataFromMappingPath.Type is JTokenType.Object or JTokenType.Array)
         {
             throw new SubmodelDataToInstanceMapperException(
                 $"'{modelType}' value must be a scalar (string, number, boolean), but the mapping expression returned {dataFromMappingPath.Type}", ctx);
