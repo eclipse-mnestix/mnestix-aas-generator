@@ -161,6 +161,12 @@ public class AasGeneratorTests
     }
 
     [Test]
+    public async Task AddDataToAasAsync_InputJsonataBacktickEscapedFields_Success()
+    {
+        await RunDataIngestTest("InputJsonataBacktickEscapedFields");
+    }
+
+    [Test]
     public async Task AddDataToAasAsync_InputJsonataExpressions_NonExistingFn_ShouldFail()
     {
         await RunDataIngestFailureTest("InputInvalidJsonataExpressions_NonExistingFn");
