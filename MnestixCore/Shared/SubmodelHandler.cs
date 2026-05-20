@@ -18,6 +18,7 @@ public class SubmodelHandler : ISubmodelHandler
         var results = submodelsRefsFromRepository["result"];
         if (results is null)
         {
+            _logger.LogWarning("Repository payload is missing expected 'result' field when extracting submodel references.");
             return new List<string>();
         }
 
