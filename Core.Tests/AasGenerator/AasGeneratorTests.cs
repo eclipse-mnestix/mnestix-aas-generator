@@ -303,6 +303,24 @@ public class AasGeneratorTests
     {
         await RunDataIngestTest("InputMLPValidationSuccessNull");
     }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputPropertyValueObjectRejected_ShouldFail()
+    {
+        await RunDataIngestFailureTest("InputPropertyValueObjectRejected");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputPropertyValueArrayRejected_ShouldFail()
+    {
+        await RunDataIngestFailureTest("InputPropertyValueArrayRejected");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputPropertyValueAbsent_Success()
+    {
+        await RunDataIngestTest("InputPropertyValueAbsent");
+    }
     
     private async Task RunDataIngestTest(string testCaseName)
     {

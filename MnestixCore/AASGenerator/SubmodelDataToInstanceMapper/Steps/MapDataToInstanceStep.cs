@@ -147,10 +147,6 @@ public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<Da
 
     private static void AssignValueField(JToken element, JToken dataFromMappingPath, string modelType, string language, DataMappingContext ctx)
     {
-        ValidateValueType(element, dataFromMappingPath, ctx);
-
-        var blueprintValue = element["value"] ?? throw new SubmodelDataToInstanceMapperException("could not find matching value field of the selected SME", ctx);
-
         if (modelType == "MultiLanguageProperty")
         {
             if (dataFromMappingPath.Type is not (JTokenType.String or JTokenType.Integer or JTokenType.Float or JTokenType.Boolean or JTokenType.Null))
@@ -158,11 +154,24 @@ public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<Da
                 throw new SubmodelDataToInstanceMapperException(
                     $"MultiLanguageProperty expects a string, number, boolean, or null value, but got {dataFromMappingPath.Type}", ctx);
             }
-            blueprintValue.Replace(ConvertToMultiLanguageProperty(dataFromMappingPath.ToString(), language));
+            element["value"] = ConvertToMultiLanguageProperty(dataFromMappingPath.ToString(), language);
             return;
         }
 
-        blueprintValue.Replace(dataFromMappingPath);
+        // Per AAS JSON schema, Property, Blob, and File value must be a string (scalar).
+        // Objects/arrays are not valid — the JSONata expression must resolve to a primitive.
+        if (dataFromMappingPath.Type is JTokenType.Object or JTokenType.Array)
+        {
+            throw new SubmodelDataToInstanceMapperException(
+                $"'{modelType}' value must be a scalar (string, number, boolean), but the mapping expression returned {dataFromMappingPath.Type}", ctx);
+        }
+
+        ValidateValueType(element, dataFromMappingPath, ctx);
+
+        // Per AAS metamodel v3, "value" has cardinality 0..1 for Property, Blob, and File,
+        // so it may be absent in blueprints or stripped by the repository (e.g. BaSyx Go strips empty strings).
+        // Set it directly rather than requiring it to pre-exist.
+        element["value"] = dataFromMappingPath;
     }
 
     private static void AssignField(JToken element, string fieldName, JToken dataFromMappingPath, string modelType, string language, DataMappingContext ctx)
@@ -238,16 +247,7 @@ public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<Da
         }
     }
 
-    private static void CheckIfValueKeyExists(JToken element)
-    {
-        /*
-        As per the v3 standard, "value" in MultiLanguageProperty has Cardinality "0..1,"
-        indicating potential absence in blueprint data. We handle this by creating
-        an empty value for the key "value" during mapping, ensuring smooth mapping without exceptions.
-        */
-        if (element["value"] != null) return;
-        element["value"] = new JArray();
-    }
+
 
     private static JToken? GetCardinalityQualifier(JToken qualifier)
     {
@@ -299,11 +299,6 @@ public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<Da
             foreach (var (qualifier, fieldName) in qualifiersWithFields)
             {
                 ctx.Qualifier = qualifier;
-
-                if (fieldName == "value" && modelType == "MultiLanguageProperty")
-                {
-                    CheckIfValueKeyExists(element);
-                }
 
                 var mappingPath = qualifier["value"]?.Value<string>() ?? throw new SubmodelDataToInstanceMapperException("Mapping Info cannot be null", ctx);
                 var isMandatory = GetCardinalityQualifier(qualifier)?["value"]?.Value<string>()?.StartsWith("One") ?? false;
