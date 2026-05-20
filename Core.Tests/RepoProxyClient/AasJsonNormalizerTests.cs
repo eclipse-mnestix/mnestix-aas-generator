@@ -282,4 +282,55 @@ public class AasJsonNormalizerTests
         element["value"]!.Value<string>().Should().Be("true");
         element.ContainsKey("parent").Should().BeFalse();
     }
+
+    // ── Rule 10: empty qualifiers ────────────────────────────────────────────
+
+    [Test]
+    public void NormalizeJsonForRepository_EmptyQualifiersArray_IsStripped()
+    {
+        var input = JObject.Parse("""{"modelType":"Submodel","id":"test","qualifiers":[]}""");
+        var result = AasJsonNormalizer.NormalizeJsonForRepository(input);
+        result.ContainsKey("qualifiers").Should().BeFalse();
+    }
+
+    [Test]
+    public void NormalizeJsonForRepository_NonEmptyQualifiersArray_IsKept()
+    {
+        var input = JObject.Parse("""
+            {
+                "modelType": "Submodel",
+                "id": "test",
+                "qualifiers": [
+                    { "type": "SMT/MappingInfo", "value": "$.x", "valueType": "xs:string" }
+                ]
+            }
+            """);
+        var result = AasJsonNormalizer.NormalizeJsonForRepository(input);
+        result.ContainsKey("qualifiers").Should().BeTrue();
+        result["qualifiers"]!.Should().HaveCount(1);
+    }
+
+    [Test]
+    public void NormalizeJsonForRepository_NestedEmptyQualifiers_AreStripped()
+    {
+        var input = JObject.Parse("""
+            {
+                "modelType": "Submodel",
+                "id": "test",
+                "qualifiers": [],
+                "submodelElements": [
+                    {
+                        "modelType": "Property",
+                        "valueType": "xs:string",
+                        "value": "hello",
+                        "qualifiers": []
+                    }
+                ]
+            }
+            """);
+        var result = AasJsonNormalizer.NormalizeJsonForRepository(input);
+        result.ContainsKey("qualifiers").Should().BeFalse();
+        var element = (JObject)result["submodelElements"]![0]!;
+        element.ContainsKey("qualifiers").Should().BeFalse();
+    }
 }
