@@ -15,7 +15,12 @@ public class SubmodelHandler : ISubmodelHandler
 
     public List<string> GetSubmodelsIdsFromSubmodelsRefs(JObject submodelsRefsFromRepository)
     {
-        var results = submodelsRefsFromRepository["result"] ?? throw new ArgumentNullException(nameof(GetSubmodelsIdsFromSubmodelsRefs));
+        var results = submodelsRefsFromRepository["result"];
+        if (results is null)
+        {
+            return new List<string>();
+        }
+
         var submodelIds = new List<string>();
 
         foreach (var reference in results)
