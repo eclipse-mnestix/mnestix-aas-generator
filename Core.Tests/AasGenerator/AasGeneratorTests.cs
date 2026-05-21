@@ -161,6 +161,12 @@ public class AasGeneratorTests
     }
 
     [Test]
+    public async Task AddDataToAasAsync_InputJsonataBacktickEscapedFields_Success()
+    {
+        await RunDataIngestTest("InputJsonataBacktickEscapedFields");
+    }
+
+    [Test]
     public async Task AddDataToAasAsync_InputJsonataExpressions_NonExistingFn_ShouldFail()
     {
         await RunDataIngestFailureTest("InputInvalidJsonataExpressions_NonExistingFn");
@@ -302,6 +308,24 @@ public class AasGeneratorTests
     public async Task AddDataToAasAsync_InputMLPValidationSuccessNull_Success()
     {
         await RunDataIngestTest("InputMLPValidationSuccessNull");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputPropertyValueObjectRejected_ShouldFail()
+    {
+        await RunDataIngestFailureTest("InputPropertyValueObjectRejected");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputPropertyValueArrayRejected_ShouldFail()
+    {
+        await RunDataIngestFailureTest("InputPropertyValueArrayRejected");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputPropertyValueAbsent_Success()
+    {
+        await RunDataIngestTest("InputPropertyValueAbsent");
     }
     
     private async Task RunDataIngestTest(string testCaseName)

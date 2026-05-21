@@ -1,0 +1,27 @@
+{
+  "modelType": "Submodel",
+  "kind": "Template",
+  "id": "urn:smtemplate:DemoTemplate",
+  "idShort": "DemoTemplate",
+  "submodelElements": [
+    {
+      "modelType": "Property",
+      "idShort": "ManufacturerName",
+      "valueType": "xs:string",
+      "qualifiers": [
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "value": "One",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/MappingInfo",
+          "value": "company.name",
+          "valueType": "xs:string"
+        }
+      ]
+    }
+  ]
+}

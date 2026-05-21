@@ -1,0 +1,28 @@
+{
+  "modelType": "Submodel",
+  "kind": "Instance",
+  "id": "TheNewSubmodelId",
+  "idShort": "DemoTemplate",
+  "submodelElements": [
+    {
+      "modelType": "Property",
+      "idShort": "ManufacturerName",
+      "valueType": "xs:string",
+      "value": "Rohan and Sons",
+      "qualifiers": [
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "value": "One",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/MappingInfo",
+          "value": "company.name",
+          "valueType": "xs:string"
+        }
+      ]
+    }
+  ]
+}

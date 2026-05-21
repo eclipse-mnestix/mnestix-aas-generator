@@ -6,7 +6,7 @@ namespace MnestixCore.Shared;
 
 /// <summary>
 /// Normalizes a JSON payload for compatibility with BaSyx Go's stricter AAS v3 compliance.
-/// Applies 9 rules:
+/// Applies 10 rules:
 /// 1. Strip null-valued properties.
 /// 2. Remove deprecated v2 fields: "hasDataSpecification" (always) and "dataSpecification" (only when array).
 /// 3. Strip kind from any object that is not a Submodel (including objects without modelType).
@@ -16,6 +16,7 @@ namespace MnestixCore.Shared;
 /// 7. Normalize valueType to canonical XSD casing.
 /// 8. Inject xs:string valueType on qualifiers that are missing it or have an empty value.
 /// 9. Coerce non-string Property.value (integer, float, boolean) to a JSON-formatted string.
+/// 10. Remove empty "qualifiers" arrays (BaSyx requires at least one item or the field to be absent).
 /// </summary>
 public static class AasJsonNormalizer
 {
@@ -121,6 +122,13 @@ public static class AasJsonNormalizer
 
                     // Rule 6: Strip AAS v2 collection fields
                     if (prop.Name is "ordered" or "allowDuplicates")
+                    {
+                        propsToRemove.Add(prop.Name);
+                        continue;
+                    }
+
+                    // Rule 10: Remove empty "qualifiers" arrays
+                    if (prop.Name == "qualifiers" && prop.Value is JArray { Count: 0 })
                     {
                         propsToRemove.Add(prop.Name);
                         continue;
