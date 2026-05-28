@@ -12,7 +12,7 @@ public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<Da
 {
     private const string MappingInfoPrefix = "SMT/MappingInfo";
 
-    private static readonly string[] AllowedFields = ["value", "idShort", "globalAssetId", "entityType", "displayName", "first", "second"];
+    private static readonly string[] AllowedFields = ["value", "idShort", "globalAssetId", "entityType", "displayName", "first", "second", "multiLanguage"];
 
     private static readonly Dictionary<string, HashSet<string>> FieldApplicableModelTypes = new()
     {
@@ -23,6 +23,7 @@ public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<Da
         ["displayName"] = new HashSet<string>(), // empty = all model types
         ["first"] = new HashSet<string> { "RelationshipElement", "AnnotatedRelationshipElement" },
         ["second"] = new HashSet<string> { "RelationshipElement", "AnnotatedRelationshipElement" },
+        ["multiLanguage"] = new HashSet<string> { "MultiLanguageProperty" },
     };
 
     private static readonly Dictionary<string, Func<string, bool>> ValueTypeValidators = new()
@@ -145,10 +146,56 @@ public sealed class MapDataToInstanceAasGeneratorPipelineStep : IPipelineStep<Da
         };
     }
 
-    private static void AssignValueField(JToken element, JToken dataFromMappingPath, string modelType, string language, DataMappingContext ctx)
+    private static void AssignMultiLanguageField(JToken element, JToken dataFromMappingPath, DataMappingContext ctx)
+    {
+        if (dataFromMappingPath is not JObject langObject)
+        {
+            throw new SubmodelDataToInstanceMapperException(
+                $"SMT/MappingInfo/multiLanguage expects a JSON object with language keys, but got {dataFromMappingPath.Type}", ctx);
+        }
+
+        if (!langObject.HasValues)
+        {
+            // Empty object treated as missing value — caller handles cardinality
+            element["value"] = new JArray();
+            return;
+        }
+
+        var langArray = new JArray();
+        foreach (var prop in langObject.Properties())
+        {
+            // Skip entries where the value is null or empty string
+            if (prop.Value.Type == JTokenType.Null || string.IsNullOrEmpty(prop.Value.ToString()))
+            {
+                continue;
+            }
+
+            langArray.Add(new JObject
+            {
+                ["text"] = prop.Value.ToString(),
+                ["language"] = prop.Name
+            });
+        }
+
+        if (langArray.Count == 0)
+        {
+            // All entries were empty/null — treat as missing value
+            element["value"] = new JArray();
+            return;
+        }
+
+        element["value"] = langArray;
+    }
+
+    private static void AssignValueField(JToken element, JToken dataFromMappingPath, string modelType, string? language, DataMappingContext ctx)
     {
         if (modelType == "MultiLanguageProperty")
         {
+            if (string.IsNullOrEmpty(language))
+            {
+                throw new SubmodelDataToInstanceMapperException(
+                    "MultiLanguageProperty with SMT/MappingInfo/value requires a 'language' parameter in the request. Use SMT/MappingInfo/multiLanguage to provide language codes in the data instead.", ctx);
+            }
             if (dataFromMappingPath.Type is not (JTokenType.String or JTokenType.Integer or JTokenType.Float or JTokenType.Boolean or JTokenType.Null))
             {
                 throw new SubmodelDataToInstanceMapperException(
@@ -174,10 +221,13 @@ if (modelType is "Property" or "Blob" or "File"&& dataFromMappingPath.Type is JT
         element["value"] = dataFromMappingPath.DeepClone();
     }
 
-    private static void AssignField(JToken element, string fieldName, JToken dataFromMappingPath, string modelType, string language, DataMappingContext ctx)
+    private static void AssignField(JToken element, string fieldName, JToken dataFromMappingPath, string modelType, string? language, DataMappingContext ctx)
     {
         switch (fieldName)
         {
+            case "multiLanguage":
+                AssignMultiLanguageField(element, dataFromMappingPath, ctx);
+                break;
             case "value":
                 AssignValueField(element, dataFromMappingPath, modelType, language, ctx);
                 break;
@@ -303,6 +353,15 @@ if (modelType is "Property" or "Blob" or "File"&& dataFromMappingPath.Type is JT
                 var mappingPath = qualifier["value"]?.Value<string>() ?? throw new SubmodelDataToInstanceMapperException("Mapping Info cannot be null", ctx);
                 var isMandatory = GetCardinalityQualifier(qualifier)?["value"]?.Value<string>()?.StartsWith("One") ?? false;
                 var dataFromMappingPath = SelectTokenFromDataJson(data, mappingPath, ctx);
+
+                // For multiLanguage, treat as missing data if the object is empty
+                // or all values are null/empty strings
+                if (fieldName == "multiLanguage" && dataFromMappingPath is JObject obj &&
+                    (!obj.HasValues || obj.Properties().All(p =>
+                        p.Value.Type == JTokenType.Null || string.IsNullOrEmpty(p.Value.ToString()))))
+                {
+                    dataFromMappingPath = null;
+                }
 
                 // If no data is found and the mapping is mandatory an error will be thrown
                 if (dataFromMappingPath == null)
