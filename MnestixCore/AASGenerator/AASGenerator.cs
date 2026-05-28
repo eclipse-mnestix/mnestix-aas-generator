@@ -57,7 +57,7 @@ public class AasGenerator : IAasGenerator
     /// <param name="language">Preferred language code for localized text within the generated submodels.</param>
     /// <param name="debug">Whether to include debug logs in the results.</param>
     /// <returns>Collection of results indicating success or failure for each processed blueprint.</returns>
-    public async Task<IEnumerable<AasGeneratorResult>> AddDataToAasAsync(string base64EncodedAasId, IEnumerable<string> blueprintsIds, JObject data, string language, bool debug = false, string? preamble = null)
+    public async Task<IEnumerable<AasGeneratorResult>> AddDataToAasAsync(string base64EncodedAasId, IEnumerable<string> blueprintsIds, JObject data, string? language, bool debug = false, string? preamble = null)
     {
         var blueprintsResults = blueprintsIds.Select(async blueprintId =>
         {

@@ -23,7 +23,7 @@ public sealed class DataMapper : IDataMapper
     /// <param name="newSubmodelId">Identifier assigned to the generated submodel instance.</param>
     /// <param name="workflowLogger">Shared workflow logger for accumulating log entries.</param>
     /// <returns>Tuple containing the newly created submodel and the context.</returns>
-    public (JObject Instance, DataMappingContext Context) CreateSubmodelInstanceFromDataJson(JObject blueprint, JObject data, string language, string newSubmodelId, WorkflowLogger workflowLogger)
+    public (JObject Instance, DataMappingContext Context) CreateSubmodelInstanceFromDataJson(JObject blueprint, JObject data, string? language, string newSubmodelId, WorkflowLogger workflowLogger)
     {
         var context = new DataMappingContext(blueprint, data, language, newSubmodelId, workflowLogger);
 

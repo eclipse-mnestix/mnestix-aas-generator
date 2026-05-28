@@ -8,9 +8,9 @@ public class AddDataToAasRequest
 {
     /// <summary>
     /// the language that new MultiLanguage Properties should be given. An example would be 'de'.
+    /// Not required when using SMT/MappingInfo/multiLanguage qualifiers (language codes come from the data).
     /// </summary>
-    [Required]
-    public string Language { get; set; } = null!;
+    public string? Language { get; set; }
 
     /// <summary>
     /// The DataJson that will be used to populate the blueprint with data based on the mapping info in the blueprint.

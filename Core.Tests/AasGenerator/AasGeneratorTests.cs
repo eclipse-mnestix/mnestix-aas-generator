@@ -327,7 +327,117 @@ public class AasGeneratorTests
     {
         await RunDataIngestTest("InputPropertyValueAbsent");
     }
-    
+
+    // --- MLP multiLanguage tests (MNE-357) ---
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMLPMultiLanguage_Success()
+    {
+        await RunDataIngestTest("InputMLPMultiLanguage_Success");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMLPMultiLanguage_SingleLang_Success()
+    {
+        await RunDataIngestTest("InputMLPMultiLanguage_SingleLang");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMLPMultiLanguage_NonStringValues_Success()
+    {
+        await RunDataIngestTest("InputMLPMultiLanguage_NonStringValues");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMLPMultiLanguage_OverridesDefault_Success()
+    {
+        await RunDataIngestTest("InputMLPMultiLanguage_OverridesDefault");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMLPMultiLanguage_FailureScalar_ShouldFail()
+    {
+        await RunDataIngestFailureTest("InputMLPMultiLanguage_FailureScalar");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMLPMultiLanguage_FailureArray_ShouldFail()
+    {
+        await RunDataIngestFailureTest("InputMLPMultiLanguage_FailureArray");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMLPMultiLanguage_EmptyObject_Optional_Success()
+    {
+        await RunDataIngestTest("InputMLPMultiLanguage_EmptyObject_Optional");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMLPMultiLanguage_EmptyObject_Mandatory_ShouldFail()
+    {
+        await RunDataIngestFailureTest("InputMLPMultiLanguage_EmptyObject_Mandatory");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMLPMultiLanguage_MissingPath_Optional_Success()
+    {
+        await RunDataIngestTest("InputMLPMultiLanguage_MissingPath_Optional");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMLPLegacy_NoLanguage_ShouldFail()
+    {
+        await RunDataIngestFailureTest("InputMLPLegacy_NoLanguage_Fails", language: null);
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMLPLegacy_WithLanguage_StillWorks()
+    {
+        // Regression test - existing MLP behavior with explicit language still works
+        await RunDataIngestTest("InputMultiLanguagePropertyValidationSuccess");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMLPMultiLanguageQualifier_OnProperty_ShouldFail()
+    {
+        await RunDataIngestFailureTest("InputMLPMultiLanguageQualifier_OnProperty_Fails");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMLPLegacy_MappingInfo_WithLanguage_Success()
+    {
+        // Legacy SMT/MappingInfo (no /value suffix) on MLP still works with language param
+        await RunDataIngestTest("InputMLPLegacy_MappingInfo_WithLanguage");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMLPLegacy_MappingInfoValue_WithLanguage_Success()
+    {
+        // Legacy SMT/MappingInfo/value on MLP still works with language param
+        await RunDataIngestTest("InputMLPLegacy_MappingInfoValue_WithLanguage");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMLPMultiLanguage_EmptyStringSkipped_Success()
+    {
+        // Empty string values for a language key should not be mapped into the MLP
+        await RunDataIngestTest("InputMLPMultiLanguage_EmptyStringSkipped");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMLPMultiLanguage_NullValueSkipped_Success()
+    {
+        // Null values for a language key should not be mapped into the MLP
+        await RunDataIngestTest("InputMLPMultiLanguage_NullValueSkipped");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMLPMultiLanguage_AllEmptyStrings_Mandatory_ShouldFail()
+    {
+        // All values are empty strings → no valid entries → treated as empty → mandatory fails
+        await RunDataIngestFailureTest("InputMLPMultiLanguage_AllEmptyStrings_Mandatory");
+    }
+
     private async Task RunDataIngestTest(string testCaseName)
     {
         // ARRANGE
@@ -377,7 +487,7 @@ public class AasGeneratorTests
             $"Test case '{testCaseName}' failed: Expected submodel content to match expected result \n Expected: {expectedResult}\n Actual: {actualSubmodel}");
     }
     
-    private async Task RunDataIngestFailureTest(string testCaseName)
+    private async Task RunDataIngestFailureTest(string testCaseName, string? language = "en")
     {
         // ARRANGE
         var templateSubmodel = DataIngestTestFileProvider.GetTemplateSubmodel(testCaseName);
@@ -401,7 +511,7 @@ public class AasGeneratorTests
         // The real implementation will throw SubmodelDataToInstanceMapperException when validation fails
         
         // ACT
-        var result = await _aasGenerator.AddDataToAasAsync(aasId, templateIds, templateData, "en");
+        var result = await _aasGenerator.AddDataToAasAsync(aasId, templateIds, templateData, language);
         
         // ASSERT
         result.Should().NotBeNull();

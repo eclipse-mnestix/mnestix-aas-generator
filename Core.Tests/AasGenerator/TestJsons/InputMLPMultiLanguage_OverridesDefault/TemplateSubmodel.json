@@ -1,0 +1,32 @@
+{
+  "modelType": "Submodel",
+  "kind": "Template",
+  "id": "urn:smtemplate:DemoTemplate",
+  "idShort": "DemoTemplate",
+  "submodelElements": [
+    {
+      "modelType": "MultiLanguageProperty",
+      "idShort": "CompanyName",
+      "value": [
+        {
+          "text": "Default Company",
+          "language": "en"
+        }
+      ],
+      "qualifiers": [
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "value": "One",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/MappingInfo/multiLanguage",
+          "value": "x",
+          "valueType": "xs:string"
+        }
+      ]
+    }
+  ]
+}
