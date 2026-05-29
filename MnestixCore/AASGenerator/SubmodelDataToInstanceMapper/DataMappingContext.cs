@@ -7,7 +7,7 @@ public sealed class DataMappingContext
     // Immutable inputs
     public JObject Blueprint { get; }
     public JObject Data { get; }
-    public string Language { get; }
+    public string? Language { get; }
     public string NewSubmodelId { get; }
     
     // Shared workflow logger
@@ -37,7 +37,7 @@ public sealed class DataMappingContext
     // Optional: The currently processed qualifiers (for error reporting)
     public JToken Qualifier { get; set; } = new JObject();
 
-    public DataMappingContext(JObject blueprint, JObject data, string language, string newSubmodelId, WorkflowLogger workflowLogger)
+    public DataMappingContext(JObject blueprint, JObject data, string? language, string newSubmodelId, WorkflowLogger workflowLogger)
     {
         Blueprint = blueprint;
         Data = data;

@@ -1,0 +1,27 @@
+{
+  "modelType": "Submodel",
+  "kind": "Template",
+  "id": "urn:smtemplate:DemoTemplate",
+  "idShort": "DemoTemplate",
+  "submodelElements": [
+    {
+      "modelType": "MultiLanguageProperty",
+      "idShort": "CompanyName",
+      "value": [],
+      "qualifiers": [
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "value": "ZeroToOne",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/MappingInfo/multiLanguage",
+          "value": "product.name",
+          "valueType": "xs:string"
+        }
+      ]
+    }
+  ]
+}

@@ -27,7 +27,7 @@ The following element types support data mapping via qualifiers:
 | Element Type | Mapping Support | Notes |
 |--------------|-----------------|-------|
 | `Property` | ✅ Full | Value mapping via `SMT/MappingInfo` |
-| `MultiLanguageProperty` | ⚠️ Limited | Single language per generation call |
+| `MultiLanguageProperty` | ✅ Full | Multi-language via `SMT/MappingInfo/multiLanguage`, or single language via `SMT/MappingInfo/value` |
 | `Blob` | ✅ Partial | Value mapping only (`SMT/MappingInfo`) |
 | `SubmodelElementCollection` | ✅ Full | Supports collection duplication |
 | `SubmodelElementList` | ✅ Full | Supports collection duplication |
@@ -161,6 +161,7 @@ Extends path mapping to target specific fields on an element beyond just `value`
 | `displayName` | Display name text | All | Sets `text` for current generation language |
 | `first` | Relationship first reference | RelationshipElement, AnnotatedRelationshipElement | AAS Reference JSON object |
 | `second` | Relationship second reference | RelationshipElement, AnnotatedRelationshipElement | AAS Reference JSON object |
+| `multiLanguage` | Multi-language value | MultiLanguageProperty | JSON object with language keys (see below) |
 
 #### Example: Entity with globalAssetId + idShort
 
@@ -1013,9 +1014,67 @@ Transformed JSON:
 
 ---
 
-## MultiLanguageProperty Limitation
+## MultiLanguageProperty Mapping
 
-Currently, `MultiLanguageProperty` elements support only **one language per generation call**. The language is specified in the API request body.
+`MultiLanguageProperty` elements support two mapping approaches:
+
+### Approach 1: Multi-language from data (`SMT/MappingInfo/multiLanguage`) — Recommended
+
+Maps a JSON object where keys are language codes and values are the translated texts. This allows **multiple languages in a single generation call** without requiring a `language` parameter in the request.
+
+**Blueprint:**
+```json
+{
+  "modelType": "MultiLanguageProperty",
+  "idShort": "CompanyName",
+  "value": [],
+  "qualifiers": [
+    {
+      "kind": "TemplateQualifier",
+      "type": "SMT/MappingInfo/multiLanguage",
+      "value": "company.name",
+      "valueType": "xs:string"
+    }
+  ]
+}
+```
+
+**Input Data:**
+```json
+{
+  "company": {
+    "name": {
+      "de": "Xitaso Software Lösungen",
+      "en": "Xitaso Software Solutions"
+    }
+  }
+}
+```
+
+**Generated Instance:**
+```json
+{
+  "modelType": "MultiLanguageProperty",
+  "idShort": "CompanyName",
+  "value": [
+    { "text": "Xitaso Software Lösungen", "language": "de" },
+    { "text": "Xitaso Software Solutions", "language": "en" }
+  ]
+}
+```
+
+**Behavior:**
+- The expression must resolve to a JSON object (e.g., `{"en": "Hello", "de": "Hallo"}`).
+- Each property becomes a language entry: key → `language`, value → `text`.
+- Entries where the value is `null` or an empty string are skipped.
+- If all entries are empty/null, the element is treated as missing (respects cardinality rules).
+- Non-string values (numbers, booleans) are converted to their string representation.
+
+### Approach 2: Legacy single language from request (`SMT/MappingInfo/value`)
+
+Maps a scalar value and wraps it with the `language` parameter from the API request. Only **one language per generation call**.
+
+> ⚠️ **Deprecation Warning:** This is the legacy behavior and is still supported for backward compatibility, but using `SMT/MappingInfo/multiLanguage` is recommended for new blueprints. This feature might be deprecated in the future.
 
 **Request:**
 ```json
@@ -1023,6 +1082,23 @@ Currently, `MultiLanguageProperty` elements support only **one language per gene
   "blueprintsIds": ["my-blueprint"],
   "data": { "description": "Product description text" },
   "language": "en"
+}
+```
+
+**Blueprint:**
+```json
+{
+  "modelType": "MultiLanguageProperty",
+  "idShort": "Description",
+  "value": [],
+  "qualifiers": [
+    {
+      "kind": "TemplateQualifier",
+      "type": "SMT/MappingInfo",
+      "value": "description",
+      "valueType": "xs:string"
+    }
+  ]
 }
 ```
 
@@ -1037,7 +1113,7 @@ Currently, `MultiLanguageProperty` elements support only **one language per gene
 }
 ```
 
-To add multiple languages, you would need to make separate API calls or edit the generated submodel afterward.
+> **Note:** Using `SMT/MappingInfo/value` (or the legacy `SMT/MappingInfo`) on a `MultiLanguageProperty` requires the `language` parameter in the API request. If your data already contains language codes as keys, prefer `SMT/MappingInfo/multiLanguage` instead.
 
 ---
 
