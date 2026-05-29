@@ -137,7 +137,7 @@ public class AasGenerator : IAasGenerator
         }
     }
 
-    private JObject MapDataToInstance(JObject blueprint, JObject data, string language, string newSubmodelId, WorkflowLogger workflowLogger)
+    private JObject MapDataToInstance(JObject blueprint, JObject data, string? language, string newSubmodelId, WorkflowLogger workflowLogger)
     {
         workflowLogger.LogInfo("Starting data mapping");
         try
