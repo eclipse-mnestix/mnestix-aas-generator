@@ -33,7 +33,9 @@ public sealed class DataMapper : IDataMapper
             .Use<SetKindInstanceAasGeneratorPipelineStep>()
             .Use<DuplicateCollectionsAasGeneratorPipelineStep>()
             .Use<FilterElementsAasGeneratorPipelineStep>()
-            .Use<MapDataToInstanceAasGeneratorPipelineStep>()
+            .Use<ValidateMappingQualifiersAasGeneratorPipelineStep>()
+            .Use<ResolveMappingExpressionsAasGeneratorPipelineStep>()
+            .Use<AssignMappedFieldsAasGeneratorPipelineStep>()
             .Use<RemoveTopLevelQualifiersAasGeneratorPipelineStep>()
             .Use<ReplaceIdentificationAasGeneratorPipelineStep>()
             .Build();

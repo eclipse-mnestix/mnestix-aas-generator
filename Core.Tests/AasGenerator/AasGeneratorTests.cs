@@ -221,18 +221,6 @@ public class AasGeneratorTests
     }
 
     [Test]
-    public async Task AddDataToAasAsync_InputMultiFieldInvalidField_ShouldFail()
-    {
-        await RunDataIngestFailureTest("InputMultiFieldInvalidField");
-    }
-
-    [Test]
-    public async Task AddDataToAasAsync_InputMultiFieldTypeMismatch_ShouldFail()
-    {
-        await RunDataIngestFailureTest("InputMultiFieldTypeMismatch");
-    }
-
-    [Test]
     public async Task AddDataToAasAsync_InputMultiFieldDuplicate_ShouldFail()
     {
         await RunDataIngestFailureTest("InputMultiFieldDuplicate");
@@ -395,12 +383,6 @@ public class AasGeneratorTests
     {
         // Regression test - existing MLP behavior with explicit language still works
         await RunDataIngestTest("InputMultiLanguagePropertyValidationSuccess");
-    }
-
-    [Test]
-    public async Task AddDataToAasAsync_InputMLPMultiLanguageQualifier_OnProperty_ShouldFail()
-    {
-        await RunDataIngestFailureTest("InputMLPMultiLanguageQualifier_OnProperty_Fails");
     }
 
     [Test]

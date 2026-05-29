@@ -37,6 +37,10 @@ public sealed class DataMappingContext
     // Optional: The currently processed qualifiers (for error reporting)
     public JToken Qualifier { get; set; } = new JObject();
 
+    // Intermediate state passed between pipeline steps
+    public List<MappingDescriptor> MappingDescriptors { get; set; } = new();
+    public List<ResolvedMapping> ResolvedMappings { get; set; } = new();
+
     public DataMappingContext(JObject blueprint, JObject data, string? language, string newSubmodelId, WorkflowLogger workflowLogger)
     {
         Blueprint = blueprint;
