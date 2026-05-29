@@ -76,7 +76,8 @@ public class RepoProxyClient(
                 throw new RepoProxyException(
                     ErrorCodes.CouldNotPostShell,
                     $"Could not post: {response.Content} Code: {response.StatusCode}",
-                    response.ErrorException);
+                    response.StatusCode,
+                    response.Content);
             }
 
             return response.Content;
@@ -113,9 +114,9 @@ public class RepoProxyClient(
             {
                 throw new RepoProxyException(
                     ErrorCodes.CouldNotPostShell,
-                    $"Could not put: {response.Content} " +
-                    $"Code: {response.StatusCode}",
-                    response.ErrorException);
+                    $"Could not put: {response.Content} Code: {response.StatusCode}",
+                    response.StatusCode,
+                    response.Content);
             }
 
             return response.Content;
@@ -152,9 +153,9 @@ public class RepoProxyClient(
             {
                 throw new RepoProxyException(
                     ErrorCodes.CouldNotPutSubmodel,
-                    $"Could not post submodel: {response.Content} " +
-                    $"Code: {response.StatusCode}",
-                    response.ErrorException);
+                    $"Could not post submodel: {response.Content} Code: {response.StatusCode}",
+                    response.StatusCode,
+                    response.Content);
             }
 
             var submodelReference =
@@ -175,9 +176,9 @@ public class RepoProxyClient(
             if (response.StatusCode != HttpStatusCode.OK && response.StatusCode != HttpStatusCode.Created)
             {
                 throw new RepoProxyException(ErrorCodes.CouldNotPutSubmodel,
-                    $"Could not post submodel-reference: {response.Content} " +
-                    $"Code: {response.StatusCode}",
-                    response.ErrorException);
+                    $"Could not post submodel-reference: {response.Content} Code: {response.StatusCode}",
+                    response.StatusCode,
+                    response.Content);
             }
 
             return response.Content;
