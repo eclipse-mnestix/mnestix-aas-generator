@@ -260,6 +260,8 @@ When mapping to `value`, the generator validates that the mapped value conforms 
 
 #### Error Conditions
 
+> Most structural errors in this table are now caught at **save time** by the [Blueprint Validation](#blueprint-validation) system. The generation-time errors remain as a fallback for blueprints imported or modified outside the API.
+
 | Condition | Behavior |
 |-----------|----------|
 | Unknown field name (not in allowlist) | Error: `"Unsupported MappingInfo field '<FieldName>'"` |
@@ -609,6 +611,10 @@ Defines whether a mapped value is required or optional.
 |-------|----------|
 | `One` | **Mandatory** - Generation fails with error if data is missing |
 | `ZeroToOne` | **Optional** - Empty value is set if data is missing |
+| `OneToMany` | **Mandatory collection** - At least one item required |
+| `ZeroToMany` | **Optional collection** - Empty collection if data is missing |
+
+> Values are case-sensitive. The validator rejects any other value.
 
 **Qualifier:**
 ```json
@@ -1100,6 +1106,105 @@ Set `"debug": true` to receive detailed logs about the generation process. This 
   ]
 }
 ```
+
+---
+
+## Blueprint Validation
+
+When saving a blueprint via the API (Create or Update), the system validates the qualifier structure to catch errors that would inevitably cause generation failures. This provides immediate feedback instead of failing silently at AAS generation time.
+
+### Validation Rules
+
+The following checks are performed on all qualifiers in the blueprint:
+
+#### SMT/MappingInfo Qualifiers
+
+| Rule | Description |
+|------|-------------|
+| **InvalidQualifierSegmentCount** | Qualifier type has more than 3 segments (e.g. `SMT/MappingInfo/value/extra`) |
+| **EmptyMappingExpression** | Qualifier value is empty or missing |
+| **UnknownFieldName** | Field name (3rd segment) is not recognized |
+| **FieldNotApplicableToModelType** | Field is not valid for the element's model type |
+| **UnsupportedModelType** | Element's model type is not supported for mapping |
+| **DuplicateMappingField** | Two qualifiers target the same field on the same element |
+| **MlpValueAndMultiLanguageConflict** | Both `value` and `multiLanguage` mappings on same MultiLanguageProperty |
+| **InvalidJsonataSyntax** | JSONata expression cannot be parsed |
+
+#### SMT/FilterMappingInfo Qualifiers
+
+| Rule | Description |
+|------|-------------|
+| **EmptyFilterExpression** | Qualifier value is empty or missing |
+| **InvalidFilterJsonataSyntax** | JSONata expression cannot be parsed |
+
+#### SMT/CollectionMappingInfo Qualifiers
+
+| Rule | Description |
+|------|-------------|
+| **EmptyCollectionPath** | Qualifier value is empty or missing |
+| **InvalidCollectionJsonPath** | JSONPath expression cannot be parsed |
+| **CollectionPathMissingWildcard** | Path does not end with `[*]` |
+| **InvalidCollectionParentModelType** | Parent element is not SubmodelElementCollection, SubmodelElementList, or Entity |
+
+#### SMT/Cardinality Qualifiers
+
+| Rule | Description |
+|------|-------------|
+| **InvalidCardinalityValue** | Value is not one of: `One`, `ZeroToOne`, `OneToMany`, `ZeroToMany` |
+
+### Field-to-Model-Type Applicability
+
+Not all fields can be mapped on every element type. The following matrix defines what is allowed:
+
+| Model Type | Allowed Fields |
+|-----------|---------------|
+| `Property` | `value`, `idShort`, `displayName` |
+| `MultiLanguageProperty` | `value`, `idShort`, `displayName`, `multiLanguage` |
+| `Blob` | `value`, `idShort`, `displayName` |
+| `File` | `value`, `idShort`, `displayName` |
+| `Entity` | `idShort`, `displayName`, `globalAssetId`, `entityType` |
+| `RelationshipElement` | `idShort`, `displayName`, `first`, `second` |
+| `AnnotatedRelationshipElement` | `idShort`, `displayName`, `first`, `second` |
+| `SubmodelElementCollection` | `idShort`, `displayName` |
+| `SubmodelElementList` | `idShort`, `displayName` |
+| `ReferenceElement` | `idShort`, `displayName` |
+| `Range` | `idShort`, `displayName` |
+
+Model types not in this list (e.g. `Operation`, `BasicEventElement`, `Capability`) are unsupported for mapping qualifiers.
+
+### MLP Conflict Rules
+
+On a `MultiLanguageProperty`, the following combinations are invalid:
+- `SMT/MappingInfo` (bare) + `SMT/MappingInfo/multiLanguage` — both write to the `value` field with incompatible semantics
+- `SMT/MappingInfo/value` + `SMT/MappingInfo/multiLanguage` — same conflict
+- `SMT/MappingInfo` + `SMT/MappingInfo/value` — aliases for the same field (treated as duplicate)
+
+Use either `value` (scalar + language parameter) **or** `multiLanguage` (language-keyed object), not both.
+
+### Error Response
+
+When validation fails, the API returns **422 Unprocessable Entity** with all detected issues:
+
+```json
+{
+  "errors": [
+    {
+      "rule": "FieldNotApplicableToModelType",
+      "path": "Nameplate > SerialNumber",
+      "message": "Field 'first' is not valid on model type 'Property'. Allowed fields: value, idShort, displayName."
+    },
+    {
+      "rule": "InvalidJsonataSyntax",
+      "path": "Nameplate > ManufacturerName",
+      "message": "Invalid JSONata syntax: Expected ']' at position 6."
+    }
+  ]
+}
+```
+
+The `path` field uses the element's `idShort` breadcrumb trail. If an element lacks an `idShort`, the array index is used as fallback.
+
+> **Note**: These validations also run at generation time as defense-in-depth, since blueprints can be imported or modified outside the API.
 
 ---
 
