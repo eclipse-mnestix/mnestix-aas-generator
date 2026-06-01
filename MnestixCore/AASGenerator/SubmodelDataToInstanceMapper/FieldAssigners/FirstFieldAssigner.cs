@@ -18,6 +18,7 @@ public sealed class FirstFieldAssigner : FieldAssignerBase
                 $"Field 'first' requires a JSON object (AAS Reference), but got {resolvedValue.Type}", ctx);
         }
 
+        WarnIfOverridingDefault(element, "first", ctx);
         element["first"] = refObj;
     }
 }

@@ -943,5 +943,34 @@ public class AasGeneratorTests
         }
     }
 
+    [Test]
+    public async Task AddDataToAasAsync_InputMLPMultiLanguage_OverridesDefault_LogsWarning()
+    {
+        // ARRANGE — template has a default value [{en:"Default Company"}] that gets overridden
+        var templateSubmodel = DataIngestTestFileProvider.GetTemplateSubmodel("InputMLPMultiLanguage_OverridesDefault");
+        var templateData = DataIngestTestFileProvider.GetData("InputMLPMultiLanguage_OverridesDefault");
+        var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
+
+        _templateSubmodelsProviderMock
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .ReturnsAsync(templateSubmodel);
+
+        _repoProxyClientMock
+            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync("created");
+
+        // ACT
+        var result = await _aasGenerator.AddDataToAasAsync(TestBase64EncodedAasId, templateIds, templateData, "en", debug: true);
+
+        // ASSERT
+        var first = result.First();
+        first.Success.Should().BeTrue();
+        first.DebugInfo.Should().NotBeNull();
+        first.DebugInfo!.Logs.Should().NotBeNull();
+
+        var allLogs = string.Join("\n", first.DebugInfo.Logs!);
+        allLogs.Should().Contain("template default for 'value' was overridden by mapped data");
+    }
+
     #endregion
 }

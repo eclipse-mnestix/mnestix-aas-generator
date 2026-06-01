@@ -21,6 +21,7 @@ public sealed class MultiLanguageFieldAssigner : FieldAssignerBase
 
         if (!langObject.HasValues)
         {
+            WarnIfOverridingDefault(element, "value", ctx);
             element["value"] = new JArray();
             return;
         }
@@ -42,10 +43,12 @@ public sealed class MultiLanguageFieldAssigner : FieldAssignerBase
 
         if (langArray.Count == 0)
         {
+            WarnIfOverridingDefault(element, "value", ctx);
             element["value"] = new JArray();
             return;
         }
 
+        WarnIfOverridingDefault(element, "value", ctx);
         element["value"] = langArray;
     }
 }

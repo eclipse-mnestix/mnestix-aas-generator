@@ -21,6 +21,12 @@ public sealed class DisplayNameFieldAssigner : FieldAssignerBase
         var langEntry = displayNameArray.FirstOrDefault(e => e["language"]?.Value<string>() == language);
         if (langEntry != null)
         {
+            var existingText = langEntry["text"]?.Value<string>();
+            if (!string.IsNullOrEmpty(existingText))
+            {
+                var idShort = element["idShort"]?.Value<string>() ?? "(unknown)";
+                ctx.LogWarning($"Element '{idShort}': template default for 'displayName' was overridden by mapped data");
+            }
             langEntry["text"] = resolvedValue.ToString();
         }
         else

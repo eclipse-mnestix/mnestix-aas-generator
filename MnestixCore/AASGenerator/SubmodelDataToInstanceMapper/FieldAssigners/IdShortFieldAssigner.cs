@@ -25,6 +25,7 @@ public sealed class IdShortFieldAssigner : FieldAssignerBase
             ctx.LogWarning($"idShort value '{value}' was sanitized to '{sanitized}'");
         }
 
+        WarnIfOverridingDefault(element, "idShort", ctx);
         element["idShort"] = sanitized;
     }
 }

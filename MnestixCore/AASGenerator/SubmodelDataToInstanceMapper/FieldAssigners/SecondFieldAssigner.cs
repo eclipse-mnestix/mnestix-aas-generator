@@ -18,6 +18,7 @@ public sealed class SecondFieldAssigner : FieldAssignerBase
                 $"Field 'second' requires a JSON object (AAS Reference), but got {resolvedValue.Type}", ctx);
         }
 
+        WarnIfOverridingDefault(element, "second", ctx);
         element["second"] = refObj;
     }
 }

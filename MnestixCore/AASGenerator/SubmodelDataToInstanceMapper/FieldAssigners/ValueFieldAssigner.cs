@@ -46,6 +46,7 @@ public sealed class ValueFieldAssigner : FieldAssignerBase
 
         ValidateValueType(element, resolvedValue, ctx);
 
+        WarnIfOverridingDefault(element, "value", ctx);
         element["value"] = resolvedValue.DeepClone();
     }
 
@@ -63,6 +64,7 @@ public sealed class ValueFieldAssigner : FieldAssignerBase
                 $"MultiLanguageProperty expects a string, number, boolean, or null value, but got {resolvedValue.Type}", ctx);
         }
 
+        WarnIfOverridingDefault(element, "value", ctx);
         element["value"] = new JArray
         {
             new JObject
