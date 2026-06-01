@@ -46,7 +46,6 @@ public sealed class ResolveMappingExpressionsAasGeneratorPipelineStep : IPipelin
                 }
 
                 ctx.LogWarning($"Optional mapping '{descriptor.MappingExpression}' not found in data, skipping.");
-                resolved.Add(new ResolvedMapping { Descriptor = descriptor, ResolvedValue = null });
                 continue;
             }
 
