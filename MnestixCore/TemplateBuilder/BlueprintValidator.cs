@@ -101,7 +101,7 @@ public sealed class BlueprintValidator : IBlueprintValidator
             errors.Add(new BlueprintValidationError(
                 BlueprintValidationRule.UnknownFieldName,
                 path,
-                $"Field '{fieldName}' is not a recognized mapping field. Allowed: {string.Join(", ", FieldMappingRules.AllAllowedFieldNames)}."));
+                $"Field '{fieldName}' is not a recognized mapping field. Allowed: {string.Join(", ", FieldMappingRules.AllAllowedFieldNames.OrderBy(x => x, StringComparer.Ordinal))}."));
             return;
         }
 
@@ -127,7 +127,7 @@ public sealed class BlueprintValidator : IBlueprintValidator
                 errors.Add(new BlueprintValidationError(
                     BlueprintValidationRule.FieldNotApplicableToModelType,
                     path,
-                    $"Field '{fieldName}' is not valid on model type '{modelType}'. Allowed fields: {string.Join(", ", FieldMappingRules.AllowedFieldsByModelType[modelType])}."));
+                    $"Field '{fieldName}' is not valid on model type '{modelType}'. Allowed fields: {string.Join(", ", FieldMappingRules.AllowedFieldsByModelType[modelType].OrderBy(x => x, StringComparer.Ordinal))}."));
                 return;
             }
         }
@@ -242,7 +242,7 @@ public sealed class BlueprintValidator : IBlueprintValidator
             errors.Add(new BlueprintValidationError(
                 BlueprintValidationRule.InvalidCardinalityValue,
                 path,
-                $"Cardinality value '{value}' is invalid. Allowed values: {string.Join(", ", ValidCardinalities)}."));
+                $"Cardinality value '{value}' is invalid. Allowed values: {string.Join(", ", ValidCardinalities.OrderBy(x => x, StringComparer.Ordinal))}."));
         }
     }
 

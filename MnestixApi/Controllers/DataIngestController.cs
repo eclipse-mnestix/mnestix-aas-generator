@@ -42,13 +42,13 @@ public class DataIngestController : ControllerBase
     {
         _logger.LogInformation("invoked DataIngest/{AasId}/ with blueprintIds: {BlueprintIds}", base64EncodedAasId, string.Join(", ", requestBody.BlueprintsIds));
 
-        var results = await _AasGenerator.AddDataToAasAsync(base64EncodedAasId, requestBody.BlueprintsIds, requestBody.Data, requestBody.Language, requestBody.Debug);
+        var results = (await _AasGenerator.AddDataToAasAsync(base64EncodedAasId, requestBody.BlueprintsIds, requestBody.Data, requestBody.Language, requestBody.Debug)).ToList();
         var responseBody = new AddDataToAasResponse
         {
             Results = results
         };
 
-        // At the beginning of the generation pipleine we validate the blueprint if it was uploaded
+        // At the beginning of the generation pipeline we validate the blueprint if it was uploaded
         // If this validation fails, the blueprint either comes from an older AAS Generator version without the new validation rules or it was externally modified and is now in an invalid state. 
         // We return a 500 Internal Server Error in this case, because the blueprint is not in a valid state for the AAS Generator to process it, even though the request itself is valid.
         var validationErrors = results

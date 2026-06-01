@@ -21,14 +21,14 @@ namespace MnestixApi.Controllers;
 [RequiredScope("admin.write")]
 public class BlueprintsController : ControllerBase
 {
-    private readonly ILogger<CustomTemplatesController> _logger;
+    private readonly ILogger<BlueprintsController> _logger;
     private readonly IBlueprintProvider _customTemplateSubmodelsProvider;
     private readonly IBlueprintCreator _customTemplateSubmodelCreator;
     private readonly IBlueprintValidator _blueprintValidator;
 
 
     /// <inheritdoc />
-    public BlueprintsController(ILogger<CustomTemplatesController> logger,
+    public BlueprintsController(ILogger<BlueprintsController> logger,
         IBlueprintCreator customTemplateSubmodelCreator,
         IBlueprintProvider customTemplateSubmodelsProvider,
         IBlueprintValidator blueprintValidator)
@@ -123,8 +123,13 @@ public class BlueprintsController : ControllerBase
         }
         catch (RepoProxyException ex) when (ex.StatusCode.HasValue)
         {
-            _logger.LogError("Repository rejected blueprint. Status: {StatusCode}, Body: {Body}", ex.StatusCode, ex.ResponseBody);
-            return StatusCode((int)ex.StatusCode.Value, ex.ResponseBody);
+            _logger.LogError(ex, "Repository rejected blueprint. Status: {StatusCode}, Body: {Body}", ex.StatusCode, ex.ResponseBody);
+            return new ContentResult
+            {
+                StatusCode = (int)ex.StatusCode.Value,
+                Content = ex.ResponseBody,
+                ContentType = "application/json"
+            };
         }
         catch (Exception e)
         {
@@ -167,8 +172,13 @@ public class BlueprintsController : ControllerBase
         }
         catch (RepoProxyException ex) when (ex.StatusCode.HasValue)
         {
-            _logger.LogError("Repository rejected blueprint update. Status: {StatusCode}, Body: {Body}", ex.StatusCode, ex.ResponseBody);
-            return StatusCode((int)ex.StatusCode.Value, ex.ResponseBody);
+            _logger.LogError(ex, "Repository rejected blueprint update. Status: {StatusCode}, Body: {Body}", ex.StatusCode, ex.ResponseBody);
+            return new ContentResult
+            {
+                StatusCode = (int)ex.StatusCode.Value,
+                Content = ex.ResponseBody,
+                ContentType = "application/json"
+            };
         }
         catch (Exception e)
         {

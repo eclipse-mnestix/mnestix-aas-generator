@@ -57,7 +57,7 @@ If the blueprint has issues, the API will return a **422 Unprocessable Entity** 
 
 ### Recommended Migration Steps
 
-1. **Re-save all existing blueprints** via the blueprint API (`POST /blueprints/{id}`) to trigger save-time validation
+1. **Re-save all existing blueprints** via the blueprint API (`POST /api/v2/Blueprints/{submodelId}`) to trigger save-time validation
 2. Fix any validation errors reported in the 422 responses
 3. Verify generation works by running a test data ingest for each blueprint
 4. If blueprints are managed externally (e.g., imported directly into the repository), ensure they pass validation before deploying
