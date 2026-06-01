@@ -32,7 +32,7 @@ public class AasGeneratorTests
     [SetUp]
     public void SetUp()
     {
-        _dataToInstanceMapper = new DataMapper();
+        _dataToInstanceMapper = new DataMapper(new BlueprintValidator());
         _repoProxyClientMock = new Mock<IRepoProxyClient>();
         _templateSubmodelsProviderMock = new Mock<IBlueprintProvider>();
         _idGeneratorMock = new Mock<IAasIdGeneratorService>();
