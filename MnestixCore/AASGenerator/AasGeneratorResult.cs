@@ -38,4 +38,9 @@ public class AasGeneratorResult
     /// additional debug information including logs from the generation process
     /// </summary>
     public AasGeneratorDebugInfo? DebugInfo { get; init; }
+    /// <summary>
+    /// Structured blueprint validation errors when the blueprint fails generation-time validation.
+    /// Indicates the blueprint was externally modified or not properly migrated.
+    /// </summary>
+    public IReadOnlyList<MnestixCore.TemplateBuilder.BlueprintValidationError>? ValidationErrors { get; init; }
 }

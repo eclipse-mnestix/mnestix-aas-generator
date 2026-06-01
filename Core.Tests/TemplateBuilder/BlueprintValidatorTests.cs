@@ -211,6 +211,19 @@ public class BlueprintValidatorTests
         errors.Should().ContainSingle(e => e.Rule == BlueprintValidationRule.EmptyMappingExpression);
     }
 
+    [Test]
+    public void Validate_MappingInfoWithWhitespaceOnlyValue_ReturnsEmptyExpressionError()
+    {
+        var blueprint = MakeBlueprint(
+            MakeElement("Property", "Temp",
+                MakeQualifier("SMT/MappingInfo/value", "   "))
+        );
+
+        var errors = _sut.Validate(blueprint);
+
+        errors.Should().ContainSingle(e => e.Rule == BlueprintValidationRule.EmptyMappingExpression);
+    }
+
     #endregion
 
     #region Rule 3: UnknownFieldName

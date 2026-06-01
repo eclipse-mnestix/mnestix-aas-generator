@@ -86,7 +86,7 @@ public sealed class BlueprintValidator : IBlueprintValidator
 
         // Rule 2: EmptyMappingExpression
         var expression = qualifier["value"]?.Value<string>();
-        if (string.IsNullOrEmpty(expression))
+        if (string.IsNullOrWhiteSpace(expression))
         {
             errors.Add(new BlueprintValidationError(
                 BlueprintValidationRule.EmptyMappingExpression,
@@ -159,7 +159,7 @@ public sealed class BlueprintValidator : IBlueprintValidator
         var expression = qualifier["value"]?.Value<string>();
 
         // Rule 9: EmptyFilterExpression
-        if (string.IsNullOrEmpty(expression))
+        if (string.IsNullOrWhiteSpace(expression))
         {
             errors.Add(new BlueprintValidationError(
                 BlueprintValidationRule.EmptyFilterExpression,
@@ -186,7 +186,7 @@ public sealed class BlueprintValidator : IBlueprintValidator
         var jsonPath = qualifier["value"]?.Value<string>();
 
         // Rule 11: EmptyCollectionPath
-        if (string.IsNullOrEmpty(jsonPath))
+        if (string.IsNullOrWhiteSpace(jsonPath))
         {
             errors.Add(new BlueprintValidationError(
                 BlueprintValidationRule.EmptyCollectionPath,

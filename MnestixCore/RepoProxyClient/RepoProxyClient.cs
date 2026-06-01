@@ -73,11 +73,10 @@ public class RepoProxyClient(
 
             if (response.StatusCode != HttpStatusCode.OK && response.StatusCode != HttpStatusCode.Created)
             {
-                throw new RepoProxyException(
+                throw CreateResponseException(
                     ErrorCodes.CouldNotPostShell,
                     $"Could not post: {response.Content} Code: {response.StatusCode}",
-                    response.StatusCode,
-                    response.Content);
+                    response);
             }
 
             return response.Content;
@@ -112,11 +111,10 @@ public class RepoProxyClient(
             if (response.StatusCode != HttpStatusCode.OK && response.StatusCode != HttpStatusCode.Created
                 && response.StatusCode != HttpStatusCode.NoContent)
             {
-                throw new RepoProxyException(
+                throw CreateResponseException(
                     ErrorCodes.CouldNotPostShell,
                     $"Could not put: {response.Content} Code: {response.StatusCode}",
-                    response.StatusCode,
-                    response.Content);
+                    response);
             }
 
             return response.Content;
@@ -151,11 +149,10 @@ public class RepoProxyClient(
 
             if (response.StatusCode != HttpStatusCode.OK && response.StatusCode != HttpStatusCode.Created)
             {
-                throw new RepoProxyException(
+                throw CreateResponseException(
                     ErrorCodes.CouldNotPutSubmodel,
                     $"Could not post submodel: {response.Content} Code: {response.StatusCode}",
-                    response.StatusCode,
-                    response.Content);
+                    response);
             }
 
             var submodelReference =
@@ -175,10 +172,9 @@ public class RepoProxyClient(
 
             if (response.StatusCode != HttpStatusCode.OK && response.StatusCode != HttpStatusCode.Created)
             {
-                throw new RepoProxyException(ErrorCodes.CouldNotPutSubmodel,
+                throw CreateResponseException(ErrorCodes.CouldNotPutSubmodel,
                     $"Could not post submodel-reference: {response.Content} Code: {response.StatusCode}",
-                    response.StatusCode,
-                    response.Content);
+                    response);
             }
 
             return response.Content;
@@ -312,5 +308,12 @@ public class RepoProxyClient(
     public string GetAasRepositoryUrl()
     {
         return baseUrlProvider.GetBaseUrl();
+    }
+
+    private static RepoProxyException CreateResponseException(ErrorCodes code, string message, RestResponse response)
+    {
+        if ((int)response.StatusCode == 0)
+            return new RepoProxyException(code, message, response.ErrorException);
+        return new RepoProxyException(code, message, response.StatusCode, response.Content);
     }
 }

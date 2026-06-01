@@ -29,11 +29,12 @@ public sealed class DataMapper : IDataMapper
 
         // Build pipeline with all the steps in the correct order
         var pipeline = new Pipelines.Core.PipelineBuilder<DataMappingContext>()
+            .Use<ValidateBlueprintAasGeneratorPipelineStep>()
             .Use<DeepCloneBlueprintAasGeneratorPipelineStep>()
             .Use<SetKindInstanceAasGeneratorPipelineStep>()
             .Use<DuplicateCollectionsAasGeneratorPipelineStep>()
             .Use<FilterElementsAasGeneratorPipelineStep>()
-            .Use<ValidateMappingQualifiersAasGeneratorPipelineStep>()
+            .Use<DiscoverMappingDescriptorsAasGeneratorPipelineStep>()
             .Use<ResolveMappingExpressionsAasGeneratorPipelineStep>()
             .Use<AssignMappedFieldsAasGeneratorPipelineStep>()
             .Use<RemoveTopLevelQualifiersAasGeneratorPipelineStep>()

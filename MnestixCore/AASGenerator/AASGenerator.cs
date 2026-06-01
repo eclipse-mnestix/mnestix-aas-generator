@@ -6,6 +6,7 @@ using MnestixCore.AasGenerator.Interfaces;
 using MnestixCore.Dtos;
 using MnestixCore.Dtos.AppSettingsOptions;
 using MnestixCore.Errors;
+using MnestixCore.TemplateBuilder;
 using MnestixCore.IdGenerator.Interfaces;
 using MnestixCore.RepoProxyClient.Interfaces;
 using MnestixCore.Shared;
@@ -99,6 +100,19 @@ public class AasGenerator : IAasGenerator
                         Qualifier = e.Context?.Qualifier.ToString(Formatting.None),
                         QualifierPath = e.Context?.Qualifier.Path
                     },
+                    DebugInfo = debug ? new AasGeneratorDebugInfo { Logs = workflowLogger.Logs } : null
+                };
+            }
+            catch (BlueprintValidationException e)
+            {
+                _logger.LogError(e, "Blueprint validation failed at generation-time. BlueprintId: {BlueprintId}", blueprintId);
+                return new AasGeneratorResult
+                {
+                    Success = false,
+                    BlueprintId = blueprintId,
+                    Message = "Blueprint validation failed. The blueprint may have been modified externally or was not migrated.",
+                    ValidationErrors = e.Errors,
+                    ErrorInfo = new AasGeneratorErrorInfo { Logs = workflowLogger.Logs },
                     DebugInfo = debug ? new AasGeneratorDebugInfo { Logs = workflowLogger.Logs } : null
                 };
             }

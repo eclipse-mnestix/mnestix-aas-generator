@@ -4,6 +4,7 @@ using MnestixCore.AasGenerator.Interfaces;
 using MnestixCore.Dtos.AppSettingsOptions;
 using MnestixCore.IdGenerator.Interfaces;
 using MnestixCore.RepoProxyClient.Interfaces;
+using MnestixCore.TemplateBuilder;
 using MnestixCore.TemplateBuilder.Interfaces;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
@@ -970,6 +971,73 @@ public class AasGeneratorTests
 
         var allLogs = string.Join("\n", first.DebugInfo.Logs!);
         allLogs.Should().Contain("template default for 'value' was overridden by mapped data");
+    }
+
+    #endregion
+
+    #region Blueprint Validation at Generation-Time Tests
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMLPMultiLanguageQualifier_OnProperty_ShouldFailWithValidationErrors()
+    {
+        await RunBlueprintValidationFailureTest("InputMLPMultiLanguageQualifier_OnProperty_Fails",
+            BlueprintValidationRule.FieldNotApplicableToModelType);
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMultiFieldInvalidField_ShouldFailWithValidationErrors()
+    {
+        await RunBlueprintValidationFailureTest("InputMultiFieldInvalidField",
+            BlueprintValidationRule.UnknownFieldName);
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMultiFieldTypeMismatch_ShouldFailWithValidationErrors()
+    {
+        await RunBlueprintValidationFailureTest("InputMultiFieldTypeMismatch",
+            BlueprintValidationRule.FieldNotApplicableToModelType);
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputWhitespaceOnlyExpression_ShouldFailWithValidationErrors()
+    {
+        await RunBlueprintValidationFailureTest("InputWhitespaceOnlyExpression_Fails",
+            BlueprintValidationRule.EmptyMappingExpression);
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputListWithMandatoryEmptyArray_ShouldFail()
+    {
+        await RunDataIngestFailureTest("InputListWithMandatoryEmptyArray");
+    }
+
+    private async Task RunBlueprintValidationFailureTest(string testCaseName, BlueprintValidationRule expectedRule)
+    {
+        // ARRANGE
+        var templateSubmodel = DataIngestTestFileProvider.GetTemplateSubmodel(testCaseName);
+        var templateData = DataIngestTestFileProvider.GetData(testCaseName);
+
+        var aasId = "TestAasId";
+        var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
+
+        _templateSubmodelsProviderMock
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .ReturnsAsync(templateSubmodel);
+
+        _idGeneratorMock
+            .Setup(x => x.GenerateSubmodelIdsAsync(It.IsAny<uint>()))
+            .ReturnsAsync(new List<string> { "TheNewSubmodelId" });
+
+        // ACT
+        var result = await _aasGenerator.AddDataToAasAsync(aasId, templateIds, templateData, "en");
+
+        // ASSERT
+        result.Should().NotBeNull();
+        result.Should().HaveCount(1);
+        var first = result.First();
+        first.Success.Should().BeFalse();
+        first.ValidationErrors.Should().NotBeNull();
+        first.ValidationErrors.Should().Contain(e => e.Rule == expectedRule);
     }
 
     #endregion

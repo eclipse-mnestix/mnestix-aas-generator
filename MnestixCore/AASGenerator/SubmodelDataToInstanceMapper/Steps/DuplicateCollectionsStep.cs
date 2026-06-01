@@ -129,7 +129,8 @@ public sealed class DuplicateCollectionsAasGeneratorPipelineStep : IPipelineStep
         
         if (isMandatory && collectionLength == 0)
         {
-            ctx.LogWarning($"Mandatory collection at path '{mappingPath}' has 0 elements in data");
+            throw new SubmodelDataToInstanceMapperException(
+                $"Mandatory collection at path '{mappingPath}' requires at least one element but data contains none.", ctx);
         }
 
         var listIdentifier = mappingPath.EndsWith("[*]") ? mappingPath.Substring(0, mappingPath.Length - 3) : mappingPath;

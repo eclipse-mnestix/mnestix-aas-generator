@@ -1,5 +1,6 @@
 ﻿using MnestixCore.AasGenerator.Interfaces;
 using MnestixCore.Dtos.AddDataToAas;
+using MnestixCore.TemplateBuilder;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -46,6 +47,20 @@ public class DataIngestController : ControllerBase
         {
             Results = results
         };
+
+        // At the beginning of the generation pipleine we validate the blueprint if it was uploaded
+        // If this validation fails, the blueprint either comes from an older AAS Generator version without the new validation rules or it was externally modified and is now in an invalid state. 
+        // We return a 500 Internal Server Error in this case, because the blueprint is not in a valid state for the AAS Generator to process it, even though the request itself is valid.
+        var validationErrors = results
+            .Where(r => r.ValidationErrors != null)
+            .SelectMany(r => r.ValidationErrors!)
+            .ToList();
+
+        if (validationErrors.Count > 0)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, new { errors = validationErrors, results = responseBody.Results });
+        }
+
         if (results.FirstOrDefault()?.Success == true)
         {
             return Ok(responseBody);
