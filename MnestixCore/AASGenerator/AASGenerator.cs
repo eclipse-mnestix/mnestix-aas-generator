@@ -60,6 +60,17 @@ public class AasGenerator : IAasGenerator
     /// <returns>Collection of results indicating success or failure for each processed blueprint.</returns>
     public async Task<IEnumerable<AasGeneratorResult>> AddDataToAasAsync(string base64EncodedAasId, IEnumerable<string> blueprintsIds, JObject data, string? language, bool debug = false, string? preamble = null)
     {
+        if (!IsBase64UrlSafe(base64EncodedAasId))
+        {
+            _logger.LogWarning("Invalid Base64UrlEncoded AAS ID received: {AasId}", base64EncodedAasId);
+            return blueprintsIds.Select(id => new AasGeneratorResult
+            {
+                Success = false,
+                BlueprintId = id,
+                Message = "The provided AAS ID is not a valid Base64 URL safe string."
+            });
+        }
+
         var blueprintsResults = blueprintsIds.Select(async blueprintId =>
         {
             var workflowLogger = new WorkflowLogger(_logger);
@@ -232,5 +243,18 @@ public class AasGenerator : IAasGenerator
             workflowLogger.LogError($"Submodel ID generation failed: {e.Message}");
             throw;
         }
+    }
+
+    private static bool IsBase64UrlSafe(string s)
+    {
+        if (string.IsNullOrWhiteSpace(s)) return false;
+        // Base64 URL safe allows A-Z, a-z, 0-9, -, _
+        // Padded = is usually stripped in URL safe, but let's be flexible
+        foreach (char c in s)
+        {
+            if (!char.IsLetterOrDigit(c) && c != '-' && c != '_' && c != '=')
+                return false;
+        }
+        return true;
     }
 }

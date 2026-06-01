@@ -10,13 +10,11 @@ namespace MnestixCore.AasGenerator.Pipelines.Steps;
 /// </summary>
 public sealed class ValidateBlueprintAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
 {
-    private static readonly BlueprintValidator Validator = new();
-
     public Task<DataMappingContext> ExecuteAsync(DataMappingContext ctx)
     {
         ctx.Log("Started ValidateBlueprintStep");
 
-        var errors = Validator.Validate(ctx.Blueprint);
+        var errors = ctx.BlueprintValidator.Validate(ctx.Blueprint);
         if (errors.Count > 0)
         {
             ctx.LogWarning($"Blueprint validation failed with {errors.Count} error(s)");
