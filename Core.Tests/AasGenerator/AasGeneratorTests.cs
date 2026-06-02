@@ -210,6 +210,18 @@ public class AasGeneratorTests
     }
 
     [Test]
+    public async Task AddDataToAasAsync_InputFileContentTypeMappedFromField_Success()
+    {
+        await RunDataIngestTest("InputFileContentTypeMappedFromField");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputFileContentTypeInferredFromUrl_Success()
+    {
+        await RunDataIngestTest("InputFileContentTypeInferredFromUrl");
+    }
+
+    [Test]
     public async Task AddDataToAasAsync_InputMultiFieldDisplayName_Success()
     {
         await RunDataIngestTest("InputMultiFieldDisplayName");

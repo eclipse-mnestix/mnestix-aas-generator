@@ -1,0 +1,45 @@
+{
+  "modelType": "Submodel",
+  "kind": "Template",
+  "id": "urn:smtemplate:DemoTemplate",
+  "idShort": "DemoTemplate",
+  "administration": {
+    "version": "1",
+    "revision": "0"
+  },
+  "qualifiers": [
+    {
+      "type": "displayName",
+      "value": "File ContentType from Data Field",
+      "valueType": "xs:string"
+    }
+  ],
+  "submodelElements": [
+    {
+      "modelType": "File",
+      "idShort": "ProductImage",
+      "value": "",
+      "contentType": "",
+      "qualifiers": [
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "value": "One",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/MappingInfo/value",
+          "value": "product.image.url",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/MappingInfo/contentType",
+          "value": "product.image.contentType",
+          "valueType": "xs:string"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "modelType": "Submodel",
+  "kind": "Instance",
+  "id": "TheNewSubmodelId",
+  "idShort": "DemoTemplate",
+  "administration": {
+    "version": "1",
+    "revision": "0"
+  },
+  "qualifiers": [],
+  "submodelElements": [
+    {
+      "modelType": "File",
+      "idShort": "CompanyLogo",
+      "value": "https://www.wildeboer.de/logo.svg",
+      "contentType": "image/svg+xml",
+      "qualifiers": [
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "value": "One",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/MappingInfo/value",
+          "value": "companyLogo",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/MappingInfo/contentType",
+          "value": "$lookup({\"svg\":\"image/svg+xml\",\"png\":\"image/png\",\"jpg\":\"image/jpeg\",\"jpeg\":\"image/jpeg\",\"pdf\":\"application/pdf\"}, $split($split(companyLogo,'?')[0], '.')[-1])",
+          "valueType": "xs:string"
+        }
+      ]
+    }
+  ]
+}

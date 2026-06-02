@@ -17,8 +17,8 @@ public static class FieldMappingRules
         {
             ["Property"] = new HashSet<string> { "value", "idShort", "displayName" },
             ["MultiLanguageProperty"] = new HashSet<string> { "value", "idShort", "displayName", "multiLanguage" },
-            ["Blob"] = new HashSet<string> { "value", "idShort", "displayName" },
-            ["File"] = new HashSet<string> { "value", "idShort", "displayName" },
+            ["Blob"] = new HashSet<string> { "value", "idShort", "displayName", "contentType" },
+            ["File"] = new HashSet<string> { "value", "idShort", "displayName", "contentType" },
             ["Entity"] = new HashSet<string> { "idShort", "displayName", "globalAssetId", "entityType" },
             ["RelationshipElement"] = new HashSet<string> { "idShort", "displayName", "first", "second" },
             ["AnnotatedRelationshipElement"] = new HashSet<string> { "idShort", "displayName", "first", "second" },
