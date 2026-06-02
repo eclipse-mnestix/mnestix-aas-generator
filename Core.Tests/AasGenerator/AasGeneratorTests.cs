@@ -1041,4 +1041,137 @@ public class AasGeneratorTests
     }
 
     #endregion
+
+    #region Base64UrlSafe Validation Tests
+
+    [TestCase("dGVzdEFhc0lk", Description = "Standard base64url (no special chars)")]
+    [TestCase("abc-def_ghi", Description = "Base64url with dash and underscore")]
+    [TestCase("YWJjMTIz", Description = "Alphanumeric only")]
+    [TestCase("padding==", Description = "With padding characters")]
+    public async Task AddDataToAasAsync_ValidBase64UrlSafeId_DoesNotRejectInput(string aasId)
+    {
+        // ARRANGE
+        var templateSubmodel = DataIngestTestFileProvider.GetTemplateSubmodel("MandatoryAndOptionalField");
+        var templateData = DataIngestTestFileProvider.GetData("MandatoryAndOptionalField");
+        var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
+
+        _templateSubmodelsProviderMock
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .ReturnsAsync(templateSubmodel);
+
+        _repoProxyClientMock
+            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync("created");
+
+        // ACT
+        var result = await _aasGenerator.AddDataToAasAsync(aasId, templateIds, templateData, "en");
+
+        // ASSERT
+        var first = result.First();
+        first.Message.Should().NotBe("The provided AAS ID is not a valid Base64 URL safe string.");
+    }
+
+    [TestCase("", Description = "Empty string")]
+    [TestCase("   ", Description = "Whitespace only")]
+    [TestCase("abc+def", Description = "Contains + (standard base64, not url-safe)")]
+    [TestCase("abc/def", Description = "Contains / (standard base64, not url-safe)")]
+    [TestCase("abc def", Description = "Contains space")]
+    [TestCase("abc!def", Description = "Contains exclamation mark")]
+    [TestCase("abc@def", Description = "Contains @")]
+    [TestCase("abc#def", Description = "Contains #")]
+    public async Task AddDataToAasAsync_InvalidBase64UrlSafeId_ReturnsFailureForAllBlueprints(string aasId)
+    {
+        // ARRANGE
+        var templateIds = new List<string> { "blueprint1", "blueprint2" };
+        var templateData = new JObject();
+
+        // ACT
+        var results = (await _aasGenerator.AddDataToAasAsync(aasId, templateIds, templateData, "en")).ToList();
+
+        // ASSERT
+        results.Should().HaveCount(2);
+        results.Should().AllSatisfy(r =>
+        {
+            r.Success.Should().BeFalse();
+            r.Message.Should().Be("The provided AAS ID is not a valid Base64 URL safe string.");
+        });
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InvalidBase64UrlSafeId_ReturnsBlueprintIdsInResults()
+    {
+        // ARRANGE
+        var templateIds = new List<string> { "urn:blueprint:A", "urn:blueprint:B" };
+        var templateData = new JObject();
+
+        // ACT
+        var results = (await _aasGenerator.AddDataToAasAsync("invalid/id", templateIds, templateData, "en")).ToList();
+
+        // ASSERT
+        results.Select(r => r.BlueprintId).Should().BeEquivalentTo(templateIds);
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InvalidBase64UrlSafeId_DoesNotCallRepository()
+    {
+        // ARRANGE
+        var templateIds = new List<string> { "urn:blueprint:A" };
+        var templateData = new JObject();
+
+        // ACT
+        await _aasGenerator.AddDataToAasAsync("invalid+id", templateIds, templateData, "en");
+
+        // ASSERT
+        _repoProxyClientMock.Verify(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        _templateSubmodelsProviderMock.Verify(x => x.GetBlueprintAsync(It.IsAny<string>()), Times.Never);
+    }
+
+    #endregion
+
+    #region IdShort Edge Case Tests
+
+    [Test]
+    public async Task AddDataToAasAsync_InputIdShortEmptyString_FallsBackToModelType()
+    {
+        // When the mapped value resolves to an empty string, the assigner should log a warning
+        // and fall back to using the element's modelType as idShort.
+        // NOTE: for the edge case where this leads to two SMEs having the same idShort in the
+        // same scope (e.g. two Entities both getting "Entity"), we rely on BaSyx rejecting the
+        // submodel at POST time (AASd-022 unique idShort constraint).
+
+        // ARRANGE
+        var templateSubmodel = DataIngestTestFileProvider.GetTemplateSubmodel("InputIdShortEmptyString");
+        var templateData = DataIngestTestFileProvider.GetData("InputIdShortEmptyString");
+        var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
+
+        string? capturedSubmodelContent = null;
+
+        _repoProxyClientMock
+            .Setup(x => x.PostAsync(It.Is<string>(path => path == TestSubmodelPath), It.IsAny<string>()))
+            .Callback<string, string>((_, content) => capturedSubmodelContent = content)
+            .ReturnsAsync("created");
+
+        _repoProxyClientMock
+            .Setup(x => x.PostAsync(It.Is<string>(path => path.Contains("submodel-refs")), It.IsAny<string>()))
+            .ReturnsAsync("created");
+
+        _templateSubmodelsProviderMock
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .ReturnsAsync(templateSubmodel);
+
+        // ACT
+        var result = await _aasGenerator.AddDataToAasAsync(TestBase64EncodedAasId, templateIds, templateData, "en");
+
+        // ASSERT
+        var first = result.First();
+        first.Success.Should().BeTrue();
+
+        capturedSubmodelContent.Should().NotBeNull();
+        var actualSubmodel = JObject.Parse(capturedSubmodelContent!);
+        var entityIdShort = actualSubmodel.SelectToken("$.submodelElements[0].idShort")?.Value<string>();
+
+        entityIdShort.Should().Be("Entity", "empty idShort should fall back to the element's modelType");
+    }
+
+    #endregion
 }

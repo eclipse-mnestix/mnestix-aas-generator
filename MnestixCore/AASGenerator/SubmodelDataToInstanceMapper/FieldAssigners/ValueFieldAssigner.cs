@@ -46,11 +46,11 @@ public sealed class ValueFieldAssigner : FieldAssignerBase
 
         ValidateValueType(element, resolvedValue, ctx);
 
-        WarnIfOverridingDefault(element, "value", ctx);
-        element["value"] = resolvedValue.DeepClone();
+        WarnIfOverridingDefault(element, this.FieldName, ctx);
+        element[this.FieldName] = resolvedValue.DeepClone();
     }
 
-    private static void AssignMultiLanguagePropertyValue(JToken element, JToken resolvedValue, string? language, DataMappingContext ctx)
+    private void AssignMultiLanguagePropertyValue(JToken element, JToken resolvedValue, string? language, DataMappingContext ctx)
     {
         if (string.IsNullOrEmpty(language))
         {
@@ -64,8 +64,8 @@ public sealed class ValueFieldAssigner : FieldAssignerBase
                 $"MultiLanguageProperty expects a string, number, boolean, or null value, but got {resolvedValue.Type}", ctx);
         }
 
-        WarnIfOverridingDefault(element, "value", ctx);
-        element["value"] = new JArray
+        WarnIfOverridingDefault(element, this.FieldName, ctx);
+        element[this.FieldName] = new JArray
         {
             new JObject
             {

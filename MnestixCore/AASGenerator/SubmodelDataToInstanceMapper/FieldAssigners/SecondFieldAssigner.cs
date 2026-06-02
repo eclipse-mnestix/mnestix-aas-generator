@@ -15,10 +15,10 @@ public sealed class SecondFieldAssigner : FieldAssignerBase
         if (resolvedValue is not JObject refObj)
         {
             throw new SubmodelDataToInstanceMapperException(
-                $"Field 'second' requires a JSON object (AAS Reference), but got {resolvedValue.Type}", ctx);
+                $"Field '{this.FieldName}' requires a JSON object (AAS Reference), but got {resolvedValue.Type}", ctx);
         }
 
-        WarnIfOverridingDefault(element, "second", ctx);
-        element["second"] = refObj;
+        WarnIfOverridingDefault(element, this.FieldName, ctx);
+        element[this.FieldName] = refObj;
     }
 }

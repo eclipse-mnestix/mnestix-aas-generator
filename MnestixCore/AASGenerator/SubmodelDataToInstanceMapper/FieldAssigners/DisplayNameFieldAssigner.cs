@@ -11,11 +11,18 @@ public sealed class DisplayNameFieldAssigner : FieldAssignerBase
 
     public override void Assign(JToken element, JToken resolvedValue, string modelType, string? language, DataMappingContext ctx)
     {
-        var displayNameArray = element["displayName"] as JArray;
+        if (language == null)
+        {
+            var idShort = element["idShort"]?.Value<string>() ?? "(unknown)";
+            ctx.LogWarning($"Element '{idShort}': skipping 'displayName' assignment because no language is specified");
+            return;
+        }
+
+        var displayNameArray = element[this.FieldName] as JArray;
         if (displayNameArray == null)
         {
             displayNameArray = new JArray();
-            element["displayName"] = displayNameArray;
+            element[this.FieldName] = displayNameArray;
         }
 
         var langEntry = displayNameArray.FirstOrDefault(e => e["language"]?.Value<string>() == language);

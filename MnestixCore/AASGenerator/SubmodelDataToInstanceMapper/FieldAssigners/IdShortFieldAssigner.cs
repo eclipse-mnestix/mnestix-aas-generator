@@ -20,12 +20,17 @@ public sealed class IdShortFieldAssigner : FieldAssignerBase
             sanitized = "i" + sanitized;
         }
 
-        if (sanitized != value)
+        if (string.IsNullOrEmpty(sanitized))
         {
-            ctx.LogWarning($"idShort value '{value}' was sanitized to '{sanitized}'");
+            sanitized = modelType;
+            ctx.LogWarning($"{this.FieldName} resolved to empty string, falling back to modelType '{modelType}' as idShort");
+        }
+        else if (sanitized != value)
+        {
+            ctx.LogWarning($"{this.FieldName} value '{value}' was sanitized to '{sanitized}'");
         }
 
-        WarnIfOverridingDefault(element, "idShort", ctx);
-        element["idShort"] = sanitized;
+        WarnIfOverridingDefault(element, this.FieldName, ctx);
+        element[this.FieldName] = sanitized;
     }
 }
