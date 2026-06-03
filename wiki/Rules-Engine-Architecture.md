@@ -25,19 +25,52 @@ The AAS Generator solves the Industry 4.0 challenge of transforming existing str
 - **Pipeline Steps**: Individual transformation operations (6 steps)
 
 ### Pipeline Processing Architecture
-Uses Pipes-and-Filters pattern (`MnestixCore/Shared/Pipeline/`) with 6 sequential steps:
+Uses Pipes-and-Filters pattern (`MnestixCore/Shared/Pipeline/`) with 10 sequential steps:
 
-1. **DeepCloneTemplate** - Creates working copy (`DeepCloneTemplateStep.cs:15`)
-2. **SetKindInstance** - Changes Template to Instance (`SetKindInstanceStep.cs:12`) 
-3. **DuplicateCollections** - Processes arrays/lists (`DuplicateCollectionsStep.cs:25`)
-4. **FilterElements** - Removes elements failing filter conditions (`FilterElementsStep.cs:15`)
-5. **MapDataToInstance** - Maps JSON data to elements using Jsonata expressions (`MapDataToInstanceStep.cs:20`)
-6. **RemoveTopLevelQualifiers** - Cleans template metadata (`RemoveTopLevelQualifiersStep.cs:18`)
-7. **ReplaceIdentification** - Assigns new Submodel ID (`ReplaceIdentificationStep.cs:14`)
+1. **ValidateBlueprint** - Runs the shared `BlueprintValidator` against the blueprint; aborts early with structured errors if validation fails (defense-in-depth for blueprints imported outside the API)
+2. **DeepCloneBlueprint** - Creates a working copy of the blueprint so the original is never mutated
+3. **SetKindInstance** - Changes `kind` from `Template` to `Instance`
+4. **DuplicateCollections** - Expands `SMT/CollectionMappingInfo` qualifiers (replicates child elements for each array item)
+5. **FilterElements** - Evaluates `SMT/FilterMappingInfo` Jsonata boolean expressions and removes elements that fail
+6. **DiscoverMappingDescriptors** - Finds all `SMT/MappingInfo` qualifiers, parses field names, resolves cardinality, and builds a `MappingDescriptor` list for downstream steps
+7. **ResolveMappingExpressions** - Evaluates each descriptor's JSONata expression against the data; enforces mandatory cardinality; populates `ResolvedMappings`
+8. **AssignMappedFields** - Iterates resolved mappings and delegates to the `FieldAssignerRegistry` (see Field Assigners below); logs a warning when template defaults are overridden
+9. **RemoveTopLevelQualifiers** - Strips template-only qualifiers (`SMT/…`) from the generated instance
+10. **ReplaceIdentification** - Assigns the new Submodel ID to the instance
 
-**Context Object**: `SubmodelMappingContext` carries immutable inputs and mutable state through all steps
+**Context Object**: `DataMappingContext` carries immutable inputs (blueprint, data, language, submodel ID) and mutable state (MappingDescriptors, ResolvedMappings, SubmodelInstance) through all steps
 
-**Extensibility**: New rule types implement `IPipelineStep<TContext>` and register in `PipelineBuilder`
+**Extensibility**: New rule types implement `IPipelineStep<DataMappingContext>` and register in `PipelineBuilder`
+
+### DataMappingContext
+
+The context object (`DataMappingContext`) is the single shared state that flows through all pipeline steps. It separates immutable inputs from mutable working state:
+
+**Immutable inputs (set at construction):**
+| Field | Type | Purpose |
+|-------|------|---------|
+| `Blueprint` | `JObject` | The original blueprint template (never mutated) |
+| `Data` | `JObject` | The user-provided JSON payload |
+| `Language` | `string?` | Language code for MLP value mappings (e.g. `"en"`) |
+| `NewSubmodelId` | `string` | ID assigned to the generated instance |
+| `BlueprintValidator` | `IBlueprintValidator` | Shared validator for defense-in-depth checks |
+
+**Mutable state (populated by pipeline steps):**
+| Field | Type | Written by |
+|-------|------|------------|
+| `SubmodelInstance` | `JObject` | DeepCloneBlueprint (initial), then mutated by all downstream steps |
+| `MappingDescriptors` | `List<MappingDescriptor>` | DiscoverMappingDescriptors |
+| `ResolvedMappings` | `List<ResolvedMapping>` | ResolveMappingExpressions |
+| `Qualifier` | `JToken` | Updated by steps to track the currently processed qualifier (for error context) |
+
+**Logging:**
+- `Log(message)` / `LogInfo(message)` — appends an INFO entry
+- `LogWarning(message)` — appends a WARNING entry
+- `Logs` — accumulated log trail (shared with the `WorkflowLogger`)
+
+**Supporting types:**
+- `MappingDescriptor` — describes a single discovered qualifier: the target element, field name, JSONata expression, cardinality (mandatory/optional), model type, and the original qualifier token
+- `ResolvedMapping` — pairs a descriptor with its evaluated `JToken?` result (null = not found in data)
 
 ### Pipeline Pattern Implementation
 
@@ -56,15 +89,31 @@ Template Input → [Step1] → [Step2] → [Step3] → ... → [StepN] → Submo
 - Robust error handling with context preservation
 - Individually testable components
 
-**Pipeline Builder Pattern**: Steps registered fluently in `SubmodelDataToInstanceMapper.cs:10-17`
+**Pipeline Builder Pattern**: Steps registered fluently in `DataMapper.cs`
+
+### Field Assigners
+
+Step 8 (AssignMappedFields) delegates value assignment to specialized `FieldAssignerBase` subclasses via `FieldAssignerRegistry`:
+
+| Assigner | Field | Behaviour |
+|----------|-------|-----------|
+| `ValueFieldAssigner` | `value` | Model-type-aware: MLP scalar→lang array (requires language param); Property/Blob/File validates valueType conformance |
+| `MultiLanguageFieldAssigner` | `multiLanguage` | Expects `JObject` with language keys; produces lang array |
+| `IdShortFieldAssigner` | `idShort` | Sanitizes to AAS v3 pattern `[a-zA-Z][a-zA-Z0-9_]*` |
+| `DisplayNameFieldAssigner` | `displayName` | Find-or-add by language in the displayName array |
+| `FirstFieldAssigner` | `first` | AAS Reference object for RelationshipElement |
+| `SecondFieldAssigner` | `second` | AAS Reference object for RelationshipElement |
+| `DefaultFieldAssigner` | _(any other)_ | Fallback: `element[field] = value.ToString()` |
+
+All assigners log a **warning** when the target field already holds a non-empty template default that is being overridden by mapped data. This gives visibility into cases where partial defaults are silently replaced.
 
 ### Data Flow Through Pipeline
 
-1. **Input**: Template (JObject), Data (JObject), Language (string), NewSubmodelId (string)
-2. **Context Creation**: `SubmodelMappingContext` initialized with inputs
+1. **Input**: Blueprint (JObject), Data (JObject), Language (string), NewSubmodelId (string), WorkflowLogger
+2. **Context Creation**: `DataMappingContext` initialized with inputs and shared `BlueprintValidator`
 3. **Sequential Processing**: Each step modifies context and passes to next
-4. **Output**: Generated Submodel instance in context.SubmodelInstance
-5. **Error Handling**: Pipeline halts on first error, preserves full context
+4. **Output**: Generated Submodel instance in `context.SubmodelInstance`
+5. **Error Handling**: Pipeline halts on first error, preserves full context and logs up to the failure point
 
 ## Rule System
 
@@ -94,15 +143,14 @@ Rules are stored as Template Qualifiers directly within AAS Submodel templates.
   - Numeric conversion: `"value": "$string(quantity)"` converts number to string
   - Boolean expression: `"value": "car.price > 1000"` returns true/false
   - Chained operations: `"value": "car.email ~> $substringAfter('@')"` extracts domain
-**Implementation**: `MapDataToInstanceStep.cs:45-78` (uses Jsonata.Net.Native library)  
+**Implementation**: `ResolveMappingExpressionsStep` + `AssignMappedFieldsStep` (uses Jsonata.Net.Native library)  
 **Jsonata Reference**: See [Blueprint and Rules](Blueprint-and-Rules#jsonata-expressions-in-mapping-rules) for complete function list
 
 ### 3. Collection Rules (List/Array Processing)
 **Purpose**: Duplicate elements for each array item  
 **Qualifier**: `SMT/CollectionMappingInfo`  
 **Example**: `"value": "car.contacts[*]"` creates N elements for N contacts  
-**Algorithm**: Recursive processing, shallowest-first, replaces `[*]` with indices  
-**Implementation**: `DuplicateCollectionsStep.cs:35-120` (see algorithm comments)  
+**Implementation**: `DuplicateCollectionsStep.cs` (see algorithm comments)  
 **Result**: `contactPerson_0`, `contactPerson_1`, etc. with mapped child values
 
 ### 4. Filter Rules (Conditional Creation)
@@ -110,14 +158,14 @@ Rules are stored as Template Qualifiers directly within AAS Submodel templates.
 **Qualifier**: `SMT/FilterMappingInfo`  
 **Status**: ✅ **Implemented** - Uses Jsonata boolean expressions  
 **Example**: `"value": "car.engineType = 'electric'"` creates element only for electric cars  
-**Implementation**: `FilterElementsStep.cs:15-95`  
+**Implementation**: `FilterElementsStep.cs`  
 **Syntax**: Supports Jsonata boolean operators (=, !=, >, <, >=, <=, and, or, in)
 
 ### 5. Cardinality Rules (Optional/Mandatory)
 **Purpose**: Define behavior when referenced data is missing  
 **Qualifier**: `SMT/Cardinality`  
 **Values**: `"One"` (mandatory, throws error) | `"ZeroToOne"` (optional, empty value)  
-**Implementation**: Checked in `MapDataToInstanceStep.cs:65-72`
+**Implementation**: Checked in `ResolveMappingExpressionsStep` (mandatory → exception, optional → warning + skip)
 
 ## Path Expressions
 JSONata-style syntax:
@@ -205,8 +253,10 @@ Input: `"email": "user@example.com"` → Output: `true`
 Element created only if both conditions are true
 
 ## Error Handling
-- **Missing mandatory data**: `SubmodelDataToInstanceMapperException` with context (`SubmodelMappingContext.cs:24`)
-- **Missing optional data**: Empty value assignment
+- **Blueprint validation failure**: `BlueprintValidationException` with list of `BlueprintValidationError` (structured, all issues reported)
+- **Missing mandatory data**: `SubmodelDataToInstanceMapperException` with context
+- **Missing optional data**: Warning logged, field skipped
+- **ValueType mismatch**: `SubmodelDataToInstanceMapperException` with expected vs actual type
 - **Structured errors**: Include qualifier, path, and processing context
 
 ## Workflow Logging
@@ -255,8 +305,8 @@ Each phase of `AddDataToAasAsync` is instrumented:
 
 ## Current Limitations
 1. **SubmodelElementList**: Partial support  
-2. **MultiLanguageProperty**: Single language only per generation call
-3. **Template Qualifiers**: Not fully removed from instances
+2. **MultiLanguageProperty**: Single language per call when using `SMT/MappingInfo/value`; use `SMT/MappingInfo/multiLanguage` for multi-language in one call
+3. **Default override semantics**: When mapped data is provided, it fully replaces any template default value — partial merges are not supported (e.g. template default `[{en:"Default"}]` + data `{de:"Nur Deutsch"}` → result `[{de:"Nur Deutsch"}]` only). A warning is logged when this happens.
 4. **Complex expressions**: Advanced Jsonata features (aggregation, conditionals) not fully supported
 
 ## Usage Example
@@ -279,13 +329,11 @@ POST /api/v1/DataIngest
 ### Template Creation
 Templates are AAS Submodels with `kind: "Template"` and embedded Template Qualifiers. Created via Template Builder UI or direct API.
 
-### Drawbacks with MultiLanguageProperties
+### MultiLanguageProperty Behaviour
 
-_If you move this file or change this section, please also update the comment in `MnestixCore/AASGenerator/SubmodelDataToInstanceMapper/Steps/MapDataToInstanceStep.cs`_
+Two mapping approaches are supported:
 
-The current implementation supports the creation of data in MLP, however only one language can be used at a time which makes the feature kind of useless in my opinion. We either need to allow the editing of existing SubModels so multiple Generation calls can be done (one for each language) or change the logic so multiple languages can be created at the same time. 
+1. **`SMT/MappingInfo/multiLanguage`** (recommended) — maps a JSON object with language keys (e.g. `{"en": "Hello", "de": "Hallo"}`) to a full lang array in one call. No `language` request parameter needed.
+2. **`SMT/MappingInfo/value`** (legacy) — maps a scalar and wraps it with the `language` parameter from the API request. Only one language per generation call.
 
-Ideas:
-
-- treating the different languages as properties in a collection.
-- creating a new Qualifer-Type and enforcing a certain structure (e.g. `[{key: value}*]` with key being based on [BCP 47 language tags](https://en.wikipedia.org/wiki/IETF_language_tag))
+**Override semantics**: When mapped data is provided, the entire `element["value"]` array is replaced — any pre-existing template default entries are dropped. A warning is logged when a non-empty default is overridden. This is intentional: templates that rely on partial defaults should be aware that providing *any* data replaces *all* defaults.

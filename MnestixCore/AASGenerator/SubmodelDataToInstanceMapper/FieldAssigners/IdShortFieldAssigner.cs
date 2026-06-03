@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using MnestixCore.Errors;
 using Newtonsoft.Json.Linq;
 
 namespace MnestixCore.AasGenerator.Pipelines.FieldAssigners;
@@ -20,12 +21,17 @@ public sealed class IdShortFieldAssigner : FieldAssignerBase
             sanitized = "i" + sanitized;
         }
 
-        if (sanitized != value)
+        if (string.IsNullOrEmpty(sanitized))
         {
-            ctx.LogWarning($"idShort value '{value}' was sanitized to '{sanitized}'");
+            throw new SubmodelDataToInstanceMapperException(
+                $"'{this.FieldName}' value '{value}' cannot be sanitized to a valid idShort (must contain at least one letter or digit)", ctx);
+        }
+        else if (sanitized != value)
+        {
+            ctx.LogWarning($"{this.FieldName} value '{value}' was sanitized to '{sanitized}'");
         }
 
-        WarnIfOverridingDefault(element, "idShort", ctx);
-        element["idShort"] = sanitized;
+        WarnIfOverridingDefault(element, this.FieldName, ctx);
+        element[this.FieldName] = sanitized;
     }
 }
