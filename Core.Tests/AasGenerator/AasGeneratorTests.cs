@@ -1131,46 +1131,9 @@ public class AasGeneratorTests
     #region IdShort Edge Case Tests
 
     [Test]
-    public async Task AddDataToAasAsync_InputIdShortEmptyString_FallsBackToModelType()
+    public async Task AddDataToAasAsync_InputIdShortEmptyString_ShouldFail()
     {
-        // When the mapped value resolves to an empty string, the assigner should log a warning
-        // and fall back to using the element's modelType as idShort.
-        // NOTE: for the edge case where this leads to two SMEs having the same idShort in the
-        // same scope (e.g. two Entities both getting "Entity"), we rely on BaSyx rejecting the
-        // submodel at POST time (AASd-022 unique idShort constraint).
-
-        // ARRANGE
-        var templateSubmodel = DataIngestTestFileProvider.GetTemplateSubmodel("InputIdShortEmptyString");
-        var templateData = DataIngestTestFileProvider.GetData("InputIdShortEmptyString");
-        var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
-
-        string? capturedSubmodelContent = null;
-
-        _repoProxyClientMock
-            .Setup(x => x.PostAsync(It.Is<string>(path => path == TestSubmodelPath), It.IsAny<string>()))
-            .Callback<string, string>((_, content) => capturedSubmodelContent = content)
-            .ReturnsAsync("created");
-
-        _repoProxyClientMock
-            .Setup(x => x.PostAsync(It.Is<string>(path => path.Contains("submodel-refs")), It.IsAny<string>()))
-            .ReturnsAsync("created");
-
-        _templateSubmodelsProviderMock
-            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
-            .ReturnsAsync(templateSubmodel);
-
-        // ACT
-        var result = await _aasGenerator.AddDataToAasAsync(TestBase64EncodedAasId, templateIds, templateData, "en");
-
-        // ASSERT
-        var first = result.First();
-        first.Success.Should().BeTrue();
-
-        capturedSubmodelContent.Should().NotBeNull();
-        var actualSubmodel = JObject.Parse(capturedSubmodelContent!);
-        var entityIdShort = actualSubmodel.SelectToken("$.submodelElements[0].idShort")?.Value<string>();
-
-        entityIdShort.Should().Be("Entity", "empty idShort should fall back to the element's modelType");
+        await RunDataIngestFailureTest("InputIdShortEmptyString");
     }
 
     #endregion
