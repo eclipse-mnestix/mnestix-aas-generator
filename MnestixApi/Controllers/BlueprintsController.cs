@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
 using MnestixApi.Controllers.deprecated;
 using MnestixCore.Errors;
+using MnestixCore.TemplateBuilder;
 using MnestixCore.TemplateBuilder.Interfaces;
+using Newtonsoft.Json.Linq;
 
 namespace MnestixApi.Controllers;
 
@@ -19,19 +21,22 @@ namespace MnestixApi.Controllers;
 [RequiredScope("admin.write")]
 public class BlueprintsController : ControllerBase
 {
-    private readonly ILogger<CustomTemplatesController> _logger;
+    private readonly ILogger<BlueprintsController> _logger;
     private readonly IBlueprintProvider _customTemplateSubmodelsProvider;
     private readonly IBlueprintCreator _customTemplateSubmodelCreator;
+    private readonly IBlueprintValidator _blueprintValidator;
 
 
     /// <inheritdoc />
-    public BlueprintsController(ILogger<CustomTemplatesController> logger,
+    public BlueprintsController(ILogger<BlueprintsController> logger,
         IBlueprintCreator customTemplateSubmodelCreator,
-        IBlueprintProvider customTemplateSubmodelsProvider)
+        IBlueprintProvider customTemplateSubmodelsProvider,
+        IBlueprintValidator blueprintValidator)
     {
         _logger = logger;
         _customTemplateSubmodelsProvider = customTemplateSubmodelsProvider;
         _customTemplateSubmodelCreator = customTemplateSubmodelCreator;
+        _blueprintValidator = blueprintValidator;
     }
 
     /// <summary>
@@ -92,6 +97,7 @@ public class BlueprintsController : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
     public async Task<ActionResult> CreateBlueprint([FromBody] object blueprint)
     {
         try
@@ -102,11 +108,28 @@ public class BlueprintsController : ControllerBase
 
             Debug.Assert(defaultSubmodelString != null, nameof(defaultSubmodelString) + " != null");
 
+            var json = JObject.Parse(defaultSubmodelString);
+            var validationErrors = _blueprintValidator.Validate(json);
+            if (validationErrors.Count > 0)
+            {
+                return UnprocessableEntity(new { errors = validationErrors });
+            }
+
             var submodelIdentifier =
                 await _customTemplateSubmodelCreator.CreateNewSubmodelInBlueprintAasAsync(defaultSubmodelString);
             _logger.LogInformation("... Custom submodel created. Return new submodelIdentifier {SubmodelIdentifier}",
                 submodelIdentifier);
             return Ok(submodelIdentifier);
+        }
+        catch (RepoProxyException ex) when (ex.StatusCode.HasValue)
+        {
+            _logger.LogError(ex, "Repository rejected blueprint. Status: {StatusCode}, Body: {Body}", ex.StatusCode, ex.ResponseBody);
+            return new ContentResult
+            {
+                StatusCode = (int)ex.StatusCode.Value,
+                Content = ex.ResponseBody,
+                ContentType = "application/json"
+            };
         }
         catch (Exception e)
         {
@@ -123,6 +146,7 @@ public class BlueprintsController : ControllerBase
     [HttpPost("{submodelId}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
     public async Task<ActionResult> UpdateBlueprint([FromBody] object blueprint,
         [FromRoute] string submodelId)
     {
@@ -134,10 +158,27 @@ public class BlueprintsController : ControllerBase
 
             Debug.Assert(blueprintAsString != null, nameof(blueprintAsString) + " != null");
 
+            var json = JObject.Parse(blueprintAsString);
+            var validationErrors = _blueprintValidator.Validate(json);
+            if (validationErrors.Count > 0)
+            {
+                return UnprocessableEntity(new { errors = validationErrors });
+            }
+
             await _customTemplateSubmodelCreator.UpdateSubmodelInBlueprintAasAsync(blueprintAsString,
                 submodelId);
             _logger.LogInformation("... blueprint updated");
             return NoContent();
+        }
+        catch (RepoProxyException ex) when (ex.StatusCode.HasValue)
+        {
+            _logger.LogError(ex, "Repository rejected blueprint update. Status: {StatusCode}, Body: {Body}", ex.StatusCode, ex.ResponseBody);
+            return new ContentResult
+            {
+                StatusCode = (int)ex.StatusCode.Value,
+                Content = ex.ResponseBody,
+                ContentType = "application/json"
+            };
         }
         catch (Exception e)
         {

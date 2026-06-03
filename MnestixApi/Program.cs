@@ -110,6 +110,7 @@ namespace MnestixApi
             builder.Services.AddTransient<IBlueprintCreator, BlueprintCreator>();
             builder.Services.AddTransient<ITemplateProvider, TemplateProvider>();
             builder.Services.AddTransient<IBlueprintProvider, BlueprintProvider>();
+            builder.Services.AddTransient<IBlueprintValidator, BlueprintValidator>();
             builder.Services.AddTransient<ITemplateCreator, TemplateCreator>();
 
             // AasGenerator

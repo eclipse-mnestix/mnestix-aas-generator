@@ -269,7 +269,7 @@ Blueprint not found or invalid ID.
 
 ### Create Blueprint
 
-Creates a new blueprint from a Submodel template.
+Creates a new blueprint from a Submodel template. The blueprint is validated before being stored — if structural errors are detected, a `422 Unprocessable Entity` response is returned listing all issues.
 
 ```http
 POST /api/v2/Blueprints
@@ -310,9 +310,34 @@ A complete Submodel JSON object with `kind: "Template"` and embedded Template Qu
 
 Returns the identifier of the newly created blueprint.
 
+**Validation Error (422 Unprocessable Entity)**
+
+Returned when the blueprint contains structural errors that would cause generation failures. All detected issues are returned at once.
+
+```json
+{
+  "errors": [
+    {
+      "rule": "UnknownFieldName",
+      "path": "ContactInformation > ContactName",
+      "message": "Field 'foobar' is not a recognized mapping field. Allowed: value, idShort, displayName, multiLanguage, globalAssetId, entityType, first, second."
+    },
+    {
+      "rule": "InvalidJsonataSyntax",
+      "path": "ContactInformation > Email",
+      "message": "Invalid JSONata syntax: Expected ']' at position 6."
+    }
+  ]
+}
+```
+
+**Repository Error (4xx)**
+
+If validation passes but the BaSyx repository rejects the blueprint, the original status code and response body from the repository are relayed as-is.
+
 ### Update Blueprint
 
-Updates an existing blueprint.
+Updates an existing blueprint. The same validation rules apply as for creation.
 
 ```http
 POST /api/v2/Blueprints/{submodelId}
@@ -331,6 +356,10 @@ The updated blueprint Submodel as JSON.
 #### Response
 
 **Success (204 No Content)**
+
+**Validation Error (422 Unprocessable Entity)**
+
+Same format as Create Blueprint validation errors.
 
 ### Delete Blueprint
 
@@ -606,6 +635,10 @@ See [Blueprint and Rules](Blueprint-and-Rules#jsonata-expressions-in-mapping-rul
 |-------|----------|
 | `One` | Mandatory - throws error if data is missing |
 | `ZeroToOne` | Optional - sets empty value if data is missing |
+| `OneToMany` | Mandatory collection - at least one item required |
+| `ZeroToMany` | Optional collection - empty array is allowed |
+
+> **Note**: Cardinality values are case-sensitive and validated at blueprint save time. Invalid values (e.g. `"one"`, `"Optional"`) will be rejected with a `422` response.
 
 ---
 
@@ -621,9 +654,28 @@ All endpoints return standard HTTP status codes:
 | 401 Unauthorized | Missing or invalid authentication |
 | 403 Forbidden | Insufficient permissions |
 | 404 Not Found | Resource not found |
+| 422 Unprocessable Entity | Blueprint validation failed (structural errors detected) |
 | 500 Internal Server Error | Server-side error |
 
-### Error Response Format
+### Validation Error Response Format (422)
+
+Returned by the Blueprint Create/Update endpoints when structural issues are detected:
+
+```json
+{
+  "errors": [
+    {
+      "rule": "InvalidQualifierSegmentCount",
+      "path": "Nameplate > SerialNumber",
+      "message": "Qualifier type 'SMT/MappingInfo/value/extra' has 4 segments; expected at most 3."
+    }
+  ]
+}
+```
+
+The `rule` field is a machine-readable enum. The `path` field uses the idShort breadcrumb trail of the element (e.g. `ParentCollection > ChildElement`), falling back to JSON pointer notation if idShort is unavailable.
+
+### Standard Error Response Format
 
 ```json
 {

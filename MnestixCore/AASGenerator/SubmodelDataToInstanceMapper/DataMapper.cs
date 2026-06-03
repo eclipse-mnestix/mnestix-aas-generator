@@ -1,6 +1,7 @@
 using MnestixCore.AasGenerator.Interfaces;
 using MnestixCore.AasGenerator.Pipelines;
 using MnestixCore.AasGenerator.Pipelines.Steps;
+using MnestixCore.TemplateBuilder;
 using Newtonsoft.Json.Linq;
 
 namespace MnestixCore.AasGenerator;
@@ -14,6 +15,13 @@ namespace MnestixCore.AasGenerator;
 /// </remarks>
 public sealed class DataMapper : IDataMapper
 {
+    private readonly IBlueprintValidator _blueprintValidator;
+
+    public DataMapper(IBlueprintValidator blueprintValidator)
+    {
+        _blueprintValidator = blueprintValidator;
+    }
+
     /// <summary>
     /// Builds and executes the mapping pipeline to create a submodel instance from the incoming data payload.
     /// </summary>
@@ -25,15 +33,18 @@ public sealed class DataMapper : IDataMapper
     /// <returns>Tuple containing the newly created submodel and the context.</returns>
     public (JObject Instance, DataMappingContext Context) CreateSubmodelInstanceFromDataJson(JObject blueprint, JObject data, string? language, string newSubmodelId, WorkflowLogger workflowLogger)
     {
-        var context = new DataMappingContext(blueprint, data, language, newSubmodelId, workflowLogger);
+        var context = new DataMappingContext(blueprint, data, language, newSubmodelId, workflowLogger, _blueprintValidator);
 
         // Build pipeline with all the steps in the correct order
         var pipeline = new Pipelines.Core.PipelineBuilder<DataMappingContext>()
+            .Use<ValidateBlueprintAasGeneratorPipelineStep>()
             .Use<DeepCloneBlueprintAasGeneratorPipelineStep>()
             .Use<SetKindInstanceAasGeneratorPipelineStep>()
             .Use<DuplicateCollectionsAasGeneratorPipelineStep>()
             .Use<FilterElementsAasGeneratorPipelineStep>()
-            .Use<MapDataToInstanceAasGeneratorPipelineStep>()
+            .Use<DiscoverMappingDescriptorsAasGeneratorPipelineStep>()
+            .Use<ResolveMappingExpressionsAasGeneratorPipelineStep>()
+            .Use<AssignMappedFieldsAasGeneratorPipelineStep>()
             .Use<RemoveTopLevelQualifiersAasGeneratorPipelineStep>()
             .Use<ReplaceIdentificationAasGeneratorPipelineStep>()
             .Build();

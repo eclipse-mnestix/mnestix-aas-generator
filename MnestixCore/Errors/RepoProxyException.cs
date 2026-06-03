@@ -1,8 +1,12 @@
-﻿namespace MnestixCore.Errors;
+﻿using System.Net;
+
+namespace MnestixCore.Errors;
 
 public class RepoProxyException : Exception
 {
     public ErrorCodes ErrorCode { get; }
+    public HttpStatusCode? StatusCode { get; }
+    public string? ResponseBody { get; }
 
     public RepoProxyException(ErrorCodes errorCode)
     {
@@ -19,5 +23,13 @@ public class RepoProxyException : Exception
         : base(message, inner)
     {
         ErrorCode = errorCode;
+    }
+
+    public RepoProxyException(ErrorCodes errorCode, string? message, HttpStatusCode statusCode, string? responseBody)
+        : base(message)
+    {
+        ErrorCode = errorCode;
+        StatusCode = statusCode;
+        ResponseBody = responseBody;
     }
 }

@@ -4,6 +4,7 @@ using MnestixCore.AasGenerator.Interfaces;
 using MnestixCore.Dtos.AppSettingsOptions;
 using MnestixCore.IdGenerator.Interfaces;
 using MnestixCore.RepoProxyClient.Interfaces;
+using MnestixCore.TemplateBuilder;
 using MnestixCore.TemplateBuilder.Interfaces;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
@@ -31,7 +32,7 @@ public class AasGeneratorTests
     [SetUp]
     public void SetUp()
     {
-        _dataToInstanceMapper = new DataMapper();
+        _dataToInstanceMapper = new DataMapper(new BlueprintValidator());
         _repoProxyClientMock = new Mock<IRepoProxyClient>();
         _templateSubmodelsProviderMock = new Mock<IBlueprintProvider>();
         _idGeneratorMock = new Mock<IAasIdGeneratorService>();
@@ -221,18 +222,6 @@ public class AasGeneratorTests
     }
 
     [Test]
-    public async Task AddDataToAasAsync_InputMultiFieldInvalidField_ShouldFail()
-    {
-        await RunDataIngestFailureTest("InputMultiFieldInvalidField");
-    }
-
-    [Test]
-    public async Task AddDataToAasAsync_InputMultiFieldTypeMismatch_ShouldFail()
-    {
-        await RunDataIngestFailureTest("InputMultiFieldTypeMismatch");
-    }
-
-    [Test]
     public async Task AddDataToAasAsync_InputMultiFieldDuplicate_ShouldFail()
     {
         await RunDataIngestFailureTest("InputMultiFieldDuplicate");
@@ -395,12 +384,6 @@ public class AasGeneratorTests
     {
         // Regression test - existing MLP behavior with explicit language still works
         await RunDataIngestTest("InputMultiLanguagePropertyValidationSuccess");
-    }
-
-    [Test]
-    public async Task AddDataToAasAsync_InputMLPMultiLanguageQualifier_OnProperty_ShouldFail()
-    {
-        await RunDataIngestFailureTest("InputMLPMultiLanguageQualifier_OnProperty_Fails");
     }
 
     [Test]
@@ -959,6 +942,198 @@ public class AasGeneratorTests
         {
             pattern.IsMatch(log).Should().BeTrue($"Log entry '{log}' should match SEVERITY [timestamp] - message format");
         }
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMLPMultiLanguage_OverridesDefault_LogsWarning()
+    {
+        // ARRANGE — template has a default value [{en:"Default Company"}] that gets overridden
+        var templateSubmodel = DataIngestTestFileProvider.GetTemplateSubmodel("InputMLPMultiLanguage_OverridesDefault");
+        var templateData = DataIngestTestFileProvider.GetData("InputMLPMultiLanguage_OverridesDefault");
+        var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
+
+        _templateSubmodelsProviderMock
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .ReturnsAsync(templateSubmodel);
+
+        _repoProxyClientMock
+            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync("created");
+
+        // ACT
+        var result = await _aasGenerator.AddDataToAasAsync(TestBase64EncodedAasId, templateIds, templateData, "en", debug: true);
+
+        // ASSERT
+        var first = result.First();
+        first.Success.Should().BeTrue();
+        first.DebugInfo.Should().NotBeNull();
+        first.DebugInfo!.Logs.Should().NotBeNull();
+
+        var allLogs = string.Join("\n", first.DebugInfo.Logs!);
+        allLogs.Should().Contain("template default for 'value' was overridden by mapped data");
+    }
+
+    #endregion
+
+    #region Blueprint Validation at Generation-Time Tests
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMLPMultiLanguageQualifier_OnProperty_ShouldFailWithValidationErrors()
+    {
+        await RunBlueprintValidationFailureTest("InputMLPMultiLanguageQualifier_OnProperty_Fails",
+            BlueprintValidationRule.FieldNotApplicableToModelType);
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMultiFieldInvalidField_ShouldFailWithValidationErrors()
+    {
+        await RunBlueprintValidationFailureTest("InputMultiFieldInvalidField",
+            BlueprintValidationRule.UnknownFieldName);
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMultiFieldTypeMismatch_ShouldFailWithValidationErrors()
+    {
+        await RunBlueprintValidationFailureTest("InputMultiFieldTypeMismatch",
+            BlueprintValidationRule.FieldNotApplicableToModelType);
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputWhitespaceOnlyExpression_ShouldFailWithValidationErrors()
+    {
+        await RunBlueprintValidationFailureTest("InputWhitespaceOnlyExpression_Fails",
+            BlueprintValidationRule.EmptyMappingExpression);
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputListWithMandatoryEmptyArray_ShouldFail()
+    {
+        await RunDataIngestFailureTest("InputListWithMandatoryEmptyArray");
+    }
+
+    private async Task RunBlueprintValidationFailureTest(string testCaseName, BlueprintValidationRule expectedRule)
+    {
+        // ARRANGE
+        var templateSubmodel = DataIngestTestFileProvider.GetTemplateSubmodel(testCaseName);
+        var templateData = DataIngestTestFileProvider.GetData(testCaseName);
+
+        var aasId = "TestAasId";
+        var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
+
+        _templateSubmodelsProviderMock
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .ReturnsAsync(templateSubmodel);
+
+        _idGeneratorMock
+            .Setup(x => x.GenerateSubmodelIdsAsync(It.IsAny<uint>()))
+            .ReturnsAsync(new List<string> { "TheNewSubmodelId" });
+
+        // ACT
+        var result = await _aasGenerator.AddDataToAasAsync(aasId, templateIds, templateData, "en");
+
+        // ASSERT
+        result.Should().NotBeNull();
+        result.Should().HaveCount(1);
+        var first = result.First();
+        first.Success.Should().BeFalse();
+        first.ValidationErrors.Should().NotBeNull();
+        first.ValidationErrors.Should().Contain(e => e.Rule == expectedRule);
+    }
+
+    #endregion
+
+    #region Base64UrlSafe Validation Tests
+
+    [TestCase("dGVzdEFhc0lk", Description = "Standard base64url (no special chars)")]
+    [TestCase("abc-def_ghi", Description = "Base64url with dash and underscore")]
+    [TestCase("YWJjMTIz", Description = "Alphanumeric only")]
+    [TestCase("padding==", Description = "With padding characters")]
+    public async Task AddDataToAasAsync_ValidBase64UrlSafeId_DoesNotRejectInput(string aasId)
+    {
+        // ARRANGE
+        var templateSubmodel = DataIngestTestFileProvider.GetTemplateSubmodel("MandatoryAndOptionalField");
+        var templateData = DataIngestTestFileProvider.GetData("MandatoryAndOptionalField");
+        var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
+
+        _templateSubmodelsProviderMock
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .ReturnsAsync(templateSubmodel);
+
+        _repoProxyClientMock
+            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync("created");
+
+        // ACT
+        var result = await _aasGenerator.AddDataToAasAsync(aasId, templateIds, templateData, "en");
+
+        // ASSERT
+        var first = result.First();
+        first.Message.Should().NotBe("The provided AAS ID is not a valid Base64 URL safe string.");
+    }
+
+    [TestCase("", Description = "Empty string")]
+    [TestCase("   ", Description = "Whitespace only")]
+    [TestCase("abc+def", Description = "Contains + (standard base64, not url-safe)")]
+    [TestCase("abc/def", Description = "Contains / (standard base64, not url-safe)")]
+    [TestCase("abc def", Description = "Contains space")]
+    [TestCase("abc!def", Description = "Contains exclamation mark")]
+    [TestCase("abc@def", Description = "Contains @")]
+    [TestCase("abc#def", Description = "Contains #")]
+    public async Task AddDataToAasAsync_InvalidBase64UrlSafeId_ReturnsFailureForAllBlueprints(string aasId)
+    {
+        // ARRANGE
+        var templateIds = new List<string> { "blueprint1", "blueprint2" };
+        var templateData = new JObject();
+
+        // ACT
+        var results = (await _aasGenerator.AddDataToAasAsync(aasId, templateIds, templateData, "en")).ToList();
+
+        // ASSERT
+        results.Should().HaveCount(2);
+        results.Should().AllSatisfy(r =>
+        {
+            r.Success.Should().BeFalse();
+            r.Message.Should().Be("The provided AAS ID is not a valid Base64 URL safe string.");
+        });
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InvalidBase64UrlSafeId_ReturnsBlueprintIdsInResults()
+    {
+        // ARRANGE
+        var templateIds = new List<string> { "urn:blueprint:A", "urn:blueprint:B" };
+        var templateData = new JObject();
+
+        // ACT
+        var results = (await _aasGenerator.AddDataToAasAsync("invalid/id", templateIds, templateData, "en")).ToList();
+
+        // ASSERT
+        results.Select(r => r.BlueprintId).Should().BeEquivalentTo(templateIds);
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InvalidBase64UrlSafeId_DoesNotCallRepository()
+    {
+        // ARRANGE
+        var templateIds = new List<string> { "urn:blueprint:A" };
+        var templateData = new JObject();
+
+        // ACT
+        await _aasGenerator.AddDataToAasAsync("invalid+id", templateIds, templateData, "en");
+
+        // ASSERT
+        _repoProxyClientMock.Verify(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        _templateSubmodelsProviderMock.Verify(x => x.GetBlueprintAsync(It.IsAny<string>()), Times.Never);
+    }
+
+    #endregion
+
+    #region IdShort Edge Case Tests
+
+    [Test]
+    public async Task AddDataToAasAsync_InputIdShortEmptyString_ShouldFail()
+    {
+        await RunDataIngestFailureTest("InputIdShortEmptyString");
     }
 
     #endregion
