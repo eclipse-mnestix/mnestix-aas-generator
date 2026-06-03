@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using MnestixCore.Errors;
 using Newtonsoft.Json.Linq;
 
 namespace MnestixCore.AasGenerator.Pipelines.FieldAssigners;
@@ -22,8 +23,8 @@ public sealed class IdShortFieldAssigner : FieldAssignerBase
 
         if (string.IsNullOrEmpty(sanitized))
         {
-            sanitized = modelType;
-            ctx.LogWarning($"{this.FieldName} resolved to empty string, falling back to modelType '{modelType}' as idShort");
+            throw new SubmodelDataToInstanceMapperException(
+                $"'{this.FieldName}' value '{value}' cannot be sanitized to a valid idShort (must contain at least one letter or digit)", ctx);
         }
         else if (sanitized != value)
         {
