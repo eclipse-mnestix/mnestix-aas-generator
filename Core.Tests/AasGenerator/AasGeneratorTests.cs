@@ -222,6 +222,42 @@ public class AasGeneratorTests
     }
 
     [Test]
+    public async Task AddDataToAasAsync_InputFileContentTypeInferredFromUrl_WithQueryParameters_Success()
+    {
+        await RunDataIngestTest("InputFileContentTypeInferredFromUrl_WithQueryParameters");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputFileContentTypeInferredFromUrl_UnknownExtension_Fails()
+    {
+        await RunDataIngestFailureTest("InputFileContentTypeInferredFromUrl_UnknownExtension");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputFileContentTypeInferredFromUrl_NoExtension_Fails()
+    {
+        await RunDataIngestFailureTest("InputFileContentTypeInferredFromUrl_NoExtension");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputFileContentTypeMappedFromField_EmptyString_Success()
+    {
+        await RunDataIngestTest("InputFileContentTypeMappedFromField_EmptyString");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputFileContentTypeMappedFromField_NullValue_Success()
+    {
+        await RunDataIngestTest("InputFileContentTypeMappedFromField_NullValue");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputFileContentTypeMappedFromField_MissingValue_Fails()
+    {
+        await RunDataIngestFailureTest("InputFileContentTypeMappedFromField_MissingValue");
+    }
+
+    [Test]
     public async Task AddDataToAasAsync_InputMultiFieldDisplayName_Success()
     {
         await RunDataIngestTest("InputMultiFieldDisplayName");
