@@ -1,0 +1,45 @@
+{
+  "modelType": "Submodel",
+  "kind": "Template",
+  "id": "urn:smtemplate:DemoTemplate",
+  "idShort": "DemoTemplate",
+  "administration": {
+    "version": "1",
+    "revision": "0"
+  },
+  "qualifiers": [
+    {
+      "type": "displayName",
+      "value": "File ContentType Inferred from URL",
+      "valueType": "xs:string"
+    }
+  ],
+  "submodelElements": [
+    {
+      "modelType": "File",
+      "idShort": "CompanyLogo",
+      "value": "",
+      "contentType": "",
+      "qualifiers": [
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "value": "One",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/MappingInfo/value",
+          "value": "companyLogo",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/MappingInfo/contentType",
+          "value": "$lookup({\"svg\":\"image/svg+xml\",\"png\":\"image/png\",\"jpg\":\"image/jpeg\",\"jpeg\":\"image/jpeg\",\"pdf\":\"application/pdf\"}, $split($split(companyLogo,'?')[0], '.')[-1])",
+          "valueType": "xs:string"
+        }
+      ]
+    }
+  ]
+}

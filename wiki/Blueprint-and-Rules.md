@@ -29,6 +29,7 @@ The following element types support data mapping via qualifiers:
 | `Property` | ✅ Full | Value mapping via `SMT/MappingInfo` |
 | `MultiLanguageProperty` | ✅ Full | Multi-language via `SMT/MappingInfo/multiLanguage`, or single language via `SMT/MappingInfo/value` |
 | `Blob` | ✅ Partial | Value mapping only (`SMT/MappingInfo`) |
+| `File` | ✅ Full | Value and contentType mapping via `SMT/MappingInfo/value` and `SMT/MappingInfo/contentType` |
 | `SubmodelElementCollection` | ✅ Full | Supports collection duplication |
 | `SubmodelElementList` | ✅ Full | Supports collection duplication |
 | `Entity` | ✅ Partial | Multi-field mapping: `globalAssetId`, `entityType`, `idShort`, `displayName` |
@@ -154,7 +155,8 @@ Extends path mapping to target specific fields on an element beyond just `value`
 
 | FieldName | Target | Applicable Model Types | Notes |
 |-----------|--------|----------------------|-------|
-| `value` | Element value | Property, Blob, MultiLanguageProperty | Default (same as legacy `SMT/MappingInfo`) |
+| `value` | Element value | Property, Blob, File, MultiLanguageProperty | Default (same as legacy `SMT/MappingInfo`) |
+| `contentType` | File content type | File | MIME type string or JSONata expression extracting from URL |
 | `idShort` | Element identifier | All | Auto-sanitized to `[a-zA-Z][a-zA-Z0-9_]*` |
 | `globalAssetId` | Entity asset reference | Entity | String (URI) |
 | `entityType` | Entity type enum | Entity | `SelfManagedEntity` or `CoManagedEntity` |
@@ -243,6 +245,103 @@ When mapping to `idShort`, the generator auto-sanitizes the value to conform to 
 - Input `"TE-Housing-123"` → idShort `"TE_Housing_123"`
 - Input `"123abc"` → idShort `"i123abc"`
 - Input `"_value"` → idShort `"i_value"`
+
+#### Example: File with contentType Mapping
+
+The `File` element supports mapping both `value` (file URL) and `contentType` (MIME type). You can set `contentType` in two ways:
+
+**Option A: Map from data field**
+
+**Blueprint:**
+```json
+{
+  "modelType": "File",
+  "idShort": "ProductImage",
+  "value": "",
+  "contentType": "",
+  "qualifiers": [
+    {
+      "kind": "TemplateQualifier",
+      "type": "SMT/MappingInfo/value",
+      "value": "product.image.url",
+      "valueType": "xs:string"
+    },
+    {
+      "kind": "TemplateQualifier",
+      "type": "SMT/MappingInfo/contentType",
+      "value": "product.image.contentType",
+      "valueType": "xs:string"
+    }
+  ]
+}
+```
+
+**Input Data:**
+```json
+{
+  "product": {
+    "image": {
+      "url": "https://example.com/images/product_photo.png",
+      "contentType": "image/png"
+    }
+  }
+}
+```
+
+**Option B: Infer contentType from file extension using JSONata**
+
+**Blueprint:**
+```json
+{
+  "modelType": "File",
+  "idShort": "CompanyLogo",
+  "value": "",
+  "contentType": "",
+  "qualifiers": [
+    {
+      "kind": "TemplateQualifier",
+      "type": "SMT/MappingInfo/value",
+      "value": "companyLogo",
+      "valueType": "xs:string"
+    },
+    {
+      "kind": "TemplateQualifier",
+      "type": "SMT/MappingInfo/contentType",
+      "value": "$lookup({\"svg\":\"image/svg+xml\",\"png\":\"image/png\",\"jpg\":\"image/jpeg\",\"jpeg\":\"image/jpeg\",\"pdf\":\"application/pdf\"}, $split($split(companyLogo,'?')[0], '.')[-1])",
+      "valueType": "xs:string"
+    }
+  ]
+}
+```
+
+**Input Data:**
+```json
+{
+  "companyLogo": "https://www.example.com/logo.svg?v=2"
+}
+```
+
+**Generated Instance (Option A):**
+```json
+{
+  "modelType": "File",
+  "idShort": "ProductImage",
+  "value": "https://example.com/images/product_photo.png",
+  "contentType": "image/png"
+}
+```
+
+**Generated Instance (Option B):**
+```json
+{
+  "modelType": "File",
+  "idShort": "CompanyLogo",
+  "value": "https://www.example.com/logo.svg?v=2",
+  "contentType": "image/svg+xml"
+}
+```
+
+> **Note on Extension Parsing**: The JSONata expression `$split($split(companyLogo,'?')[0], '.')[-1]` first removes query parameters by splitting on `?`, then extracts the file extension. Unknown extensions result in an empty `contentType` value.
 
 #### Value Type Validation
 
@@ -1237,7 +1336,7 @@ Not all fields can be mapped on every element type. The following matrix defines
 | `Property` | `value`, `idShort`, `displayName` |
 | `MultiLanguageProperty` | `value`, `idShort`, `displayName`, `multiLanguage` |
 | `Blob` | `value`, `idShort`, `displayName` |
-| `File` | `value`, `idShort`, `displayName` |
+| `File` | `value`, `contentType`, `idShort`, `displayName` |
 | `Entity` | `idShort`, `displayName`, `globalAssetId`, `entityType` |
 | `RelationshipElement` | `idShort`, `displayName`, `first`, `second` |
 | `AnnotatedRelationshipElement` | `idShort`, `displayName`, `first`, `second` |
