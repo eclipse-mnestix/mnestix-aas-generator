@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MnestixApi.ApiKeyAuthorization;
-using MnestixCore.Dtos.AppSettingsOptions;
+using MnestixApi.Options;
 using MnestixCore.TemplateBuilder.Interfaces;
 using Newtonsoft.Json.Linq;
 

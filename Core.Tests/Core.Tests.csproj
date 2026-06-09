@@ -27,6 +27,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MnestixCore\MnestixCore.csproj" />
     <ProjectReference Include="..\MnestixApi\MnestixApi.csproj" />
+    <ProjectReference Include="..\Mnestix.AasGenerator.DefaultTemplates\Mnestix.AasGenerator.DefaultTemplates.csproj" />
   </ItemGroup>
 
   <ItemGroup>

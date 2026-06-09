@@ -3,9 +3,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
 using Microsoft.IdentityModel.Tokens;
 using MnestixApi.ApiKeyAuthorization;
-using MnestixCore.RestClientProvider;
-using MnestixCore.RestClientProvider.Interfaces;
-using MnestixCore.RestClientProvider.OpenIdClientProvider;
 using static MnestixApi.Authentication.KeycloakClaimHelper;
 
 namespace MnestixApi.Authentication;
@@ -76,19 +73,8 @@ public static class AuthenticationServicesRegistration
                 .AddAuthentication()
                 .AddScheme<AuthenticationSchemeOptions, ApiKeyAuthenticationHandler>("ApiKey", _ => { });
         }
-        
-        var repositoryOpenIdEnabled = configuration.GetSection("RepositoryOpenIdConnect").GetValue<bool>("EnableRepositoryOpenIdAuth", false);
-        
-        // Configuration for repository client credential flow authentication
-        if (repositoryOpenIdEnabled)
-        {
-            services.AddTransient<IAccessTokenService, AccessTokenService>();
-            services.AddScoped<IHttpClientProvider, HttpClientTokenProvider>();
-        }
-        else
-        {
-            services.AddScoped<IHttpClientProvider, HttpClientProvider>();
-        }
-        
+
+        // Repository client transport (plain vs. client-credentials token provider) is now
+        // owned by the AAS Generator package via AddMnestixAasGenerator(...).
     }
 }

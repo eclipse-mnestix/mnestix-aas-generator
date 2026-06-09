@@ -52,7 +52,7 @@ public class AasGeneratorTests
             Options.Create(repoProxyOptions),
             _loggerMock.Object);
 
-        _idGeneratorMock.Setup(x => x.GenerateSubmodelIdsAsync(It.IsAny<uint>())).ReturnsAsync(new List<string> { NewSubmodelId });
+        _idGeneratorMock.Setup(x => x.GenerateSubmodelIdsAsync(It.IsAny<uint>(), It.IsAny<CancellationToken>())).ReturnsAsync(new List<string> { NewSubmodelId });
     }
 
     [Test]
@@ -482,20 +482,20 @@ public class AasGeneratorTests
         string? capturedSubmodelContent = null;
         
         _repoProxyClientMock
-            .Setup(x => x.PostAsync(It.Is<string>(path => path == TestSubmodelPath), It.IsAny<string>()))
-            .Callback<string, string>((path, content) => capturedSubmodelContent = content)
+            .Setup(x => x.PostAsync(It.Is<string>(path => path == TestSubmodelPath), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Callback<string, string, CancellationToken>((path, content, _) => capturedSubmodelContent = content)
             .ReturnsAsync("created");
             
         _repoProxyClientMock
-            .Setup(x => x.PostAsync(It.Is<string>(path => path == TestAasPath), It.IsAny<string>()))
+            .Setup(x => x.PostAsync(It.Is<string>(path => path == TestAasPath), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync("created");
         
         _templateSubmodelsProviderMock
-            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(templateSubmodel);
         
         _idGeneratorMock
-            .Setup(x => x.GenerateSubmodelIdsAsync(It.IsAny<uint>()))
+            .Setup(x => x.GenerateSubmodelIdsAsync(It.IsAny<uint>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<string> { "TheNewSubmodelId" });
         
         // This method is only for success cases - expectedResult should not be null
@@ -529,11 +529,11 @@ public class AasGeneratorTests
         var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
         
         _templateSubmodelsProviderMock
-            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(templateSubmodel);
         
         _idGeneratorMock
-            .Setup(x => x.GenerateSubmodelIdsAsync(It.IsAny<uint>()))
+            .Setup(x => x.GenerateSubmodelIdsAsync(It.IsAny<uint>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<string> { "TheNewSubmodelId" });
         
         // This method is only for failure cases - expectedResult should be null
@@ -589,20 +589,20 @@ public class AasGeneratorTests
         string? capturedSubmodelContent = null;
         
         _repoProxyClientMock
-            .Setup(x => x.PostAsync(It.Is<string>(path => path == TestSubmodelPath), It.IsAny<string>()))
-            .Callback<string, string>((path, content) => capturedSubmodelContent = content)
+            .Setup(x => x.PostAsync(It.Is<string>(path => path == TestSubmodelPath), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Callback<string, string, CancellationToken>((path, content, _) => capturedSubmodelContent = content)
             .ReturnsAsync("created");
             
         _repoProxyClientMock
-            .Setup(x => x.PostAsync(It.Is<string>(path => path == TestAasPath), It.IsAny<string>()))
+            .Setup(x => x.PostAsync(It.Is<string>(path => path == TestAasPath), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync("created");
         
         _templateSubmodelsProviderMock
-            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(templateSubmodel);
         
         _idGeneratorMock
-            .Setup(x => x.GenerateSubmodelIdsAsync(It.IsAny<uint>()))
+            .Setup(x => x.GenerateSubmodelIdsAsync(It.IsAny<uint>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<string> { "TheNewSubmodelId" });
         
         // ACT - Measure execution time
@@ -653,11 +653,11 @@ public class AasGeneratorTests
         var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
 
         _templateSubmodelsProviderMock
-            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(templateSubmodel);
 
         _repoProxyClientMock
-            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync("created");
 
         // ACT
@@ -690,11 +690,11 @@ public class AasGeneratorTests
         var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
 
         _templateSubmodelsProviderMock
-            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(templateSubmodel);
 
         _repoProxyClientMock
-            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync("created");
 
         // ACT
@@ -716,11 +716,11 @@ public class AasGeneratorTests
         var templateIds = new List<string> { "urn:smtemplate:Blueprint1", "urn:smtemplate:Blueprint2" };
 
         _templateSubmodelsProviderMock
-            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(templateSubmodel);
 
         _repoProxyClientMock
-            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync("created");
 
         // ACT
@@ -746,7 +746,7 @@ public class AasGeneratorTests
         var templateIds = new List<string> { "urn:smtemplate:NonExistent" };
 
         _templateSubmodelsProviderMock
-            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new Exception("Not found"));
 
         // ACT
@@ -772,11 +772,11 @@ public class AasGeneratorTests
         var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
 
         _templateSubmodelsProviderMock
-            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(templateSubmodel);
 
         _idGeneratorMock
-            .Setup(x => x.GenerateSubmodelIdsAsync(It.IsAny<uint>()))
+            .Setup(x => x.GenerateSubmodelIdsAsync(It.IsAny<uint>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new Exception("ID service down"));
 
         // ACT
@@ -808,7 +808,7 @@ public class AasGeneratorTests
         var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
 
         _templateSubmodelsProviderMock
-            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(templateSubmodel);
 
         var result = await _aasGenerator.AddDataToAasAsync(TestBase64EncodedAasId, templateIds, templateData, "en");
@@ -834,11 +834,11 @@ public class AasGeneratorTests
         var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
 
         _templateSubmodelsProviderMock
-            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(templateSubmodel);
 
         _repoProxyClientMock
-            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new MnestixCore.Errors.RepoProxyException(MnestixCore.Errors.ErrorCodes.CouldNotPutSubmodel, "Repository unavailable"));
 
         // ACT
@@ -866,7 +866,7 @@ public class AasGeneratorTests
         var templateIds = new List<string> { "urn:smtemplate:NonExistent" };
 
         _templateSubmodelsProviderMock
-            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new Exception("Not found"));
 
         // ACT
@@ -894,11 +894,11 @@ public class AasGeneratorTests
         var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
 
         _templateSubmodelsProviderMock
-            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(templateSubmodel);
 
         _repoProxyClientMock
-            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync("created");
 
         // ACT
@@ -921,11 +921,11 @@ public class AasGeneratorTests
         var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
 
         _templateSubmodelsProviderMock
-            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(templateSubmodel);
 
         _repoProxyClientMock
-            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync("created");
 
         // ACT
@@ -946,7 +946,7 @@ public class AasGeneratorTests
         var templateIds = new List<string> { "urn:smtemplate:NonExistent" };
 
         _templateSubmodelsProviderMock
-            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new Exception("Not found"));
 
         // ACT
@@ -970,11 +970,11 @@ public class AasGeneratorTests
         var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
 
         _templateSubmodelsProviderMock
-            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(templateSubmodel);
 
         _repoProxyClientMock
-            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync("created");
 
         // ACT
@@ -1001,11 +1001,11 @@ public class AasGeneratorTests
         var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
 
         _templateSubmodelsProviderMock
-            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(templateSubmodel);
 
         _repoProxyClientMock
-            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync("created");
 
         // ACT
@@ -1069,11 +1069,11 @@ public class AasGeneratorTests
         var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
 
         _templateSubmodelsProviderMock
-            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(templateSubmodel);
 
         _idGeneratorMock
-            .Setup(x => x.GenerateSubmodelIdsAsync(It.IsAny<uint>()))
+            .Setup(x => x.GenerateSubmodelIdsAsync(It.IsAny<uint>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<string> { "TheNewSubmodelId" });
 
         // ACT
@@ -1104,11 +1104,11 @@ public class AasGeneratorTests
         var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
 
         _templateSubmodelsProviderMock
-            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(templateSubmodel);
 
         _repoProxyClientMock
-            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync("created");
 
         // ACT
@@ -1170,8 +1170,8 @@ public class AasGeneratorTests
         await _aasGenerator.AddDataToAasAsync("invalid+id", templateIds, templateData, "en");
 
         // ASSERT
-        _repoProxyClientMock.Verify(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
-        _templateSubmodelsProviderMock.Verify(x => x.GetBlueprintAsync(It.IsAny<string>()), Times.Never);
+        _repoProxyClientMock.Verify(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
+        _templateSubmodelsProviderMock.Verify(x => x.GetBlueprintAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 
     #endregion

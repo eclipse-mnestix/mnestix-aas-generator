@@ -1,21 +1,9 @@
-using MnestixCore.AasCreator.Interfaces;
-using MnestixCore.AasCreator;
-using MnestixCore.AasGenerator.Interfaces;
-using MnestixCore.AasGenerator;
-using MnestixCore.IdGenerator.Interfaces;
-using MnestixCore.IdGenerator;
-using MnestixCore.Shared.Interfaces;
-using MnestixCore.Shared;
-using MnestixCore.TemplateBuilder.Interfaces;
-using MnestixCore.TemplateBuilder;
-using MnestixCore.RepoProxyClient.Interfaces;
-using MnestixCore.RepoProxyClient;
+using Mnestix.AasGenerator;
+using Mnestix.AasGenerator.DefaultTemplates;
 using MnestixApi.Authentication;
+using MnestixApi.Options;
 using MnestixCore.Dtos.AppSettingsOptions;
 using MnestixCore.RequiredShellsAssertion.Interfaces;
-using MnestixCore.RequiredShellsAssertion;
-using MnestixCore.ConfigurationService.Interfaces;
-using MnestixCore.ConfigurationService;
 using MnestixApi.Middlewares;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
@@ -37,10 +25,9 @@ namespace MnestixApi
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
 
-            builder.Services.Configure<ConfigurationOptions>(builder.Configuration.GetSection(ConfigurationOptions.Configuration));
-
-            builder.Services.Configure<RepositoryOpenIdConfiguration>(
-                builder.Configuration.GetSection(RepositoryOpenIdConfiguration.Options));
+            // Repository base URL is derived from the host's configured server urls and passed to
+            // the AAS Generator package at registration time (the package no longer reads HttpContext).
+            var repositoryBaseUrl = ResolveRepositoryBaseUrl(builder.Configuration["ServerUrls"]);
 
             builder.Services.AddLogging(builder => builder.AddConsole());
 
@@ -51,9 +38,13 @@ namespace MnestixApi
             // OpenId Authentication
             builder.Services.AddAuthenticationServices(builder.Configuration);
 
-            // Configuration of authorization via ApiKey for endpoints used by customers
-            builder.Services.Configure<CustomerEndpointsSecurityOptions>(
-                builder.Configuration.GetSection(CustomerEndpointsSecurityOptions.CustomerEndpointsSecurity));
+            // Configuration of authorization via ApiKey for endpoints used by customers (inbound, host-local)
+            builder.Services.Configure<MnestixApi.Options.CustomerEndpointsSecurityOptions>(
+                builder.Configuration.GetSection(MnestixApi.Options.CustomerEndpointsSecurityOptions.CustomerEndpointsSecurity));
+
+            // Host-local view of the repository configuration used by controllers for routing decisions.
+            builder.Services.Configure<MnestixApi.Options.ConfigurationOptions>(
+                builder.Configuration.GetSection(MnestixApi.Options.ConfigurationOptions.Configuration));
 
             builder.Services.AddAuthorization();
 
@@ -67,7 +58,6 @@ namespace MnestixApi
                 });
             });
 
-            builder.Services.Configure<RepoProxyOptions>(builder.Configuration.GetSection(RepoProxyOptions.RepoProxy));
             builder.Services.AddControllersWithViews().AddNewtonsoftJson();
             builder.Services.AddResponseCaching();
 
@@ -93,45 +83,41 @@ namespace MnestixApi
             builder.Services.AddHealthChecks()
                 .AddCheck<ApplicationInfoHealthCheck>("application_info");
             
-            builder.Services.AddTransient<IRepoProxyClient, RepoProxyClient>();
-            
-            // SharedServices
-            builder.Services.AddTransient<ISubmodelHandler, SubmodelHandler>();
+            // Register the AAS Generator engine via the reusable package entry point.
+            // The package owns all core service registrations (repo proxy client, providers,
+            // id generator, rules engine) and the conditional repository transport selection.
+            builder.Services.AddMnestixAasGenerator(options =>
+            {
+                options.RepositoryBaseUrl = repositoryBaseUrl;
+                options.AasPath = builder.Configuration["RepoProxy:AasPath"] ?? "shells";
+                options.SubmodelPath = builder.Configuration["RepoProxy:SubmodelPath"] ?? "submodels";
+                options.RepositoryApiKey = builder.Configuration["CustomerEndpointsSecurity:ApiKey"];
 
-            // IdGenerator
-            builder.Services.AddTransient<IConfigurationService, ConfigurationService>();
-            builder.Services.AddTransient<IAasIdGeneratorService, AasIdGeneratorService>();
-            builder.Services.AddTransient<IMnestixConfigurationProvider, MnestixConfigurationProvider>();
+                options.Blueprints.BlueprintsAasId = builder.Configuration["Configuration:BlueprintsAasId"] ?? string.Empty;
+                options.Blueprints.TemplatesAasId = builder.Configuration["Configuration:TemplatesAasId"] ?? string.Empty;
+                options.Blueprints.BlueprintsApiUrl = builder.Configuration["Configuration:SubmodelBlueprintsApiUrl"];
+                options.Blueprints.TemplatesApiUrl = builder.Configuration["Configuration:SubmodelTemplatesApiUrl"];
 
-            // AasCreator
-            builder.Services.AddTransient<IAasCreatorService, AasCreatorService>();
+                options.IdGenerator.ConfigurationSubmodelId = builder.Configuration["Configuration:ConfigurationSubmodelId"] ?? string.Empty;
 
-            // TemplateBuilder
-            builder.Services.AddTransient<IBlueprintCreator, BlueprintCreator>();
-            builder.Services.AddTransient<ITemplateProvider, TemplateProvider>();
-            builder.Services.AddTransient<IBlueprintProvider, BlueprintProvider>();
-            builder.Services.AddTransient<IBlueprintValidator, BlueprintValidator>();
-            builder.Services.AddTransient<ITemplateCreator, TemplateCreator>();
+                options.RepositoryAuthentication = new RepositoryAuthenticationOptions
+                {
+                    EnableOpenIdAuth = builder.Configuration.GetValue<bool>("RepositoryOpenIdConnect:EnableRepositoryOpenIdAuth"),
+                    Authority = builder.Configuration["RepositoryOpenIdConnect:Authority"],
+                    DiscoveryEndpoint = builder.Configuration["RepositoryOpenIdConnect:DiscoveryEndpoint"] ?? ".well-known/openid-configuration",
+                    ClientId = builder.Configuration["RepositoryOpenIdConnect:ClientId"],
+                    ClientSecret = builder.Configuration["RepositoryOpenIdConnect:ClientSecret"],
+                    TokenEndpoint = builder.Configuration["RepositoryOpenIdConnect:TokenEndpoint"],
+                    ValidateIssuer = builder.Configuration.GetValue<bool>("RepositoryOpenIdConnect:ValidateIssuer"),
+                };
+            });
 
-            // AasGenerator
-            builder.Services.AddTransient<IAasGenerator, AasGenerator>();
-            
-            // Pipeline-based mapper
-            builder.Services.AddTransient<IDataMapper, DataMapper>();
+            // Optional bundled IDTA/Mnestix default templates and IRequiredShellsAssertion.
+            builder.Services.AddMnestixDefaultTemplates();
 
-
-            // Ensure mandatory shells are available in repository
+            // Ensure mandatory shells are available in repository (host-configured catalogue).
             builder.Services.Configure<List<RequiredShells>>(
                 builder.Configuration.GetSection(RequiredShellsOptions.RequiredShellsSectionName));
-            builder.Services.AddTransient<IRequiredShellsAssertion, RequiredShellsAssertion>();
-
-            builder.Services.AddSingleton(op =>
-            {
-                var baseUrlProvider = new BaseUrlProvider(op.GetService<ILogger<BaseUrlProvider>>() ??
-                                                          throw new InvalidOperationException(
-                                                              "ILogger must be available"));
-                return baseUrlProvider;
-            });
 
             // configure app pipeline
             var app = builder.Build();
@@ -175,35 +161,14 @@ namespace MnestixApi
             app.UseResponseCaching();
             app.UseAuthorization();
 
-            // On startup the base url of the server is set once to be used in the RepoProxyClient.
+            // On startup, optionally seed the required default shells into the repository.
+            // The repository base url is supplied to the package at registration time, so no
+            // base-url assignment is needed here.
             app.Lifetime.ApplicationStarted.Register(() =>
             {
-                var baseUrlProvider = app.Services.GetService<BaseUrlProvider>()
-                                      ?? throw new InvalidOperationException("BaseUrlProvider must be available");
                 using var scope = app.Services.CreateScope();
-                var requiredShellsAssertion = scope.ServiceProvider.GetService<IRequiredShellsAssertion>() 
+                var requiredShellsAssertion = scope.ServiceProvider.GetService<IRequiredShellsAssertion>()
                                               ?? throw new InvalidOperationException("RequiredShellsAssertion must be available");
-                var baseUrl = "http://localhost:5064/";
-                var serverUrls = builder.Configuration.GetValue<string?>("ServerUrls");
-                if (serverUrls != null)
-                {
-                    var serverUrlsList = serverUrls.Split(";");
-                    var serverUrl = serverUrlsList.FirstOrDefault(s => s.StartsWith("https:"));
-                    if (serverUrl == null)
-                    {
-                        serverUrl = serverUrlsList.FirstOrDefault();
-                        if (serverUrl != null)
-                        {
-                            baseUrl = serverUrl;
-                        }
-                    }
-                    else
-                    {
-                        baseUrl = serverUrl;
-                    }
-                }
-
-                baseUrlProvider.SetBaseUrl(baseUrl);
 
                 var parseSuccessful = bool.TryParse(builder.Configuration["Features:RequiredShells"],
                         out var requiredShells);
@@ -230,6 +195,35 @@ namespace MnestixApi
             app.MapControllers();
 
             app.Run();
+        }
+
+        /// <summary>
+        /// Derives the repository base URL from the host's configured server urls.
+        /// Prefers an https url, falls back to the first configured url, and finally
+        /// to the local default. Mirrors the previous ApplicationStarted behavior.
+        /// </summary>
+        private static string ResolveRepositoryBaseUrl(string? serverUrls)
+        {
+            var baseUrl = "http://localhost:5064/";
+            if (serverUrls != null)
+            {
+                var serverUrlsList = serverUrls.Split(";");
+                var serverUrl = serverUrlsList.FirstOrDefault(s => s.StartsWith("https:"));
+                if (serverUrl == null)
+                {
+                    serverUrl = serverUrlsList.FirstOrDefault();
+                    if (serverUrl != null)
+                    {
+                        baseUrl = serverUrl;
+                    }
+                }
+                else
+                {
+                    baseUrl = serverUrl;
+                }
+            }
+
+            return baseUrl;
         }
     }
 }

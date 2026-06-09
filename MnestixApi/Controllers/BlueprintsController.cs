@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
 using MnestixApi.Controllers.deprecated;
 using MnestixCore.Errors;
+using MnestixCore.Shared;
 using MnestixCore.TemplateBuilder;
 using MnestixCore.TemplateBuilder.Interfaces;
 using Newtonsoft.Json.Linq;
@@ -78,8 +79,11 @@ public class BlueprintsController : ControllerBase
         try
         {
             _logger.LogInformation("GetBlueprintById");
+            // The route carries a Base64Url-encoded id (unchanged REST contract). The provider
+            // expects a consumer-facing id and re-encodes internally, so decode here first.
+            var blueprintId = Base64StringDeAndEncoder.DecodeFrom64(base64EncodedBlueprintId);
             var blueprint =
-                await _customTemplateSubmodelsProvider.GetBlueprintAsync(base64EncodedBlueprintId);
+                await _customTemplateSubmodelsProvider.GetBlueprintAsync(blueprintId);
             return Ok(blueprint);
         }
         catch (Exception e)

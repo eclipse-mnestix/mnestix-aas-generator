@@ -29,7 +29,7 @@ public class RequiredShellsAssertionTests
         await shellAssertionService.AssertRequiredShellsAsync();
 
         // ASSERT
-        repoProxyClientMock.Verify(client => client.GetAsync(It.IsAny<string>()), Times.Never);
+        repoProxyClientMock.Verify(client => client.GetAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Test]
@@ -52,7 +52,7 @@ public class RequiredShellsAssertionTests
         await shellAssertionService.AssertRequiredShellsAsync();
 
         // ASSERT
-        repoProxyClientMock.Verify(client => client.GetAsync(It.IsAny<string>()), Times.Never);
+        repoProxyClientMock.Verify(client => client.GetAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Test]
@@ -61,7 +61,7 @@ public class RequiredShellsAssertionTests
         // ARRANGE
         var repoProxyClientMock = new Mock<IRepoProxyClient>();
         repoProxyClientMock
-            .Setup(client => client.GetAsync(It.IsAny<string>()))
+            .Setup(client => client.GetAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(string.Empty);
 
         var configurationOptions = new ConfigurationOptions
@@ -79,7 +79,7 @@ public class RequiredShellsAssertionTests
         await shellAssertionService.AssertRequiredShellsAsync();
 
         // ASSERT
-        repoProxyClientMock.Verify(client => client.GetAsync(It.IsAny<string>()), Times.Once);
+        repoProxyClientMock.Verify(client => client.GetAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
     }
 
     private static RequiredShellsAssertion CreateShellAssertionService(

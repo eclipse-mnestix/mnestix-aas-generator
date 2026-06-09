@@ -85,7 +85,7 @@ public class BlueprintCreatorTest
         blueprintPayload.Should().Contain(submodelIdentifier);
 
         repoProxyClientMock.Verify(
-            s => s.PostAsync(repoProxySubmodelPath, It.IsAny<string>()),
+            s => s.PostAsync(repoProxySubmodelPath, It.IsAny<string>(), It.IsAny<CancellationToken>()),
             Times.Never);
     }
 
@@ -126,11 +126,11 @@ public class BlueprintCreatorTest
 
         // ASSERT
         repoProxyClientMock.Verify(
-            s => s.PostAsync($"{repoProxyAasPath}/{aasBase64}/submodel-refs", It.IsAny<string>()),
+            s => s.PostAsync($"{repoProxyAasPath}/{aasBase64}/submodel-refs", It.IsAny<string>(), It.IsAny<CancellationToken>()),
             Times.Once);
 
         repoProxyClientMock.Verify(
-            s => s.PostAsync(repoProxySubmodelPath, It.IsAny<string>()),
+            s => s.PostAsync(repoProxySubmodelPath, It.IsAny<string>(), It.IsAny<CancellationToken>()),
             Times.Once);
 
         submodelIdentifier.Should().NotBeEmpty();
@@ -211,7 +211,7 @@ public class BlueprintCreatorTest
         blueprintCall.Body.Should().Be(updatedSubmodel);
 
         repoProxyClientMock.Verify(
-            s => s.PutAsync(It.IsAny<string>(), It.IsAny<string>()),
+            s => s.PutAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()),
             Times.Never);
     }
 
@@ -238,7 +238,7 @@ public class BlueprintCreatorTest
 
         var repoProxyClientMock = new Mock<IRepoProxyClient>();
         repoProxyClientMock
-            .Setup(s => s.DeleteAsync(It.IsAny<string>()))
+            .Setup(s => s.DeleteAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(true);
 
         var blueprintCallTcs = new TaskCompletionSource<(string Method, Uri? Uri)>(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -286,7 +286,7 @@ public class BlueprintCreatorTest
         blueprintCall.Uri!.AbsoluteUri.Should().EndWith("/" + submodelIdBase64);
 
         repoProxyClientMock.Verify(
-            s => s.DeleteAsync(expectedSubmodelPath),
+            s => s.DeleteAsync(expectedSubmodelPath, It.IsAny<CancellationToken>()),
             Times.Never);
     }
 

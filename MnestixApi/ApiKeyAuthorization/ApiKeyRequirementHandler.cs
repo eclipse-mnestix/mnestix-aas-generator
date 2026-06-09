@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using MnestixCore.Dtos.AppSettingsOptions;
+using MnestixApi.Options;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;

@@ -16,7 +16,7 @@ public class IdGeneratorServiceTest
         // ARRANGE
         var mnestixConfigurationProviderMock = new Mock<IMnestixConfigurationProvider>();
         mnestixConfigurationProviderMock
-            .Setup(s => s.GetIdGenerationSettingsAsync())
+            .Setup(s => s.GetIdGenerationSettingsAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(IdGenerationSettingsConfiguredToUseAssetIdShort);
 
         var cut = new AasIdGeneratorService(mnestixConfigurationProviderMock.Object);
@@ -40,7 +40,7 @@ public class IdGeneratorServiceTest
         // ARRANGE
         var mnestixConfigurationProviderMock = new Mock<IMnestixConfigurationProvider>();
         mnestixConfigurationProviderMock
-            .Setup(s => s.GetIdGenerationSettingsAsync())
+            .Setup(s => s.GetIdGenerationSettingsAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(IdGenerationSettingsConfiguredToUseAssetIdShort);
 
         var cut = new AasIdGeneratorService(mnestixConfigurationProviderMock.Object);
@@ -68,7 +68,7 @@ public class IdGeneratorServiceTest
         var expectedGuidLength = 32;
         var mnestixConfigurationProviderMock = new Mock<IMnestixConfigurationProvider>();
         mnestixConfigurationProviderMock
-            .Setup(s => s.GetIdGenerationSettingsAsync())
+            .Setup(s => s.GetIdGenerationSettingsAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(IdGenerationSettingsConfiguredToUseGuids);
 
         var cut = new AasIdGeneratorService(mnestixConfigurationProviderMock.Object);
@@ -100,7 +100,7 @@ public class IdGeneratorServiceTest
         uint count = 10;
         var mnestixConfigurationProviderMock = new Mock<IMnestixConfigurationProvider>();
         mnestixConfigurationProviderMock
-            .Setup(s => s.GetIdGenerationSettingsAsync())
+            .Setup(s => s.GetIdGenerationSettingsAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(IdGenerationSettingsConfiguredToUseAssetIdShort);
 
         var cut = new AasIdGeneratorService(mnestixConfigurationProviderMock.Object);

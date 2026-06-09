@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using Moq;
 using MnestixCore.Dtos.AppSettingsOptions;
 using MnestixCore.RepoProxyClient.Interfaces;
+using MnestixCore.Shared;
 using MnestixCore.Shared.Interfaces;
 using MnestixCore.TemplateBuilder;
 using Newtonsoft.Json.Linq;
@@ -30,7 +31,7 @@ public class BlueprintProviderTest
         // ARRANGE
 
         var repoProxyClientMock = new Mock<IRepoProxyClient>();
-        repoProxyClientMock.Setup(s => s.GetAsync(BlueprintPath)).ReturnsAsync(_reference);
+        repoProxyClientMock.Setup(s => s.GetAsync(BlueprintPath, It.IsAny<CancellationToken>())).ReturnsAsync(_reference);
 
         var submodelHandlerMock =  new Mock<ISubmodelHandler>();
         submodelHandlerMock.Setup(sh => sh.GetSubmodelsIdsFromSubmodelsRefs(It.IsAny<JObject>()))
@@ -54,7 +55,7 @@ public class BlueprintProviderTest
         await blueprintProvider.GetAllBlueprintsAsync();
 
         // ASSERT
-        repoProxyClientMock.Verify(s => s.GetAsync(BlueprintPath), Times.Once);
+        repoProxyClientMock.Verify(s => s.GetAsync(BlueprintPath, It.IsAny<CancellationToken>()), Times.Once);
         submodelHandlerMock.Verify(sh => sh.GetSubmodelsIdsFromSubmodelsRefs(It.IsAny<JObject>()), Times.Once);
     }
 
@@ -64,10 +65,11 @@ public class BlueprintProviderTest
         // ARRANGE
         var submodelIdentifier = Guid.NewGuid().ToString();
 
-        var pathToCall = SubmodelPath + "/" + submodelIdentifier;
-    
+        // The default provider Base64Url-encodes the consumer-facing blueprint id for the repository path.
+        var pathToCall = SubmodelPath + "/" + Base64StringDeAndEncoder.EncodeTo64(submodelIdentifier);
+
         var repoProxyClientMock = new Mock<IRepoProxyClient>();
-        repoProxyClientMock.Setup(s => s.GetAsync(pathToCall)).ReturnsAsync(_blueprint);
+        repoProxyClientMock.Setup(s => s.GetAsync(pathToCall, It.IsAny<CancellationToken>())).ReturnsAsync(_blueprint);
     
         var submodelHandlerMock =  new Mock<ISubmodelHandler>();
 
@@ -85,7 +87,7 @@ public class BlueprintProviderTest
         await blueprintProvider.GetBlueprintAsync(submodelIdentifier);
     
         // ASSERT
-        repoProxyClientMock.Verify(s => s.GetAsync(pathToCall), Times.Once);
+        repoProxyClientMock.Verify(s => s.GetAsync(pathToCall, It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Test]
@@ -139,7 +141,7 @@ public class BlueprintProviderTest
         // ASSERT
     result.Should().HaveCount(1);
     result[0]?.Value<string>("id").Should().Be("template-1");
-        repoProxyClientMock.Verify(s => s.GetAsync(It.IsAny<string>()), Times.Never);
+        repoProxyClientMock.Verify(s => s.GetAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
         submodelHandlerMock.Verify(sh => sh.GetSubmodelsIdsFromSubmodelsRefs(It.IsAny<JObject>()), Times.Never);
     }
 
@@ -170,7 +172,8 @@ public class BlueprintProviderTest
                 ConfigureMessageHandler = _ => new StubHttpMessageHandler(request =>
                 {
                     request.Method.Should().Be(HttpMethod.Get);
-                    request.RequestUri.Should().Be(new Uri($"{blueprintsEndpoint}/{templateId}"));
+                    // The default provider Base64Url-encodes the consumer-facing blueprint id for the repository path.
+                    request.RequestUri.Should().Be(new Uri($"{blueprintsEndpoint}/{Base64StringDeAndEncoder.EncodeTo64(templateId)}"));
 
                     return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
                     {
@@ -195,7 +198,7 @@ public class BlueprintProviderTest
 
         // ASSERT
         result.Value<string>("id").Should().Be("template-1");
-        repoProxyClientMock.Verify(s => s.GetAsync(It.IsAny<string>()), Times.Never);
+        repoProxyClientMock.Verify(s => s.GetAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 
     private sealed class StubHttpMessageHandler(Func<HttpRequestMessage, Task<HttpResponseMessage>> responseFactory) : HttpMessageHandler

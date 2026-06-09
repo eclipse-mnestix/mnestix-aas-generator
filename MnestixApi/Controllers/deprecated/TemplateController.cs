@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
 using MnestixCore.Errors;
+using MnestixCore.Shared;
 using MnestixCore.TemplateBuilder.Interfaces;
 using Newtonsoft.Json.Linq;
 
@@ -176,7 +177,10 @@ public class TemplateController : ControllerBase
         try
         {
             _logger.LogInformation("GetCustomSubmodel - submodelIdShort: {SubmodelIdShort}", submodelIdShort);
-            var customSubmodel = await _customTemplateSubmodelsProvider.GetBlueprintAsync(submodelIdShort);
+            // The route carries a Base64Url-encoded id (unchanged REST contract); decode before
+            // calling the provider, which re-encodes the consumer-facing id internally.
+            var submodelId = Base64StringDeAndEncoder.DecodeFrom64(submodelIdShort);
+            var customSubmodel = await _customTemplateSubmodelsProvider.GetBlueprintAsync(submodelId);
             return Ok(customSubmodel);
         }
         catch (Exception e)

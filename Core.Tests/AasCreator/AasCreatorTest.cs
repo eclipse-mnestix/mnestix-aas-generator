@@ -30,12 +30,12 @@ public class AasCreatorTest
         var aasSentToRepo = "";
         var expectedAasSentToRepo = TestFileProvider.GetExampleAasJson();
 
-        _aasIdGeneratorService.Setup(a => a.GenerateAasIdsAsync(It.IsAny<string>())).ReturnsAsync(aasIds);
-        _repoProxyClientMock.Setup(r => r.GetAsync(It.IsAny<string>()))
+        _aasIdGeneratorService.Setup(a => a.GenerateAasIdsAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(aasIds);
+        _repoProxyClientMock.Setup(r => r.GetAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new RepoProxyException(ErrorCodes.CouldNotGet, "Not found", new HttpRequestException("Not found", null, HttpStatusCode.NotFound)));
         _repoProxyClientMock
-            .Setup(r => r.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
-            .Callback((string _, string content) => aasSentToRepo = content)
+            .Setup(r => r.PostAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Callback((string _, string content, CancellationToken __) => aasSentToRepo = content)
             .ReturnsAsync("");
         var aasCreator =
             new AasCreatorService(_aasIdGeneratorService.Object, _repoProxyClientMock.Object, _repoProxyOptions, _aasGeneratorMock.Object);
@@ -58,11 +58,11 @@ public class AasCreatorTest
 
         var callsToRepo = 0;
 
-        _aasIdGeneratorService.Setup(a => a.GenerateAasIdsAsync(It.IsAny<string>())).ReturnsAsync(aasIds);
-        _repoProxyClientMock.Setup(r => r.GetAsync(It.IsAny<string>()))
+        _aasIdGeneratorService.Setup(a => a.GenerateAasIdsAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(aasIds);
+        _repoProxyClientMock.Setup(r => r.GetAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync("{}");
         _repoProxyClientMock
-            .Setup(r => r.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(r => r.PostAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .Callback(() => callsToRepo++)
             .ReturnsAsync("");
         var aasCreator = new AasCreatorService(_aasIdGeneratorService.Object, _repoProxyClientMock.Object,

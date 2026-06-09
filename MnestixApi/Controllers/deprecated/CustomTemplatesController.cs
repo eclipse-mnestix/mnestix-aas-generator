@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MnestixApi.ApiKeyAuthorization;
+using MnestixCore.Shared;
 using MnestixCore.TemplateBuilder.Interfaces;
 
 namespace MnestixApi.Controllers.deprecated;
@@ -64,7 +65,10 @@ public class CustomTemplatesController : ControllerBase
         try
         {
             _logger.LogInformation("GetCustomSubmodel");
-            var customSubmodel = await _customTemplateSubmodelsProvider.GetBlueprintAsync(base64EncodedCustomTemplateId);
+            // The route carries a Base64Url-encoded id (unchanged REST contract); decode before
+            // calling the provider, which re-encodes the consumer-facing id internally.
+            var customTemplateId = Base64StringDeAndEncoder.DecodeFrom64(base64EncodedCustomTemplateId);
+            var customSubmodel = await _customTemplateSubmodelsProvider.GetBlueprintAsync(customTemplateId);
             return Ok(customSubmodel);
         }
         catch (Exception e)

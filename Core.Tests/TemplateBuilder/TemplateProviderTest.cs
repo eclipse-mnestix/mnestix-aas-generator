@@ -34,10 +34,10 @@ public class TemplateProviderTest
         var reference = TestFileProvider.GetBlueprintSubmodelNameplateReference();
         var template = TestFileProvider.GetTemplateSubmodelNameplate();
 
-        repoProxyClientMock.Setup(s => s.GetAsync(pathToCall))
+        repoProxyClientMock.Setup(s => s.GetAsync(pathToCall, It.IsAny<CancellationToken>()))
             .ReturnsAsync(reference);
 
-        repoProxyClientMock.Setup(s => s.GetAsync(pathToCallSubmodel))
+        repoProxyClientMock.Setup(s => s.GetAsync(pathToCallSubmodel, It.IsAny<CancellationToken>()))
             .ReturnsAsync(template);
 
         var submodelHandlerMock = new Mock<ISubmodelHandler>();
@@ -59,8 +59,8 @@ public class TemplateProviderTest
 
         // ASSERT
         submodels.Should().HaveCount(1);
-        repoProxyClientMock.Verify(s => s.GetAsync(pathToCall), Times.Exactly(1));
-        repoProxyClientMock.Verify(s => s.GetAsync(pathToCallSubmodel), Times.Exactly(1));
+        repoProxyClientMock.Verify(s => s.GetAsync(pathToCall, It.IsAny<CancellationToken>()), Times.Exactly(1));
+        repoProxyClientMock.Verify(s => s.GetAsync(pathToCallSubmodel, It.IsAny<CancellationToken>()), Times.Exactly(1));
     }
 
     [Test]
