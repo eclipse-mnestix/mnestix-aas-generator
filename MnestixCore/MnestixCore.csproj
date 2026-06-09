@@ -1,92 +1,45 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <PackageId>Mnestix.AasGenerator.Core</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Mnestix</Authors>
+    <Description>Reusable AAS Generator engine: rules engine, blueprint and template providers, ID generator, and repository client for creating AAS v3.0-conformant submodels in-process.</Description>
+    <RepositoryUrl>https://github.com/eclipse-mnestix/mnestix-aas-generator</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+
   <ItemGroup>
     <InternalsVisibleTo Include="Core.Tests" />
+    <InternalsVisibleTo Include="Web.Tests" />
+    <InternalsVisibleTo Include="MnestixApi" />
+    <InternalsVisibleTo Include="Mnestix.AasGenerator.DefaultTemplates" />
+    <!-- Allows Moq/Castle DynamicProxy to mock internal types from the test assemblies. -->
+    <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="IdentityModel" Version="7.0.0" />
     <PackageReference Include="Jsonata.Net.Native" Version="2.11.0" />
     <PackageReference Include="Jsonata.Net.Native.JsonNet" Version="2.11.0" />
-    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="8.0.4" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="RestSharp" Version="112.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="AasCreator\Templates\aas.json" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\Mnestix\Files\Mnestix_Open_Source_Ecosystem.pdf" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\Mnestix\Files\Mnestix_Open_Source_Ecosystem_Preview.png" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\Mnestix\Files\XITASO_logo.png" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\Mnestix\Submodels\BillOfMaterial.json" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\Mnestix\Submodels\HandoverDocumentation.json" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\Mnestix\Submodels\SoftwareNameplate.json" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\Mnestix\Thumbnail\MnestixLogo.png" />
     <EmbeddedResource Include="AasCreator\Templates\aas.json" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\Configuration\Submodels\IdGenerationSettings.json" />
-    <EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\Configuration\Submodels\IdGenerationSettings.json" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\Configuration\Submodels\ThemeSettings.json" />
-    <EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\Configuration\Submodels\ThemeSettings.json" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\Configuration\aHR0cHM6Ly9tbmVzdGl4LmNvbS9hYXMvRTA0NjhEMEM5NzMwNDI0M0I4RjAzODdBMTMzM0I0QTg.json" />
-    <EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\Configuration\aHR0cHM6Ly9tbmVzdGl4LmNvbS9hYXMvRTA0NjhEMEM5NzMwNDI0M0I4RjAzODdBMTMzM0I0QTg.json" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\CustomTemplate\aHR0cHM6Ly9tbmVzdGl4LmNvbS9hYXMvQjk5NjFBRkFDMzMyNDgwOUFGQzVFNDhEMjZENTU5OTJfMw.json" />
-    <EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\CustomTemplate\aHR0cHM6Ly9tbmVzdGl4LmNvbS9hYXMvQjk5NjFBRkFDMzMyNDgwOUFGQzVFNDhEMjZENTU5OTJfMw.json" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\DefaultTemplate\Submodels\aHR0cHM6Ly9hZG1pbi1zaGVsbC5pby9aVkVJL1RlY2huaWNhbERhdGEvU3VibW9kZWwvMS8y.json" />
-    <EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\DefaultTemplate\Submodels\aHR0cHM6Ly9hZG1pbi1zaGVsbC5pby9aVkVJL1RlY2huaWNhbERhdGEvU3VibW9kZWwvMS8y.json" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\DefaultTemplate\Submodels\aHR0cHM6Ly9hZG1pbi1zaGVsbC5pby9pZHRhL1NpbXVsYXRpb25Nb2RlbHMvU2ltdWxhdGlvbk1vZGVsLzEvMA.json" />
-    <EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\DefaultTemplate\Submodels\aHR0cHM6Ly9hZG1pbi1zaGVsbC5pby9pZHRhL1NpbXVsYXRpb25Nb2RlbHMvU2ltdWxhdGlvbk1vZGVsLzEvMA.json" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\DefaultTemplate\Submodels\aHR0cHM6Ly9hZG1pbi1zaGVsbC5pby9pZHRhL1RpbWVTZXJpZXMvMS8x.json" />
-    <EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\DefaultTemplate\Submodels\aHR0cHM6Ly9hZG1pbi1zaGVsbC5pby9pZHRhL1RpbWVTZXJpZXMvMS8x.json" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\DefaultTemplate\Submodels\aHR0cHM6Ly9hZG1pbi1zaGVsbC5pby9pZHRhL2llYzYyNjgzLzEvMC9GdW5jdGlvbmFsU2FmZXR5.json" />
-    <EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\DefaultTemplate\Submodels\aHR0cHM6Ly9hZG1pbi1zaGVsbC5pby9pZHRhL2llYzYyNjgzLzEvMC9GdW5jdGlvbmFsU2FmZXR5.json" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\DefaultTemplate\Submodels\aHR0cHM6Ly9hZG1pbi1zaGVsbC5pby9pZHRhL2llYzYyNjgzLzEvMC9SZWxpYWJpbGl0eQ.json" />
-    <EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\DefaultTemplate\Submodels\aHR0cHM6Ly9hZG1pbi1zaGVsbC5pby9pZHRhL2llYzYyNjgzLzEvMC9SZWxpYWJpbGl0eQ.json" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\DefaultTemplate\Submodels\aHR0cHM6Ly9hZG1pbi1zaGVsbC5pby92ZGkvMjc3MC8xLzIvSGFuZG92ZXJEb2N1bWVudGF0aW9u.json" />
-    <EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\DefaultTemplate\Submodels\aHR0cHM6Ly9hZG1pbi1zaGVsbC5pby92ZGkvMjc3MC8xLzIvSGFuZG92ZXJEb2N1bWVudGF0aW9u.json" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\DefaultTemplate\Submodels\aHR0cHM6Ly9hZG1pbi1zaGVsbC5pby96dmVpL25hbWVwbGF0ZS8xLzAvQ29udGFjdEluZm9ybWF0aW9ucw.json" />
-    <EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\DefaultTemplate\Submodels\aHR0cHM6Ly9hZG1pbi1zaGVsbC5pby96dmVpL25hbWVwbGF0ZS8xLzAvQ29udGFjdEluZm9ybWF0aW9ucw.json" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\DefaultTemplate\Submodels\aHR0cHM6Ly9hZG1pbi1zaGVsbC5pby96dmVpL25hbWVwbGF0ZS8xLzAvTmFtZXBsYXRl.json" />
-    <EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\DefaultTemplate\Submodels\aHR0cHM6Ly9hZG1pbi1zaGVsbC5pby96dmVpL25hbWVwbGF0ZS8xLzAvTmFtZXBsYXRl.json" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\DefaultTemplate\Submodels\aHR0cHM6Ly9hZG1pbi1zaGVsbC5pby96dmVpL25hbWVwbGF0ZS8yLzAvTmFtZXBsYXRl.json" />
-    <EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\DefaultTemplate\Submodels\aHR0cHM6Ly9hZG1pbi1zaGVsbC5pby96dmVpL25hbWVwbGF0ZS8yLzAvTmFtZXBsYXRl.json" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\DefaultTemplate\Submodels\aHR0cHM6Ly9tbmVzdGl4LmNvbS9zbS9UZW1wbGF0ZUJ1aWxkZXJEZW1vLzEvMA==.json" />
-    <EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\DefaultTemplate\Submodels\aHR0cHM6Ly9tbmVzdGl4LmNvbS9zbS9UZW1wbGF0ZUJ1aWxkZXJEZW1vLzEvMA==.json" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\DefaultTemplate\aHR0cHM6Ly9tbmVzdGl4LmNvbS9hYXMvRjExQkY5RjY5NkEzNDU0RUJBMEFBNDUwMzc4M0YxNDJfNA.json" />
-    <EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\DefaultTemplate\aHR0cHM6Ly9tbmVzdGl4LmNvbS9hYXMvRjExQkY5RjY5NkEzNDU0RUJBMEFBNDUwMzc4M0YxNDJfNA.json" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\lni0729\Submodels\Application.json" />
-    <EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\lni0729\Submodels\Application.json" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\lni0729\Submodels\CarbonFootprint.json" />
-    <EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\lni0729\Submodels\CarbonFootprint.json" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\lni0729\Submodels\Nameplate.json" />
-    <EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\lni0729\Submodels\Nameplate.json" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\lni0729\Submodels\ProductionProcess.json" />
-    <EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\lni0729\Submodels\ProductionProcess.json" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\lni0729\Submodels\ReplacementOrder.json" />
-    <EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\lni0729\Submodels\ReplacementOrder.json" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\lni0729\Submodels\TechnicalData.json" />
-    <EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\lni0729\Submodels\TechnicalData.json" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\lni0729\aHR0cHM6Ly9hYXMyLnVuaS1oLmRlL2Fhcy9sbmkwNzI5.json" />
-    <EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\lni0729\aHR0cHM6Ly9hYXMyLnVuaS1oLmRlL2Fhcy9sbmkwNzI5.json" />
-    <None Remove="RequiredShellsAssertion\RequiredShellsResources\Registry\aHR0cHM6Ly9tbmVzdGl4LmNvbS9hYXMvcmVnaXN0cnk.json" />
-    <EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\Mnestix\aHR0cHM6Ly92d3MueGl0YXNvLmNvbS9hYXMvbW5lc3RpeA.json" />
-	<None Remove="RequiredShellsAssertion\RequiredShellsResources\Mnestix\aHR0cHM6Ly92d3MueGl0YXNvLmNvbS9hYXMvbW5lc3RpeA.json" />
-	<EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\Mnestix\Files\Mnestix_Open_Source_Ecosystem.pdf" />
-	<EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\Mnestix\Files\Mnestix_Open_Source_Ecosystem_Preview.png" />
-	<EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\Mnestix\Files\XITASO_logo.png" />
-	<EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\Mnestix\Submodels\BillOfMaterial.json" />
-	<EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\Mnestix\Submodels\HandoverDocumentation.json" />
-	<EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\Mnestix\Submodels\Nameplate.json" />
-	<None Remove="RequiredShellsAssertion\RequiredShellsResources\Mnestix\Submodels\Nameplate.json" />
-	<EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\Mnestix\Submodels\SoftwareNameplate.json" />
-	<EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\Mnestix\Thumbnail\MnestixLogo.png" />
   </ItemGroup>
 
 </Project>
