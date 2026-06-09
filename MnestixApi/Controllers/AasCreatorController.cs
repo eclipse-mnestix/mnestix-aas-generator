@@ -51,12 +51,18 @@ public class AasCreatorController : ControllerBase
             assetIdShort, 
             requestBody != null ? $"BlueprintsIds: {string.Join(", ", requestBody.BlueprintsIds ?? Enumerable.Empty<string>())}" : "no request body");
 
+        if (requestBody?.DefaultThumbnail != null && string.IsNullOrWhiteSpace(requestBody.DefaultThumbnail.Path))
+        {
+            return BadRequest("DefaultThumbnail.Path is required when DefaultThumbnail is provided.");
+        }
+
         var aasCreationResult = await _aasCreatorService.CreateAasWithSubmodelsAsync(
             assetIdShort,
             requestBody?.BlueprintsIds,
             requestBody?.Data,
             requestBody?.Language,
-            requestBody?.Debug ?? false);
+            requestBody?.Debug ?? false,
+            requestBody?.DefaultThumbnail);
 
         switch (aasCreationResult.status)
         {

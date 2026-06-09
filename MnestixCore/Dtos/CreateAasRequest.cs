@@ -30,4 +30,10 @@ public class CreateAasRequest
     /// Optional - defaults to false.
     /// </summary>
     public bool Debug { get; set; }
+
+    /// <summary>
+    /// Optional default thumbnail for the AAS asset information.
+    /// Matches the AAS V3 Resource schema (path required, contentType optional).
+    /// </summary>
+    public DefaultThumbnail? DefaultThumbnail { get; set; }
 }

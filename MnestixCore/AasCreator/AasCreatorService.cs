@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using MnestixCore.AasCreator.Interfaces;
 using MnestixCore.AasGenerator.Interfaces;
+using MnestixCore.Dtos;
 using MnestixCore.Dtos.AppSettingsOptions;
 using MnestixCore.Errors;
 using MnestixCore.IdGenerator.Interfaces;
@@ -64,7 +65,8 @@ public class AasCreatorService(
         IEnumerable<string>? blueprintsIds = null,
         JObject? data = null,
         string? language = null,
-        bool debug = false)
+        bool debug = false,
+        DefaultThumbnail? defaultThumbnail = null)
     {
         var aasIds = await aasIdGeneratorService.GenerateAasIdsAsync(assetIdShortParam);
         var base64EncodedAasId = Base64StringDeAndEncoder.EncodeTo64(aasIds.aasId);
@@ -76,7 +78,7 @@ public class AasCreatorService(
         }
 
         // Create the AAS first
-        var aas = TemplateProvider.GetAas(aasIds);
+        var aas = TemplateProvider.GetAas(aasIds, defaultThumbnail);
 
         try
         {

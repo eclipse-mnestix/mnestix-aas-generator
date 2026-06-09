@@ -28,7 +28,7 @@ public class AasCreatorControllerTest
 
         var mockLogger = new Mock<ILogger<AasCreatorController>>();
         var mockService = new Mock<IAasCreatorService>();
-        mockService.Setup(s => s.CreateAasWithSubmodelsAsync(It.IsAny<string>(), null, null, null, It.IsAny<bool>()))
+        mockService.Setup(s => s.CreateAasWithSubmodelsAsync(It.IsAny<string>(), null, null, null, It.IsAny<bool>(), null))
             .ReturnsAsync(new AasCreationWithSubmodelsResult(
                 new AasIds(assetId, assetIdShort, aasId, aasIdShort), 
                 AasCreationStatus.Created,
@@ -61,7 +61,7 @@ public class AasCreatorControllerTest
         var aasId = "https://www.example.com/aas/" + assetIdShort;
         var mockLogger = new Mock<ILogger<AasCreatorController>>();
         var mockService = new Mock<IAasCreatorService>();
-        mockService.Setup(s => s.CreateAasWithSubmodelsAsync(It.IsAny<string>(), null, null, null, It.IsAny<bool>()))
+        mockService.Setup(s => s.CreateAasWithSubmodelsAsync(It.IsAny<string>(), null, null, null, It.IsAny<bool>(), null))
             .ReturnsAsync(new AasCreationWithSubmodelsResult(
                 new AasIds("", "", aasId, ""), 
                 AasCreationStatus.AlreadyExists,
@@ -106,7 +106,8 @@ public class AasCreatorControllerTest
                 It.IsAny<IEnumerable<string>>(), 
                 It.IsAny<JObject>(), 
                 It.IsAny<string>(),
-                It.IsAny<bool>()))
+                It.IsAny<bool>(),
+                It.IsAny<DefaultThumbnail?>()))
             .ReturnsAsync(new AasCreationWithSubmodelsResult(
                 new AasIds(assetId, assetIdShort, aasId, aasIdShort), 
                 AasCreationStatus.Created,
@@ -161,7 +162,8 @@ public class AasCreatorControllerTest
                 It.IsAny<IEnumerable<string>>(), 
                 It.IsAny<JObject>(), 
                 It.IsAny<string>(),
-                It.IsAny<bool>()))
+                It.IsAny<bool>(),
+                It.IsAny<DefaultThumbnail?>()))
             .ReturnsAsync(new AasCreationWithSubmodelsResult(
                 new AasIds(assetId, assetIdShort, aasId, aasIdShort), 
                 AasCreationStatus.UnknownError,

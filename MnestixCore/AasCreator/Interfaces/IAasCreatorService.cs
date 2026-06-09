@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using MnestixCore.Dtos;
+using Newtonsoft.Json.Linq;
 
 namespace MnestixCore.AasCreator.Interfaces;
 
@@ -21,11 +22,13 @@ public interface IAasCreatorService
     /// <param name="data">Optional data JSON for populating the blueprints</param>
     /// <param name="language">Optional language for multi-language properties</param>
     /// <param name="debug">Optional flag to include debug logs in the response</param>
+    /// <param name="defaultThumbnail">Optional default thumbnail for the AAS asset information</param>
     /// <returns><see cref="AasCreationWithSubmodelsResult"/></returns>
     public Task<AasCreationWithSubmodelsResult> CreateAasWithSubmodelsAsync(
         string assetIdShortParam,
         IEnumerable<string>? blueprintsIds = null,
         JObject? data = null,
         string? language = null,
-        bool debug = false);
+        bool debug = false,
+        DefaultThumbnail? defaultThumbnail = null);
 }
