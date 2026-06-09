@@ -8,12 +8,13 @@ public interface IBlueprintProvider
     /// Gets all blueprints from the blueprint AAS.
     /// </summary>
     /// <returns>Json with all  blueprints.</returns>
-    Task<JArray> GetAllBlueprintsAsync();
+    Task<JArray> GetAllBlueprintsAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets one blueprint from the blueprint AAS.
     /// </summary>
     /// <returns>Json with blueprint.</returns>
-    /// <param name="submodelIdShort">SubmodelIdShort to identify the submodel within the AAS</param>
-    Task<JObject> GetBlueprintAsync(string submodelIdShort);
+    /// <param name="blueprintId">Consumer-facing blueprint id. The default BaSyx-backed provider performs repository-path encoding internally.</param>
+    /// <param name="cancellationToken">Token to cancel the operation.</param>
+    Task<JObject> GetBlueprintAsync(string blueprintId, CancellationToken cancellationToken = default);
 }

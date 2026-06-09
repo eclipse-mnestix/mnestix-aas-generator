@@ -12,7 +12,7 @@ using static MnestixCore.Shared.Base64StringDeAndEncoder;
 
 namespace MnestixCore.TemplateBuilder;
 
-public class BlueprintCreator : IBlueprintCreator
+internal class BlueprintCreator : IBlueprintCreator
 {
     private readonly IRepoProxyClient _repoProxyClient;
     private readonly string _base64BlueprintAasId;
@@ -39,7 +39,7 @@ public class BlueprintCreator : IBlueprintCreator
     }
 
     /// <inheritdoc />
-    public async Task<string> CreateNewSubmodelInBlueprintAasAsync(string templateSubmodel)
+    public async Task<string> CreateNewSubmodelInBlueprintAasAsync(string templateSubmodel, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("CreateBlueprintInAasAsync called");
 
@@ -56,7 +56,7 @@ public class BlueprintCreator : IBlueprintCreator
 
         if (string.IsNullOrWhiteSpace(_submodelBlueprintsApiUrl))
         {
-            await _repoProxyClient.PostAsync(_repoProxyOptions.SubmodelPath, blueprint.ToString());
+            await _repoProxyClient.PostAsync(_repoProxyOptions.SubmodelPath, blueprint.ToString(), cancellationToken);
 
             var submodelReference =
             new SubmodelReference(new List<Key>() { new("Submodel", submodelId) }, "ModelReference");
@@ -66,11 +66,11 @@ public class BlueprintCreator : IBlueprintCreator
             });
 
             _logger.LogTrace("Write new reference submodel to aas: {submodelReferenceJSON}", submodelReferenceJson);
-            await _repoProxyClient.PostAsync($"{_repoProxyOptions.AasPath}/{_base64BlueprintAasId}/submodel-refs", submodelReferenceJson);
+            await _repoProxyClient.PostAsync($"{_repoProxyOptions.AasPath}/{_base64BlueprintAasId}/submodel-refs", submodelReferenceJson, cancellationToken);
         }
         else
         {
-            await PostToBlueprintsApiAsync(blueprint);
+            await PostToBlueprintsApiAsync(blueprint, cancellationToken);
         }
 
         
@@ -81,7 +81,7 @@ public class BlueprintCreator : IBlueprintCreator
     }
 
     /// <inheritdoc />
-    public async Task UpdateSubmodelInBlueprintAasAsync(string submodel, string submodelId)
+    public async Task UpdateSubmodelInBlueprintAasAsync(string submodel, string submodelId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("UpdateSubmodelInBlueprintAasAsync called");
 
@@ -89,18 +89,18 @@ public class BlueprintCreator : IBlueprintCreator
         {
             await _repoProxyClient.PutAsync(
                 _repoProxyOptions.SubmodelPath + "/" + EncodeTo64(submodelId),
-                submodel);
+                submodel, cancellationToken);
         }
         else
         {
-            await PutToBlueprintsApiAsync(submodel, submodelId);
+            await PutToBlueprintsApiAsync(submodel, submodelId, cancellationToken);
         }
 
         _logger.LogInformation("UpdateSubmodelInBlueprintAasAsync - done");
     }
 
     /// <inheritdoc />
-    public async Task DeleteSubmodelInBlueprintAasAsync(string submodelIdBase64Encoded)
+    public async Task DeleteSubmodelInBlueprintAasAsync(string submodelIdBase64Encoded, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("DeleteSubmodelInBlueprintAasAsync called");
 
@@ -110,18 +110,18 @@ public class BlueprintCreator : IBlueprintCreator
 
         if (string.IsNullOrWhiteSpace(_submodelBlueprintsApiUrl))
         {
-            await _repoProxyClient.DeleteAsync(submodelReferencePath);
-            await _repoProxyClient.DeleteAsync(submodelPath);
+            await _repoProxyClient.DeleteAsync(submodelReferencePath, cancellationToken);
+            await _repoProxyClient.DeleteAsync(submodelPath, cancellationToken);
         }
         else
         {
-            await DeleteFromBlueprintsApiAsync(submodelIdBase64Encoded);
+            await DeleteFromBlueprintsApiAsync(submodelIdBase64Encoded, cancellationToken);
         }
 
         _logger.LogInformation("DeleteSubmodelInBlueprintAasAsync - done");
     }
 
-    private async Task PostToBlueprintsApiAsync(JObject blueprint)
+    private async Task PostToBlueprintsApiAsync(JObject blueprint, CancellationToken cancellationToken)
     {
         var client = _restClientFactory(_submodelBlueprintsApiUrl);
         var request = new RestRequest
@@ -132,7 +132,7 @@ public class BlueprintCreator : IBlueprintCreator
         request.AddHeader("Accept", "application/json");
         request.AddStringBody(blueprint.ToString(), DataFormat.Json);
 
-        var response = await client.ExecuteAsync(request);
+        var response = await client.ExecuteAsync(request, cancellationToken);
 
         if (!response.IsSuccessful)
         {
@@ -196,7 +196,7 @@ public class BlueprintCreator : IBlueprintCreator
         }
     }
 
-    private async Task PutToBlueprintsApiAsync(string submodel, string submodelId)
+    private async Task PutToBlueprintsApiAsync(string submodel, string submodelId, CancellationToken cancellationToken)
     {
         var submodelIdBase64Encoded = EncodeTo64(submodelId);
         var client = _restClientFactory(_submodelBlueprintsApiUrl);
@@ -208,7 +208,7 @@ public class BlueprintCreator : IBlueprintCreator
         request.AddHeader("Accept", "application/json");
         request.AddStringBody(submodel, DataFormat.Json);
 
-        var response = await client.ExecuteAsync(request);
+        var response = await client.ExecuteAsync(request, cancellationToken);
 
         if (!response.IsSuccessful)
         {
@@ -223,7 +223,7 @@ public class BlueprintCreator : IBlueprintCreator
         }
     }
 
-    private async Task DeleteFromBlueprintsApiAsync(string submodelIdBase64Encoded)
+    private async Task DeleteFromBlueprintsApiAsync(string submodelIdBase64Encoded, CancellationToken cancellationToken)
     {
         var client = _restClientFactory(_submodelBlueprintsApiUrl);
         var request = new RestRequest('/' + submodelIdBase64Encoded)
@@ -233,7 +233,7 @@ public class BlueprintCreator : IBlueprintCreator
 
         request.AddHeader("Accept", "application/json");
 
-        var response = await client.ExecuteAsync(request);
+        var response = await client.ExecuteAsync(request, cancellationToken);
 
         if (!response.IsSuccessful)
         {

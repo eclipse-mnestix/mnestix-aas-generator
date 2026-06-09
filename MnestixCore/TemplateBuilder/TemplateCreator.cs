@@ -11,7 +11,7 @@ using static MnestixCore.Shared.Base64StringDeAndEncoder;
 
 namespace MnestixCore.TemplateBuilder;
 
-public class TemplateCreator : ITemplateCreator
+internal class TemplateCreator : ITemplateCreator
 {
     private readonly IRepoProxyClient _repoProxyClient;
     private readonly string _base64TemplateAasId;
@@ -33,7 +33,7 @@ public class TemplateCreator : ITemplateCreator
         _logger = logger;
     }
 
-    public async Task AddNewSubmodelInTemplateAasAsync(string template)
+    public async Task AddNewSubmodelInTemplateAasAsync(string template, CancellationToken cancellationToken = default)
     {
         var templateSubmodelJson = JObject.Parse(template);
 
@@ -45,7 +45,7 @@ public class TemplateCreator : ITemplateCreator
         SetSemanticId(ref templateSubmodelJson);
 
         _logger.LogTrace("Write new template to repository: {SubmodelForRepo}", templateSubmodelJson);
-        await _repoProxyClient.PostAsync(_repoProxyOptions.SubmodelPath, templateSubmodelJson.ToString());
+        await _repoProxyClient.PostAsync(_repoProxyOptions.SubmodelPath, templateSubmodelJson.ToString(), cancellationToken);
 
         var submodelReference =
             new SubmodelReference(new List<Key> { new("Submodel", templateSubmodelJson["id"]!.ToString()) }, "ModelReference");
@@ -56,7 +56,7 @@ public class TemplateCreator : ITemplateCreator
         });
 
         _logger.LogTrace("Write new reference submodel to aas: {submodelReferenceJSON}", submodelReferenceJson);
-        await _repoProxyClient.PostAsync($"{_repoProxyOptions.AasPath}/{_base64TemplateAasId}/submodel-refs", submodelReferenceJson);
+        await _repoProxyClient.PostAsync($"{_repoProxyOptions.AasPath}/{_base64TemplateAasId}/submodel-refs", submodelReferenceJson, cancellationToken);
     }
 
     private void SetSemanticId(ref JObject submodel)

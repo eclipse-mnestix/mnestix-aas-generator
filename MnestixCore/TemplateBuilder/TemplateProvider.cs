@@ -12,7 +12,7 @@ using RestSharp;
 
 namespace MnestixCore.TemplateBuilder;
 
-public class TemplateProvider : ITemplateProvider
+internal class TemplateProvider : ITemplateProvider
 {
     private readonly IRepoProxyClient _repoProxyClient;
     private readonly string _base64TemplateAasId;
@@ -43,28 +43,28 @@ public class TemplateProvider : ITemplateProvider
     }
 
     /// <inheritdoc />
-    public async Task<JArray> GetAllTemplateSubmodelsAsync()
+    public async Task<JArray> GetAllTemplateSubmodelsAsync(CancellationToken cancellationToken = default)
     {
         _logger.LogInformation($"GetAllTemplateSubmodelsAsync");
 
         if (!string.IsNullOrWhiteSpace(_submodelTemplatesApiUrl))
         {
-            return await FetchTemplatesFromApiAsync();
+            return await FetchTemplatesFromApiAsync(cancellationToken);
         }
         else
         {
-            return await FetchTemplatesFromAasGeneratorApiAsync();
+            return await FetchTemplatesFromAasGeneratorApiAsync(cancellationToken);
         }
     }
 
-    private async Task<string> GetTemplatesFromReference(List<string> submodelsIds)
+    private async Task<string> GetTemplatesFromReference(List<string> submodelsIds, CancellationToken cancellationToken)
     {
         StringBuilder submodels = new StringBuilder();
         submodels.Append("[");
         foreach (var submodelsId in submodelsIds)
         {
             var submodelIdEncoded = Base64StringDeAndEncoder.EncodeTo64(submodelsId);
-            var fetchedSubmodel = await _repoProxyClient.GetAsync(_repoProxyOptions.SubmodelPath + "/" + submodelIdEncoded);
+            var fetchedSubmodel = await _repoProxyClient.GetAsync(_repoProxyOptions.SubmodelPath + "/" + submodelIdEncoded, cancellationToken);
             submodels.Append(fetchedSubmodel + ",");
         }
         submodels.Append("]");
@@ -72,9 +72,9 @@ public class TemplateProvider : ITemplateProvider
         return submodels.ToString();
     }
 
-    private async Task<JArray> FetchTemplatesFromAasGeneratorApiAsync()
+    private async Task<JArray> FetchTemplatesFromAasGeneratorApiAsync(CancellationToken cancellationToken)
         {
-            var result = await _repoProxyClient.GetAsync($"{_repoProxyOptions.AasPath}/{_base64TemplateAasId}/submodel-refs");
+            var result = await _repoProxyClient.GetAsync($"{_repoProxyOptions.AasPath}/{_base64TemplateAasId}/submodel-refs", cancellationToken);
 
             if (string.IsNullOrWhiteSpace(result))
             {
@@ -86,12 +86,12 @@ public class TemplateProvider : ITemplateProvider
             var submodelRefs = JObject.Parse(result);
             var submodelsIds = _submodelHandler.GetSubmodelsIdsFromSubmodelsRefs(submodelRefs);
 
-            var submodels = await GetTemplatesFromReference(submodelsIds);
+            var submodels = await GetTemplatesFromReference(submodelsIds, cancellationToken);
 
             return JArray.Parse(submodels);
         }
 
-    private async Task<JArray> FetchTemplatesFromApiAsync()
+    private async Task<JArray> FetchTemplatesFromApiAsync(CancellationToken cancellationToken)
     {
         try
         {
@@ -104,7 +104,7 @@ public class TemplateProvider : ITemplateProvider
             request.AddHeader("Cache-Control", "no-store");
             request.AddHeader("Accept", "application/json");
 
-            var response = await client.ExecuteAsync(request);
+            var response = await client.ExecuteAsync(request, cancellationToken);
 
             if (!response.IsSuccessful)
             {

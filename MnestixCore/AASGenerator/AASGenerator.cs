@@ -1,6 +1,4 @@
-﻿using System.Text;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MnestixCore.AasGenerator.Interfaces;
 using MnestixCore.Dtos;
@@ -24,7 +22,7 @@ namespace MnestixCore.AasGenerator;
 /// The generator orchestrates a sequence of operations for each blueprint id: fetch the blueprint, derive identifiers,
 /// map incoming payload data, and persist the resulting submodel while creating the appropriate shell reference.
 /// </remarks>
-public class AasGenerator : IAasGenerator
+internal class AasGenerator : IAasGenerator
 {
     private readonly IDataMapper _dataToInstanceMapper;
     private readonly IRepoProxyClient _repoProxyClient;
@@ -58,7 +56,7 @@ public class AasGenerator : IAasGenerator
     /// <param name="language">Preferred language code for localized text within the generated submodels.</param>
     /// <param name="debug">Whether to include debug logs in the results.</param>
     /// <returns>Collection of results indicating success or failure for each processed blueprint.</returns>
-    public async Task<IEnumerable<AasGeneratorResult>> AddDataToAasAsync(string base64EncodedAasId, IEnumerable<string> blueprintsIds, JObject data, string? language, bool debug = false, string? preamble = null)
+    public async Task<IEnumerable<AasGeneratorResult>> AddDataToAasAsync(string base64EncodedAasId, IEnumerable<string> blueprintsIds, JObject data, string? language, bool debug = false, string? preamble = null, CancellationToken cancellationToken = default)
     {
         if (!IsBase64UrlSafe(base64EncodedAasId))
         {
@@ -83,11 +81,11 @@ public class AasGenerator : IAasGenerator
 
             try
             {
-                var blueprint = await GetBlueprintAsync(blueprintId, workflowLogger);
+                var blueprint = await GetBlueprintAsync(blueprintId, workflowLogger, cancellationToken);
                 ValidateIdShort(blueprint, blueprintId, workflowLogger);
-                var newSubmodelId = await GenerateSubmodelIdAsync(workflowLogger);
+                var newSubmodelId = await GenerateSubmodelIdAsync(workflowLogger, cancellationToken);
                 var instance = MapDataToInstance(blueprint, data, language, newSubmodelId, workflowLogger);
-                await AddSubmodelToAasAsync(base64EncodedAasId, instance, workflowLogger);
+                await AddSubmodelToAasAsync(base64EncodedAasId, instance, workflowLogger, cancellationToken);
 
                 return new AasGeneratorResult
                 {
@@ -144,14 +142,12 @@ public class AasGenerator : IAasGenerator
         return await Task.WhenAll(blueprintsResults);
     }
 
-    private async Task<JObject> GetBlueprintAsync(string blueprintId, WorkflowLogger workflowLogger)
+    private async Task<JObject> GetBlueprintAsync(string blueprintId, WorkflowLogger workflowLogger, CancellationToken cancellationToken)
     {
-        var base64BlueprintId = Base64StringDeAndEncoder.EncodeTo64(blueprintId);
-
         workflowLogger.LogInfo($"Fetching blueprint: {blueprintId}");
         try
         {
-            var blueprint = await _blueprintProvider.GetBlueprintAsync(base64BlueprintId);
+            var blueprint = await _blueprintProvider.GetBlueprintAsync(blueprintId, cancellationToken);
             workflowLogger.LogInfo("Blueprint fetched successfully");
             return blueprint;
         }
@@ -190,7 +186,7 @@ public class AasGenerator : IAasGenerator
         workflowLogger.LogInfo($"Extracted idShort: {subModelShortId}");
     }
 
-    private async Task AddSubmodelToAasAsync(string base64EncodedAasId, JObject submodelInstance, WorkflowLogger workflowLogger)
+    private async Task AddSubmodelToAasAsync(string base64EncodedAasId, JObject submodelInstance, WorkflowLogger workflowLogger, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(base64EncodedAasId))
         {
@@ -208,7 +204,7 @@ public class AasGenerator : IAasGenerator
         workflowLogger.LogInfo("Posting submodel to repository");
         try
         {
-            await _repoProxyClient.PostAsync(_repoProxyOptions.SubmodelPath, submodelInstance.ToString());
+            await _repoProxyClient.PostAsync(_repoProxyOptions.SubmodelPath, submodelInstance.ToString(), cancellationToken);
 
             var submodelReference =
                 new SubmodelReference(new List<Key> { new("Submodel", submodelId) }, "ModelReference");
@@ -218,7 +214,7 @@ public class AasGenerator : IAasGenerator
             });
 
             workflowLogger.LogInfo("Adding submodel reference to shell");
-            await _repoProxyClient.PostAsync($"{_repoProxyOptions.AasPath}/{base64EncodedAasId}/submodel-refs", submodelReferenceJson);
+            await _repoProxyClient.PostAsync($"{_repoProxyOptions.AasPath}/{base64EncodedAasId}/submodel-refs", submodelReferenceJson, cancellationToken);
             workflowLogger.LogInfo("Submodel reference added to shell");
         }
         catch (RepoProxyException e)
@@ -228,12 +224,12 @@ public class AasGenerator : IAasGenerator
         }
     }
 
-    private async Task<string> GenerateSubmodelIdAsync(WorkflowLogger workflowLogger)
+    private async Task<string> GenerateSubmodelIdAsync(WorkflowLogger workflowLogger, CancellationToken cancellationToken)
     {
         workflowLogger.LogInfo("Generating submodel ID");
         try
         {
-            var ids = await _idGenerator.GenerateSubmodelIdsAsync();
+            var ids = await _idGenerator.GenerateSubmodelIdsAsync(1, cancellationToken);
             var newId = ids.First();
             workflowLogger.LogInfo($"Submodel ID generated: {newId}");
             return newId;

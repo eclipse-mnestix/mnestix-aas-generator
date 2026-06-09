@@ -12,7 +12,7 @@ using static MnestixCore.Shared.Base64StringDeAndEncoder;
 
 namespace MnestixCore.TemplateBuilder;
 
-public class BlueprintProvider : IBlueprintProvider
+internal class BlueprintProvider : IBlueprintProvider
 {
     private readonly IRepoProxyClient _repoProxyClient;
     private readonly string _base64BlueprintAasId;
@@ -43,41 +43,41 @@ public class BlueprintProvider : IBlueprintProvider
     }
 
     /// <inheritdoc />
-    public async Task<JArray> GetAllBlueprintsAsync()
+    public async Task<JArray> GetAllBlueprintsAsync(CancellationToken cancellationToken = default)
     {
         if (!string.IsNullOrWhiteSpace(_submodelBlueprintsApiUrl))
         {
-            return await FetchBlueprintsAsync();
+            return await FetchBlueprintsAsync(cancellationToken);
         }
 
-        var submodelsRefsFromRepo = await _repoProxyClient.GetAsync($"{_repoProxyOptions.AasPath}/{_base64BlueprintAasId}/submodel-refs");
+        var submodelsRefsFromRepo = await _repoProxyClient.GetAsync($"{_repoProxyOptions.AasPath}/{_base64BlueprintAasId}/submodel-refs", cancellationToken);
         var submodelRefs = JObject.Parse(submodelsRefsFromRepo!);
 
         var submodelsIds = _submodelHandler.GetSubmodelsIdsFromSubmodelsRefs(submodelRefs);
 
-        var submodels = await GetBlueprintsFromReference(submodelsIds);
+        var submodels = await GetBlueprintsFromReference(submodelsIds, cancellationToken);
         return JArray.Parse(submodels);
     }
 
     /// <inheritdoc />
-    public async Task<JObject> GetBlueprintAsync(string submodelIdShort)
+    public async Task<JObject> GetBlueprintAsync(string blueprintId, CancellationToken cancellationToken = default)
     {
         if (!string.IsNullOrWhiteSpace(_submodelBlueprintsApiUrl))
         {
-            return await FetchBlueprintsAsync(submodelIdShort);
+            return await FetchBlueprintsAsync(EncodeTo64(blueprintId), cancellationToken);
         }
 
-        var submodelFromRepo = await _repoProxyClient.GetAsync(_repoProxyOptions.SubmodelPath + "/" + submodelIdShort);
+        var submodelFromRepo = await _repoProxyClient.GetAsync(_repoProxyOptions.SubmodelPath + "/" + EncodeTo64(blueprintId), cancellationToken);
         return JObject.Parse(submodelFromRepo!);
     }
 
-    private async Task<string> GetBlueprintsFromReference(IEnumerable<string> submodelsIds)
+    private async Task<string> GetBlueprintsFromReference(IEnumerable<string> submodelsIds, CancellationToken cancellationToken)
     {
         var submodels = new StringBuilder();
         submodels.Append('[');
         foreach (var submodelIdEncoded in submodelsIds.Select(Base64StringDeAndEncoder.EncodeTo64))
         {
-            var result = await _repoProxyClient.GetAsync(_repoProxyOptions.SubmodelPath + "/" + submodelIdEncoded);
+            var result = await _repoProxyClient.GetAsync(_repoProxyOptions.SubmodelPath + "/" + submodelIdEncoded, cancellationToken);
             if(JsonHelper.IsValidJson(result)){
                 submodels.Append(result + ",");
             }
@@ -87,7 +87,7 @@ public class BlueprintProvider : IBlueprintProvider
         return submodels.ToString();
     }
 
-    private async Task<JArray> FetchBlueprintsAsync()
+    private async Task<JArray> FetchBlueprintsAsync(CancellationToken cancellationToken)
     {
         var client = _restClientFactory(_submodelBlueprintsApiUrl);
         var request = new RestRequest
@@ -96,7 +96,7 @@ public class BlueprintProvider : IBlueprintProvider
         };
         request.AddHeader("Accept", "application/json");
 
-        var response = await client.ExecuteAsync(request);
+        var response = await client.ExecuteAsync(request, cancellationToken);
 
         if (!response.IsSuccessful)
         {
@@ -140,7 +140,7 @@ public class BlueprintProvider : IBlueprintProvider
         throw new InvalidOperationException("Unexpected response format from blueprints endpoint.");
     }
 
-    private async Task<JObject> FetchBlueprintsAsync(string submodelIdShort)
+    private async Task<JObject> FetchBlueprintsAsync(string submodelIdShort, CancellationToken cancellationToken)
     {
         var client = _restClientFactory(_submodelBlueprintsApiUrl);
         var request = new RestRequest('/' + submodelIdShort)
@@ -149,7 +149,7 @@ public class BlueprintProvider : IBlueprintProvider
         };
         request.AddHeader("Accept", "application/json");
 
-        var response = await client.ExecuteAsync(request);
+        var response = await client.ExecuteAsync(request, cancellationToken);
 
         if (!response.IsSuccessful)
         {

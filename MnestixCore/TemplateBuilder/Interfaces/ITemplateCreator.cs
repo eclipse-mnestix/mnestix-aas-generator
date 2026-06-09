@@ -7,5 +7,5 @@ public interface ITemplateCreator
     /// </summary>
     /// <param name="templateSubmodel"></param>
     /// <returns></returns>
-    Task AddNewSubmodelInTemplateAasAsync(string templateSubmodel);
+    Task AddNewSubmodelInTemplateAasAsync(string templateSubmodel, CancellationToken cancellationToken = default);
 }

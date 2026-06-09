@@ -4,7 +4,7 @@ using MnestixCore.IdGenerator.Interfaces;
 
 namespace MnestixCore.IdGenerator;
 
-public class AasIdGeneratorService : IAasIdGeneratorService
+internal class AasIdGeneratorService : IAasIdGeneratorService
 {
     private readonly IMnestixConfigurationProvider _mnestixConfigurationProvider;
 
@@ -14,9 +14,9 @@ public class AasIdGeneratorService : IAasIdGeneratorService
     }
 
     /// <inheritdoc />
-    public async Task<AasIds> GenerateAasIdsAsync(string? assetIdShortParam = null)
+    public async Task<AasIds> GenerateAasIdsAsync(string? assetIdShortParam = null, CancellationToken cancellationToken = default)
     {
-        var idGenerationSettings = await _mnestixConfigurationProvider.GetIdGenerationSettingsAsync();
+        var idGenerationSettings = await _mnestixConfigurationProvider.GetIdGenerationSettingsAsync(cancellationToken);
 
         var assetIdShort = GenerateAssetIdShort(assetIdShortParam, idGenerationSettings);
         var assetId = GenerateAssetId(assetIdShort, idGenerationSettings);
@@ -27,9 +27,9 @@ public class AasIdGeneratorService : IAasIdGeneratorService
     }
 
     /// <inheritdoc />
-    public async Task<List<string>> GenerateSubmodelIdsAsync(uint count = 1)
+    public async Task<List<string>> GenerateSubmodelIdsAsync(uint count = 1, CancellationToken cancellationToken = default)
     {
-        var idGenerationSettings = await _mnestixConfigurationProvider.GetIdGenerationSettingsAsync();
+        var idGenerationSettings = await _mnestixConfigurationProvider.GetIdGenerationSettingsAsync(cancellationToken);
 
         var submodelIds = new List<string>();
 

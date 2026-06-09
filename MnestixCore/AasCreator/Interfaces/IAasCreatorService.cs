@@ -9,7 +9,7 @@ public interface IAasCreatorService
     /// </summary>
     /// <param name="assetIdShortParam">Short identifier of the asset</param>
     /// <returns><see cref="AasCreationResult"/></returns>
-    public Task<AasCreationResult> CreateAasAsync(string assetIdShortParam);
+    public Task<AasCreationResult> CreateAasAsync(string assetIdShortParam, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create an AAS for the given <paramref name="assetIdShortParam" /> with optional submodels.
@@ -27,5 +27,6 @@ public interface IAasCreatorService
         IEnumerable<string>? blueprintsIds = null,
         JObject? data = null,
         string? language = null,
-        bool debug = false);
+        bool debug = false,
+        CancellationToken cancellationToken = default);
 }

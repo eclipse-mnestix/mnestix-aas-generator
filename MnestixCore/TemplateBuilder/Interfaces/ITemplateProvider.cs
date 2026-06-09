@@ -8,5 +8,5 @@ public interface ITemplateProvider
     /// Provides all submodels from the template AAS
     /// </summary>
     /// <returns>All submodel as json array.</returns>
-    public Task<JArray> GetAllTemplateSubmodelsAsync();
+    public Task<JArray> GetAllTemplateSubmodelsAsync(CancellationToken cancellationToken = default);
 }

@@ -8,5 +8,5 @@ public interface IMnestixConfigurationProvider
     /// Provides the settings for the id generation.
     /// </summary>
     /// <returns>Task which holds <see cref="IdGenerationSettings"/></returns>
-    Task<IdGenerationSettings> GetIdGenerationSettingsAsync();
+    Task<IdGenerationSettings> GetIdGenerationSettingsAsync(CancellationToken cancellationToken = default);
 }

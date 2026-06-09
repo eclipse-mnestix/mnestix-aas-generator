@@ -18,5 +18,5 @@ public interface IAasGenerator
     /// <param name="debug">whether to include debug logs in the results</param>
     /// <param name="preamble">optional context message logged as the first entry per blueprint (e.g. caller info)</param>
     /// <returns>a list of results for each template</returns>
-    Task<IEnumerable<AasGeneratorResult>> AddDataToAasAsync(string base64EncodedAasId, IEnumerable<string> blueprintsIds, JObject data, string? language, bool debug = false, string? preamble = null);
+    Task<IEnumerable<AasGeneratorResult>> AddDataToAasAsync(string base64EncodedAasId, IEnumerable<string> blueprintsIds, JObject data, string? language, bool debug = false, string? preamble = null, CancellationToken cancellationToken = default);
 }

@@ -11,7 +11,7 @@ using static MnestixCore.Shared.Base64StringDeAndEncoder;
 
 namespace MnestixCore.IdGenerator;
 
-public class MnestixConfigurationProvider : IMnestixConfigurationProvider
+internal class MnestixConfigurationProvider : IMnestixConfigurationProvider
 {
     private readonly ILogger _logger;
     private readonly IRepoProxyClient _repoProxyClient;
@@ -49,9 +49,9 @@ public class MnestixConfigurationProvider : IMnestixConfigurationProvider
     }
 
     /// <inheritdoc />
-    public async Task<IdGenerationSettings> GetIdGenerationSettingsAsync()
+    public async Task<IdGenerationSettings> GetIdGenerationSettingsAsync(CancellationToken cancellationToken = default)
     {
-        var idGeneratingSettingsSubmodelJObject = await GetIdGeneratingSettingsSubmodel();
+        var idGeneratingSettingsSubmodelJObject = await GetIdGeneratingSettingsSubmodel(cancellationToken);
 
         return new IdGenerationSettings(
             GetValueFromSubmodel(idGeneratingSettingsSubmodelJObject, SubmodelElementIdShort.AASID,
@@ -93,10 +93,10 @@ public class MnestixConfigurationProvider : IMnestixConfigurationProvider
         return result;
     }
 
-    private async Task<JObject> GetIdGeneratingSettingsSubmodel()
+    private async Task<JObject> GetIdGeneratingSettingsSubmodel(CancellationToken cancellationToken)
     {
         var idGeneratingSettingsSubmodel =
-            await _repoProxyClient.GetAsync($"{_repoProxyOptions.SubmodelPath}/{_base64ConfigurationSmId}");
+            await _repoProxyClient.GetAsync($"{_repoProxyOptions.SubmodelPath}/{_base64ConfigurationSmId}", cancellationToken);
         var submodel = JObject.Parse(idGeneratingSettingsSubmodel!);
 
         return submodel;

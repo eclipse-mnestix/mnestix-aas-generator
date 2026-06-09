@@ -10,7 +10,7 @@ using RestSharp;
 
 namespace MnestixCore.RepoProxyClient;
 
-public class RepoProxyClient(
+internal class RepoProxyClient(
         IOptions<RepoProxyOptions> repoProxyOptions,
         IOptions<CustomerEndpointsSecurityOptions> customerEndpointsSecurityOptions,
         BaseUrlProvider baseUrlProvider,
@@ -24,7 +24,7 @@ public class RepoProxyClient(
                                                                                           throw new ArgumentNullException(nameof(customerEndpointsSecurityOptions));
 
     /// <inheritdoc />
-    public async Task<string?> GetAsync(string repoProxyPath)
+    public async Task<string?> GetAsync(string repoProxyPath, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -32,7 +32,7 @@ public class RepoProxyClient(
             var request = new RestRequest("/" + repoProxyPath);
             request.AddHeader(ApiKeyHeaderKey, _customerEndpointsSecurityOptions.ApiKey);
 
-            var response = await client.ExecuteAsync(request);
+            var response = await client.ExecuteAsync(request, cancellationToken);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -54,7 +54,7 @@ public class RepoProxyClient(
     }
 
     /// <inheritdoc />
-    public async Task<string?> PostAsync(string relativeRepoProxyPath, string jsonContent)
+    public async Task<string?> PostAsync(string relativeRepoProxyPath, string jsonContent, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -69,7 +69,7 @@ public class RepoProxyClient(
             var normalized = AasJsonNormalizer.NormalizeJsonForRepository(JObject.Parse(jsonContent));
             restRequest.AddBody(normalized.ToString(), "application/json");
 
-            var response = await client.ExecuteAsync(restRequest);
+            var response = await client.ExecuteAsync(restRequest, cancellationToken);
 
             if (response.StatusCode != HttpStatusCode.OK && response.StatusCode != HttpStatusCode.Created)
             {
@@ -91,7 +91,7 @@ public class RepoProxyClient(
     }
 
     /// <inheritdoc />
-    public async Task<string?> PutAsync(string relativeRepoProxyPath, string jsonContent)
+    public async Task<string?> PutAsync(string relativeRepoProxyPath, string jsonContent, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -106,7 +106,7 @@ public class RepoProxyClient(
             var normalized = AasJsonNormalizer.NormalizeJsonForRepository(JObject.Parse(jsonContent));
             restRequest.AddBody(normalized.ToString(), "application/json");
 
-            var response = await client.ExecuteAsync(restRequest);
+            var response = await client.ExecuteAsync(restRequest, cancellationToken);
 
             if (response.StatusCode != HttpStatusCode.OK && response.StatusCode != HttpStatusCode.Created
                 && response.StatusCode != HttpStatusCode.NoContent)
@@ -130,7 +130,7 @@ public class RepoProxyClient(
 
     /// <inheritdoc />
     public async Task<string?> PostSubmodelWithReferenceAsync(string aasIdBase64, string submodelIdNotEncoded,
-        string jsonContent)
+        string jsonContent, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -145,7 +145,7 @@ public class RepoProxyClient(
             var normalized = AasJsonNormalizer.NormalizeJsonForRepository(JObject.Parse(jsonContent));
             restRequest.AddBody(normalized.ToString(), "application/json");
 
-            var response = await client.ExecuteAsync(restRequest);
+            var response = await client.ExecuteAsync(restRequest, cancellationToken);
 
             if (response.StatusCode != HttpStatusCode.OK && response.StatusCode != HttpStatusCode.Created)
             {
@@ -168,7 +168,7 @@ public class RepoProxyClient(
             restRequest.AddHeader(ApiKeyHeaderKey, _customerEndpointsSecurityOptions.ApiKey);
             restRequest.AddBody(JObject.Parse(submodelReference).ToString(), "application/json");
 
-            response = await client.ExecuteAsync(restRequest);
+            response = await client.ExecuteAsync(restRequest, cancellationToken);
 
             if (response.StatusCode != HttpStatusCode.OK && response.StatusCode != HttpStatusCode.Created)
             {
@@ -189,7 +189,7 @@ public class RepoProxyClient(
     }
 
     /// <inheritdoc />
-    public async Task<string?> PutFileContent(string repoProxyPath, string fileName, byte[] fileContent)
+    public async Task<string?> PutFileContent(string repoProxyPath, string fileName, byte[] fileContent, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -203,7 +203,7 @@ public class RepoProxyClient(
             restRequest.AddHeader(ApiKeyHeaderKey, _customerEndpointsSecurityOptions.ApiKey);
             restRequest.AddFile("file", fileContent, fileName);
 
-            var response = await client.ExecuteAsync(restRequest);
+            var response = await client.ExecuteAsync(restRequest, cancellationToken);
 
             if (response.StatusCode != HttpStatusCode.OK && response.StatusCode != HttpStatusCode.Created
                 && response.StatusCode != HttpStatusCode.NoContent)
@@ -226,7 +226,7 @@ public class RepoProxyClient(
         }
     }
 
-    public async Task<string?> PatchAsync(string relativeRepoProxyPath, string value)
+    public async Task<string?> PatchAsync(string relativeRepoProxyPath, string value, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -241,7 +241,7 @@ public class RepoProxyClient(
             var token = JToken.FromObject(value);
             restRequest.AddBody(token.ToString(Newtonsoft.Json.Formatting.None), "application/json");
 
-            var response = await client.ExecuteAsync(restRequest);
+            var response = await client.ExecuteAsync(restRequest, cancellationToken);
 
             if (response.StatusCode != HttpStatusCode.OK && response.StatusCode != HttpStatusCode.Created
                 && response.StatusCode != HttpStatusCode.NoContent)
@@ -263,7 +263,7 @@ public class RepoProxyClient(
         }
     }
 
-    public async Task<bool> DeleteAsync(string relativeRepoProxyPath)
+    public async Task<bool> DeleteAsync(string relativeRepoProxyPath, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -276,7 +276,7 @@ public class RepoProxyClient(
 
             restRequest.AddHeader(ApiKeyHeaderKey, _customerEndpointsSecurityOptions.ApiKey);
 
-            var response = await client.ExecuteAsync(restRequest);
+            var response = await client.ExecuteAsync(restRequest, cancellationToken);
 
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
