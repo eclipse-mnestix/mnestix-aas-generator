@@ -192,4 +192,71 @@ public class AasCreatorControllerTest
         response?.SubmodelResults.Should().HaveCount(1);
         response?.SubmodelResults.First().Success.Should().BeFalse();
     }
+
+    [Test]
+    public async Task CreateAas_WithThumbnailWithoutPath_ReturnStatus400()
+    {
+        // ARRANGE
+        var assetIdShort = Guid.NewGuid().ToString();
+        var mockLogger = new Mock<ILogger<AasCreatorController>>();
+        var mockService = new Mock<IAasCreatorService>();
+        var controller = new AasCreatorController(mockLogger.Object, mockService.Object);
+
+        var request = new CreateAasRequest
+        {
+            DefaultThumbnail = new DefaultThumbnail { Path = "" }
+        };
+
+        // ACT 
+        var result = await controller.CreateAas(assetIdShort, request);
+
+        // ASSERT
+        Assert.IsInstanceOf<BadRequestObjectResult>(result.Result);
+        var actionResult = result.Result as BadRequestObjectResult;
+        actionResult.Should().NotBeNull();
+        actionResult?.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
+        mockService.Verify(s => s.CreateAasWithSubmodelsAsync(
+            It.IsAny<string>(), It.IsAny<IEnumerable<string>?>(), It.IsAny<JObject?>(),
+            It.IsAny<string?>(), It.IsAny<bool>(), It.IsAny<DefaultThumbnail?>()), Times.Never);
+    }
+
+    [Test]
+    public async Task CreateAas_WithValidThumbnail_PassesThumbnailToService()
+    {
+        // ARRANGE
+        var assetIdShort = Guid.NewGuid().ToString();
+        var assetId = "https://www.example.com/" + assetIdShort;
+        var aasIdShort = "aas_" + assetIdShort;
+        var aasId = "https://www.example.com/aas/" + assetIdShort;
+
+        var thumbnail = new DefaultThumbnail { Path = "https://example.com/logo.png", ContentType = "image/png" };
+
+        var mockLogger = new Mock<ILogger<AasCreatorController>>();
+        var mockService = new Mock<IAasCreatorService>();
+        mockService.Setup(s => s.CreateAasWithSubmodelsAsync(
+                It.IsAny<string>(),
+                It.IsAny<IEnumerable<string>?>(),
+                It.IsAny<JObject?>(),
+                It.IsAny<string?>(),
+                It.IsAny<bool>(),
+                It.IsAny<DefaultThumbnail?>()))
+            .ReturnsAsync(new AasCreationWithSubmodelsResult(
+                new AasIds(assetId, assetIdShort, aasId, aasIdShort),
+                AasCreationStatus.Created,
+                Enumerable.Empty<AasGeneratorResult>()));
+        var controller = new AasCreatorController(mockLogger.Object, mockService.Object);
+
+        var request = new CreateAasRequest
+        {
+            DefaultThumbnail = thumbnail
+        };
+
+        // ACT 
+        var result = await controller.CreateAas(assetIdShort, request);
+
+        // ASSERT
+        Assert.IsInstanceOf<OkObjectResult>(result.Result);
+        mockService.Verify(s => s.CreateAasWithSubmodelsAsync(
+            assetIdShort, null, null, null, false, thumbnail), Times.Once);
+    }
 }
