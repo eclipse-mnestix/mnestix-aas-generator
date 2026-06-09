@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Mnestix.AasGenerator.DefaultTemplates</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Mnestix</Authors>
+    <Description>Bundled default IDTA/ZVEI submodel templates and Mnestix sample shells for the Mnestix AAS Generator. Provides IRequiredShellsAssertion to seed a repository with the default catalogue on demand.</Description>
+    <RepositoryUrl>https://github.com/eclipse-mnestix/mnestix-aas-generator</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Core.Tests" />
+    <InternalsVisibleTo Include="Web.Tests" />
+    <!-- Allows Moq/Castle DynamicProxy to mock internal types from the test assemblies. -->
+    <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MnestixCore\MnestixCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\**\*.json" />
+    <EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\**\*.png" />
+    <EmbeddedResource Include="RequiredShellsAssertion\RequiredShellsResources\**\*.pdf" />
+  </ItemGroup>
+
+</Project>

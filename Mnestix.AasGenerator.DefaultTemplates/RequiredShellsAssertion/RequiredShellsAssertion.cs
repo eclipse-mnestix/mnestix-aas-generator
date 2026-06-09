@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Reflection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MnestixCore.Dtos.AppSettingsOptions;
 using MnestixCore.Errors;
@@ -9,7 +10,7 @@ using Newtonsoft.Json.Linq;
 
 namespace MnestixCore.RequiredShellsAssertion;
 
-public class RequiredShellsAssertion(ILogger<RequiredShellsAssertion> logger,
+internal class RequiredShellsAssertion(ILogger<RequiredShellsAssertion> logger,
         IOptions<List<RequiredShells>> requiredShellsOptions,
         IRepoProxyClient repoProxyClient,
         IOptions<RepoProxyOptions> repoProxyOptions,
@@ -17,6 +18,10 @@ public class RequiredShellsAssertion(ILogger<RequiredShellsAssertion> logger,
     : IRequiredShellsAssertion
 {
     private const string EmbeddedResourceShellPath = "RequiredShellsAssertion.RequiredShellsResources.";
+
+    // The default-template resources are embedded in this (DefaultTemplates) assembly,
+    // not in MnestixCore, so load them from the assembly that declares this type.
+    private static readonly Assembly ResourceAssembly = typeof(RequiredShellsAssertion).Assembly;
 
     private readonly RepoProxyOptions _repoProxyOptions = repoProxyOptions.Value ?? throw new ArgumentNullException(nameof(repoProxyOptions));
     private readonly List<RequiredShells> _requiredShellsOptions = requiredShellsOptions.Value ?? throw new ArgumentNullException(nameof(requiredShellsOptions));
@@ -41,7 +46,7 @@ public class RequiredShellsAssertion(ILogger<RequiredShellsAssertion> logger,
     /// Existing submodels of a required AAS will be overwritten.
     /// Setting 'SkipIfAlreadyExists' of an AAS to true prevents existing submodels to be overwritten.
     /// </remarks>
-    public async Task AssertRequiredShellsAsync()
+    public async Task AssertRequiredShellsAsync(CancellationToken cancellationToken = default)
     {
         logger.LogInformation("Assert existence of required AAS");
 
@@ -70,7 +75,7 @@ public class RequiredShellsAssertion(ILogger<RequiredShellsAssertion> logger,
 
             try
             {
-                var isAasIdExisting = await IsAasIdAlreadyExisting(requiredShell.Base64EncodedAasId);
+                var isAasIdExisting = await IsAasIdAlreadyExisting(requiredShell.Base64EncodedAasId, cancellationToken);
 
                 if (isAasIdExisting)
                 {
@@ -82,15 +87,15 @@ public class RequiredShellsAssertion(ILogger<RequiredShellsAssertion> logger,
                     logger.LogWarning("Missing AAS {AasId} (Name='{Name}')",
                         requiredShell.Base64EncodedAasId, requiredShell.Name);
 
-                    await AddAasToRepo(requiredShell);
+                    await AddAasToRepo(requiredShell, cancellationToken);
 
                     if (requiredShell.AasThumbnailName != string.Empty)
                     {
-                        await UploadThumbnailToAas(requiredShell);
+                        await UploadThumbnailToAas(requiredShell, cancellationToken);
                     }
                 }
 
-                await AddOrUpdateSubmodelsForAas(requiredShell);
+                await AddOrUpdateSubmodelsForAas(requiredShell, cancellationToken);
 
                 // only increase if the AAS and all of its submodels is contained in the repository
                 successCounter++;
@@ -107,11 +112,11 @@ public class RequiredShellsAssertion(ILogger<RequiredShellsAssertion> logger,
             successCounter, required);
     }
 
-    private async Task AddAasToRepo(RequiredShells requiredShell)
+    private async Task AddAasToRepo(RequiredShells requiredShell, CancellationToken cancellationToken)
     {
         var pathToAas = EmbeddedResourceShellPath + requiredShell.Name + "."
                         + requiredShell.Base64EncodedAasId + ".json";
-        var aasToPut = EmbeddedResourceProvider.GetEmbeddedResourceContent(pathToAas);
+        var aasToPut = EmbeddedResourceProvider.GetEmbeddedResourceContent(pathToAas, ResourceAssembly);
 
         if (string.IsNullOrEmpty(aasToPut))
         {
@@ -120,7 +125,7 @@ public class RequiredShellsAssertion(ILogger<RequiredShellsAssertion> logger,
 
         try
         {
-            await repoProxyClient.PostAsync(_repoProxyOptions.AasPath, aasToPut);
+            await repoProxyClient.PostAsync(_repoProxyOptions.AasPath, aasToPut, cancellationToken);
 
             logger.LogInformation("Added AAS {AasId} (Name='{Name}')",
                 requiredShell.Base64EncodedAasId, requiredShell.Name);
@@ -133,14 +138,14 @@ public class RequiredShellsAssertion(ILogger<RequiredShellsAssertion> logger,
         }
     }
 
-    private async Task AddOrUpdateSubmodelsForAas(RequiredShells requiredShell)
+    private async Task AddOrUpdateSubmodelsForAas(RequiredShells requiredShell, CancellationToken cancellationToken)
     {
         foreach (var submodelIdShort in requiredShell.SubmodelIdShorts)
         {
             var encodedAasId = requiredShell.Base64EncodedAasId;
             var pathToSubmodel = EmbeddedResourceShellPath + requiredShell.Name
                                  + ".Submodels." + submodelIdShort + ".json";
-            var submodelToPut = EmbeddedResourceProvider.GetEmbeddedResourceContent(pathToSubmodel);
+            var submodelToPut = EmbeddedResourceProvider.GetEmbeddedResourceContent(pathToSubmodel, ResourceAssembly);
 
             if (string.IsNullOrEmpty(submodelToPut))
             {
@@ -153,7 +158,7 @@ public class RequiredShellsAssertion(ILogger<RequiredShellsAssertion> logger,
                 var submodelId = submodelJson.id.ToString();
 
                 logger.LogInformation("Checking submodel {SubmodelIdShort} for {AasId}", submodelIdShort, encodedAasId);
-                var isSubmodelExisting = await IsSubmodelAlreadyExisting(submodelId);
+                var isSubmodelExisting = await IsSubmodelAlreadyExisting(submodelId, cancellationToken);
 
                 if (isSubmodelExisting)
                 {
@@ -168,14 +173,14 @@ public class RequiredShellsAssertion(ILogger<RequiredShellsAssertion> logger,
 
                     var base64EncodedSubmodelId = Base64StringDeAndEncoder.EncodeTo64(submodelId);
                     await repoProxyClient.PutAsync($"{_repoProxyOptions.SubmodelPath}/{base64EncodedSubmodelId}",
-                        submodelToPut);
+                        submodelToPut, cancellationToken);
 
                     logger.LogInformation("Updated submodel {SubmodelIdShort} for {AasId}",
                         submodelIdShort, encodedAasId);
                 }
                 else
                 {
-                    await repoProxyClient.PostSubmodelWithReferenceAsync(encodedAasId, submodelId, submodelToPut);
+                    await repoProxyClient.PostSubmodelWithReferenceAsync(encodedAasId, submodelId, submodelToPut, cancellationToken);
                     logger.LogInformation("Added submodel {SubmodelIdShort} to {AasId}",
                         submodelIdShort, encodedAasId);
                 }
@@ -190,15 +195,15 @@ public class RequiredShellsAssertion(ILogger<RequiredShellsAssertion> logger,
 
         if (requiredShell.Files.Count != 0)
         {
-            await UploadFileContentToAnExistingSubmodelElement(requiredShell);
+            await UploadFileContentToAnExistingSubmodelElement(requiredShell, cancellationToken);
         }
     }
 
-    private async Task<bool> IsAasIdAlreadyExisting(string base64EncodedAasId)
+    private async Task<bool> IsAasIdAlreadyExisting(string base64EncodedAasId, CancellationToken cancellationToken)
     {
         try
         {
-            await repoProxyClient.GetAsync($"{_repoProxyOptions.AasPath}/{base64EncodedAasId}");
+            await repoProxyClient.GetAsync($"{_repoProxyOptions.AasPath}/{base64EncodedAasId}", cancellationToken);
             return true;
         }
         catch (RepoProxyException ex) when (ex.InnerException is HttpRequestException { StatusCode: System.Net.HttpStatusCode.NotFound })
@@ -207,12 +212,12 @@ public class RequiredShellsAssertion(ILogger<RequiredShellsAssertion> logger,
         }
     }
 
-    private async Task<bool> IsSubmodelAlreadyExisting(string submodelIdNotEncoded)
+    private async Task<bool> IsSubmodelAlreadyExisting(string submodelIdNotEncoded, CancellationToken cancellationToken)
     {
         var base64EncodedSubmodelId = Base64StringDeAndEncoder.EncodeTo64(submodelIdNotEncoded);
         try
         {
-            await repoProxyClient.GetAsync($"{_repoProxyOptions.SubmodelPath}/{base64EncodedSubmodelId}");
+            await repoProxyClient.GetAsync($"{_repoProxyOptions.SubmodelPath}/{base64EncodedSubmodelId}", cancellationToken);
             return true;
         }
         catch (RepoProxyException ex) when (ex.InnerException is HttpRequestException { StatusCode: System.Net.HttpStatusCode.NotFound })
@@ -221,7 +226,7 @@ public class RequiredShellsAssertion(ILogger<RequiredShellsAssertion> logger,
         }
     }
 
-    private async Task UploadThumbnailToAas(RequiredShells requiredShell)
+    private async Task UploadThumbnailToAas(RequiredShells requiredShell, CancellationToken cancellationToken)
     {
         logger.LogInformation("Uploading thumbnail for {AasID} (Name='{Name}')", requiredShell.Base64EncodedAasId, requiredShell.Name);
 
@@ -230,9 +235,9 @@ public class RequiredShellsAssertion(ILogger<RequiredShellsAssertion> logger,
 
         try
         {
-            var fileBytes = EmbeddedResourceProvider.GetEmbeddedResourceBytes(pathToThumbnail);
+            var fileBytes = EmbeddedResourceProvider.GetEmbeddedResourceBytes(pathToThumbnail, ResourceAssembly);
             var thumbnailPath = $"{_repoProxyOptions.AasPath}/{requiredShell.Base64EncodedAasId}/asset-information/thumbnail?fileName={requiredShell.AasThumbnailName}";
-            await repoProxyClient.PutFileContent(thumbnailPath, requiredShell.AasThumbnailName, fileBytes);
+            await repoProxyClient.PutFileContent(thumbnailPath, requiredShell.AasThumbnailName, fileBytes, cancellationToken);
         }
         catch (Exception e)
         {
@@ -242,7 +247,7 @@ public class RequiredShellsAssertion(ILogger<RequiredShellsAssertion> logger,
         }
     }
 
-    private async Task UploadFileContentToAnExistingSubmodelElement(RequiredShells requiredShell)
+    private async Task UploadFileContentToAnExistingSubmodelElement(RequiredShells requiredShell, CancellationToken cancellationToken)
     {
         foreach (var file in requiredShell.Files)
         {
@@ -253,9 +258,9 @@ public class RequiredShellsAssertion(ILogger<RequiredShellsAssertion> logger,
 
             try
             {
-                var fileBytes = EmbeddedResourceProvider.GetEmbeddedResourceBytes(pathToAttachment);
+                var fileBytes = EmbeddedResourceProvider.GetEmbeddedResourceBytes(pathToAttachment, ResourceAssembly);
                 var attachmentPath = $"{_repoProxyOptions.SubmodelPath}/{file.SubmodelIdBase64Encoded}/submodel-elements/{file.IdShortPath}/attachment?fileName={file.FileName}";
-                await repoProxyClient.PutFileContent(attachmentPath, file.FileName, fileBytes);
+                await repoProxyClient.PutFileContent(attachmentPath, file.FileName, fileBytes, cancellationToken);
             }
             catch (Exception e)
             {

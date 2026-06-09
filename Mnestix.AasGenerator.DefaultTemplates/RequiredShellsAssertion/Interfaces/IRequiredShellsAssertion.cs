@@ -2,5 +2,5 @@
 
 public interface IRequiredShellsAssertion
 {
-    Task AssertRequiredShellsAsync();
+    Task AssertRequiredShellsAsync(CancellationToken cancellationToken = default);
 }
