@@ -5,11 +5,12 @@ namespace MnestixCore.Shared;
 public static class EmbeddedResourceProvider
 {
     public static string GetEmbeddedResourceContent(string resourceName)
+        => GetEmbeddedResourceContent(resourceName, Assembly.GetExecutingAssembly());
+
+    public static string GetEmbeddedResourceContent(string resourceName, Assembly asm)
     {
-        var asm = Assembly.GetExecutingAssembly();
-        
         using var stream = asm.GetManifestResourceStream(asm.GetName().Name + "." + resourceName);
-        
+
         if (stream == null)
         {
             return string.Empty;
@@ -20,8 +21,10 @@ public static class EmbeddedResourceProvider
     }
 
     public static byte[] GetEmbeddedResourceBytes(string resourceName)
+        => GetEmbeddedResourceBytes(resourceName, Assembly.GetExecutingAssembly());
+
+    public static byte[] GetEmbeddedResourceBytes(string resourceName, Assembly asm)
     {
-        var asm = Assembly.GetExecutingAssembly();
         using var stream = asm.GetManifestResourceStream(asm.GetName().Name + "." + resourceName);
         if (stream == null)
         {

@@ -14,7 +14,7 @@ namespace MnestixCore.AasGenerator.Pipelines.Steps;
 /// from the submodel instance when the filter condition evaluates to false or null.
 /// The filtering is applied after collection duplication but before data mapping.
 /// </remarks>
-public sealed class FilterElementsAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
+internal sealed class FilterElementsAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
 {
     public Task<DataMappingContext> ExecuteAsync(DataMappingContext ctx)
     {

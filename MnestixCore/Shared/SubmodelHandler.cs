@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 
 namespace MnestixCore.Shared;
 
-public class SubmodelHandler : ISubmodelHandler
+internal class SubmodelHandler : ISubmodelHandler
 {
     private readonly ILogger<SubmodelHandler> _logger;
 

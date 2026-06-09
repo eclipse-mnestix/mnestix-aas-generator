@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 
 namespace MnestixCore.AasGenerator.Pipelines.Steps;
 
-public sealed class ReplaceIdentificationAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
+internal sealed class ReplaceIdentificationAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
 {
     public Task<DataMappingContext> ExecuteAsync(DataMappingContext ctx)
     {

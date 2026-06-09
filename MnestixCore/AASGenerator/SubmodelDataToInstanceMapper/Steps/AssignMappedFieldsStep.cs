@@ -6,7 +6,7 @@ namespace MnestixCore.AasGenerator.Pipelines.Steps;
 /// <summary>
 /// Iterates resolved mappings and delegates assignment to the appropriate FieldAssigner.
 /// </summary>
-public sealed class AssignMappedFieldsAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
+internal sealed class AssignMappedFieldsAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
 {
     public Task<DataMappingContext> ExecuteAsync(DataMappingContext ctx)
     {

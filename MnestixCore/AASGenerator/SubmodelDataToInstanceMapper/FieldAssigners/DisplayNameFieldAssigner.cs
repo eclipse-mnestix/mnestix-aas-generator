@@ -5,7 +5,7 @@ namespace MnestixCore.AasGenerator.Pipelines.FieldAssigners;
 /// <summary>
 /// Assigns displayName as a language-aware array entry (find-or-add by language).
 /// </summary>
-public sealed class DisplayNameFieldAssigner : FieldAssignerBase
+internal sealed class DisplayNameFieldAssigner : FieldAssignerBase
 {
     public override string FieldName => "displayName";
 

@@ -11,7 +11,7 @@ using static MnestixCore.Shared.Base64StringDeAndEncoder;
 
 namespace MnestixCore.ConfigurationService;
 
-public class ConfigurationService : IConfigurationService
+internal class ConfigurationService : IConfigurationService
 {
     private readonly IRepoProxyClient _repoProxyClient;
     private readonly string _base64ConfigurationSmId;

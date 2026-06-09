@@ -7,7 +7,7 @@ namespace MnestixCore.Shared;
 /// to call the repository.
 /// This class is intended to be used as singleton. 
 /// </summary>
-public class BaseUrlProvider
+internal class BaseUrlProvider
 {
     private readonly ILogger<BaseUrlProvider> _logger;
     private string? _baseUrl;

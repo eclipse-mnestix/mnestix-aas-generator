@@ -6,7 +6,7 @@ namespace MnestixCore.AasGenerator.Pipelines;
 /// Describes a single mapping qualifier discovered during validation.
 /// Carries all metadata needed by downstream steps (resolve + assign).
 /// </summary>
-public sealed class MappingDescriptor
+internal sealed class MappingDescriptor
 {
     /// <summary>The parent SME element that owns this qualifier.</summary>
     public required JToken Element { get; init; }

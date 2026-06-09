@@ -1,7 +1,7 @@
 ﻿
 namespace MnestixCore.Dtos.AppSettingsOptions;
 
-public class ConfigurationOptions
+internal class ConfigurationOptions
 {
     /// <summary>
     /// Name of the configuration section in appsettings.json

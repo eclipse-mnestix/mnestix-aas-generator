@@ -6,7 +6,7 @@ namespace MnestixCore.AasGenerator.Pipelines.FieldAssigners;
 /// <summary>
 /// Assigns the "first" field on RelationshipElements. Requires the resolved value to be a JObject (AAS Reference).
 /// </summary>
-public sealed class FirstFieldAssigner : FieldAssignerBase
+internal sealed class FirstFieldAssigner : FieldAssignerBase
 {
     public override string FieldName => "first";
 

@@ -1,6 +1,6 @@
 namespace MnestixCore.Dtos.AppSettingsOptions;
 
-public class RepositoryOpenIdConfiguration
+internal class RepositoryOpenIdConfiguration
 {
     /// <summary>
     /// Name of the configuration section in appsettings.json

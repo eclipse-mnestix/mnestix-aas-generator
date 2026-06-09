@@ -13,7 +13,7 @@ namespace MnestixCore.AasGenerator;
 /// The mapping pipeline clones the blueprint, aligns the generated instance metadata, applies the payload, and
 /// removes transient qualifiers before returning a finalized submodel instance.
 /// </remarks>
-public sealed class DataMapper : IDataMapper
+internal sealed class DataMapper : IDataMapper
 {
     private readonly IBlueprintValidator _blueprintValidator;
 

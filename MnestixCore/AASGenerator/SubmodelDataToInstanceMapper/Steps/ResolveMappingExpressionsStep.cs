@@ -9,7 +9,7 @@ namespace MnestixCore.AasGenerator.Pipelines.Steps;
 /// Evaluates JSONata expressions for each mapping descriptor and enforces cardinality.
 /// Populates ctx.ResolvedMappings for the assignment step.
 /// </summary>
-public sealed class ResolveMappingExpressionsAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
+internal sealed class ResolveMappingExpressionsAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
 {
     public Task<DataMappingContext> ExecuteAsync(DataMappingContext ctx)
     {

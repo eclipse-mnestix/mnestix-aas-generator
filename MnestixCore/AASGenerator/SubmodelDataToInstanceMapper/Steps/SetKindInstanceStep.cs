@@ -5,7 +5,7 @@ namespace MnestixCore.AasGenerator.Pipelines.Steps;
 /// <summary>
 /// Sets kind = "Instance" at top-level.
 /// </summary>
-public sealed class SetKindInstanceAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
+internal sealed class SetKindInstanceAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
 {
     public Task<DataMappingContext> ExecuteAsync(DataMappingContext ctx)
     {

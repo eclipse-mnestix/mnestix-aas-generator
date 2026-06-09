@@ -7,7 +7,7 @@ namespace MnestixCore.AasGenerator.Pipelines.FieldAssigners;
 /// <summary>
 /// Assigns idShort with sanitization to conform to AAS Metamodel v3: [a-zA-Z][a-zA-Z0-9_]*
 /// </summary>
-public sealed class IdShortFieldAssigner : FieldAssignerBase
+internal sealed class IdShortFieldAssigner : FieldAssignerBase
 {
     public override string FieldName => "idShort";
 

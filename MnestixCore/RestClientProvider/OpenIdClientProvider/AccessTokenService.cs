@@ -7,7 +7,7 @@ using MnestixCore.RestClientProvider.Interfaces;
 namespace MnestixCore.RestClientProvider.OpenIdClientProvider;
 
 /// <inheritdoc />
-public class AccessTokenService(
+internal class AccessTokenService(
     IOptions<RepositoryOpenIdConfiguration> options,
     ILogger<AccessTokenService> logger
     ) : IAccessTokenService

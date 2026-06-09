@@ -7,7 +7,7 @@ namespace MnestixCore.AasGenerator.Pipelines.FieldAssigners;
 /// Base class for field assigners. The default behavior assigns the resolved value
 /// as a string to element[FieldName]. Derived classes override for complex behaviors.
 /// </summary>
-public abstract class FieldAssignerBase
+internal abstract class FieldAssignerBase
 {
     public abstract string FieldName { get; }
 

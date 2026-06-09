@@ -6,7 +6,7 @@ namespace MnestixCore.AasGenerator.Pipelines.Steps;
 /// <summary>
 /// Clones the blueprint into a fresh instance we can mutate.
 /// </summary>
-public sealed class DeepCloneBlueprintAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
+internal sealed class DeepCloneBlueprintAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
 {
     public Task<DataMappingContext> ExecuteAsync(DataMappingContext ctx)
     {

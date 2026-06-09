@@ -14,7 +14,7 @@ namespace MnestixCore.AasGenerator.Pipelines.Steps;
 /// and duplicating them based on the amount the corresponding element appears in the data payload. The duplication process
 /// maintains proper naming conventions and mapping paths for each duplicated element.
 /// </remarks>
-public sealed class DuplicateCollectionsAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
+internal sealed class DuplicateCollectionsAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
 {
     public Task<DataMappingContext> ExecuteAsync(DataMappingContext ctx)
     {

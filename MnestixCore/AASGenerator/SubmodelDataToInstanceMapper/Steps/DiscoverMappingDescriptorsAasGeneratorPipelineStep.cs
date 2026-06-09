@@ -10,7 +10,7 @@ namespace MnestixCore.AasGenerator.Pipelines.Steps;
 /// Structural validation (field names, duplicates, conflicts) is handled by the upstream
 /// ValidateBlueprintAasGeneratorPipelineStep via BlueprintValidator.
 /// </summary>
-public sealed class DiscoverMappingDescriptorsAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
+internal sealed class DiscoverMappingDescriptorsAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
 {
     private const string MappingInfoPrefix = "SMT/MappingInfo";
 

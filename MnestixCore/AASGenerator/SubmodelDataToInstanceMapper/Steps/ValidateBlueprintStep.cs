@@ -8,7 +8,7 @@ namespace MnestixCore.AasGenerator.Pipelines.Steps;
 /// Validates the blueprint using the shared BlueprintValidator before any transformation.
 /// Throws BlueprintValidationException if the blueprint has structural or semantic errors.
 /// </summary>
-public sealed class ValidateBlueprintAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
+internal sealed class ValidateBlueprintAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
 {
     public Task<DataMappingContext> ExecuteAsync(DataMappingContext ctx)
     {

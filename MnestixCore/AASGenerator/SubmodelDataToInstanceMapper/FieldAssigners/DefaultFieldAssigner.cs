@@ -6,7 +6,7 @@ namespace MnestixCore.AasGenerator.Pipelines.FieldAssigners;
 /// Default field assigner for any field name that has no special handling.
 /// Simply assigns element[fieldName] = resolvedValue.ToString().
 /// </summary>
-public sealed class DefaultFieldAssigner : FieldAssignerBase
+internal sealed class DefaultFieldAssigner : FieldAssignerBase
 {
     private readonly string _fieldName;
 

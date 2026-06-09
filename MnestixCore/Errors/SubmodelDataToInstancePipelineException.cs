@@ -7,7 +7,7 @@ namespace MnestixCore.Errors;
 /// A exception that indicates that something predictable went wrong in the process of mapping data to the template with <see cref="IDataMapper"/>.
 /// Probably a required field in the json that was missing or the mapping info couldn't be found in the data json
 /// </summary>
-public class SubmodelDataToInstanceMapperException : Exception
+internal class SubmodelDataToInstanceMapperException : Exception
 {
     public DataMappingContext? Context { get; set; }
     public SubmodelDataToInstanceMapperException()

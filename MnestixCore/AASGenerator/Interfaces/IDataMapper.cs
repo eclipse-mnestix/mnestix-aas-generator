@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 namespace MnestixCore.AasGenerator.Interfaces;
 // Shall be deleted once the other definitions are removed
 // Is replaced by SubmodelDataToInstanceMapper
-public interface IDataMapper
+internal interface IDataMapper
 {
     /// <summary>
     /// maps 'data' into 'blueprint' according to the MappingInfo provided by the blueprint.

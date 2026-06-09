@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 
 namespace MnestixCore.AasGenerator.Pipelines.Steps;
 
-public sealed class RemoveTopLevelQualifiersAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
+internal sealed class RemoveTopLevelQualifiersAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
 {
     public Task<DataMappingContext> ExecuteAsync(DataMappingContext ctx)
     {

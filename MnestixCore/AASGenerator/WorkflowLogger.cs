@@ -6,7 +6,7 @@ namespace MnestixCore.AasGenerator;
 /// Accumulates in-memory log entries for a single blueprint workflow while also forwarding
 /// each entry to the structured <see cref="ILogger"/> infrastructure.
 /// </summary>
-public sealed class WorkflowLogger
+internal sealed class WorkflowLogger
 {
     private readonly ILogger _logger;
 

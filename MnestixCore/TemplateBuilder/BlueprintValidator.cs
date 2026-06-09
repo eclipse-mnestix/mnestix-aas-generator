@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 
 namespace MnestixCore.TemplateBuilder;
 
-public sealed class BlueprintValidator : IBlueprintValidator
+internal sealed class BlueprintValidator : IBlueprintValidator
 {
     private const string MappingInfoPrefix = "SMT/MappingInfo";
     private const string FilterMappingInfoType = "SMT/FilterMappingInfo";

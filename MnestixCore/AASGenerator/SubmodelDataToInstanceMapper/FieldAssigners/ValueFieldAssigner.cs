@@ -9,7 +9,7 @@ namespace MnestixCore.AasGenerator.Pipelines.FieldAssigners;
 /// - Property/Blob/File: validates scalar type and valueType conformance
 /// - Others: assigns directly
 /// </summary>
-public sealed class ValueFieldAssigner : FieldAssignerBase
+internal sealed class ValueFieldAssigner : FieldAssignerBase
 {
     private static readonly Dictionary<string, Func<string, bool>> ValueTypeValidators = new()
     {

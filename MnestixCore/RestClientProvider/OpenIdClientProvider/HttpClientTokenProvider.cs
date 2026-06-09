@@ -7,7 +7,7 @@ namespace MnestixCore.RestClientProvider.OpenIdClientProvider;
 /// Provides a configured RestClient instance asynchronously, including an access token if available.
 /// Implements the IHttpClientProvider interface.
 /// </summary>
-public class HttpClientTokenProvider(IAccessTokenService accessTokenService) : IHttpClientProvider
+internal class HttpClientTokenProvider(IAccessTokenService accessTokenService) : IHttpClientProvider
 {
     private string? _accessToken;
 

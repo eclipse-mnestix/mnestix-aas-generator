@@ -4,7 +4,7 @@ namespace MnestixCore.AasGenerator.Pipelines.FieldAssigners;
 /// Registry that maps field names to their assigner instances.
 /// Known special-case fields get dedicated assigners; unknown fields fall back to DefaultFieldAssigner.
 /// </summary>
-public static class FieldAssignerRegistry
+internal static class FieldAssignerRegistry
 {
     private static readonly Dictionary<string, FieldAssignerBase> KnownAssigners = new()
     {

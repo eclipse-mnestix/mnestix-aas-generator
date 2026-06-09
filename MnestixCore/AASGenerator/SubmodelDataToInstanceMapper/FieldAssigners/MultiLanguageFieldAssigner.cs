@@ -7,7 +7,7 @@ namespace MnestixCore.AasGenerator.Pipelines.FieldAssigners;
 /// Assigns MultiLanguageProperty from a JSON object with language keys.
 /// Writes to element["value"] as a lang array.
 /// </summary>
-public sealed class MultiLanguageFieldAssigner : FieldAssignerBase
+internal sealed class MultiLanguageFieldAssigner : FieldAssignerBase
 {
     public override string FieldName => "multiLanguage";
 

@@ -3,7 +3,7 @@
 /// <summary>
 /// Holds the configuration of the ApiKey
 /// </summary>
-public class CustomerEndpointsSecurityOptions
+internal class CustomerEndpointsSecurityOptions
 {
     /// <summary>
     /// Name of the configuration section in appsettings.json

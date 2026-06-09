@@ -3,7 +3,7 @@
 /// <summary>
 /// Holds the configuration for using the repository proxy.
 /// </summary>
-public class RepoProxyOptions
+internal class RepoProxyOptions
 {
     /// <summary>
     /// Name of the configuration section in appsettings.json

@@ -7,7 +7,7 @@ namespace MnestixCore.RestClientProvider;
 /// Provides a configured RestClient instance asynchronously without including an access token.
 /// Implements the IHttpClientProvider interface.
 /// </summary>
-public class HttpClientProvider : IHttpClientProvider
+internal class HttpClientProvider : IHttpClientProvider
 {
     /// <inheritdoc />
     public async Task<IRestClient> GetConfiguredClientAsync(string baseUrl)

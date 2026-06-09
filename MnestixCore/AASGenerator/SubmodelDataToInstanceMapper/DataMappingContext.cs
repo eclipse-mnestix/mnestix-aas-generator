@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 
 namespace MnestixCore.AasGenerator.Pipelines;
 
-public sealed class DataMappingContext
+internal sealed class DataMappingContext
 {
     // Immutable inputs
     public JObject Blueprint { get; }

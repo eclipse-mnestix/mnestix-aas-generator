@@ -6,7 +6,7 @@ namespace MnestixCore.AasGenerator.Pipelines.FieldAssigners;
 /// <summary>
 /// Assigns the "second" field on RelationshipElements. Requires the resolved value to be a JObject (AAS Reference).
 /// </summary>
-public sealed class SecondFieldAssigner : FieldAssignerBase
+internal sealed class SecondFieldAssigner : FieldAssignerBase
 {
     public override string FieldName => "second";
 

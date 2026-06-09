@@ -2,7 +2,7 @@ using Newtonsoft.Json.Linq;
 
 namespace MnestixCore.AasGenerator.Pipelines.Shared;
 
-public static class QualifierHelpers
+internal static class QualifierHelpers
 {
     /// <summary>
     /// Navigates from a qualifier token to its sibling SMT/Cardinality qualifier within the same qualifiers array.

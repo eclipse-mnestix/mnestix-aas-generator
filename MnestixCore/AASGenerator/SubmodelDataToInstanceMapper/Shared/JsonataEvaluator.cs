@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 
 namespace MnestixCore.AasGenerator.Pipelines.Shared;
 
-public static class JsonataEvaluator
+internal static class JsonataEvaluator
 {
     /// <summary>
     /// Evaluates a JSONata expression against the given data token.
