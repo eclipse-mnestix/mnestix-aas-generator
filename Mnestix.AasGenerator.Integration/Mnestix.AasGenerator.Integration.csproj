@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
@@ -7,21 +7,20 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>Mnestix.AasGenerator.Core</PackageId>
+    <PackageId>Mnestix.AasGenerator.Integration</PackageId>
     <Version>0.1.0</Version>
     <Authors>Mnestix</Authors>
-    <Description>Reusable AAS Generator engine: rules engine, blueprint and template providers, ID generator, and repository client for creating AAS v3.0-conformant submodels in-process.</Description>
+    <Description>Repository integration for the Mnestix AAS Generator: BaSyx repository client, blueprint and id-generation-settings fetching, id assembly, and orchestration that drives the pure Mnestix.AasGenerator.Core engine to create and persist AAS shells and submodels.</Description>
     <RepositoryUrl>https://github.com/eclipse-mnestix/mnestix-aas-generator</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="Core.Tests" />
     <InternalsVisibleTo Include="Integration.Tests" />
+    <InternalsVisibleTo Include="Core.Tests" />
     <InternalsVisibleTo Include="Web.Tests" />
     <InternalsVisibleTo Include="MnestixApi" />
-    <InternalsVisibleTo Include="Mnestix.AasGenerator.Integration" />
     <InternalsVisibleTo Include="Mnestix.AasGenerator.DefaultTemplates" />
     <!-- Allows Moq/Castle DynamicProxy to mock internal types from the test assemblies. -->
     <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
@@ -29,8 +28,6 @@
 
   <ItemGroup>
     <PackageReference Include="IdentityModel" Version="7.0.0" />
-    <PackageReference Include="Jsonata.Net.Native" Version="2.11.0" />
-    <PackageReference Include="Jsonata.Net.Native.JsonNet" Version="2.11.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
@@ -40,8 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="AasCreator\Templates\aas.json" />
-    <EmbeddedResource Include="AasCreator\Templates\aas.json" />
+    <ProjectReference Include="..\MnestixCore\MnestixCore.csproj" />
   </ItemGroup>
 
 </Project>

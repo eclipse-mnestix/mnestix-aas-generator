@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MnestixCore\MnestixCore.csproj" />
+    <ProjectReference Include="..\Mnestix.AasGenerator.Integration\Mnestix.AasGenerator.Integration.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -122,16 +122,17 @@ public static class MnestixAasGeneratorServiceCollectionExtensions
         // AasCreator
         services.TryAddTransient<IAasCreatorService, AasCreatorService>();
 
-        // TemplateBuilder
+        // TemplateBuilder (repository-backed providers/creators)
         services.TryAddTransient<IBlueprintCreator, BlueprintCreator>();
         services.TryAddTransient<ITemplateProvider, TemplateProvider>();
         services.TryAddTransient<IBlueprintProvider, BlueprintProvider>();
-        services.TryAddTransient<IBlueprintValidator, BlueprintValidator>();
         services.TryAddTransient<ITemplateCreator, TemplateCreator>();
 
-        // AasGenerator
+        // AasGenerator orchestrator (fetch -> map via Core engine -> persist)
         services.TryAddTransient<IAasGenerator, global::MnestixCore.AasGenerator.AasGenerator>();
-        services.TryAddTransient<IDataMapper, DataMapper>();
+
+        // Pure generation engine + its dependencies (IBlueprintValidator, IDataMapper, IAasGenerationEngine).
+        services.AddMnestixAasGenerationCore();
 
         return services;
     }
