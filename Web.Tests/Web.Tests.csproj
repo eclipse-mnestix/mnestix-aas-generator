@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Core.Tests\Core.Tests.csproj" />
+    <ProjectReference Include="..\Integration.Tests\Integration.Tests.csproj" />
     <ProjectReference Include="..\MnestixApi\MnestixApi.csproj" />
     <ProjectReference Include="..\MnestixCore\MnestixCore.csproj" />
   </ItemGroup>

@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <InternalsVisibleTo Include="Core.Tests" />
+    <InternalsVisibleTo Include="Integration.Tests" />
     <InternalsVisibleTo Include="Web.Tests" />
     <!-- Allows Moq/Castle DynamicProxy to mock internal types from the test assemblies. -->
     <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />

@@ -10,7 +10,7 @@
     <PackageId>Mnestix.AasGenerator.Core</PackageId>
     <Version>0.1.0</Version>
     <Authors>Mnestix</Authors>
-    <Description>Reusable AAS Generator engine: rules engine, blueprint and template providers, ID generator, and repository client for creating AAS v3.0-conformant submodels in-process.</Description>
+    <Description>Pure, in-memory AAS Generator engine: maps blueprint and data documents into AAS v3.0-conformant shell and submodel objects. No HTTP, repository access, or persistence.</Description>
     <RepositoryUrl>https://github.com/eclipse-mnestix/mnestix-aas-generator</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
@@ -28,15 +28,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="IdentityModel" Version="7.0.0" />
     <PackageReference Include="Jsonata.Net.Native" Version="2.11.0" />
     <PackageReference Include="Jsonata.Net.Native.JsonNet" Version="2.11.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="RestSharp" Version="112.1.0" />
   </ItemGroup>
 
   <ItemGroup>
