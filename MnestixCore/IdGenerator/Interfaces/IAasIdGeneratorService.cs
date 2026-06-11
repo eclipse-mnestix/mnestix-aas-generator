@@ -9,7 +9,7 @@ public interface IAasIdGeneratorService
     /// </summary>
     /// <param name="assetIdShortParam">Optional parameter which holds the assetIdShort which can be used as part of the generated ids.</param>
     /// <param name="globalAssetId">Optional globalAssetId to use directly instead of generating one.</param>
-    /// <returns>Task which holds <see cref="assetIdShortParam"/></returns>
+    /// <returns>Task which holds the generated <see cref="AasIds"/>.</returns>
     public Task<AasIds> GenerateAasIdsAsync(string? assetIdShortParam = null, string? globalAssetId = null);
 
     /// <summary>
