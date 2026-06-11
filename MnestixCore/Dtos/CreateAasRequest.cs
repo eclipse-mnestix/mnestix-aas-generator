@@ -30,4 +30,10 @@ public class CreateAasRequest
     /// Optional - defaults to false.
     /// </summary>
     public bool Debug { get; set; }
+
+    /// <summary>
+    /// Optional globalAssetId to use instead of generating one.
+    /// If provided, this value is used directly as the globalAssetId of the AAS.
+    /// </summary>
+    public string? GlobalAssetId { get; set; }
 }

@@ -8,8 +8,9 @@ public interface IAasCreatorService
     /// Create an AAS for the given <paramref name="assetIdShortParam" />.
     /// </summary>
     /// <param name="assetIdShortParam">Short identifier of the asset</param>
+    /// <param name="globalAssetId">Optional globalAssetId to use directly instead of generating one.</param>
     /// <returns><see cref="AasCreationResult"/></returns>
-    public Task<AasCreationResult> CreateAasAsync(string assetIdShortParam);
+    public Task<AasCreationResult> CreateAasAsync(string assetIdShortParam, string? globalAssetId = null);
 
     /// <summary>
     /// Create an AAS for the given <paramref name="assetIdShortParam" /> with optional submodels.
@@ -21,11 +22,13 @@ public interface IAasCreatorService
     /// <param name="data">Optional data JSON for populating the blueprints</param>
     /// <param name="language">Optional language for multi-language properties</param>
     /// <param name="debug">Optional flag to include debug logs in the response</param>
+    /// <param name="globalAssetId">Optional globalAssetId to use directly instead of generating one.</param>
     /// <returns><see cref="AasCreationWithSubmodelsResult"/></returns>
     public Task<AasCreationWithSubmodelsResult> CreateAasWithSubmodelsAsync(
         string assetIdShortParam,
         IEnumerable<string>? blueprintsIds = null,
         JObject? data = null,
         string? language = null,
-        bool debug = false);
+        bool debug = false,
+        string? globalAssetId = null);
 }

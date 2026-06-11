@@ -14,12 +14,14 @@ public class AasIdGeneratorService : IAasIdGeneratorService
     }
 
     /// <inheritdoc />
-    public async Task<AasIds> GenerateAasIdsAsync(string? assetIdShortParam = null)
+    public async Task<AasIds> GenerateAasIdsAsync(string? assetIdShortParam = null, string? globalAssetId = null)
     {
         var idGenerationSettings = await _mnestixConfigurationProvider.GetIdGenerationSettingsAsync();
 
         var assetIdShort = GenerateAssetIdShort(assetIdShortParam, idGenerationSettings);
-        var assetId = GenerateAssetId(assetIdShort, idGenerationSettings);
+        var assetId = !string.IsNullOrWhiteSpace(globalAssetId)
+            ? globalAssetId
+            : GenerateAssetId(assetIdShort, idGenerationSettings);
         var aasIdShort = GenerateAasIdShort(assetIdShort, idGenerationSettings);
         var aasId = GenerateAasId(assetIdShort, aasIdShort, idGenerationSettings);
 

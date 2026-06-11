@@ -56,7 +56,8 @@ public class AasCreatorController : ControllerBase
             requestBody?.BlueprintsIds,
             requestBody?.Data,
             requestBody?.Language,
-            requestBody?.Debug ?? false);
+            requestBody?.Debug ?? false,
+            requestBody?.GlobalAssetId);
 
         switch (aasCreationResult.status)
         {

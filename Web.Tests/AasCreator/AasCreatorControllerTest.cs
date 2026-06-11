@@ -28,14 +28,14 @@ public class AasCreatorControllerTest
 
         var mockLogger = new Mock<ILogger<AasCreatorController>>();
         var mockService = new Mock<IAasCreatorService>();
-        mockService.Setup(s => s.CreateAasWithSubmodelsAsync(It.IsAny<string>(), null, null, null, It.IsAny<bool>()))
+        mockService.Setup(s => s.CreateAasWithSubmodelsAsync(It.IsAny<string>(), null, null, null, It.IsAny<bool>(), It.IsAny<string?>()))
             .ReturnsAsync(new AasCreationWithSubmodelsResult(
-                new AasIds(assetId, assetIdShort, aasId, aasIdShort), 
+                new AasIds(assetId, assetIdShort, aasId, aasIdShort),
                 AasCreationStatus.Created,
                 Enumerable.Empty<AasGeneratorResult>()));
         var controller = new AasCreatorController(mockLogger.Object, mockService.Object);
 
-        // ACT 
+        // ACT
         var result = await controller.CreateAas(assetIdShort, null);
 
         // ASSERT
@@ -61,7 +61,7 @@ public class AasCreatorControllerTest
         var aasId = "https://www.example.com/aas/" + assetIdShort;
         var mockLogger = new Mock<ILogger<AasCreatorController>>();
         var mockService = new Mock<IAasCreatorService>();
-        mockService.Setup(s => s.CreateAasWithSubmodelsAsync(It.IsAny<string>(), null, null, null, It.IsAny<bool>()))
+        mockService.Setup(s => s.CreateAasWithSubmodelsAsync(It.IsAny<string>(), null, null, null, It.IsAny<bool>(), It.IsAny<string?>()))
             .ReturnsAsync(new AasCreationWithSubmodelsResult(
                 new AasIds("", "", aasId, ""), 
                 AasCreationStatus.AlreadyExists,
@@ -102,13 +102,14 @@ public class AasCreatorControllerTest
         var mockLogger = new Mock<ILogger<AasCreatorController>>();
         var mockService = new Mock<IAasCreatorService>();
         mockService.Setup(s => s.CreateAasWithSubmodelsAsync(
-                It.IsAny<string>(), 
-                It.IsAny<IEnumerable<string>>(), 
-                It.IsAny<JObject>(), 
                 It.IsAny<string>(),
-                It.IsAny<bool>()))
+                It.IsAny<IEnumerable<string>>(),
+                It.IsAny<JObject>(),
+                It.IsAny<string>(),
+                It.IsAny<bool>(),
+                It.IsAny<string?>()))
             .ReturnsAsync(new AasCreationWithSubmodelsResult(
-                new AasIds(assetId, assetIdShort, aasId, aasIdShort), 
+                new AasIds(assetId, assetIdShort, aasId, aasIdShort),
                 AasCreationStatus.Created,
                 submodelResults));
         var controller = new AasCreatorController(mockLogger.Object, mockService.Object);
@@ -120,7 +121,7 @@ public class AasCreatorControllerTest
             Language = language
         };
 
-        // ACT 
+        // ACT
         var result = await controller.CreateAas(assetIdShort, request);
 
         // ASSERT
@@ -157,11 +158,12 @@ public class AasCreatorControllerTest
         var mockLogger = new Mock<ILogger<AasCreatorController>>();
         var mockService = new Mock<IAasCreatorService>();
         mockService.Setup(s => s.CreateAasWithSubmodelsAsync(
-                It.IsAny<string>(), 
-                It.IsAny<IEnumerable<string>>(), 
-                It.IsAny<JObject>(), 
                 It.IsAny<string>(),
-                It.IsAny<bool>()))
+                It.IsAny<IEnumerable<string>>(),
+                It.IsAny<JObject>(),
+                It.IsAny<string>(),
+                It.IsAny<bool>(),
+                It.IsAny<string?>()))
             .ReturnsAsync(new AasCreationWithSubmodelsResult(
                 new AasIds(assetId, assetIdShort, aasId, aasIdShort), 
                 AasCreationStatus.UnknownError,
