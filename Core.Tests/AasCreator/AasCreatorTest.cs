@@ -30,7 +30,7 @@ public class AasCreatorTest
         var aasSentToRepo = "";
         var expectedAasSentToRepo = TestFileProvider.GetExampleAasJson();
 
-        _aasIdGeneratorService.Setup(a => a.GenerateAasIdsAsync(It.IsAny<string>())).ReturnsAsync(aasIds);
+        _aasIdGeneratorService.Setup(a => a.GenerateAasIdsAsync(It.IsAny<string>(), It.IsAny<string?>())).ReturnsAsync(aasIds);
         _repoProxyClientMock.Setup(r => r.GetAsync(It.IsAny<string>()))
             .ThrowsAsync(new RepoProxyException(ErrorCodes.CouldNotGet, "Not found", new HttpRequestException("Not found", null, HttpStatusCode.NotFound)));
         _repoProxyClientMock
@@ -58,7 +58,7 @@ public class AasCreatorTest
 
         var callsToRepo = 0;
 
-        _aasIdGeneratorService.Setup(a => a.GenerateAasIdsAsync(It.IsAny<string>())).ReturnsAsync(aasIds);
+        _aasIdGeneratorService.Setup(a => a.GenerateAasIdsAsync(It.IsAny<string>(), It.IsAny<string?>())).ReturnsAsync(aasIds);
         _repoProxyClientMock.Setup(r => r.GetAsync(It.IsAny<string>()))
             .ReturnsAsync("{}");
         _repoProxyClientMock

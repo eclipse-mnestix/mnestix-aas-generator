@@ -21,9 +21,9 @@ public class AasCreatorService(
     private readonly RepoProxyOptions _repoProxyOptions = repoProxyOptions.Value ?? throw new ArgumentNullException(nameof(repoProxyOptions));
 
     /// <inheritdoc />
-    public async Task<AasCreationResult> CreateAasAsync(string assetIdShortParam)
+    public async Task<AasCreationResult> CreateAasAsync(string assetIdShortParam, string? globalAssetId = null)
     {
-        var aasIds = await aasIdGeneratorService.GenerateAasIdsAsync(assetIdShortParam);
+        var aasIds = await aasIdGeneratorService.GenerateAasIdsAsync(assetIdShortParam, globalAssetId);
         var base64EncodedAasId = Base64StringDeAndEncoder.EncodeTo64(aasIds.aasId);
 
         var aasIdAlreadyExists = await IsAasIdAlreadyExisting(base64EncodedAasId);
@@ -64,9 +64,10 @@ public class AasCreatorService(
         IEnumerable<string>? blueprintsIds = null,
         JObject? data = null,
         string? language = null,
-        bool debug = false)
+        bool debug = false,
+        string? globalAssetId = null)
     {
-        var aasIds = await aasIdGeneratorService.GenerateAasIdsAsync(assetIdShortParam);
+        var aasIds = await aasIdGeneratorService.GenerateAasIdsAsync(assetIdShortParam, globalAssetId);
         var base64EncodedAasId = Base64StringDeAndEncoder.EncodeTo64(aasIds.aasId);
 
         var aasIdAlreadyExists = await IsAasIdAlreadyExisting(base64EncodedAasId);
