@@ -57,7 +57,8 @@ If you want to create an AAS with submodels, include a JSON body:
     "manufacturer": "ACME Corp"
   },
   "language": "en",
-  "debug": false
+  "debug": false,
+  "globalAssetId": "https://example.com/assets/my-custom-asset-id"
 }
 ```
 
@@ -67,6 +68,7 @@ If you want to create an AAS with submodels, include a JSON body:
 | `data` | object | No | JSON data to map into the submodel templates |
 | `language` | string | No | Language code for MultiLanguageProperties (e.g., `"en"`, `"de"`) |
 | `debug` | boolean | No | Include workflow logs in response (default: `false`). When enabled, the response includes a chronological log trail spanning all generation phases: blueprint retrieval, ID generation, data mapping, and repository persistence. |
+| `globalAssetId` | string | No | Custom globalAssetId to use directly instead of generating one. If omitted, the globalAssetId is auto-generated from the configured prefix and ID generation rules. |
 
 #### Response
 
@@ -734,6 +736,27 @@ Content-Type: application/json
   "language": "en"
 }
 ```
+
+### Create AAS with Custom Global Asset ID
+
+If you already have an external asset identifier (e.g., from an ERP system), you can pass it directly as the `globalAssetId`:
+
+```http
+POST /api/v2/AasCreator/my-machine
+Content-Type: application/json
+
+{
+  "globalAssetId": "https://erp.acme.com/assets/ASSET-2026-0042",
+  "blueprintsIds": ["https://example.com/blueprints/nameplate-v1"],
+  "data": {
+    "manufacturer": {"name": "ACME Corp"},
+    "serialNumber": "SN-12345"
+  },
+  "language": "en"
+}
+```
+
+The `globalAssetId` field is used as-is for the AAS `assetInformation.globalAssetId`. All other IDs (`aasId`, `aasIdShort`, `assetIdShort`) are still generated normally from the `assetIdShort` path parameter.
 
 ### Add Submodel to Existing AAS
 
