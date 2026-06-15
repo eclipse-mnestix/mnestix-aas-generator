@@ -6,7 +6,10 @@ using MnestixCore.Errors;
 using MnestixCore.IdGenerator.Interfaces;
 using MnestixCore.RepoProxyClient.Interfaces;
 using MnestixCore.Shared;
+using MnestixCore.Dtos;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 using TemplateProvider = MnestixCore.AasCreator.Templates.TemplateProvider;
 
 namespace MnestixCore.AasCreator;
@@ -65,77 +68,183 @@ public class AasCreatorService(
         JObject? data = null,
         string? language = null,
         bool debug = false,
-        string? globalAssetId = null)
+        string? globalAssetId = null,
+        bool overwrite = false)
     {
         var aasIds = await aasIdGeneratorService.GenerateAasIdsAsync(assetIdShortParam, globalAssetId);
         var base64EncodedAasId = Base64StringDeAndEncoder.EncodeTo64(aasIds.aasId);
+        var shellPath = $"{_repoProxyOptions.AasPath}/{base64EncodedAasId}";
+        var hasBlueprints = blueprintsIds != null && blueprintsIds.Any();
 
-        var aasIdAlreadyExists = await IsAasIdAlreadyExisting(base64EncodedAasId);
-        if (aasIdAlreadyExists)
+        // 1. Build + validate all submodels in memory (no repo writes)
+        var builtResults = new List<AasGenerator.AasGeneratorResult>();
+        var instancesToPost = new List<JObject>();
+
+        if (hasBlueprints)
         {
-            return new AasCreationWithSubmodelsResult(aasIds, AasCreationStatus.AlreadyExists, Enumerable.Empty<AasGenerator.AasGeneratorResult>());
+            if (data == null || string.IsNullOrEmpty(language))
+            {
+                return new AasCreationWithSubmodelsResult(
+                    aasIds,
+                    AasCreationStatus.UnknownError,
+                    Enumerable.Empty<AasGenerator.AasGeneratorResult>(),
+                    errorMessage: "BlueprintsIds provided but Data or Language is missing. All three parameters are required for submodel generation.");
+            }
+
+            foreach (var blueprintId in blueprintsIds!)
+            {
+                var built = await aasGenerator.BuildSubmodelAsync(blueprintId, data, language, debug,
+                    preamble: $"Creating AAS with aasId {aasIds.aasId}");
+                builtResults.Add(built.Result);
+                if (built.Result.Success && built.Instance != null)
+                {
+                    instancesToPost.Add(built.Instance);
+                }
+            }
+
+            if (builtResults.Any(r => !r.Success))
+            {
+                return new AasCreationWithSubmodelsResult(
+                    aasIds,
+                    AasCreationStatus.UnknownError,
+                    builtResults,
+                    errorMessage: "Submodel generation failed. No AAS was created.");
+            }
         }
 
-        // Create the AAS first
-        var aas = TemplateProvider.GetAas(aasIds);
+        // 2. POST submodel bodies (fail fast: roll back already-posted submodels on failure)
+        var postedSubmodelIds = new List<string>();
+        foreach (var instance in instancesToPost)
+        {
+            try
+            {
+                var postedId = await aasGenerator.PostSubmodelAsync(instance);
+                postedSubmodelIds.Add(postedId);
+            }
+            catch (Exception e)
+            {
+                var orphans = await RollbackSubmodelsAsync(postedSubmodelIds);
+                return new AasCreationWithSubmodelsResult(
+                    aasIds,
+                    AasCreationStatus.UnknownError,
+                    builtResults,
+                    errorMessage: $"Failed to persist submodel: {e.Message}",
+                    orphanedSubmodelIds: orphans);
+            }
+        }
 
+        // 3. Build shell template with all submodel-refs baked in
+        var shell = BuildShellWithRefs(aasIds, postedSubmodelIds);
+
+        // 4. POST shell
         try
         {
-            await repoProxyClient.PostAsync($"{_repoProxyOptions.AasPath}", aas);
+            await repoProxyClient.PostAsync($"{_repoProxyOptions.AasPath}", shell);
+        }
+        catch (RepoProxyException e) when (e.StatusCode == System.Net.HttpStatusCode.Conflict)
+        {
+            return await HandleShellConflictAsync(aasIds, shellPath, shell, builtResults, postedSubmodelIds, overwrite);
         }
         catch (Exception e)
         {
-            return new AasCreationWithSubmodelsResult(aasIds, AasCreationStatus.UnknownError, Enumerable.Empty<AasGenerator.AasGeneratorResult>(), e.Message);
+            var orphans = await RollbackSubmodelsAsync(postedSubmodelIds);
+            return new AasCreationWithSubmodelsResult(
+                aasIds,
+                AasCreationStatus.UnknownError,
+                builtResults,
+                errorMessage: $"Failed to create AAS shell: {e.Message}",
+                orphanedSubmodelIds: orphans);
         }
 
-        // If submodel parameters are provided, generate and add submodels
-        IEnumerable<AasGenerator.AasGeneratorResult> submodelResults = Enumerable.Empty<AasGenerator.AasGeneratorResult>();
-        
-        if (blueprintsIds != null && blueprintsIds.Any())
-        {
-            // Validate required parameters for submodel generation
-            if (data == null || string.IsNullOrEmpty(language))
-            {
-                // Delete the AAS since submodel generation cannot proceed
-                await TryDeleteAasAsync(base64EncodedAasId);
-                return new AasCreationWithSubmodelsResult(
-                    aasIds, 
-                    AasCreationStatus.UnknownError, 
-                    Enumerable.Empty<AasGenerator.AasGeneratorResult>(),
-                    "BlueprintsIds provided but Data or Language is missing. All three parameters are required for submodel generation.");
-            }
-
-            // Generate and add submodels to the newly created AAS
-            submodelResults = await aasGenerator.AddDataToAasAsync(base64EncodedAasId, blueprintsIds, data, language, debug,
-                preamble: $"Created a new AAS with aasId {aasIds.aasId}");
-            
-            // Check if any submodel generation failed
-            if (submodelResults.Any(r => !r.Success))
-            {
-                // Delete the AAS since submodel generation failed
-                await TryDeleteAasAsync(base64EncodedAasId);
-                return new AasCreationWithSubmodelsResult(
-                    aasIds, 
-                    AasCreationStatus.UnknownError, 
-                    submodelResults,
-                    "Submodel generation failed. AAS was deleted.");
-            }
-        }
-
-        var aasRepoUrl = repoProxyClient.GetAasRepositoryUrl();
-
-        return new AasCreationWithSubmodelsResult(aasIds, AasCreationStatus.Created, submodelResults, aasRepoUrl);
+        return new AasCreationWithSubmodelsResult(
+            aasIds,
+            AasCreationStatus.Created,
+            builtResults,
+            repoProxyClient.GetAasRepositoryUrl());
     }
 
-    private async Task TryDeleteAasAsync(string base64EncodedAasId)
+    private async Task<AasCreationWithSubmodelsResult> HandleShellConflictAsync(
+        AasIds aasIds,
+        string shellPath,
+        string shell,
+        List<AasGenerator.AasGeneratorResult> builtResults,
+        List<string> postedSubmodelIds,
+        bool overwrite)
     {
+        if (!overwrite)
+        {
+            var orphans = await RollbackSubmodelsAsync(postedSubmodelIds);
+            return new AasCreationWithSubmodelsResult(
+                aasIds,
+                AasCreationStatus.Conflict,
+                builtResults,
+                errorMessage: "AAS already exists, use overwrite=true to replace",
+                orphanedSubmodelIds: orphans);
+        }
+
+        string? previousAas;
         try
         {
-            await repoProxyClient.DeleteAsync($"{_repoProxyOptions.AasPath}/{base64EncodedAasId}");
+            previousAas = await repoProxyClient.GetAsync(shellPath);
+            await repoProxyClient.PutAsync(shellPath, shell);
         }
-        catch
+        catch (Exception e)
         {
-            // Ignore deletion errors - best effort cleanup
+            var orphans = await RollbackSubmodelsAsync(postedSubmodelIds);
+            return new AasCreationWithSubmodelsResult(
+                aasIds,
+                AasCreationStatus.UnknownError,
+                builtResults,
+                errorMessage: $"Failed to overwrite existing AAS shell: {e.Message}",
+                orphanedSubmodelIds: orphans);
         }
+
+        return new AasCreationWithSubmodelsResult(
+            aasIds,
+            AasCreationStatus.Overwritten,
+            builtResults,
+            repoProxyClient.GetAasRepositoryUrl(),
+            previousAas: previousAas);
+    }
+
+    private string BuildShellWithRefs(AasIds aasIds, IReadOnlyCollection<string> submodelIds)
+    {
+        var shell = JObject.Parse(TemplateProvider.GetAas(aasIds));
+        if (submodelIds.Count > 0)
+        {
+            var refs = new JArray();
+            foreach (var submodelId in submodelIds)
+            {
+                var reference = new SubmodelReference(new List<Key> { new("Submodel", submodelId) }, "ModelReference");
+                var referenceJson = JsonConvert.SerializeObject(reference, new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                });
+                refs.Add(JObject.Parse(referenceJson));
+            }
+            shell["submodels"] = refs;
+        }
+        return shell.ToString();
+    }
+
+    /// <summary>
+    /// Best-effort deletion of submodels created during this request. Returns ids that could not be deleted.
+    /// </summary>
+    private async Task<List<string>> RollbackSubmodelsAsync(IEnumerable<string> submodelIds)
+    {
+        var orphaned = new List<string>();
+        foreach (var submodelId in submodelIds)
+        {
+            try
+            {
+                var base64SubmodelId = Base64StringDeAndEncoder.EncodeTo64(submodelId);
+                await repoProxyClient.DeleteAsync($"{_repoProxyOptions.SubmodelPath}/{base64SubmodelId}");
+            }
+            catch
+            {
+                orphaned.Add(submodelId);
+            }
+        }
+        return orphaned;
     }
 }
