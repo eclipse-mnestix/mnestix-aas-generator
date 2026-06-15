@@ -36,7 +36,7 @@ Create new Asset Administration Shells with optional auto-generated Submodels.
 Creates a new AAS for a given asset identifier. Optionally generates and attaches submodels if blueprint parameters are provided.
 
 ```http
-POST /api/v2/AasCreator/{assetIdShort}
+POST /api/v2/AasCreator/{assetIdShort}?overwrite=true|false
 ```
 
 #### Path Parameters
@@ -44,6 +44,25 @@ POST /api/v2/AasCreator/{assetIdShort}
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `assetIdShort` | string | Yes | The short identifier for the asset (e.g., `machine-001`) |
+
+#### Query Parameters
+
+| Parameter | Type | Required | Default | Description |
+|-----------|------|----------|---------|-------------|
+| `overwrite` | boolean | No | `false` | Controls what happens when an AAS with the generated ID already exists. See the detailed description below. |
+
+##### How `overwrite` works
+
+The creation flow always builds and validates every requested submodel **in memory first** (no repository writes), then persists submodels, then creates the shell with all submodel references baked in. The `overwrite` flag only changes how a **shell-id collision** is handled when the shell is POSTed:
+
+- **`overwrite=false` (default)** — If a shell with the generated `aasId` already exists, the repository returns `409 Conflict`. The endpoint does **not** touch the existing shell. Any submodels that were already POSTed in this request are rolled back (best-effort delete), and the endpoint responds with `409 Conflict`. Submodels that could not be deleted are listed in `orphanedSubmodelIds`.
+- **`overwrite=true`** — If the shell does not yet exist, behavior is identical to `overwrite=false`: the shell is created and the endpoint returns `201 Created` (no `previousAas`). If the shell **already exists**, the endpoint first **GETs the existing shell** (captured as `previousAas`), then **PUTs** the freshly built shell over it, and returns `200 OK` with the `previousAas` field.
+
+Important semantics and trade-offs:
+
+- **Overwrite is destructive for the shell, not the submodels.** PUT replaces the shell document, so the old shell's own submodel references are dropped. The submodels they pointed to are **not** deleted — they are orphaned, and the caller decides what to do with them using the returned `previousAas`.
+- **`previousAas` is point-in-time, not transactional.** There is a small [TOCTOU](https://de.wikipedia.org/wiki/Time-of-Check-to-Time-of-Use-Problem) window between the GET (capture old shell) and the PUT (overwrite); a concurrent writer could change the shell in between. `previousAas` is best-effort.
+- **The existing shell is never deleted.** On any failure (submodel persistence or shell PUT), only submodels created during *this* request are rolled back; a pre-existing shell is left intact.
 
 #### Request Body (Optional)
 
