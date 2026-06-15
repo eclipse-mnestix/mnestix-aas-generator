@@ -1,4 +1,6 @@
 using MnestixCore.AasGenerator;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MnestixCore.Dtos;
 
@@ -37,4 +39,11 @@ public class CreateAasResponse
     /// Results from submodel generation. Empty if no submodels were requested.
     /// </summary>
     public IEnumerable<AasGeneratorResult> SubmodelResults { get; init; } = Enumerable.Empty<AasGeneratorResult>();
+
+    /// <summary>
+    /// The full old AAS shell JSON as captured before an overwrite (overwrite=true and a shell already existed).
+    /// Absent from the response when nothing was overwritten.
+    /// </summary>
+    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+    public JObject? PreviousAas { get; init; }
 }

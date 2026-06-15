@@ -13,9 +13,17 @@ namespace MnestixCore.AasCreator;
 /// <param name="errorMessage">
 /// An error message that can be set in case of unknown errors.
 /// </param>
+/// <param name="previousAas">
+/// The full old AAS shell JSON as captured before an overwrite. Null when nothing was overwritten.
+/// </param>
+/// <param name="orphanedSubmodelIds">
+/// Ids of submodels that were POSTed in this request but could not be rolled back after a failure.
+/// </param>
 public record AasCreationWithSubmodelsResult(
-    AasIds aasIds, 
-    AasCreationStatus status, 
+    AasIds aasIds,
+    AasCreationStatus status,
     IEnumerable<AasGeneratorResult> submodelResults,
     string? aasRepoUrl = null,
-    string? errorMessage = null);
+    string? errorMessage = null,
+    string? previousAas = null,
+    IEnumerable<string>? orphanedSubmodelIds = null);
