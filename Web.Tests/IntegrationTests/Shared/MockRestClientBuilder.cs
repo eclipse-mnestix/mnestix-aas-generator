@@ -117,6 +117,50 @@ namespace Web.Tests.IntegrationTests.Shared
             return this;
         }
 
+        public MockRestClientBuilder WithPostAasConflict()
+        {
+            _mock.Setup(x => x.ExecuteAsync(
+                    It.Is<RestRequest>(r => r.Resource == "/shells" && r.Method == Method.Post),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new RestResponse
+                {
+                    StatusCode = HttpStatusCode.Conflict,
+                    Content = "{\"message\":\"Conflict\"}",
+                    ResponseStatus = ResponseStatus.Completed,
+                    IsSuccessStatusCode = false
+                });
+
+            return this;
+        }
+
+        public MockRestClientBuilder WithPutAas(string id, HttpStatusCode statusCode = HttpStatusCode.NoContent, bool isSuccessful = true)
+        {
+            _mock.Setup(x => x.ExecuteAsync(
+                    It.Is<RestRequest>(r => r.Resource == $"/shells/{id}" && r.Method == Method.Put),
+                    It.IsAny<CancellationToken>()))
+                .ReturnsAsync((RestRequest request, CancellationToken _) =>
+                {
+                    if (_aas != null)
+                    {
+                        var bodyParam = request.Parameters.FirstOrDefault(p => p.Type == ParameterType.RequestBody);
+                        if (bodyParam?.Value is string jsonBody)
+                        {
+                            _aas.Add(JObject.Parse(jsonBody));
+                        }
+                    }
+
+                    return new RestResponse
+                    {
+                        StatusCode = statusCode,
+                        Content = "{\"message\":\"Updated\"}",
+                        ResponseStatus = ResponseStatus.Completed,
+                        IsSuccessStatusCode = isSuccessful
+                    };
+                });
+
+            return this;
+        }
+
         public MockRestClientBuilder WithDeleteAas(string id, HttpStatusCode statusCode = HttpStatusCode.NoContent, bool isSuccessful = true)
         {
             _mock.Setup(x => x.ExecuteAsync(

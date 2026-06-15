@@ -1,5 +1,6 @@
 using Core.Tests.TestFiles;
 using FluentAssertions;
+using Microsoft.AspNetCore.Http;
 using Moq;
 using Newtonsoft.Json.Linq;
 using RestSharp;
@@ -13,11 +14,9 @@ public class AasCreatorEndpointTests : IntegrationTestsBase
 {
 
     [Test]
-    public async Task CreateAas_WithoutRequestBody_ShouldReturnOK()
+    public async Task CreateAas_WithoutRequestBody_ShouldReturnCreated()
     {
         // ARRANGE
-        var idGenerationSettings = TestFileProvider.GetIdGeneratorSettingsSubmodelWithValues();
-
         var mockedRestClient = new MockRestClientBuilder()
             .WithGetAas("aHR0cHM6Ly9leGFtcGxlLmNvbS9hYXMvY3JlYXRlQWFz", "", HttpStatusCode.NotFound, false)
             .WithGetIdSettings()
@@ -26,9 +25,9 @@ public class AasCreatorEndpointTests : IntegrationTestsBase
 
         Func <IRestClient> restClientFactory = () => mockedRestClient;
         HttpClientMock.Setup(x => x.GetConfiguredClientAsync(It.IsAny<string>())).ReturnsAsync(restClientFactory);
-        
-        // ACT - send empty body or null
-        var responseContent = await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/createAas", null);
+
+        // ACT
+        var responseContent = await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/createAas", null, StatusCodes.Status201Created);
 
         // ASSERT
         responseContent.Should().Contain("\"assetId\":\"assetIdPrefixcreateAas\"");
@@ -36,7 +35,7 @@ public class AasCreatorEndpointTests : IntegrationTestsBase
     }
 
     [Test]
-    public async Task CreateAas_WithSubmodels_ShouldReturnOKWithSubmodelResults()
+    public async Task CreateAas_WithSubmodels_ShouldReturnCreatedWithSubmodelResultsAndShellRefs()
     {
         // ARRANGE
         var blueprintSubmodel = TestFileProvider.GetExampleBlueprintJson();
@@ -66,33 +65,86 @@ public class AasCreatorEndpointTests : IntegrationTestsBase
             .WithPostAas()
             .WithGetSubmodel(blueprintIdBase64, blueprintSubmodel, HttpStatusCode.OK)
             .WithPostSubmodel()
-            .WithPostSubmodelRefs("aHR0cHM6Ly9leGFtcGxlLmNvbS9hYXMvY3JlYXRlQWFzV2l0aFN1Ym1vZGVscw")
             .Build();
 
         Func<IRestClient> restClientFactory = () => mockedRestClient;
         HttpClientMock.Setup(x => x.GetConfiguredClientAsync(It.IsAny<string>())).ReturnsAsync(restClientFactory);
 
         // ACT
-        var responseContent = await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/createAasWithSubmodels", content);
+        var responseContent = await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/createAasWithSubmodels", content, StatusCodes.Status201Created);
 
         // ASSERT
         responseContent.Should().Contain("\"assetId\":\"assetIdPrefixcreateAasWithSubmodels\"");
         responseContent.Should().Contain("\"submodelResults\":");
         aasList.Should().HaveCount(1);
         submodels.Should().HaveCount(1);
-        
+
+        // submodel must be persisted before the shell, and the shell must carry the ref
+        var persistedSubmodelId = submodels[0]["id"]?.ToString();
+        persistedSubmodelId.Should().NotBeNullOrEmpty();
+        var shellRefs = aasList[0]["submodels"] as JArray;
+        shellRefs.Should().NotBeNull();
+        shellRefs!.ToString().Should().Contain(persistedSubmodelId!);
+
         var addedSubmodel = submodels[0];
         var elements = addedSubmodel["submodelElements"] as JArray;
         var elementDict = elements?
             .OfType<JObject>()
             .ToDictionary(e => e["idShort"]?.ToString() ?? "", StringComparer.OrdinalIgnoreCase);
-        
+
         elementDict.Should().ContainKey("SerialNumber");
         elementDict!["SerialNumber"]["value"]?.ToString().Should().Be(serialNumberTest);
     }
 
     [Test]
-    public async Task CreateAas_WithInvalidBlueprint_ShouldReturnBadRequest()
+    public async Task CreateAas_OverwriteTrue_ExistingShell_ShouldReturnOkWithPreviousAas()
+    {
+        // ARRANGE — POST shell returns 409, then GET old + PUT new
+        var aasBase64 = "aHR0cHM6Ly9leGFtcGxlLmNvbS9hYXMvb3ZlcndyaXRlTWU";
+        var oldShell = "{\"id\":\"old-shell-id\",\"idShort\":\"old\"}";
+        var aasList = new List<JObject>();
+
+        var mockedRestClient = new MockRestClientBuilder(aas: aasList)
+            .WithGetIdSettings()
+            .WithPostAasConflict()
+            .WithGetAas(aasBase64, oldShell, HttpStatusCode.OK)
+            .WithPutAas(aasBase64)
+            .Build();
+
+        Func<IRestClient> restClientFactory = () => mockedRestClient;
+        HttpClientMock.Setup(x => x.GetConfiguredClientAsync(It.IsAny<string>())).ReturnsAsync(restClientFactory);
+
+        // ACT
+        var responseContent = await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/overwriteMe?overwrite=true", null, StatusCodes.Status200OK);
+
+        // ASSERT
+        responseContent.Should().Contain("\"previousAas\":");
+        responseContent.Should().Contain("old-shell-id");
+        aasList.Should().HaveCount(1); // the PUT body
+    }
+
+    [Test]
+    public async Task CreateAas_OverwriteFalse_ExistingShell_ShouldReturnConflict()
+    {
+        // ARRANGE — POST shell returns 409 and overwrite=false
+        var mockedRestClient = new MockRestClientBuilder()
+            .WithGetIdSettings()
+            .WithPostAasConflict()
+            .Build();
+
+        Func<IRestClient> restClientFactory = () => mockedRestClient;
+        HttpClientMock.Setup(x => x.GetConfiguredClientAsync(It.IsAny<string>())).ReturnsAsync(restClientFactory);
+
+        // ACT
+        var responseContent = await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/conflictMe", null, StatusCodes.Status409Conflict);
+
+        // ASSERT
+        responseContent.Should().Contain("overwrite=true");
+        responseContent.Should().Contain("orphanedSubmodelIds");
+    }
+
+    [Test]
+    public async Task CreateAas_WithInvalidBlueprint_ShouldReturnBadRequest_AndNotCreateShell()
     {
         // ARRANGE
         var blueprintIdBase64 = "aW52YWxpZEJsdWVwcmludElk"; // invalidBlueprintId
@@ -109,22 +161,17 @@ public class AasCreatorEndpointTests : IntegrationTestsBase
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
         var mockedRestClient = new MockRestClientBuilder(aas: aasList)
-            .WithGetAas("aHR0cHM6Ly9leGFtcGxlLmNvbS9hYXMvY3JlYXRlQWFzRmFpbA", "", HttpStatusCode.NotFound, false)
             .WithGetIdSettings()
             .WithPostAas()
-            .WithDeleteAas("aHR0cHM6Ly9leGFtcGxlLmNvbS9hYXMvY3JlYXRlQWFzRmFpbA")
             .WithGetSubmodel(blueprintIdBase64, "", HttpStatusCode.NotFound, false)
             .Build();
 
         Func<IRestClient> restClientFactory = () => mockedRestClient;
         HttpClientMock.Setup(x => x.GetConfiguredClientAsync(It.IsAny<string>())).ReturnsAsync(restClientFactory);
 
-        // ACT & ASSERT
-        // This should return 400 BadRequest because the blueprint cannot be fetched
-        var act = async () => await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/createAasFail", content);
-        await act.Should().ThrowAsync<Exception>(); // Will throw because status code is not success
-        
-        // AAS should have been created but then deleted due to failure
-        aasList.Should().HaveCount(1); // AAS was created before submodel failure
+        // ACT & ASSERT — build fails in memory, so the shell is never POSTed
+        await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/createAasFail", content, StatusCodes.Status400BadRequest);
+
+        aasList.Should().BeEmpty();
     }
 }
