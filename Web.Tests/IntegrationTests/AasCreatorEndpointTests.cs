@@ -139,8 +139,10 @@ public class AasCreatorEndpointTests : IntegrationTestsBase
         var responseContent = await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/conflictMe", null, StatusCodes.Status409Conflict);
 
         // ASSERT
-        responseContent.Should().Contain("overwrite=true");
-        responseContent.Should().Contain("orphanedSubmodelIds");
+        var conflict = JObject.Parse(responseContent);
+        conflict.Should().ContainKey("error");
+        conflict["error"]!.ToString().Should().NotBeNullOrEmpty();
+        conflict.Should().ContainKey("orphanedSubmodelIds");
     }
 
     [Test]

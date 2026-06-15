@@ -7,9 +7,7 @@ using MnestixCore.IdGenerator.Interfaces;
 using MnestixCore.RepoProxyClient.Interfaces;
 using MnestixCore.Shared;
 using MnestixCore.Dtos;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 using TemplateProvider = MnestixCore.AasCreator.Templates.TemplateProvider;
 
 namespace MnestixCore.AasCreator;
@@ -86,7 +84,7 @@ public class AasCreatorService(
             {
                 return new AasCreationWithSubmodelsResult(
                     aasIds,
-                    AasCreationStatus.UnknownError,
+                    AasCreationStatus.GenerationFailed,
                     Enumerable.Empty<AasGenerator.AasGeneratorResult>(),
                     errorMessage: "BlueprintsIds provided but Data or Language is missing. All three parameters are required for submodel generation.");
             }
@@ -106,7 +104,7 @@ public class AasCreatorService(
             {
                 return new AasCreationWithSubmodelsResult(
                     aasIds,
-                    AasCreationStatus.UnknownError,
+                    AasCreationStatus.GenerationFailed,
                     builtResults,
                     errorMessage: "Submodel generation failed. No AAS was created.");
             }
@@ -123,13 +121,7 @@ public class AasCreatorService(
             }
             catch (Exception e)
             {
-                var orphans = await RollbackSubmodelsAsync(postedSubmodelIds);
-                return new AasCreationWithSubmodelsResult(
-                    aasIds,
-                    AasCreationStatus.UnknownError,
-                    builtResults,
-                    errorMessage: $"Failed to persist submodel: {e.Message}",
-                    orphanedSubmodelIds: orphans);
+                return await RollbackAndFail(aasIds, builtResults, postedSubmodelIds, $"Failed to persist submodel: {e.Message}");
             }
         }
 
@@ -147,13 +139,7 @@ public class AasCreatorService(
         }
         catch (Exception e)
         {
-            var orphans = await RollbackSubmodelsAsync(postedSubmodelIds);
-            return new AasCreationWithSubmodelsResult(
-                aasIds,
-                AasCreationStatus.UnknownError,
-                builtResults,
-                errorMessage: $"Failed to create AAS shell: {e.Message}",
-                orphanedSubmodelIds: orphans);
+            return await RollbackAndFail(aasIds, builtResults, postedSubmodelIds, $"Failed to create AAS shell: {e.Message}");
         }
 
         return new AasCreationWithSubmodelsResult(
@@ -163,6 +149,17 @@ public class AasCreatorService(
             repoProxyClient.GetAasRepositoryUrl());
     }
 
+    /// <summary>
+    /// Handles a 409 from the shell POST. When <paramref name="overwrite"/> is false the request is rejected as a
+    /// conflict and this request's submodels are rolled back. When true the existing shell is captured, then replaced
+    /// via PUT; the shell itself is never deleted.
+    /// </summary>
+    /// <param name="aasIds">Ids of the AAS being created.</param>
+    /// <param name="shellPath">Repository path of the conflicting shell (base64 url-safe encoded id).</param>
+    /// <param name="shell">The new shell body to PUT when overwriting.</param>
+    /// <param name="builtResults">Per-blueprint submodel build results to echo back on the response.</param>
+    /// <param name="postedSubmodelIds">Submodels already POSTed in this request, rolled back on conflict or failure.</param>
+    /// <param name="overwrite">Whether to replace the existing shell instead of returning a conflict.</param>
     private async Task<AasCreationWithSubmodelsResult> HandleShellConflictAsync(
         AasIds aasIds,
         string shellPath,
@@ -182,21 +179,16 @@ public class AasCreatorService(
                 orphanedSubmodelIds: orphans);
         }
 
-        string? previousAas;
+        JObject? previousAas;
         try
         {
-            previousAas = await repoProxyClient.GetAsync(shellPath);
+            var previousRaw = await repoProxyClient.GetAsync(shellPath);
+            previousAas = string.IsNullOrWhiteSpace(previousRaw) ? null : JObject.Parse(previousRaw);
             await repoProxyClient.PutAsync(shellPath, shell);
         }
         catch (Exception e)
         {
-            var orphans = await RollbackSubmodelsAsync(postedSubmodelIds);
-            return new AasCreationWithSubmodelsResult(
-                aasIds,
-                AasCreationStatus.UnknownError,
-                builtResults,
-                errorMessage: $"Failed to overwrite existing AAS shell: {e.Message}",
-                orphanedSubmodelIds: orphans);
+            return await RollbackAndFail(aasIds, builtResults, postedSubmodelIds, $"Failed to overwrite existing AAS shell: {e.Message}");
         }
 
         return new AasCreationWithSubmodelsResult(
@@ -207,6 +199,13 @@ public class AasCreatorService(
             previousAas: previousAas);
     }
 
+    /// <summary>
+    /// Builds the shell template for <paramref name="aasIds"/> with submodel references for every id in
+    /// <paramref name="submodelIds"/> baked into its <c>submodels</c> array, so the shell is created in one POST.
+    /// </summary>
+    /// <param name="aasIds">Ids of the AAS to template.</param>
+    /// <param name="submodelIds">Submodel ids (not encoded) to reference from the shell.</param>
+    /// <returns>The serialized shell JSON.</returns>
     private string BuildShellWithRefs(AasIds aasIds, IReadOnlyCollection<string> submodelIds)
     {
         var shell = JObject.Parse(TemplateProvider.GetAas(aasIds));
@@ -215,16 +214,30 @@ public class AasCreatorService(
             var refs = new JArray();
             foreach (var submodelId in submodelIds)
             {
-                var reference = new SubmodelReference(new List<Key> { new("Submodel", submodelId) }, "ModelReference");
-                var referenceJson = JsonConvert.SerializeObject(reference, new JsonSerializerSettings
-                {
-                    ContractResolver = new CamelCasePropertyNamesContractResolver()
-                });
-                refs.Add(JObject.Parse(referenceJson));
+                refs.Add(JObject.Parse(SubmodelReference.ToJson(submodelId)));
             }
             shell["submodels"] = refs;
         }
         return shell.ToString();
+    }
+
+    /// <summary>
+    /// Rolls back submodels posted in this request and builds an <see cref="AasCreationStatus.UnknownError"/> result.
+    /// Submodels that could not be deleted are surfaced as orphans on the result.
+    /// </summary>
+    private async Task<AasCreationWithSubmodelsResult> RollbackAndFail(
+        AasIds aasIds,
+        List<AasGenerator.AasGeneratorResult> builtResults,
+        List<string> postedSubmodelIds,
+        string errorMessage)
+    {
+        var orphans = await RollbackSubmodelsAsync(postedSubmodelIds);
+        return new AasCreationWithSubmodelsResult(
+            aasIds,
+            AasCreationStatus.UnknownError,
+            builtResults,
+            errorMessage: errorMessage,
+            orphanedSubmodelIds: orphans);
     }
 
     /// <summary>

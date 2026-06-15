@@ -52,7 +52,7 @@ public class AasCreatorControllerTest
         // ARRANGE
         var assetIdShort = Guid.NewGuid().ToString();
         var ids = Ids(assetIdShort);
-        var previous = "{\"id\":\"old-shell\",\"idShort\":\"old\"}";
+        var previous = JObject.Parse("{\"id\":\"old-shell\",\"idShort\":\"old\"}");
         var mockLogger = new Mock<ILogger<AasCreatorController>>();
         var mockService = new Mock<IAasCreatorService>();
         mockService.Setup(s => s.CreateAasWithSubmodelsAsync(It.IsAny<string>(), It.IsAny<IEnumerable<string>>(), It.IsAny<JObject>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<string?>(), true))
@@ -96,8 +96,9 @@ public class AasCreatorControllerTest
         response!.OrphanedSubmodelIds.Should().Contain("sm1");
     }
 
-    [Test]
-    public async Task CreateAas_ForwardsOverwriteQueryParamToService()
+    [TestCase(true)]
+    [TestCase(false)]
+    public async Task CreateAas_ForwardsOverwriteQueryParamToService(bool overwrite)
     {
         // ARRANGE
         var assetIdShort = Guid.NewGuid().ToString();
@@ -109,10 +110,10 @@ public class AasCreatorControllerTest
         var controller = new AasCreatorController(mockLogger.Object, mockService.Object);
 
         // ACT
-        await controller.CreateAas(assetIdShort, true, null);
+        await controller.CreateAas(assetIdShort, overwrite, null);
 
         // ASSERT
-        mockService.Verify(s => s.CreateAasWithSubmodelsAsync(assetIdShort, null, null, null, It.IsAny<bool>(), It.IsAny<string?>(), true), Times.Once);
+        mockService.Verify(s => s.CreateAasWithSubmodelsAsync(assetIdShort, null, null, null, It.IsAny<bool>(), It.IsAny<string?>(), overwrite), Times.Once);
     }
 
     [Test]
@@ -158,7 +159,7 @@ public class AasCreatorControllerTest
         var mockLogger = new Mock<ILogger<AasCreatorController>>();
         var mockService = new Mock<IAasCreatorService>();
         mockService.Setup(s => s.CreateAasWithSubmodelsAsync(It.IsAny<string>(), It.IsAny<IEnumerable<string>>(), It.IsAny<JObject>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<string?>(), It.IsAny<bool>()))
-            .ReturnsAsync(new AasCreationWithSubmodelsResult(ids, AasCreationStatus.UnknownError, submodelResults, errorMessage: "Submodel generation failed. No AAS was created."));
+            .ReturnsAsync(new AasCreationWithSubmodelsResult(ids, AasCreationStatus.GenerationFailed, submodelResults, errorMessage: "Submodel generation failed. No AAS was created."));
         var controller = new AasCreatorController(mockLogger.Object, mockService.Object);
 
         var request = new CreateAasRequest { BlueprintsIds = new[] { "blueprint1" }, Data = new JObject(), Language = "en" };
@@ -173,5 +174,53 @@ public class AasCreatorControllerTest
         var response = objectResult.Value as CreateAasResponse;
         response!.SubmodelResults.Should().HaveCount(1);
         response.SubmodelResults.First().Success.Should().BeFalse();
+    }
+
+    [Test]
+    public async Task CreateAas_MissingDataOrLanguage_ReturnsStatus400()
+    {
+        // ARRANGE — generation/validation guard failed, no submodel results produced
+        var assetIdShort = Guid.NewGuid().ToString();
+        var ids = Ids(assetIdShort);
+        var mockLogger = new Mock<ILogger<AasCreatorController>>();
+        var mockService = new Mock<IAasCreatorService>();
+        mockService.Setup(s => s.CreateAasWithSubmodelsAsync(It.IsAny<string>(), It.IsAny<IEnumerable<string>>(), It.IsAny<JObject>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<string?>(), It.IsAny<bool>()))
+            .ReturnsAsync(new AasCreationWithSubmodelsResult(ids, AasCreationStatus.GenerationFailed, Enumerable.Empty<AasGeneratorResult>(), errorMessage: "BlueprintsIds provided but Data or Language is missing."));
+        var controller = new AasCreatorController(mockLogger.Object, mockService.Object);
+
+        var request = new CreateAasRequest { BlueprintsIds = new[] { "blueprint1" } };
+
+        // ACT
+        var result = await controller.CreateAas(assetIdShort, false, request);
+
+        // ASSERT
+        var objectResult = result.Result as BadRequestObjectResult;
+        objectResult.Should().NotBeNull();
+        objectResult!.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
+        objectResult.Value.Should().Be("BlueprintsIds provided but Data or Language is missing.");
+    }
+
+    [Test]
+    public async Task CreateAas_InfrastructureFailure_ReturnsStatus500()
+    {
+        // ARRANGE — infra/persistence failure (e.g. submodel/shell POST threw)
+        var assetIdShort = Guid.NewGuid().ToString();
+        var ids = Ids(assetIdShort);
+        var mockLogger = new Mock<ILogger<AasCreatorController>>();
+        var mockService = new Mock<IAasCreatorService>();
+        mockService.Setup(s => s.CreateAasWithSubmodelsAsync(It.IsAny<string>(), It.IsAny<IEnumerable<string>>(), It.IsAny<JObject>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<string?>(), It.IsAny<bool>()))
+            .ReturnsAsync(new AasCreationWithSubmodelsResult(ids, AasCreationStatus.UnknownError, Enumerable.Empty<AasGeneratorResult>(), errorMessage: "Failed to create AAS shell: boom"));
+        var controller = new AasCreatorController(mockLogger.Object, mockService.Object);
+
+        var request = new CreateAasRequest { BlueprintsIds = new[] { "blueprint1" }, Data = new JObject(), Language = "en" };
+
+        // ACT
+        var result = await controller.CreateAas(assetIdShort, false, request);
+
+        // ASSERT
+        var objectResult = result.Result as ObjectResult;
+        objectResult.Should().NotBeNull();
+        objectResult!.StatusCode.Should().Be(StatusCodes.Status500InternalServerError);
+        objectResult.Value.Should().Be("Failed to create AAS shell: boom");
     }
 }

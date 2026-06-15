@@ -13,7 +13,6 @@ using MnestixCore.Shared;
 using MnestixCore.TemplateBuilder.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 
 namespace MnestixCore.AasGenerator;
 
@@ -205,27 +204,6 @@ public class AasGenerator : IAasGenerator
         return submodelId;
     }
 
-    /// <inheritdoc />
-    public async Task AttachSubmodelRefAsync(string base64EncodedAasId, string submodelId)
-    {
-        if (string.IsNullOrWhiteSpace(base64EncodedAasId))
-        {
-            throw new ArgumentException("The aas id cannot be empty!", nameof(base64EncodedAasId));
-        }
-        if (string.IsNullOrWhiteSpace(submodelId))
-        {
-            throw new ArgumentException("The submodel id cannot be empty!", nameof(submodelId));
-        }
-
-        var submodelReference = new SubmodelReference(new List<Key> { new("Submodel", submodelId) }, "ModelReference");
-        var submodelReferenceJson = JsonConvert.SerializeObject(submodelReference, new JsonSerializerSettings
-        {
-            ContractResolver = new CamelCasePropertyNamesContractResolver()
-        });
-
-        await _repoProxyClient.PostAsync($"{_repoProxyOptions.AasPath}/{base64EncodedAasId}/submodel-refs", submodelReferenceJson);
-    }
-
     private async Task<JObject> GetBlueprintAsync(string blueprintId, WorkflowLogger workflowLogger)
     {
         var base64BlueprintId = Base64StringDeAndEncoder.EncodeTo64(blueprintId);
@@ -292,12 +270,7 @@ public class AasGenerator : IAasGenerator
         {
             await _repoProxyClient.PostAsync(_repoProxyOptions.SubmodelPath, submodelInstance.ToString());
 
-            var submodelReference =
-                new SubmodelReference(new List<Key> { new("Submodel", submodelId) }, "ModelReference");
-            var submodelReferenceJson = JsonConvert.SerializeObject(submodelReference, new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            });
+            var submodelReferenceJson = SubmodelReference.ToJson(submodelId);
 
             workflowLogger.LogInfo("Adding submodel reference to shell");
             await _repoProxyClient.PostAsync($"{_repoProxyOptions.AasPath}/{base64EncodedAasId}/submodel-refs", submodelReferenceJson);

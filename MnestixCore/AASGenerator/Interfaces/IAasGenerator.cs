@@ -37,11 +37,4 @@ public interface IAasGenerator
     /// <param name="submodelInstance">The submodel instance to persist.</param>
     /// <returns>The id of the persisted submodel.</returns>
     Task<string> PostSubmodelAsync(JObject submodelInstance);
-
-    /// <summary>
-    /// Posts a submodel reference onto an existing shell.
-    /// </summary>
-    /// <param name="base64EncodedAasId">Target shell id, base64 url-safe encoded.</param>
-    /// <param name="submodelId">Id (not encoded) of the submodel to reference.</param>
-    Task AttachSubmodelRefAsync(string base64EncodedAasId, string submodelId);
 }

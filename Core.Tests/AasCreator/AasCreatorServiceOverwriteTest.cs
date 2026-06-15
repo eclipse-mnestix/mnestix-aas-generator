@@ -90,9 +90,12 @@ public class AasCreatorServiceOverwriteTest
         result.status.Should().Be(AasCreationStatus.Created);
         callOrder.Should().ContainInOrder("submodel:sm1", "submodel:sm2", "shell");
         callOrder.Last().Should().Be("shell");
-        // shell must carry refs to both submodels, AttachSubmodelRefAsync must NOT be used
-        shellJson.Should().Contain("sm1").And.Contain("sm2");
-        _generator.Verify(g => g.AttachSubmodelRefAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        // shell must carry refs to both submodels (baked into shell, not attached separately)
+        shellJson.Should().NotBeNull();
+        var refValues = JObject.Parse(shellJson!)["submodels"]!
+            .SelectTokens("$..keys[*].value")
+            .Select(v => v.ToString());
+        refValues.Should().Contain(new[] { "sm1", "sm2" });
     }
 
     [Test]
@@ -103,7 +106,7 @@ public class AasCreatorServiceOverwriteTest
 
         var result = await service.CreateAasWithSubmodelsAsync(AssetIdShort, new[] { "bp1" }, new JObject(), "en");
 
-        result.status.Should().Be(AasCreationStatus.UnknownError);
+        result.status.Should().Be(AasCreationStatus.GenerationFailed);
         _repo.Verify(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
         _generator.Verify(g => g.PostSubmodelAsync(It.IsAny<JObject>()), Times.Never);
     }
@@ -191,7 +194,8 @@ public class AasCreatorServiceOverwriteTest
         var result = await service.CreateAasWithSubmodelsAsync(AssetIdShort, new[] { "bp1" }, new JObject(), "en", overwrite: true);
 
         result.status.Should().Be(AasCreationStatus.Overwritten);
-        result.previousAas.Should().Contain("old-shell");
+        result.previousAas.Should().NotBeNull();
+        result.previousAas!["id"]!.ToString().Should().Be("old-shell");
         _repo.Verify(x => x.PutAsync("shells/" + _base64AasId, It.IsAny<string>()), Times.Once);
         _repo.Verify(x => x.DeleteAsync(It.Is<string>(p => p.StartsWith("shells/"))), Times.Never);
     }
@@ -212,6 +216,7 @@ public class AasCreatorServiceOverwriteTest
         var result = await service.CreateAasWithSubmodelsAsync(AssetIdShort, new[] { "bp1" }, new JObject(), "en", overwrite: true);
 
         result.status.Should().Be(AasCreationStatus.UnknownError);
+        result.orphanedSubmodelIds.Should().BeEmpty();
         _repo.Verify(x => x.DeleteAsync("submodels/" + MnestixCore.Shared.Base64StringDeAndEncoder.EncodeTo64("sm1")), Times.Once);
     }
 

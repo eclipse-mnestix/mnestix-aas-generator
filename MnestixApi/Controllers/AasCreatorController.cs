@@ -45,6 +45,7 @@ public class AasCreatorController : ControllerBase
     [ProducesResponseType(typeof(CreateAasResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(CreateAasConflictResponse), StatusCodes.Status409Conflict)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
     public async Task<ActionResult<CreateAasResponse>> CreateAas(
         [FromRoute] string assetIdShort,
@@ -84,9 +85,8 @@ public class AasCreatorController : ControllerBase
                     aasCreationResult.aasIds.aasId);
                 return BadRequest(
                     "There is already an AAS with the generated AasId. Please create a AasId yourself and put the AAS to the AasServer directly.");
-            case AasCreationStatus.UnknownError:
-            default:
-                _logger.LogTrace("An error occured during AAS creation: {errorMessage}",
+            case AasCreationStatus.GenerationFailed:
+                _logger.LogTrace("Submodel generation or input validation failed during AAS creation: {errorMessage}",
                     aasCreationResult.errorMessage);
 
                 if (aasCreationResult.submodelResults.Any())
@@ -94,7 +94,17 @@ public class AasCreatorController : ControllerBase
                     return BadRequest(BuildResponse(aasCreationResult));
                 }
 
+                return BadRequest(aasCreationResult.errorMessage);
+            case AasCreationStatus.UnknownError:
+                _logger.LogTrace("An error occured during AAS creation: {errorMessage}",
+                    aasCreationResult.errorMessage);
+
                 return StatusCode(StatusCodes.Status500InternalServerError, aasCreationResult.errorMessage);
+            default:
+                throw new ArgumentOutOfRangeException(
+                    nameof(aasCreationResult.status),
+                    aasCreationResult.status,
+                    "Unhandled AAS creation status.");
         }
     }
 
@@ -108,7 +118,7 @@ public class AasCreatorController : ControllerBase
             Base64EncodedAasId = Base64StringDeAndEncoder.EncodeTo64(result.aasIds.aasId),
             SubmodelResults = result.submodelResults,
             AasRepoUrl = result.aasRepoUrl ?? string.Empty,
-            PreviousAas = string.IsNullOrWhiteSpace(result.previousAas) ? null : Newtonsoft.Json.Linq.JObject.Parse(result.previousAas)
+            PreviousAas = result.previousAas
         };
     }
 }

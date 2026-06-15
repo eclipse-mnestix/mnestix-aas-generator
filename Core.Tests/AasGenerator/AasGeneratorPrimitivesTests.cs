@@ -24,7 +24,6 @@ public class AasGeneratorPrimitivesTests
     private const string NewSubmodelId = "TheNewSubmodelId";
     private const string TestSubmodelPath = "/submodels";
     private const string TestAasPath = "/aas";
-    private const string TestBase64EncodedAasId = "dGVzdEFhc0lk";
 
     [SetUp]
     public void SetUp()
@@ -85,6 +84,7 @@ public class AasGeneratorPrimitivesTests
         // ASSERT
         built.Result.Success.Should().BeFalse();
         built.Instance.Should().BeNull();
+        built.Result.Message.Should().NotBeNullOrEmpty();
         _repoProxyClientMock.Verify(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
     }
 
@@ -109,19 +109,16 @@ public class AasGeneratorPrimitivesTests
     }
 
     [Test]
-    public async Task AttachSubmodelRefAsync_PostsRefToShell()
+    public async Task PostSubmodelAsync_MissingId_ThrowsAndDoesNotWriteToRepo()
     {
         // ARRANGE
-        string? capturedPath = null;
-        _repoProxyClientMock
-            .Setup(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
-            .Callback<string, string>((path, _) => capturedPath = path)
-            .ReturnsAsync("created");
+        var instance = new JObject { ["modelType"] = "Submodel" };
 
         // ACT
-        await _aasGenerator.AttachSubmodelRefAsync(TestBase64EncodedAasId, "submodel-xyz");
+        var act = async () => await _aasGenerator.PostSubmodelAsync(instance);
 
         // ASSERT
-        capturedPath.Should().Be($"{TestAasPath}/{TestBase64EncodedAasId}/submodel-refs");
+        await act.Should().ThrowAsync<ArgumentException>();
+        _repoProxyClientMock.Verify(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
     }
 }
