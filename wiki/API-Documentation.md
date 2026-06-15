@@ -36,7 +36,7 @@ Create new Asset Administration Shells with optional auto-generated Submodels.
 Creates a new AAS for a given asset identifier. Optionally generates and attaches submodels if blueprint parameters are provided.
 
 ```http
-POST /api/v2/AasCreator/{assetIdShort}?overwrite=true|false
+POST /api/v2/AasCreator/{assetIdShort}?overwrite={true|false}
 ```
 
 #### Path Parameters

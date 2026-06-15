@@ -96,7 +96,7 @@ public class AasCreatorController : ControllerBase
 
                 return BadRequest(aasCreationResult.errorMessage);
             case AasCreationStatus.UnknownError:
-                _logger.LogTrace("An error occured during AAS creation: {errorMessage}",
+                _logger.LogTrace("An error occurred during AAS creation: {errorMessage}",
                     aasCreationResult.errorMessage);
 
                 return StatusCode(StatusCodes.Status500InternalServerError, aasCreationResult.errorMessage);
