@@ -72,57 +72,20 @@ public class AasCreatorService(
         var aasIds = await aasIdGeneratorService.GenerateAasIdsAsync(assetIdShortParam, globalAssetId);
         var base64EncodedAasId = Base64StringDeAndEncoder.EncodeTo64(aasIds.aasId);
         var shellPath = $"{_repoProxyOptions.AasPath}/{base64EncodedAasId}";
-        var hasBlueprints = blueprintsIds != null && blueprintsIds.Any();
 
         // 1. Build + validate all submodels in memory (no repo writes)
-        var builtResults = new List<AasGenerator.AasGeneratorResult>();
-        var instancesToPost = new List<JObject>();
-
-        if (hasBlueprints)
+        var (buildFailure, builtResults, instancesToPost) =
+            await BuildSubmodelsAsync(aasIds, blueprintsIds, data, language, debug);
+        if (buildFailure != null)
         {
-            if (data == null || string.IsNullOrEmpty(language))
-            {
-                return new AasCreationWithSubmodelsResult(
-                    aasIds,
-                    AasCreationStatus.GenerationFailed,
-                    Enumerable.Empty<AasGenerator.AasGeneratorResult>(),
-                    errorMessage: "BlueprintsIds provided but Data or Language is missing. All three parameters are required for submodel generation.");
-            }
-
-            foreach (var blueprintId in blueprintsIds!)
-            {
-                var built = await aasGenerator.BuildSubmodelAsync(blueprintId, data, language, debug,
-                    preamble: $"Creating AAS with aasId {aasIds.aasId}");
-                builtResults.Add(built.Result);
-                if (built.Result.Success && built.Instance != null)
-                {
-                    instancesToPost.Add(built.Instance);
-                }
-            }
-
-            if (builtResults.Any(r => !r.Success))
-            {
-                return new AasCreationWithSubmodelsResult(
-                    aasIds,
-                    AasCreationStatus.GenerationFailed,
-                    builtResults,
-                    errorMessage: "Submodel generation failed. No AAS was created.");
-            }
+            return buildFailure;
         }
 
         // 2. POST submodel bodies (fail fast: roll back already-posted submodels on failure)
-        var postedSubmodelIds = new List<string>();
-        foreach (var instance in instancesToPost)
+        var (postFailure, postedSubmodelIds) = await PostSubmodelsAsync(aasIds, builtResults, instancesToPost);
+        if (postFailure != null)
         {
-            try
-            {
-                var postedId = await aasGenerator.PostSubmodelAsync(instance);
-                postedSubmodelIds.Add(postedId);
-            }
-            catch (Exception e)
-            {
-                return await RollbackAndFail(aasIds, builtResults, postedSubmodelIds, $"Failed to persist submodel: {e.Message}");
-            }
+            return postFailure;
         }
 
         // 3. Build shell template with all submodel-refs baked in
@@ -147,6 +110,100 @@ public class AasCreatorService(
             AasCreationStatus.Created,
             builtResults,
             repoProxyClient.GetAasRepositoryUrl());
+    }
+
+    /// <summary>
+    /// Builds and validates every requested submodel in memory without writing to the repo. When no blueprints are
+    /// requested this is a no-op. On missing inputs or any build failure a terminal
+    /// <see cref="AasCreationStatus.GenerationFailed"/> result is returned via <c>failure</c> and the shell is never touched.
+    /// </summary>
+    /// <param name="aasIds">Ids of the AAS being created.</param>
+    /// <param name="blueprintsIds">Blueprint ids to generate submodels from; null/empty means no submodels.</param>
+    /// <param name="data">Source data for generation; required when blueprints are provided.</param>
+    /// <param name="language">Language for generation; required when blueprints are provided.</param>
+    /// <param name="debug">Whether to include debug detail in build results.</param>
+    /// <returns>
+    /// A terminal <c>failure</c> result (non-null on error), the per-blueprint <c>builtResults</c> to echo back, and the
+    /// successfully built <c>instances</c> ready to POST.
+    /// </returns>
+    private async Task<(AasCreationWithSubmodelsResult? failure, List<AasGenerator.AasGeneratorResult> builtResults, List<JObject> instances)> BuildSubmodelsAsync(
+        AasIds aasIds,
+        IEnumerable<string>? blueprintsIds,
+        JObject? data,
+        string? language,
+        bool debug)
+    {
+        var builtResults = new List<AasGenerator.AasGeneratorResult>();
+        var instancesToPost = new List<JObject>();
+
+        if (blueprintsIds == null || !blueprintsIds.Any())
+        {
+            return (null, builtResults, instancesToPost);
+        }
+
+        if (data == null || string.IsNullOrEmpty(language))
+        {
+            var failure = new AasCreationWithSubmodelsResult(
+                aasIds,
+                AasCreationStatus.GenerationFailed,
+                Enumerable.Empty<AasGenerator.AasGeneratorResult>(),
+                errorMessage: "BlueprintsIds provided but Data or Language is missing. All three parameters are required for submodel generation.");
+            return (failure, builtResults, instancesToPost);
+        }
+
+        foreach (var blueprintId in blueprintsIds)
+        {
+            var built = await aasGenerator.BuildSubmodelAsync(blueprintId, data, language, debug,
+                preamble: $"Creating AAS with aasId {aasIds.aasId}");
+            builtResults.Add(built.Result);
+            if (built.Result.Success && built.Instance != null)
+            {
+                instancesToPost.Add(built.Instance);
+            }
+        }
+
+        if (builtResults.Any(r => !r.Success))
+        {
+            var failure = new AasCreationWithSubmodelsResult(
+                aasIds,
+                AasCreationStatus.GenerationFailed,
+                builtResults,
+                errorMessage: "Submodel generation failed. No AAS was created.");
+            return (failure, builtResults, instancesToPost);
+        }
+
+        return (null, builtResults, instancesToPost);
+    }
+
+    /// <summary>
+    /// POSTs each built submodel body, failing fast: on the first persistence error already-posted submodels in this
+    /// request are rolled back and a terminal <see cref="AasCreationStatus.UnknownError"/> result is returned via <c>failure</c>.
+    /// </summary>
+    /// <param name="aasIds">Ids of the AAS being created.</param>
+    /// <param name="builtResults">Per-blueprint build results, echoed back on a failure result.</param>
+    /// <param name="instancesToPost">Submodel bodies to persist.</param>
+    /// <returns>A terminal <c>failure</c> result (non-null on error) and the ids of submodels successfully POSTed.</returns>
+    private async Task<(AasCreationWithSubmodelsResult? failure, List<string> postedSubmodelIds)> PostSubmodelsAsync(
+        AasIds aasIds,
+        List<AasGenerator.AasGeneratorResult> builtResults,
+        List<JObject> instancesToPost)
+    {
+        var postedSubmodelIds = new List<string>();
+        foreach (var instance in instancesToPost)
+        {
+            try
+            {
+                var postedId = await aasGenerator.PostSubmodelAsync(instance);
+                postedSubmodelIds.Add(postedId);
+            }
+            catch (Exception e)
+            {
+                var failure = await RollbackAndFail(aasIds, builtResults, postedSubmodelIds, $"Failed to persist submodel: {e.Message}");
+                return (failure, postedSubmodelIds);
+            }
+        }
+
+        return (null, postedSubmodelIds);
     }
 
     /// <summary>
