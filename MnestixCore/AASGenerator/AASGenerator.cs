@@ -13,7 +13,6 @@ using MnestixCore.Shared;
 using MnestixCore.TemplateBuilder.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 
 namespace MnestixCore.AasGenerator;
 
@@ -74,58 +73,17 @@ public class AasGenerator : IAasGenerator
         var blueprintsResults = blueprintsIds.Select(async blueprintId =>
         {
             var workflowLogger = new WorkflowLogger(_logger);
+            var built = await BuildSubmodelInternalAsync(blueprintId, data, language, debug, preamble, workflowLogger, targetAasId: base64EncodedAasId);
 
-            if (preamble != null)
+            if (!built.Result.Success)
             {
-                workflowLogger.LogInfo(preamble);
+                return built.Result;
             }
-            workflowLogger.LogInfo($"Mapping blueprint {blueprintId} to AAS {base64EncodedAasId}");
 
             try
             {
-                var blueprint = await GetBlueprintAsync(blueprintId, workflowLogger);
-                ValidateIdShort(blueprint, blueprintId, workflowLogger);
-                var newSubmodelId = await GenerateSubmodelIdAsync(workflowLogger);
-                var instance = MapDataToInstance(blueprint, data, language, newSubmodelId, workflowLogger);
-                await AddSubmodelToAasAsync(base64EncodedAasId, instance, workflowLogger);
-
-                return new AasGeneratorResult
-                {
-                    Success = true,
-                    BlueprintId = blueprintId,
-                    GeneratedSubmodelId = newSubmodelId,
-                    DebugInfo = debug ? new AasGeneratorDebugInfo { Logs = workflowLogger.Logs } : null
-                };
-            }
-            catch (SubmodelDataToInstanceMapperException e)
-            {
-                _logger.LogError(e, "Failed to map data to instance. BlueprintId: {BlueprintId}, Message: {Message}", blueprintId, e.Message);
-                return new AasGeneratorResult
-                {
-                    Success = false,
-                    BlueprintId = blueprintId,
-                    Message = e.Message,
-                    ErrorInfo = new AasGeneratorErrorInfo
-                    {
-                        Logs = workflowLogger.Logs,
-                        Qualifier = e.Context?.Qualifier.ToString(Formatting.None),
-                        QualifierPath = e.Context?.Qualifier.Path
-                    },
-                    DebugInfo = debug ? new AasGeneratorDebugInfo { Logs = workflowLogger.Logs } : null
-                };
-            }
-            catch (BlueprintValidationException e)
-            {
-                _logger.LogError(e, "Blueprint validation failed at generation-time. BlueprintId: {BlueprintId}", blueprintId);
-                return new AasGeneratorResult
-                {
-                    Success = false,
-                    BlueprintId = blueprintId,
-                    Message = "Blueprint validation failed. The blueprint may have been modified externally or was not migrated.",
-                    ValidationErrors = e.Errors,
-                    ErrorInfo = new AasGeneratorErrorInfo { Logs = workflowLogger.Logs },
-                    DebugInfo = debug ? new AasGeneratorDebugInfo { Logs = workflowLogger.Logs } : null
-                };
+                await AddSubmodelToAasAsync(base64EncodedAasId, built.Instance!, workflowLogger);
+                return built.Result;
             }
             catch (Exception e)
             {
@@ -142,6 +100,108 @@ public class AasGenerator : IAasGenerator
         });
 
         return await Task.WhenAll(blueprintsResults);
+    }
+
+    /// <inheritdoc />
+    public async Task<BuiltSubmodel> BuildSubmodelAsync(string blueprintId, JObject data, string? language, bool debug = false, string? preamble = null)
+    {
+        var workflowLogger = new WorkflowLogger(_logger);
+        return await BuildSubmodelInternalAsync(blueprintId, data, language, debug, preamble, workflowLogger);
+    }
+
+    private async Task<BuiltSubmodel> BuildSubmodelInternalAsync(string blueprintId, JObject data, string? language, bool debug, string? preamble, WorkflowLogger workflowLogger, string? targetAasId = null)
+    {
+        if (preamble != null)
+        {
+            workflowLogger.LogInfo(preamble);
+        }
+        workflowLogger.LogInfo(targetAasId != null
+            ? $"Mapping blueprint {blueprintId} to AAS {targetAasId}"
+            : $"Mapping blueprint {blueprintId}");
+
+        try
+        {
+            var blueprint = await GetBlueprintAsync(blueprintId, workflowLogger);
+            ValidateIdShort(blueprint, blueprintId, workflowLogger);
+            var newSubmodelId = await GenerateSubmodelIdAsync(workflowLogger);
+            var instance = MapDataToInstance(blueprint, data, language, newSubmodelId, workflowLogger);
+
+            return new BuiltSubmodel
+            {
+                Instance = instance,
+                Result = new AasGeneratorResult
+                {
+                    Success = true,
+                    BlueprintId = blueprintId,
+                    GeneratedSubmodelId = newSubmodelId,
+                    DebugInfo = debug ? new AasGeneratorDebugInfo { Logs = workflowLogger.Logs } : null
+                }
+            };
+        }
+        catch (SubmodelDataToInstanceMapperException e)
+        {
+            _logger.LogError(e, "Failed to map data to instance. BlueprintId: {BlueprintId}, Message: {Message}", blueprintId, e.Message);
+            return new BuiltSubmodel
+            {
+                Result = new AasGeneratorResult
+                {
+                    Success = false,
+                    BlueprintId = blueprintId,
+                    Message = e.Message,
+                    ErrorInfo = new AasGeneratorErrorInfo
+                    {
+                        Logs = workflowLogger.Logs,
+                        Qualifier = e.Context?.Qualifier.ToString(Formatting.None),
+                        QualifierPath = e.Context?.Qualifier.Path
+                    },
+                    DebugInfo = debug ? new AasGeneratorDebugInfo { Logs = workflowLogger.Logs } : null
+                }
+            };
+        }
+        catch (BlueprintValidationException e)
+        {
+            _logger.LogError(e, "Blueprint validation failed at generation-time. BlueprintId: {BlueprintId}", blueprintId);
+            return new BuiltSubmodel
+            {
+                Result = new AasGeneratorResult
+                {
+                    Success = false,
+                    BlueprintId = blueprintId,
+                    Message = "Blueprint validation failed. The blueprint may have been modified externally or was not migrated.",
+                    ValidationErrors = e.Errors,
+                    ErrorInfo = new AasGeneratorErrorInfo { Logs = workflowLogger.Logs },
+                    DebugInfo = debug ? new AasGeneratorDebugInfo { Logs = workflowLogger.Logs } : null
+                }
+            };
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Blueprint workflow failed. BlueprintId: {BlueprintId}, Message: {Message}", blueprintId, e.Message);
+            return new BuiltSubmodel
+            {
+                Result = new AasGeneratorResult
+                {
+                    Success = false,
+                    BlueprintId = blueprintId,
+                    Message = e.Message,
+                    ErrorInfo = new AasGeneratorErrorInfo { Logs = workflowLogger.Logs },
+                    DebugInfo = debug ? new AasGeneratorDebugInfo { Logs = workflowLogger.Logs } : null
+                }
+            };
+        }
+    }
+
+    /// <inheritdoc />
+    public async Task<string> PostSubmodelAsync(JObject submodelInstance)
+    {
+        var submodelId = submodelInstance["id"]?.Value<string>();
+        if (string.IsNullOrWhiteSpace(submodelId))
+        {
+            throw new ArgumentException("The submodel id cannot be empty!");
+        }
+
+        await _repoProxyClient.PostAsync(_repoProxyOptions.SubmodelPath, submodelInstance.ToString());
+        return submodelId;
     }
 
     private async Task<JObject> GetBlueprintAsync(string blueprintId, WorkflowLogger workflowLogger)
@@ -210,12 +270,7 @@ public class AasGenerator : IAasGenerator
         {
             await _repoProxyClient.PostAsync(_repoProxyOptions.SubmodelPath, submodelInstance.ToString());
 
-            var submodelReference =
-                new SubmodelReference(new List<Key> { new("Submodel", submodelId) }, "ModelReference");
-            var submodelReferenceJson = JsonConvert.SerializeObject(submodelReference, new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            });
+            var submodelReferenceJson = SubmodelReference.ToJson(submodelId);
 
             workflowLogger.LogInfo("Adding submodel reference to shell");
             await _repoProxyClient.PostAsync($"{_repoProxyOptions.AasPath}/{base64EncodedAasId}/submodel-refs", submodelReferenceJson);

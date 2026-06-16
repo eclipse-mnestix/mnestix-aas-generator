@@ -23,6 +23,7 @@ public interface IAasCreatorService
     /// <param name="language">Optional language for multi-language properties</param>
     /// <param name="debug">Optional flag to include debug logs in the response</param>
     /// <param name="globalAssetId">Optional globalAssetId to use directly instead of generating one.</param>
+    /// <param name="overwrite">When true, an existing shell with the generated id is overwritten instead of returning a conflict.</param>
     /// <returns><see cref="AasCreationWithSubmodelsResult"/></returns>
     public Task<AasCreationWithSubmodelsResult> CreateAasWithSubmodelsAsync(
         string assetIdShortParam,
@@ -30,5 +31,6 @@ public interface IAasCreatorService
         JObject? data = null,
         string? language = null,
         bool debug = false,
-        string? globalAssetId = null);
+        string? globalAssetId = null,
+        bool overwrite = false);
 }
