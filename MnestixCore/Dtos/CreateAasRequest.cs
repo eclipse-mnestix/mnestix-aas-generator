@@ -36,4 +36,10 @@ public class CreateAasRequest
     /// If provided, this value is used directly as the globalAssetId of the AAS.
     /// </summary>
     public string? GlobalAssetId { get; set; }
+
+    /// <summary>
+    /// Optional default thumbnail for the AAS asset information.
+    /// Matches the AAS V3 Resource schema (path required, contentType optional).
+    /// </summary>
+    public DefaultThumbnail? DefaultThumbnail { get; set; }
 }
