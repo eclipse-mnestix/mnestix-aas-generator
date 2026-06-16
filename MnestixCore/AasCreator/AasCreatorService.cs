@@ -67,7 +67,8 @@ public class AasCreatorService(
         string? language = null,
         bool debug = false,
         string? globalAssetId = null,
-        bool overwrite = false)
+        bool overwrite = false,
+        DefaultThumbnail? defaultThumbnail = null)
     {
         var aasIds = await aasIdGeneratorService.GenerateAasIdsAsync(assetIdShortParam, globalAssetId);
         var base64EncodedAasId = Base64StringDeAndEncoder.EncodeTo64(aasIds.aasId);
@@ -89,7 +90,7 @@ public class AasCreatorService(
         }
 
         // 3. Build shell template with all submodel-refs baked in
-        var shell = BuildShellWithRefs(aasIds, postedSubmodelIds);
+        var shell = BuildShellWithRefs(aasIds, postedSubmodelIds, defaultThumbnail);
 
         // 4. POST shell
         try
@@ -262,10 +263,11 @@ public class AasCreatorService(
     /// </summary>
     /// <param name="aasIds">Ids of the AAS to template.</param>
     /// <param name="submodelIds">Submodel ids (not encoded) to reference from the shell.</param>
+    /// <param name="defaultThumbnail">Optional default thumbnail to inject into the shell's asset information.</param>
     /// <returns>The serialized shell JSON.</returns>
-    private string BuildShellWithRefs(AasIds aasIds, IReadOnlyCollection<string> submodelIds)
+    private string BuildShellWithRefs(AasIds aasIds, IReadOnlyCollection<string> submodelIds, DefaultThumbnail? defaultThumbnail = null)
     {
-        var shell = JObject.Parse(TemplateProvider.GetAas(aasIds));
+        var shell = JObject.Parse(TemplateProvider.GetAas(aasIds, defaultThumbnail));
         if (submodelIds.Count > 0)
         {
             var refs = new JArray();
