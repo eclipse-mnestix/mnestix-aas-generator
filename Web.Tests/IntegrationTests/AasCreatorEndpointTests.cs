@@ -176,4 +176,64 @@ public class AasCreatorEndpointTests : IntegrationTestsBase
 
         aasList.Should().BeEmpty();
     }
+
+    [Test]
+    public async Task CreateAas_WithInvalidAssetKind_ShouldReturnBadRequest()
+    {
+        // ARRANGE
+        var aasList = new List<JObject>();
+
+        var json = @"
+            {
+              ""assetKind"": ""InvalidValue""
+            }";
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var mockedRestClient = new MockRestClientBuilder(aas: aasList)
+            .WithGetIdSettings()
+            .WithPostAas()
+            .Build();
+
+        Func<IRestClient> restClientFactory = () => mockedRestClient;
+        HttpClientMock.Setup(x => x.GetConfiguredClientAsync(It.IsAny<string>())).ReturnsAsync(restClientFactory);
+
+        // ACT & ASSERT — ASP.NET Core enum validation rejects invalid AssetKind values
+        await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/testAsset", content, StatusCodes.Status400BadRequest);
+
+        // Shell should never be created due to validation failure
+        aasList.Should().BeEmpty();
+    }
+
+    [Test]
+    public async Task CreateAas_WithValidTypeAssetKind_ShouldReturnCreated()
+    {
+        // ARRANGE
+        var aasList = new List<JObject>();
+
+        var json = @"
+            {
+              ""assetKind"": ""Type""
+            }";
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var mockedRestClient = new MockRestClientBuilder(aas: aasList)
+            .WithGetAas("aHR0cHM6Ly9leGFtcGxlLmNvbS9hYXMvdHlwZUFzc2V0", "", HttpStatusCode.NotFound, false)
+            .WithGetIdSettings()
+            .WithPostAas()
+            .Build();
+
+        Func<IRestClient> restClientFactory = () => mockedRestClient;
+        HttpClientMock.Setup(x => x.GetConfiguredClientAsync(It.IsAny<string>())).ReturnsAsync(restClientFactory);
+
+        // ACT
+        var responseContent = await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/typeAsset", content, StatusCodes.Status201Created);
+
+        // ASSERT
+        responseContent.Should().Contain("\"assetId\":\"assetIdPrefixtypeAsset\"");
+        aasList.Should().HaveCount(1);
+
+        // Verify the created AAS has assetKind: Type
+        var createdAas = aasList[0];
+        createdAas["assetInformation"]?["assetKind"]?.ToString().Should().Be("Type");
+    }
 }

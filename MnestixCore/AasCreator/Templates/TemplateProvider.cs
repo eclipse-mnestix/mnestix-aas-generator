@@ -7,18 +7,19 @@ namespace MnestixCore.AasCreator.Templates;
 
 public static class TemplateProvider
 {
-    public static string GetAas(AasIds aasIds)
+    public static string GetAas(AasIds aasIds, AssetKind assetKind = AssetKind.Instance)
     {
         var template = EmbeddedResourceProvider.GetEmbeddedResourceContent("AasCreator.Templates.aas.json");
         return template.Replace("#assetId#", JsonEncodedText.Encode(aasIds.assetId).ToString())
             .Replace("#assetIdShort#", JsonEncodedText.Encode(aasIds.assetIdShort).ToString())
             .Replace("#aasId#", JsonEncodedText.Encode(aasIds.aasId).ToString())
-            .Replace("#aasIdShort#", JsonEncodedText.Encode(aasIds.aasIdShort).ToString());
+            .Replace("#aasIdShort#", JsonEncodedText.Encode(aasIds.aasIdShort).ToString())
+            .Replace("#assetKind#", assetKind.ToString());
     }
 
-    public static string GetAas(AasIds aasIds, DefaultThumbnail? defaultThumbnail)
+    public static string GetAas(AasIds aasIds, DefaultThumbnail? defaultThumbnail, AssetKind assetKind = AssetKind.Instance)
     {
-        var json = GetAas(aasIds);
+        var json = GetAas(aasIds, assetKind);
 
         if (defaultThumbnail == null)
         {

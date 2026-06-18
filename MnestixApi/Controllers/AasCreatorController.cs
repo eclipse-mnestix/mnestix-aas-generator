@@ -70,7 +70,8 @@ public class AasCreatorController : ControllerBase
             requestBody?.Debug ?? false,
             requestBody?.GlobalAssetId,
             overwrite,
-            requestBody?.DefaultThumbnail);
+            requestBody?.DefaultThumbnail,
+            requestBody?.AssetKind ?? AssetKind.Instance);
 
         switch (aasCreationResult.status)
         {

@@ -88,6 +88,7 @@ If you want to create an AAS with submodels, include a JSON body:
 | `language` | string | No | Language code for MultiLanguageProperties (e.g., `"en"`, `"de"`) |
 | `debug` | boolean | No | Include workflow logs in response (default: `false`). When enabled, the response includes a chronological log trail spanning all generation phases: blueprint retrieval, ID generation, data mapping, and repository persistence. |
 | `globalAssetId` | string | No | Custom globalAssetId to use directly instead of generating one. If omitted, the globalAssetId is auto-generated from the configured prefix and ID generation rules. |
+| `assetKind` | string | No | AssetKind for the AAS: `"Instance"`, `"Type"`, or `"NotApplicable"` (default: `"Instance"`). Specifies whether the AAS represents a concrete asset instance, a type/template, or if asset classification is not applicable. |
 
 #### Response
 

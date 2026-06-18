@@ -86,4 +86,58 @@ public class TemplateProviderTest
         var json = JObject.Parse(result);
         json["assetInformation"]?["defaultThumbnail"].Should().BeNull();
     }
+
+    [Test]
+    public void GetAas_DefaultAssetKind_IsInstance()
+    {
+        // ACT
+        var result = TemplateProvider.GetAas(TestAasIds);
+
+        // ASSERT
+        var json = JObject.Parse(result);
+        json["assetInformation"]?["assetKind"]?.ToString().Should().Be("Instance");
+    }
+
+    [Test]
+    public void GetAas_WithTypeAssetKind_InjectsType()
+    {
+        // ACT
+        var result = TemplateProvider.GetAas(TestAasIds, AssetKind.Type);
+
+        // ASSERT
+        var json = JObject.Parse(result);
+        json["assetInformation"]?["assetKind"]?.ToString().Should().Be("Type");
+    }
+
+    [Test]
+    public void GetAas_WithNotApplicableAssetKind_InjectsNotApplicable()
+    {
+        // ACT
+        var result = TemplateProvider.GetAas(TestAasIds, AssetKind.NotApplicable);
+
+        // ASSERT
+        var json = JObject.Parse(result);
+        json["assetInformation"]?["assetKind"]?.ToString().Should().Be("NotApplicable");
+    }
+
+    [Test]
+    public void GetAas_WithThumbnailAndTypeAssetKind_InjectsBoth()
+    {
+        // ARRANGE
+        var thumbnail = new DefaultThumbnail
+        {
+            Path = "https://example.com/logo.png",
+            ContentType = "image/png"
+        };
+
+        // ACT
+        var result = TemplateProvider.GetAas(TestAasIds, thumbnail, AssetKind.Type);
+
+        // ASSERT
+        var json = JObject.Parse(result);
+        json["assetInformation"]?["assetKind"]?.ToString().Should().Be("Type");
+        var defaultThumbnail = json["assetInformation"]?["defaultThumbnail"];
+        defaultThumbnail.Should().NotBeNull();
+        defaultThumbnail?["path"]?.ToString().Should().Be("https://example.com/logo.png");
+    }
 }

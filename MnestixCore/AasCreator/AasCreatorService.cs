@@ -22,7 +22,7 @@ public class AasCreatorService(
     private readonly RepoProxyOptions _repoProxyOptions = repoProxyOptions.Value ?? throw new ArgumentNullException(nameof(repoProxyOptions));
 
     /// <inheritdoc />
-    public async Task<AasCreationResult> CreateAasAsync(string assetIdShortParam, string? globalAssetId = null)
+    public async Task<AasCreationResult> CreateAasAsync(string assetIdShortParam, string? globalAssetId = null, AssetKind assetKind = AssetKind.Instance)
     {
         var aasIds = await aasIdGeneratorService.GenerateAasIdsAsync(assetIdShortParam, globalAssetId);
         var base64EncodedAasId = Base64StringDeAndEncoder.EncodeTo64(aasIds.aasId);
@@ -33,7 +33,7 @@ public class AasCreatorService(
             return new AasCreationResult(aasIds, AasCreationStatus.AlreadyExists);
         }
 
-        var aas = TemplateProvider.GetAas(aasIds);
+        var aas = TemplateProvider.GetAas(aasIds, assetKind);
 
         try
         {
@@ -68,7 +68,8 @@ public class AasCreatorService(
         bool debug = false,
         string? globalAssetId = null,
         bool overwrite = false,
-        DefaultThumbnail? defaultThumbnail = null)
+        DefaultThumbnail? defaultThumbnail = null,
+        AssetKind assetKind = AssetKind.Instance)
     {
         var aasIds = await aasIdGeneratorService.GenerateAasIdsAsync(assetIdShortParam, globalAssetId);
         var base64EncodedAasId = Base64StringDeAndEncoder.EncodeTo64(aasIds.aasId);
@@ -90,7 +91,7 @@ public class AasCreatorService(
         }
 
         // 3. Build shell template with all submodel-refs baked in
-        var shell = BuildShellWithRefs(aasIds, postedSubmodelIds, defaultThumbnail);
+        var shell = BuildShellWithRefs(aasIds, postedSubmodelIds, defaultThumbnail, assetKind);
 
         // 4. POST shell
         try
@@ -264,10 +265,11 @@ public class AasCreatorService(
     /// <param name="aasIds">Ids of the AAS to template.</param>
     /// <param name="submodelIds">Submodel ids (not encoded) to reference from the shell.</param>
     /// <param name="defaultThumbnail">Optional default thumbnail to inject into the shell's asset information.</param>
+    /// <param name="assetKind">AssetKind for the AAS (Instance, Type, or NotApplicable).</param>
     /// <returns>The serialized shell JSON.</returns>
-    private string BuildShellWithRefs(AasIds aasIds, IReadOnlyCollection<string> submodelIds, DefaultThumbnail? defaultThumbnail = null)
+    private string BuildShellWithRefs(AasIds aasIds, IReadOnlyCollection<string> submodelIds, DefaultThumbnail? defaultThumbnail, AssetKind assetKind)
     {
-        var shell = JObject.Parse(TemplateProvider.GetAas(aasIds, defaultThumbnail));
+        var shell = JObject.Parse(TemplateProvider.GetAas(aasIds, defaultThumbnail, assetKind));
         if (submodelIds.Count > 0)
         {
             var refs = new JArray();

@@ -3,7 +3,7 @@
   "idShort": "#aasIdShort#",
   "modelType": "AssetAdministrationShell",
   "assetInformation": {
-    "assetKind": "Instance",
+    "assetKind": "#assetKind#",
     "globalAssetId": "#assetId#",
     "specificAssetIds": [
       {

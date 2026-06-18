@@ -42,4 +42,11 @@ public class CreateAasRequest
     /// Matches the AAS V3 Resource schema (path required, contentType optional).
     /// </summary>
     public DefaultThumbnail? DefaultThumbnail { get; set; }
+
+    /// <summary>
+    /// Optional AssetKind for the AAS asset information.
+    /// Specifies whether the AAS represents an Instance (concrete asset), Type (template), or NotApplicable.
+    /// Defaults to Instance if not provided.
+    /// </summary>
+    public AssetKind? AssetKind { get; set; }
 }
