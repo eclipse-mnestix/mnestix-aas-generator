@@ -66,7 +66,22 @@ Important semantics and trade-offs:
 
 #### Request Body (Optional)
 
-If you want to create an AAS with submodels, include a JSON body:
+If you want to create an AAS with submodels, include a JSON body.
+
+**Minimal example:**
+
+```json
+{
+  "blueprintsIds": ["blueprint-id-1", "blueprint-id-2"],
+  "data": {
+    "serialNumber": "SN-12345",
+    "manufacturer": "ACME Corp"
+  },
+  "language": "en"
+}
+```
+
+**Complete example with all optional fields:**
 
 ```json
 {
@@ -77,7 +92,35 @@ If you want to create an AAS with submodels, include a JSON body:
   },
   "language": "en",
   "debug": false,
-  "globalAssetId": "https://example.com/assets/my-custom-asset-id"
+  "globalAssetId": "https://example.com/assets/my-custom-asset-id",
+  "assetKind": "Instance",
+  "extensions": {
+    "manufacturer": "ACME Corp",
+    "location": "Building A",
+    "department": "Production"
+  },
+  "specificAssetIds": [
+    {
+      "name": "SerialNumber",
+      "value": "SN-12345"
+    },
+    {
+      "name": "PartNumber",
+      "value": "PN-ABC-001"
+    },
+    {
+      "name": "BatchNumber",
+      "value": "BATCH-2024-001"
+    }
+  ],
+  "administration": {
+    "version": "1.0",
+    "revision": "3"
+  },
+  "defaultThumbnail": {
+    "path": "https://example.com/images/asset-thumbnail.png",
+    "contentType": "image/png"
+  }
 }
 ```
 
@@ -89,6 +132,9 @@ If you want to create an AAS with submodels, include a JSON body:
 | `debug` | boolean | No | Include workflow logs in response (default: `false`). When enabled, the response includes a chronological log trail spanning all generation phases: blueprint retrieval, ID generation, data mapping, and repository persistence. |
 | `globalAssetId` | string | No | Custom globalAssetId to use directly instead of generating one. If omitted, the globalAssetId is auto-generated from the configured prefix and ID generation rules. |
 | `assetKind` | string | No | AssetKind for the AAS: `"Instance"`, `"Type"`, or `"NotApplicable"` (default: `"Instance"`). Specifies whether the AAS represents a concrete asset instance, a type/template, or if asset classification is not applicable. |
+| `extensions` | object | No | Key-value pairs to add as extensions to the AAS root level. Each entry will be added as `{"name": "key", "value": "value"}` in the extensions array. |
+| `specificAssetIds` | array | No | Array of specific asset identifier objects to add to the asset information. Each object must have `name` and `value` properties. These identifiers are used to identify the asset in specific contexts (e.g., serial numbers, part numbers). The default `assetIdShort` identifier is always included. Example: `[{"name": "SerialNumber", "value": "12345"}, {"name": "PartNumber", "value": "ABC-001"}]` |
+| `administration` | object | No | Administrative information for the AAS (version and revision). Object with `version` (required, string) and `revision` (optional, string) properties. Example: `{"version": "1.0", "revision": "2"}`. This is added at the AAS root level according to IDTA AAS specification. |
 
 #### Response
 

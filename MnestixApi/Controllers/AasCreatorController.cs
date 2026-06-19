@@ -62,6 +62,15 @@ public class AasCreatorController : ControllerBase
             return BadRequest("DefaultThumbnail.Path is required when DefaultThumbnail is provided.");
         }
 
+        var options = new AasCreationOptions
+        {
+            AssetKind = requestBody?.AssetKind ?? AssetKind.Instance,
+            Extensions = requestBody?.Extensions,
+            SpecificAssetIds = requestBody?.SpecificAssetIds,
+            Administration = requestBody?.Administration,
+            DefaultThumbnail = requestBody?.DefaultThumbnail
+        };
+
         var aasCreationResult = await _aasCreatorService.CreateAasWithSubmodelsAsync(
             assetIdShort,
             requestBody?.BlueprintsIds,
@@ -70,8 +79,7 @@ public class AasCreatorController : ControllerBase
             requestBody?.Debug ?? false,
             requestBody?.GlobalAssetId,
             overwrite,
-            requestBody?.DefaultThumbnail,
-            requestBody?.AssetKind ?? AssetKind.Instance);
+            options);
 
         switch (aasCreationResult.status)
         {

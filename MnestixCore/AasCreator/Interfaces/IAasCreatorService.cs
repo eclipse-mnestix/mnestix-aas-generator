@@ -10,9 +10,9 @@ public interface IAasCreatorService
     /// </summary>
     /// <param name="assetIdShortParam">Short identifier of the asset</param>
     /// <param name="globalAssetId">Optional globalAssetId to use directly instead of generating one.</param>
-    /// <param name="assetKind">AssetKind for the AAS (Instance, Type, or NotApplicable). Defaults to Instance.</param>
+    /// <param name="options">Optional configuration for AAS metadata (assetKind, extensions, specificAssetIds, administration, defaultThumbnail)</param>
     /// <returns><see cref="AasCreationResult"/></returns>
-    public Task<AasCreationResult> CreateAasAsync(string assetIdShortParam, string? globalAssetId = null, AssetKind assetKind = AssetKind.Instance);
+    public Task<AasCreationResult> CreateAasAsync(string assetIdShortParam, string? globalAssetId = null, AasCreationOptions? options = null);
 
     /// <summary>
     /// Create an AAS for the given <paramref name="assetIdShortParam" /> with optional submodels.
@@ -26,8 +26,7 @@ public interface IAasCreatorService
     /// <param name="debug">Optional flag to include debug logs in the response</param>
     /// <param name="globalAssetId">Optional globalAssetId to use directly instead of generating one.</param>
     /// <param name="overwrite">When true, an existing shell with the generated id is overwritten instead of returning a conflict.</param>
-    /// <param name="defaultThumbnail">Optional default thumbnail for the AAS asset information.</param>
-    /// <param name="assetKind">AssetKind for the AAS (Instance, Type, or NotApplicable). Defaults to Instance.</param>
+    /// <param name="options">Optional configuration for AAS metadata (assetKind, extensions, specificAssetIds, administration, defaultThumbnail)</param>
     /// <returns><see cref="AasCreationWithSubmodelsResult"/></returns>
     public Task<AasCreationWithSubmodelsResult> CreateAasWithSubmodelsAsync(
         string assetIdShortParam,
@@ -37,6 +36,5 @@ public interface IAasCreatorService
         bool debug = false,
         string? globalAssetId = null,
         bool overwrite = false,
-        DefaultThumbnail? defaultThumbnail = null,
-        AssetKind assetKind = AssetKind.Instance);
+        AasCreationOptions? options = null);
 }

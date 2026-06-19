@@ -251,7 +251,7 @@ public class AasCreatorServiceOverwriteTest
             new[] { "bp1" },
             new JObject(),
             "en",
-            assetKind: AssetKind.Type);
+            options: new AasCreationOptions { AssetKind = AssetKind.Type });
 
         result.status.Should().Be(AasCreationStatus.Created);
         postedShell.Should().NotBeNull();
@@ -269,7 +269,7 @@ public class AasCreatorServiceOverwriteTest
         var service = CreateService();
         var result = await service.CreateAasWithSubmodelsAsync(
             AssetIdShort,
-            assetKind: AssetKind.NotApplicable);
+            options: new AasCreationOptions { AssetKind = AssetKind.NotApplicable });
 
         result.status.Should().Be(AasCreationStatus.Created);
         postedShell.Should().NotBeNull();
@@ -313,7 +313,7 @@ public class AasCreatorServiceOverwriteTest
             new JObject(),
             "en",
             overwrite: true,
-            assetKind: AssetKind.Type);
+            options: new AasCreationOptions { AssetKind = AssetKind.Type });
 
         result.status.Should().Be(AasCreationStatus.Overwritten);
         postedShell.Should().NotBeNull();

@@ -97,7 +97,7 @@ public class AasCreatorTest
             new AasCreatorService(_aasIdGeneratorService.Object, _repoProxyClientMock.Object, _repoProxyOptions, _aasGeneratorMock.Object);
 
         // ACT
-        var result = await aasCreator.CreateAasAsync(randomAssetIdShort, null, AssetKind.Type);
+        var result = await aasCreator.CreateAasAsync(randomAssetIdShort, null, new AasCreationOptions { AssetKind = AssetKind.Type });
 
         // ASSERT
         result.status.Should().Be(AasCreationStatus.Created);
@@ -124,7 +124,7 @@ public class AasCreatorTest
             new AasCreatorService(_aasIdGeneratorService.Object, _repoProxyClientMock.Object, _repoProxyOptions, _aasGeneratorMock.Object);
 
         // ACT
-        var result = await aasCreator.CreateAasAsync(randomAssetIdShort, null, AssetKind.NotApplicable);
+        var result = await aasCreator.CreateAasAsync(randomAssetIdShort, null, new AasCreationOptions { AssetKind = AssetKind.NotApplicable });
 
         // ASSERT
         result.status.Should().Be(AasCreationStatus.Created);

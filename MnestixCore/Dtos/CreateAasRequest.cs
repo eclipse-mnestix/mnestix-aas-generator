@@ -49,4 +49,23 @@ public class CreateAasRequest
     /// Defaults to Instance if not provided.
     /// </summary>
     public AssetKind? AssetKind { get; set; }
+
+    /// <summary>
+    /// Optional extensions as key-value pairs.
+    /// These will be added to the AAS root level as additional metadata.
+    /// </summary>
+    public Dictionary<string, string>? Extensions { get; set; }
+
+    /// <summary>
+    /// Optional specific asset identifiers to add to the asset information.
+    /// These identifiers are used to identify the asset in specific contexts (e.g., serial numbers, part numbers).
+    /// If provided, these will be added to the default assetIdShort identifier.
+    /// </summary>
+    public List<SpecificAssetId>? SpecificAssetIds { get; set; }
+
+    /// <summary>
+    /// Optional administrative information for the AAS.
+    /// Contains version and revision information at the AAS root level.
+    /// </summary>
+    public AdministrativeInformation? Administration { get; set; }
 }

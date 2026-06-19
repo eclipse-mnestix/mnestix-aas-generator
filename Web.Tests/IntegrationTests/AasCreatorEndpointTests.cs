@@ -236,4 +236,307 @@ public class AasCreatorEndpointTests : IntegrationTestsBase
         var createdAas = aasList[0];
         createdAas["assetInformation"]?["assetKind"]?.ToString().Should().Be("Type");
     }
+
+    [Test]
+    public async Task CreateAas_WithExtensions_ShouldAddExtensionsToAas()
+    {
+        // ARRANGE
+        var aasList = new List<JObject>();
+
+        var json = @"
+            {
+              ""extensions"": {
+                ""manufacturer"": ""ACME Corp"",
+                ""location"": ""Building A""
+              }
+            }";
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var mockedRestClient = new MockRestClientBuilder(aas: aasList)
+            .WithGetAas("aHR0cHM6Ly9leGFtcGxlLmNvbS9hYXMvdGVzdEV4dGVuc2lvbnM", "", HttpStatusCode.NotFound, false)
+            .WithGetIdSettings()
+            .WithPostAas()
+            .Build();
+
+        Func<IRestClient> restClientFactory = () => mockedRestClient;
+        HttpClientMock.Setup(x => x.GetConfiguredClientAsync(It.IsAny<string>())).ReturnsAsync(restClientFactory);
+
+        // ACT
+        var responseContent = await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/testExtensions", content, StatusCodes.Status201Created);
+
+        // ASSERT
+        responseContent.Should().Contain("\"assetId\":\"assetIdPrefixtestExtensions\"");
+        aasList.Should().HaveCount(1);
+
+        var createdAas = aasList[0];
+        var extensions = createdAas["extensions"] as JArray;
+        extensions.Should().NotBeNull();
+        extensions!.Should().HaveCount(2);
+
+        var manufacturerExt = extensions.FirstOrDefault(e => e["name"]?.ToString() == "manufacturer");
+        manufacturerExt.Should().NotBeNull();
+        manufacturerExt!["value"]?.ToString().Should().Be("ACME Corp");
+
+        var locationExt = extensions.FirstOrDefault(e => e["name"]?.ToString() == "location");
+        locationExt.Should().NotBeNull();
+        locationExt!["value"]?.ToString().Should().Be("Building A");
+    }
+
+    [Test]
+    public async Task CreateAas_WithEmptyExtensions_ShouldNotAddExtensionsField()
+    {
+        // ARRANGE
+        var aasList = new List<JObject>();
+
+        var json = @"
+            {
+              ""extensions"": {}
+            }";
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var mockedRestClient = new MockRestClientBuilder(aas: aasList)
+            .WithGetAas("aHR0cHM6Ly9leGFtcGxlLmNvbS9hYXMvZW1wdHlFeHQ", "", HttpStatusCode.NotFound, false)
+            .WithGetIdSettings()
+            .WithPostAas()
+            .Build();
+
+        Func<IRestClient> restClientFactory = () => mockedRestClient;
+        HttpClientMock.Setup(x => x.GetConfiguredClientAsync(It.IsAny<string>())).ReturnsAsync(restClientFactory);
+
+        // ACT
+        await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/emptyExt", content, StatusCodes.Status201Created);
+
+        // ASSERT
+        aasList.Should().HaveCount(1);
+        var createdAas = aasList[0];
+        createdAas["extensions"].Should().BeNull();
+    }
+
+    [Test]
+    public async Task CreateAas_WithSpecificAssetIds_ShouldAddToAssetInformation()
+    {
+        // ARRANGE
+        var aasList = new List<JObject>();
+
+        var json = @"
+            {
+              ""specificAssetIds"": [
+                { ""name"": ""SerialNumber"", ""value"": ""SN-12345"" },
+                { ""name"": ""PartNumber"", ""value"": ""PN-ABC-001"" }
+              ]
+            }";
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var mockedRestClient = new MockRestClientBuilder(aas: aasList)
+            .WithGetAas("aHR0cHM6Ly9leGFtcGxlLmNvbS9hYXMvdGVzdFNwZWNpZmljSWRz", "", HttpStatusCode.NotFound, false)
+            .WithGetIdSettings()
+            .WithPostAas()
+            .Build();
+
+        Func<IRestClient> restClientFactory = () => mockedRestClient;
+        HttpClientMock.Setup(x => x.GetConfiguredClientAsync(It.IsAny<string>())).ReturnsAsync(restClientFactory);
+
+        // ACT
+        var responseContent = await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/testSpecificIds", content, StatusCodes.Status201Created);
+
+        // ASSERT
+        aasList.Should().HaveCount(1);
+        var createdAas = aasList[0];
+        var assetInfo = createdAas["assetInformation"] as JObject;
+        assetInfo.Should().NotBeNull();
+
+        var specificIds = assetInfo!["specificAssetIds"] as JArray;
+        specificIds.Should().NotBeNull();
+        specificIds!.Should().HaveCount(3); // default assetIdShort + 2 custom ones
+
+        var serialNumber = specificIds.FirstOrDefault(id => id["name"]?.ToString() == "SerialNumber");
+        serialNumber.Should().NotBeNull();
+        serialNumber!["value"]?.ToString().Should().Be("SN-12345");
+
+        var partNumber = specificIds.FirstOrDefault(id => id["name"]?.ToString() == "PartNumber");
+        partNumber.Should().NotBeNull();
+        partNumber!["value"]?.ToString().Should().Be("PN-ABC-001");
+    }
+
+    [Test]
+    public async Task CreateAas_WithInvalidSpecificAssetIds_MissingName_ShouldReturnBadRequest()
+    {
+        // ARRANGE
+        var aasList = new List<JObject>();
+
+        var json = @"
+            {
+              ""specificAssetIds"": [
+                { ""value"": ""SN-12345"" }
+              ]
+            }";
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var mockedRestClient = new MockRestClientBuilder(aas: aasList)
+            .WithGetIdSettings()
+            .WithPostAas()
+            .Build();
+
+        Func<IRestClient> restClientFactory = () => mockedRestClient;
+        HttpClientMock.Setup(x => x.GetConfiguredClientAsync(It.IsAny<string>())).ReturnsAsync(restClientFactory);
+
+        // ACT & ASSERT
+        await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/invalidSpecificIds", content, StatusCodes.Status400BadRequest);
+        aasList.Should().BeEmpty();
+    }
+
+    [Test]
+    public async Task CreateAas_WithAdministration_ShouldAddVersionAndRevision()
+    {
+        // ARRANGE
+        var aasList = new List<JObject>();
+
+        var json = @"
+            {
+              ""administration"": {
+                ""version"": ""1.0"",
+                ""revision"": ""2""
+              }
+            }";
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var mockedRestClient = new MockRestClientBuilder(aas: aasList)
+            .WithGetAas("aHR0cHM6Ly9leGFtcGxlLmNvbS9hYXMvdGVzdEFkbWlu", "", HttpStatusCode.NotFound, false)
+            .WithGetIdSettings()
+            .WithPostAas()
+            .Build();
+
+        Func<IRestClient> restClientFactory = () => mockedRestClient;
+        HttpClientMock.Setup(x => x.GetConfiguredClientAsync(It.IsAny<string>())).ReturnsAsync(restClientFactory);
+
+        // ACT
+        var responseContent = await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/testAdmin", content, StatusCodes.Status201Created);
+
+        // ASSERT
+        aasList.Should().HaveCount(1);
+        var createdAas = aasList[0];
+        var administration = createdAas["administration"] as JObject;
+        administration.Should().NotBeNull();
+        administration!["version"]?.ToString().Should().Be("1.0");
+        administration["revision"]?.ToString().Should().Be("2");
+    }
+
+    [Test]
+    public async Task CreateAas_WithAdministrationVersionOnly_ShouldNotIncludeRevision()
+    {
+        // ARRANGE
+        var aasList = new List<JObject>();
+
+        var json = @"
+            {
+              ""administration"": {
+                ""version"": ""2.0""
+              }
+            }";
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var mockedRestClient = new MockRestClientBuilder(aas: aasList)
+            .WithGetAas("aHR0cHM6Ly9leGFtcGxlLmNvbS9hYXMvdGVzdEFkbWluVmVy", "", HttpStatusCode.NotFound, false)
+            .WithGetIdSettings()
+            .WithPostAas()
+            .Build();
+
+        Func<IRestClient> restClientFactory = () => mockedRestClient;
+        HttpClientMock.Setup(x => x.GetConfiguredClientAsync(It.IsAny<string>())).ReturnsAsync(restClientFactory);
+
+        // ACT
+        await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/testAdminVer", content, StatusCodes.Status201Created);
+
+        // ASSERT
+        aasList.Should().HaveCount(1);
+        var createdAas = aasList[0];
+        var administration = createdAas["administration"] as JObject;
+        administration.Should().NotBeNull();
+        administration!["version"]?.ToString().Should().Be("2.0");
+        administration["revision"].Should().BeNull();
+    }
+
+    [Test]
+    public async Task CreateAas_WithInvalidAdministration_MissingVersion_ShouldReturnBadRequest()
+    {
+        // ARRANGE
+        var aasList = new List<JObject>();
+
+        var json = @"
+            {
+              ""administration"": {
+                ""revision"": ""1""
+              }
+            }";
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var mockedRestClient = new MockRestClientBuilder(aas: aasList)
+            .WithGetIdSettings()
+            .WithPostAas()
+            .Build();
+
+        Func<IRestClient> restClientFactory = () => mockedRestClient;
+        HttpClientMock.Setup(x => x.GetConfiguredClientAsync(It.IsAny<string>())).ReturnsAsync(restClientFactory);
+
+        // ACT & ASSERT
+        await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/invalidAdmin", content, StatusCodes.Status400BadRequest);
+        aasList.Should().BeEmpty();
+    }
+
+    [Test]
+    public async Task CreateAas_WithAllOptionalFields_ShouldCreateCompleteAas()
+    {
+        // ARRANGE
+        var aasList = new List<JObject>();
+
+        var json = @"
+            {
+              ""assetKind"": ""Type"",
+              ""extensions"": {
+                ""manufacturer"": ""ACME Corp"",
+                ""category"": ""Industrial""
+              },
+              ""specificAssetIds"": [
+                { ""name"": ""SerialNumber"", ""value"": ""SN-99999"" }
+              ],
+              ""administration"": {
+                ""version"": ""3.0"",
+                ""revision"": ""5""
+              }
+            }";
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var mockedRestClient = new MockRestClientBuilder(aas: aasList)
+            .WithGetAas("aHR0cHM6Ly9leGFtcGxlLmNvbS9hYXMvY29tcGxldGVBYXM", "", HttpStatusCode.NotFound, false)
+            .WithGetIdSettings()
+            .WithPostAas()
+            .Build();
+
+        Func<IRestClient> restClientFactory = () => mockedRestClient;
+        HttpClientMock.Setup(x => x.GetConfiguredClientAsync(It.IsAny<string>())).ReturnsAsync(restClientFactory);
+
+        // ACT
+        await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/completeAas", content, StatusCodes.Status201Created);
+
+        // ASSERT
+        aasList.Should().HaveCount(1);
+        var createdAas = aasList[0];
+
+        // Verify assetKind
+        createdAas["assetInformation"]?["assetKind"]?.ToString().Should().Be("Type");
+
+        // Verify extensions
+        var extensions = createdAas["extensions"] as JArray;
+        extensions.Should().NotBeNull().And.HaveCount(2);
+
+        // Verify specificAssetIds
+        var specificIds = (createdAas["assetInformation"] as JObject)?["specificAssetIds"] as JArray;
+        specificIds.Should().NotBeNull().And.HaveCountGreaterOrEqualTo(2); // default + custom
+
+        // Verify administration
+        var administration = createdAas["administration"] as JObject;
+        administration.Should().NotBeNull();
+        administration!["version"]?.ToString().Should().Be("3.0");
+        administration["revision"]?.ToString().Should().Be("5");
+    }
 }
