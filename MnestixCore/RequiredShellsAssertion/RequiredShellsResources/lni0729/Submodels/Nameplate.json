@@ -1,0 +1,385 @@
+{
+  "idShort": "Nameplate",
+  "id": "https://aas.uni-h.de/sm/aHR0cHM6Ly9hYXMyLnVuaS1oLmRlL2Fhcy9sbmkwNzI5_DNP",
+  "modelType": "Submodel",
+  "kind": "Instance",
+  "submodelElements": [
+    {
+      "value": [
+        {
+          "language": "de",
+          "text": "Gottfried Wilhelm Leibniz Universität Hannover"
+        },
+        {
+          "language": "en",
+          "text": "Gottfried Wilhelm Leibniz Universität Hannover"
+        }
+      ],
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "0173-1#02-AAO677#002"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "ManufacturerName",
+      "category": "PARAMETER",
+      "modelType": "MultiLanguageProperty"
+    },
+    {
+      "value": "LNI-20220424083224",
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "0173-1#02-AAM556#002"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "SerialNumber",
+      "category": "PARAMETER",
+      "valueType": "xs:string",
+      "modelType": "Property"
+    },
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "0173-1#02-AAQ832#005"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "Address",
+      "value": [
+        {
+          "value": [
+            {
+              "language": "de",
+              "text": "Mittelstand-Digital Zentrum Hannover"
+            },
+            {
+              "language": "en",
+              "text": "Mittelstand-Digital Zentrum Hannover"
+            }
+          ],
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO127#003"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "Department",
+          "category": "PARAMETER",
+          "modelType": "MultiLanguageProperty"
+        },
+        {
+          "value": [
+            {
+              "language": "de",
+              "text": "Osteriede 6"
+            },
+            {
+              "language": "en",
+              "text": "Osteriede 6"
+            }
+          ],
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO128#002"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "Street",
+          "category": "PARAMETER",
+          "modelType": "MultiLanguageProperty"
+        },
+        {
+          "value": [
+            {
+              "language": "de",
+              "text": "30827"
+            },
+            {
+              "language": "en",
+              "text": "30827"
+            }
+          ],
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO129#002"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "Zipcode",
+          "category": "PARAMETER",
+          "modelType": "MultiLanguageProperty"
+        },
+        {
+          "value": [
+            {
+              "language": "de",
+              "text": "Garbsen"
+            },
+            {
+              "language": "en",
+              "text": "Garbsen"
+            }
+          ],
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO132#002"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "CityTown",
+          "category": "PARAMETER",
+          "modelType": "MultiLanguageProperty"
+        },
+        {
+          "value": [
+            {
+              "language": "de",
+              "text": "DE"
+            },
+            {
+              "language": "en",
+              "text": "GER"
+            }
+          ],
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO134#002"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "NationalCode",
+          "category": "PARAMETER",
+          "modelType": "MultiLanguageProperty"
+        },
+        {
+          "value": "https://digitalzentrum-hannover.de",
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAQ326#002"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "AddressOfAdditionalLink",
+          "category": "PARAMETER",
+          "valueType": "xs:string",
+          "modelType": "Property"
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAQ833#005"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "Phone01",
+          "category": "PARAMETER",
+          "value": [
+            {
+              "value": [
+                {
+                  "language": "de",
+                  "text": "+49 511 762 18065"
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0173-1#02-AAO136#002"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "TelephoneNumber",
+              "category": "PARAMETER",
+              "modelType": "MultiLanguageProperty"
+            },
+            {
+              "value": "office",
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0173-1#02-AAO137#003"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "TypeOfTelephone",
+              "category": "PARAMETER",
+              "valueType": "xs:string",
+              "modelType": "Property"
+            }
+          ],
+          "modelType": "SubmodelElementCollection"
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAQ836#005"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "Email01",
+          "value": [
+            {
+              "value": "info@mitunsdigital.de",
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0173-1#02-AAO198#002"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "EmailAddress",
+              "category": "PARAMETER",
+              "valueType": "xs:string",
+              "modelType": "Property"
+            }
+          ],
+          "modelType": "SubmodelElementCollection"
+        },
+        {
+          "value": [
+            {
+              "language": "de",
+              "text": "Niedersachsen"
+            }
+          ],
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO133#002"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "StateCounty",
+          "category": "PARAMETER",
+          "modelType": "MultiLanguageProperty",
+          "description": [
+            {
+              "language": "en",
+              "text": "federal state a part of a state"
+            }
+          ]
+        }
+      ],
+      "modelType": "SubmodelElementCollection"
+    },
+    {
+      "value": [
+        {
+          "language": "de",
+          "text": "Individueller Kugelschreiber"
+        },
+        {
+          "language": "en",
+          "text": "Individual ballpen"
+        }
+      ],
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "0173-1#02-AAW338#001"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "ManufacturerProductDesignation",
+      "category": "PARAMETER",
+      "modelType": "MultiLanguageProperty"
+    },
+    {
+      "value": "2023",
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "0173-1#02-AAP906#001"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "YearOfConstruction",
+      "category": "PARAMETER",
+      "valueType": "xs:string",
+      "modelType": "Property"
+    },
+    {
+      "value": [
+        {
+          "language": "de",
+          "text": "Kugelschreiber"
+        },
+        {
+          "language": "en",
+          "text": "Ballpen"
+        }
+      ],
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "0173-1#02-AAU731#001"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "ManufacturerProductFamily",
+      "category": "PARAMETER",
+      "modelType": "MultiLanguageProperty"
+    }
+  ],
+  "semanticId": {
+    "keys": [
+      {
+        "type": "GlobalReference",
+        "value": "https://admin-shell.io/zvei/nameplate/1/0/Nameplate"
+      }
+    ],
+    "type": "ExternalReference"
+  },
+  "administration": {
+    "version": "1",
+    "revision": "0"
+  }
+}

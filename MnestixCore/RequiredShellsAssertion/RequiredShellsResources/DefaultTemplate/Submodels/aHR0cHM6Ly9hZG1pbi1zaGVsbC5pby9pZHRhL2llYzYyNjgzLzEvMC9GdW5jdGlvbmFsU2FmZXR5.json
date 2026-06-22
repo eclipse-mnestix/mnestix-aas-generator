@@ -1,0 +1,994 @@
+{
+  "semanticId": {
+    "keys": [
+      {
+        "type": "GlobalReference",
+        "value": "https://admin-shell.io/idta/iec62683/1/0/FunctionalSafety"
+      }
+    ],
+    "type": "ExternalReference"
+  },
+  "qualifiers": [
+    {
+      "valueType": "xs:string",
+      "type": "mnestixSubmodelIdShort",
+      "value": "FunctionalSafety"
+    },
+    {
+      "valueType": "xs:string",
+      "type": "mnestixSubmodelId",
+      "value": "https://admin-shell.io/idta/iec62683/1/0/FunctionalSafety"
+    }
+  ],
+  "id": "https://admin-shell.io/idta/iec62683/1/0/FunctionalSafety",
+  "administration": {
+    "version": "1",
+    "revision": "0"
+  },
+  "idShort": "FunctionalSafety",
+  "modelType": "Submodel",
+  "kind": "Template",
+  "submodelElements": [
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "0112/2///62683#ACE005#001"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "NumberOfFunctionalSafetySetsOfCharacteristics",
+      "modelType": "Property",
+      "valueType": "xs:int",
+      "description": [
+        {
+          "language": "en",
+          "text": "number of functional safety sets of characteristics"
+        },
+        {
+          "language": "fr",
+          "text": "nombre d'ensembles de caractéristiques de sécurité fonctionnelle"
+        }
+      ]
+    },
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "0112/2///62683#ACG057#001"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "OperatingConditionsOfFunctionalSafetyCharacteristics",
+      "modelType": "SubmodelElementCollection",
+      "value": [
+        {
+          "value": "",
+          "valueId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///61987#ABL837#001"
+              },
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///61987#ABL838#001"
+              },
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///61987#ABI407#004"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///61987#ABA969#007"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "TypeOfVoltage",
+          "modelType": "Property",
+          "valueType": "xs:string",
+          "description": [
+            {
+              "language": "en",
+              "text": "type of voltage"
+            },
+            {
+              "language": "fr",
+              "text": "type de tension"
+            },
+            {
+              "language": "de",
+              "text": "Spannungsart"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///61987#ABA588#004"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "RatedVoltage",
+          "modelType": "Property",
+          "valueType": "xs:double",
+          "description": [
+            {
+              "language": "en",
+              "text": "rated voltage"
+            },
+            {
+              "language": "fr",
+              "text": "tension assignée"
+            },
+            {
+              "language": "de",
+              "text": "Bemessungsspannung"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///61987#ABD461#004"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "MinimumRatedVoltage",
+          "modelType": "Property",
+          "valueType": "xs:double",
+          "description": [
+            {
+              "language": "en",
+              "text": "minimum rated voltage"
+            },
+            {
+              "language": "fr",
+              "text": "tension assignée minimale"
+            },
+            {
+              "language": "de",
+              "text": "minimale Bemessungsspannung"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///61987#ABD462#004"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "MaximumRatedVoltage",
+          "modelType": "Property",
+          "valueType": "xs:double",
+          "description": [
+            {
+              "language": "en",
+              "text": "maximum rated voltage"
+            },
+            {
+              "language": "fr",
+              "text": "tension assignée maximale"
+            },
+            {
+              "language": "de",
+              "text": "maximale Bemessungsspannung"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/FunctionalSafety/RatedOperationalCurrent/1/0"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "RatedOperationalCurrent",
+          "modelType": "Property",
+          "valueType": "xs:double",
+          "description": [
+            {
+              "language": "en",
+              "text": "rated operational current"
+            }
+          ]
+        },
+        {
+          "value": "",
+          "valueId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///62683#ACH673#001"
+              },
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///62683#ACH674#001"
+              },
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///62683#ACH675#001"
+              },
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///62683#ACH676#001"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///62683#ACE053#001"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "TypeOfInterlockingDevice",
+          "modelType": "Property",
+          "valueType": "xs:string",
+          "description": [
+            {
+              "language": "en",
+              "text": "type of interlocking device"
+            },
+            {
+              "language": "fr",
+              "text": "type de dispositif de verrouillage"
+            }
+          ]
+        },
+        {
+          "value": "",
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///62683#ACE070#001"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "OtherOperatingConditions",
+          "modelType": "Property",
+          "valueType": "xs:string",
+          "description": [
+            {
+              "language": "en",
+              "text": "other operating conditions"
+            },
+            {
+              "language": "fr",
+              "text": "autres conditions de fonctionnement"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///62683#ACE055#001"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "UsefulLifeInNumberOfOperations",
+          "modelType": "Property",
+          "valueType": "xs:double",
+          "description": [
+            {
+              "language": "en",
+              "text": "useful life in number of operations"
+            },
+            {
+              "language": "fr",
+              "text": "durée de vie utile en cycle de fonctionnement"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///62683#ACE054#001"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "UsefulLifeInTimeInterval",
+          "modelType": "Property",
+          "valueType": "xs:double",
+          "description": [
+            {
+              "language": "en",
+              "text": "useful life in time interval"
+            },
+            {
+              "language": "fr",
+              "text": "durée de vie utile en intervalle de temps"
+            }
+          ]
+        }
+      ],
+      "description": [
+        {
+          "language": "en",
+          "text": "operating conditions of functional safety characteristics"
+        },
+        {
+          "language": "fr",
+          "text": "conditions de fonctionnement des caractéristiques de sécurité fonctionnelle"
+        }
+      ]
+    },
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "0112/2///62683#ACG070#001"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "SafetyDeviceTypes",
+      "modelType": "SubmodelElementCollection",
+      "value": [
+        {
+          "value": "",
+          "valueId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///62683#ACH687"
+              },
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///62683#ACH688"
+              },
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///62683#ACH689"
+              },
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///62683#ACH690"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///62683#ACE071#001"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "FunctionalSafetyDeviceType",
+          "modelType": "Property",
+          "valueType": "xs:string",
+          "description": [
+            {
+              "language": "en",
+              "text": "functional safety device type"
+            },
+            {
+              "language": "fr",
+              "text": "type de dispositif de sécurité fonctionnelle"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///62683#ACG065#001"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "SafetySubsystem",
+          "modelType": "SubmodelElementCollection",
+          "value": [
+            {
+              "value": "",
+              "valueId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACH670#001"
+                  },
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACH671#001"
+                  },
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACH672#001"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACE051#001"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "SIL",
+              "modelType": "Property",
+              "valueType": "xs:string",
+              "description": [
+                {
+                  "language": "en",
+                  "text": "safety integrity level"
+                },
+                {
+                  "language": "fr",
+                  "text": "niveau d'intégrité de sécurité"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACE052#001"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "PFH",
+              "modelType": "Property",
+              "valueType": "xs:double",
+              "description": [
+                {
+                  "language": "en",
+                  "text": "probability of dangerous failure within one hour"
+                },
+                {
+                  "language": "fr",
+                  "text": "fréquence de défaillance dangereuse par heure"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACE058#001"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "ProofTestInterval",
+              "modelType": "Property",
+              "valueType": "xs:double",
+              "description": [
+                {
+                  "language": "en",
+                  "text": "proof test interval"
+                },
+                {
+                  "language": "fr",
+                  "text": "intervalle entre essai périodique"
+                }
+              ]
+            },
+            {
+              "value": "",
+              "valueId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACH677#001"
+                  },
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACH678#001"
+                  },
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACH679#001"
+                  },
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACH680#001"
+                  },
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACH681#001"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACE060#001"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "PL",
+              "modelType": "Property",
+              "valueType": "xs:string",
+              "description": [
+                {
+                  "language": "en",
+                  "text": "performance level"
+                },
+                {
+                  "language": "fr",
+                  "text": "niveau de performance"
+                }
+              ]
+            },
+            {
+              "value": "",
+              "valueId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACH682#001"
+                  },
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACH683#001"
+                  },
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACH684#001"
+                  },
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACH685#001"
+                  },
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACH686#001"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACE063#001"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "Category",
+              "modelType": "Property",
+              "valueType": "xs:string",
+              "description": [
+                {
+                  "language": "en",
+                  "text": "category"
+                },
+                {
+                  "language": "fr",
+                  "text": "catégory"
+                }
+              ]
+            }
+          ],
+          "description": [
+            {
+              "language": "en",
+              "text": "Safety subsystem"
+            },
+            {
+              "language": "fr",
+              "text": "Sous-système de sécurité"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///62683#ACG066#001"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "ElectronicElement",
+          "modelType": "SubmodelElementCollection",
+          "value": [
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACE057#001"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "MTTFD",
+              "modelType": "Property",
+              "valueType": "xs:int",
+              "description": [
+                {
+                  "language": "en",
+                  "text": "mean time to dangerous failure"
+                },
+                {
+                  "language": "fr",
+                  "text": "durée moyenne de fonctionnement avant défaillance dangereuse"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/FunctionalSafety/RDF/1/0"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "RDF",
+              "modelType": "Property",
+              "valueType": "xs:int",
+              "description": [
+                {
+                  "language": "en",
+                  "text": "ratio of dangerous failure"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACE058#001"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "ProofTestInterval",
+              "modelType": "Property",
+              "valueType": "xs:double",
+              "description": [
+                {
+                  "language": "en",
+                  "text": "proof test interval"
+                },
+                {
+                  "language": "fr",
+                  "text": "intervalle entre essai périodique"
+                }
+              ]
+            }
+          ],
+          "description": [
+            {
+              "language": "en",
+              "text": "Electronic element"
+            },
+            {
+              "language": "fr",
+              "text": "Elément électronique"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///62683#ACG067#001"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "ElectromechanicalElement",
+          "modelType": "SubmodelElementCollection",
+          "value": [
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACE056#001"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "B10D",
+              "modelType": "Property",
+              "valueType": "xs:double",
+              "description": [
+                {
+                  "language": "en",
+                  "text": "number of operations until ten percent dangerous failure"
+                },
+                {
+                  "language": "fr",
+                  "text": "nombre de cycles jusqu'à dix pour cent de défaillances dangereuses"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACE058#001"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "ProofTestInterval",
+              "modelType": "Property",
+              "valueType": "xs:double",
+              "description": [
+                {
+                  "language": "en",
+                  "text": "proof test interval"
+                },
+                {
+                  "language": "fr",
+                  "text": "intervalle entre essai périodique"
+                }
+              ]
+            }
+          ],
+          "description": [
+            {
+              "language": "en",
+              "text": "Electromechanical element"
+            },
+            {
+              "language": "fr",
+              "text": "Elément électromécanique de sous-système"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///62683#ACG069#001"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "InherentlySafeSubsystem",
+          "modelType": "SubmodelElementCollection",
+          "value": [
+            {
+              "value": "",
+              "valueId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACH670#001"
+                  },
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACH671#001"
+                  },
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACH672#001"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACE051#001"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "SIL",
+              "modelType": "Property",
+              "valueType": "xs:string",
+              "description": [
+                {
+                  "language": "en",
+                  "text": "safety integrity level"
+                },
+                {
+                  "language": "fr",
+                  "text": "niveau d'intégrité de sécurité"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACE058#001"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "ProofTestInterval",
+              "modelType": "Property",
+              "valueType": "xs:double",
+              "description": [
+                {
+                  "language": "en",
+                  "text": "proof test interval"
+                },
+                {
+                  "language": "fr",
+                  "text": "intervalle entre essai périodique"
+                }
+              ]
+            },
+            {
+              "value": "",
+              "valueId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACH677#001"
+                  },
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACH678#001"
+                  },
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACH679#001"
+                  },
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACH680#001"
+                  },
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACH681#001"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACE060#001"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "PL",
+              "modelType": "Property",
+              "valueType": "xs:string",
+              "description": [
+                {
+                  "language": "en",
+                  "text": "performance level"
+                },
+                {
+                  "language": "fr",
+                  "text": "niveau de performance"
+                }
+              ]
+            },
+            {
+              "value": "",
+              "valueId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACH682#001"
+                  },
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACH683#001"
+                  },
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACH684#001"
+                  },
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACH685#001"
+                  },
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACH686#001"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0112/2///62683#ACE063#001"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "Category",
+              "modelType": "Property",
+              "valueType": "xs:string",
+              "description": [
+                {
+                  "language": "en",
+                  "text": "category"
+                },
+                {
+                  "language": "fr",
+                  "text": "catégory"
+                }
+              ]
+            }
+          ],
+          "description": [
+            {
+              "language": "en",
+              "text": "Inherently safe subsystem"
+            },
+            {
+              "language": "fr",
+              "text": "Sous-système intrinsèquement sûr"
+            }
+          ]
+        }
+      ],
+      "description": [
+        {
+          "language": "en",
+          "text": "safety device"
+        },
+        {
+          "language": "fr",
+          "text": "dispositif de sécurité"
+        }
+      ]
+    }
+  ]
+}

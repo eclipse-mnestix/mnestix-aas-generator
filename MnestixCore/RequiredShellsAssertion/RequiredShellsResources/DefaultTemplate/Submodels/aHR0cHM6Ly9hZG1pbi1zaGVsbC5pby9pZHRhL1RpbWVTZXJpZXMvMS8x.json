@@ -1,0 +1,1656 @@
+{
+  "semanticId": {
+    "keys": [
+      {
+        "type": "GlobalReference",
+        "value": "https://admin-shell.io/idta/TimeSeries/1/1"
+      }
+    ],
+    "type": "ExternalReference"
+  },
+  "qualifiers": [
+    {
+      "valueType": "xs:string",
+      "type": "mnestixSubmodelIdShort",
+      "value": "TimeSeries"
+    },
+    {
+      "valueType": "xs:string",
+      "type": "mnestixSubmodelId",
+      "value": "https://admin-shell.io/idta/TimeSeries/1/1"
+    }
+  ],
+  "id": "https://admin-shell.io/idta/TimeSeries/1/1",
+  "administration": {
+    "version": "1",
+    "revision": "1"
+  },
+  "idShort": "TimeSeries",
+  "modelType": "Submodel",
+  "kind": "Template",
+  "submodelElements": [
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "https://admin-shell.io/idta/TimeSeries/Metadata/1/1"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "Metadata",
+      "modelType": "SubmodelElementCollection",
+      "value": [
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/TimeSeries/Metadata/Name/1/1"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "Name",
+          "category": "PARAMETER",
+          "modelType": "MultiLanguageProperty",
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "One"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/TimeSeries/Metadata/Description/1/1"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "Description",
+          "category": "PARAMETER",
+          "modelType": "MultiLanguageProperty",
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "ZeroToOne"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/TimeSeries/Record/1/1"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "Record",
+          "modelType": "SubmodelElementCollection",
+          "value": [
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/RelativePointInTime/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "Time",
+              "category": "VARIABLE",
+              "modelType": "Property",
+              "valueType": "xs:long",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "OneToMany"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://sample.com/AccelerationX/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "sampleAccelerationX",
+              "category": "VARIABLE",
+              "modelType": "Property",
+              "valueType": "xs:long",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://sample.com/AccelerationY/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "sampleAccelerationY",
+              "category": "VARIABLE",
+              "modelType": "Property",
+              "valueType": "xs:long",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://sample.com/AccelerationZ/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "sampleAccelerationZ",
+              "category": "VARIABLE",
+              "modelType": "Property",
+              "valueType": "xs:long",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            }
+          ],
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "One"
+            }
+          ]
+        }
+      ],
+      "qualifiers": [
+        {
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+              }
+            ]
+          },
+          "type": "SMT/Cardinality",
+          "valueType": "xs:string",
+          "value": "One"
+        }
+      ]
+    },
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "https://admin-shell.io/idta/TimeSeries/Segments/1/1"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "Segments",
+      "modelType": "SubmodelElementCollection",
+      "value": [
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/TimeSeries/Segments/ExternalSegment/1/1"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "ExternalSegment",
+          "modelType": "SubmodelElementCollection",
+          "value": [
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/Name/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "Name",
+              "category": "PARAMETER",
+              "modelType": "MultiLanguageProperty",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/Description/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "Description",
+              "category": "PARAMETER",
+              "modelType": "MultiLanguageProperty",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/RecordCount/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "RecordCount",
+              "category": "VARIABLE",
+              "modelType": "Property",
+              "valueType": "xs:long",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/StartTime/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "StartTime",
+              "category": "VARIABLE",
+              "modelType": "Property",
+              "valueType": "xs:dateTime",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/EndTime/1/1 "
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "EndTime",
+              "category": "VARIABLE",
+              "modelType": "Property",
+              "valueType": "xs:dateTime",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "value": "",
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/Duration/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "Duration",
+              "category": "VARIABLE",
+              "modelType": "Property",
+              "valueType": "xs:string",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/SamplingInterval/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "SamplingInterval",
+              "category": "PARAMETER",
+              "modelType": "Property",
+              "valueType": "xs:long",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/SamplingRate/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "SamplingRate",
+              "category": "PARAMETER",
+              "modelType": "Property",
+              "valueType": "xs:long",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "value": "",
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/State/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "State",
+              "category": "PARAMETER",
+              "modelType": "Property",
+              "valueType": "xs:string",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/LastUpdate/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "LastUpdate",
+              "category": "VARIABLE",
+              "modelType": "Property",
+              "valueType": "xs:dateTime",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/File/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "File",
+              "category": "PARAMETER",
+              "modelType": "File",
+              "contentType": "application/pdf",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "contentType": "application/json",
+              "value": "",
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Blob/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "Blob",
+              "category": "VARIABLE",
+              "modelType": "Blob",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            }
+          ],
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "ZeroToMany"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/TimeSeries/Segments/LinkedSegment/1/1"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "LinkedSegment",
+          "modelType": "SubmodelElementCollection",
+          "value": [
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/Name/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "Name",
+              "category": "PARAMETER",
+              "modelType": "MultiLanguageProperty",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/Description/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "Description",
+              "category": "PARAMETER",
+              "modelType": "MultiLanguageProperty",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/RecordCount/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "RecordCount",
+              "category": "VARIABLE",
+              "modelType": "Property",
+              "valueType": "xs:long",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/StartTime/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "StartTime",
+              "category": "VARIABLE",
+              "modelType": "Property",
+              "valueType": "xs:dateTime",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/EndTime/1/1 "
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "EndTime",
+              "category": "VARIABLE",
+              "modelType": "Property",
+              "valueType": "xs:dateTime",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "value": "",
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/Duration/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "Duration",
+              "category": "VARIABLE",
+              "modelType": "Property",
+              "valueType": "xs:string",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/SamplingInterval/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "SamplingInterval",
+              "category": "PARAMETER",
+              "modelType": "Property",
+              "valueType": "xs:long",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/SamplingRate/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "SamplingRate",
+              "category": "PARAMETER",
+              "modelType": "Property",
+              "valueType": "xs:long",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "value": "",
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/State/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "State",
+              "category": "PARAMETER",
+              "modelType": "Property",
+              "valueType": "xs:string",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/LastUpdate/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "LastUpdate",
+              "category": "VARIABLE",
+              "modelType": "Property",
+              "valueType": "xs:dateTime",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "value": "",
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Endpoint/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "Endpoint",
+              "category": "PARAMETER",
+              "modelType": "Property",
+              "valueType": "xs:string",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "One"
+                }
+              ]
+            },
+            {
+              "value": "",
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Query/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "Query",
+              "category": "PARAMETER",
+              "modelType": "Property",
+              "valueType": "xs:string",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "One"
+                }
+              ]
+            }
+          ],
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "ZeroToMany"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/TimeSeries/Segments/InternalSegment/1/1"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "InternalSegment",
+          "modelType": "SubmodelElementCollection",
+          "value": [
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/Name/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "Name",
+              "category": "PARAMETER",
+              "modelType": "MultiLanguageProperty",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/Description/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "Description",
+              "category": "PARAMETER",
+              "modelType": "MultiLanguageProperty",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/RecordCount/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "RecordCount",
+              "category": "VARIABLE",
+              "modelType": "Property",
+              "valueType": "xs:long",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/StartTime/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "StartTime",
+              "category": "VARIABLE",
+              "modelType": "Property",
+              "valueType": "xs:dateTime",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/EndTime/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "EndTime",
+              "category": "VARIABLE",
+              "modelType": "Property",
+              "valueType": "xs:dateTime",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "value": "",
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/Duration/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "Duration",
+              "category": "VARIABLE",
+              "modelType": "Property",
+              "valueType": "xs:string",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/SamplingInterval/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "SamplingInterval",
+              "category": "PARAMETER",
+              "modelType": "Property",
+              "valueType": "xs:long",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/SamplingRate/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "SamplingRate",
+              "category": "PARAMETER",
+              "modelType": "Property",
+              "valueType": "xs:long",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "value": "",
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/State/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "State",
+              "category": "PARAMETER",
+              "modelType": "Property",
+              "valueType": "xs:string",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Segment/LastUpdate/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "LastUpdate",
+              "category": "VARIABLE",
+              "modelType": "Property",
+              "valueType": "xs:dateTime",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/TimeSeries/Records/1/1"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "Records",
+              "modelType": "SubmodelElementCollection",
+              "value": [
+                {
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/idta/TimeSeries/Record/1/1"
+                      }
+                    ],
+                    "type": "ExternalReference"
+                  },
+                  "idShort": "Record",
+                  "modelType": "SubmodelElementCollection",
+                  "value": [
+                    {
+                      "semanticId": {
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/idta/TimeSeries/RelativePointInTime/1/1"
+                          }
+                        ],
+                        "type": "ExternalReference"
+                      },
+                      "idShort": "Time",
+                      "category": "VARIABLE",
+                      "modelType": "Property",
+                      "valueType": "xs:long",
+                      "qualifiers": [
+                        {
+                          "semanticId": {
+                            "type": "ExternalReference",
+                            "keys": [
+                              {
+                                "type": "GlobalReference",
+                                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                              }
+                            ]
+                          },
+                          "type": "SMT/Cardinality",
+                          "valueType": "xs:string",
+                          "value": "OneToMany"
+                        }
+                      ]
+                    },
+                    {
+                      "semanticId": {
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://sample.com/AccelerationX/1/1"
+                          }
+                        ],
+                        "type": "ExternalReference"
+                      },
+                      "idShort": "sampleAccelerationX",
+                      "category": "VARIABLE",
+                      "modelType": "Property",
+                      "valueType": "xs:long",
+                      "qualifiers": [
+                        {
+                          "semanticId": {
+                            "type": "ExternalReference",
+                            "keys": [
+                              {
+                                "type": "GlobalReference",
+                                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                              }
+                            ]
+                          },
+                          "type": "SMT/Cardinality",
+                          "valueType": "xs:string",
+                          "value": "ZeroToOne"
+                        }
+                      ]
+                    },
+                    {
+                      "semanticId": {
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://sample.com/AccelerationY/1/1"
+                          }
+                        ],
+                        "type": "ExternalReference"
+                      },
+                      "idShort": "sampleAccelerationY",
+                      "category": "VARIABLE",
+                      "modelType": "Property",
+                      "valueType": "xs:long",
+                      "qualifiers": [
+                        {
+                          "semanticId": {
+                            "type": "ExternalReference",
+                            "keys": [
+                              {
+                                "type": "GlobalReference",
+                                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                              }
+                            ]
+                          },
+                          "type": "SMT/Cardinality",
+                          "valueType": "xs:string",
+                          "value": "ZeroToOne"
+                        }
+                      ]
+                    },
+                    {
+                      "semanticId": {
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://sample.com/AccelerationZ/1/1"
+                          }
+                        ],
+                        "type": "ExternalReference"
+                      },
+                      "idShort": "sampleAccelerationZ",
+                      "category": "VARIABLE",
+                      "modelType": "Property",
+                      "valueType": "xs:long",
+                      "qualifiers": [
+                        {
+                          "semanticId": {
+                            "type": "ExternalReference",
+                            "keys": [
+                              {
+                                "type": "GlobalReference",
+                                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                              }
+                            ]
+                          },
+                          "type": "SMT/Cardinality",
+                          "valueType": "xs:string",
+                          "value": "ZeroToOne"
+                        }
+                      ]
+                    }
+                  ],
+                  "qualifiers": [
+                    {
+                      "semanticId": {
+                        "type": "ExternalReference",
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                          }
+                        ]
+                      },
+                      "type": "SMT/Cardinality",
+                      "valueType": "xs:string",
+                      "value": "ZeroToMany"
+                    }
+                  ]
+                }
+              ],
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "One"
+                }
+              ]
+            }
+          ],
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "ZeroToMany"
+            }
+          ]
+        }
+      ],
+      "qualifiers": [
+        {
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+              }
+            ]
+          },
+          "type": "SMT/Cardinality",
+          "valueType": "xs:string",
+          "value": "One"
+        }
+      ]
+    }
+  ],
+  "description": [
+    {
+      "language": "de",
+      "text": "Enthält Zeitreihendaten und Referenzen auf Zeitreihendaten, um diese entlang des Asset Lebenszyklus aufzufinden und semantisch zu beschreiben."
+    },
+    {
+      "language": "en",
+      "text": "Contains time series data and references to time series data to discover and semantically describe them along the asset lifecycle."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "id": "https://example.com/aas/assetId123",
+  "idShort": "aas_assetId123",
+  "modelType": "AssetAdministrationShell",
+  "assetInformation": {
+    "assetKind": "Instance",
+    "globalAssetId": "https://example.com/assetId123",
+    "specificAssetIds": [
+      {
+        "name": "assetIdShort",
+        "value": "assetId123"
+      }
+    ]
+  }
+}

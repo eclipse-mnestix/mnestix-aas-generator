@@ -1,0 +1,994 @@
+{
+  "idShort": "BillOfMaterial",
+  "id": "https://vws.xitaso.com/sm/booth_bill_of_material",
+  "kind": "Instance",
+  "semanticId": {
+    "type": "ExternalReference",
+    "keys": [
+      {
+        "type": "GlobalReference",
+        "value": "https://admin-shell.io/idta/HierarchicalStructures/1/0/Submodel"
+      }
+    ]
+  },
+  "submodelElements": [
+    {
+      "idShort": "Booth",
+      "description": [
+        {
+          "language": "en",
+          "text": "Base entrypoint for the Enitity tree, this has to be a SelfManagedEntity"
+        }
+      ],
+      "semanticId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "https://admin-shell.io/idta/HierarchicalStructures/EntryNode/1/0"
+          }
+        ]
+      },
+      "qualifiers": [
+        {
+          "type": "Multiplicity",
+          "valueType": "xs:string",
+          "value": "One"
+        },
+        {
+          "type": "EditIdShort",
+          "valueType": "xs:string",
+          "value": "True"
+        }
+      ],
+      "statements": [
+        {
+          "category": "CONSTANT",
+          "idShort": "AI_Showcase",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/Node/1/0"
+              }
+            ]
+          },
+          "entityType": "CoManagedEntity",
+          "modelType": "Entity"
+        },
+        {
+          "category": "CONSTANT",
+          "idShort": "HasPart_AI_Showcase",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+              }
+            ]
+          },
+          "first": {
+            "type": "ModelReference",
+            "keys": [
+              {
+                "type": "Submodel",
+                "value": "https://vws.xitaso.com/sm/booth_bill_of_material"
+              },
+              {
+                "type": "Entity",
+                "value": "Booth"
+              }
+            ]
+          },
+          "second": {
+            "type": "ModelReference",
+            "keys": [
+              {
+                "type": "Submodel",
+                "value": "https://vws.xitaso.com/sm/booth_bill_of_material"
+              },
+              {
+                "type": "Entity",
+                "value": "Booth"
+              },
+              {
+                "type": "Entity",
+                "value": "AI_Showcase"
+              }
+            ]
+          },
+          "modelType": "RelationshipElement"
+        },
+        {
+          "idShort": "Robot_Cell",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/Node/1/0"
+              }
+            ]
+          },
+          "entityType": "SelfManagedEntity",
+          "globalAssetId": "https://vws.xitaso.com/robot_cell",
+          "modelType": "Entity"
+        },
+        {
+          "idShort": "HasPart_Robot_Cell",
+          "description": [
+            {
+              "language": "en",
+              "text": "Modeling of logical connections between components and sub-components. Either this or \"IsPartOf\" shall be used, not both."
+            }
+          ],
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+              }
+            ]
+          },
+          "qualifiers": [
+            {
+              "type": "Multiplicity",
+              "valueType": "xs:string",
+              "value": "ZeroToMany"
+            },
+            {
+              "type": "EditIdShort",
+              "valueType": "xs:string",
+              "value": "True"
+            }
+          ],
+          "first": {
+            "type": "ModelReference",
+            "keys": [
+              {
+                "type": "Submodel",
+                "value": "https://vws.xitaso.com/sm/booth_bill_of_material"
+              },
+              {
+                "type": "Entity",
+                "value": "Booth"
+              }
+            ]
+          },
+          "second": {
+            "type": "ModelReference",
+            "keys": [
+              {
+                "type": "Submodel",
+                "value": "https://vws.xitaso.com/sm/booth_bill_of_material"
+              },
+              {
+                "type": "Entity",
+                "value": "Booth"
+              },
+              {
+                "type": "Entity",
+                "value": "Robot_Cell"
+              }
+            ]
+          },
+          "modelType": "RelationshipElement"
+        },
+        {
+          "idShort": "Coffee_Bar",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/Node/1/0"
+              }
+            ]
+          },
+          "entityType": "SelfManagedEntity",
+          "globalAssetId": "https://vws.xitaso.com/coffee_bar",
+          "modelType": "Entity"
+        },
+        {
+          "idShort": "HasPart_Coffee_Bar",
+          "description": [
+            {
+              "language": "en",
+              "text": "Modeling of logical connections between components and sub-components. Either this or \"IsPartOf\" shall be used, not both."
+            }
+          ],
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+              }
+            ]
+          },
+          "qualifiers": [
+            {
+              "type": "Multiplicity",
+              "valueType": "xs:string",
+              "value": "ZeroToMany"
+            },
+            {
+              "type": "EditIdShort",
+              "valueType": "xs:string",
+              "value": "True"
+            }
+          ],
+          "first": {
+            "type": "ModelReference",
+            "keys": [
+              {
+                "type": "Submodel",
+                "value": "https://vws.xitaso.com/sm/booth_bill_of_material"
+              },
+              {
+                "type": "Entity",
+                "value": "Booth"
+              }
+            ]
+          },
+          "second": {
+            "type": "ModelReference",
+            "keys": [
+              {
+                "type": "Submodel",
+                "value": "https://vws.xitaso.com/sm/booth_bill_of_material"
+              },
+              {
+                "type": "Entity",
+                "value": "Booth"
+              },
+              {
+                "type": "Entity",
+                "value": "Coffee_Bar"
+              }
+            ]
+          },
+          "modelType": "RelationshipElement"
+        },
+        {
+          "idShort": "Robot",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/Node/1/0"
+              }
+            ]
+          },
+          "entityType": "SelfManagedEntity",
+          "globalAssetId": "https://vws.xitaso.com/robot",
+          "modelType": "Entity"
+        },
+        {
+          "idShort": "HasPart_Robot",
+          "description": [
+            {
+              "language": "en",
+              "text": "Modeling of logical connections between components and sub-components. Either this or \"IsPartOf\" shall be used, not both."
+            }
+          ],
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+              }
+            ]
+          },
+          "qualifiers": [
+            {
+              "type": "Multiplicity",
+              "valueType": "xs:string",
+              "value": "ZeroToMany"
+            },
+            {
+              "type": "EditIdShort",
+              "valueType": "xs:string",
+              "value": "True"
+            }
+          ],
+          "first": {
+            "type": "ModelReference",
+            "keys": [
+              {
+                "type": "Submodel",
+                "value": "https://vws.xitaso.com/sm/booth_bill_of_material"
+              },
+              {
+                "type": "Entity",
+                "value": "Booth"
+              },
+              {
+                "type": "Entity",
+                "value": "Robot_Cell"
+              }
+            ]
+          },
+          "second": {
+            "type": "ModelReference",
+            "keys": [
+              {
+                "type": "Submodel",
+                "value": "https://vws.xitaso.com/sm/booth_bill_of_material"
+              },
+              {
+                "type": "Entity",
+                "value": "Booth"
+              },
+              {
+                "type": "Entity",
+                "value": "Robot"
+              }
+            ]
+          },
+          "modelType": "RelationshipElement"
+        },
+        {
+          "idShort": "Tracking_Camera",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/Node/1/0"
+              }
+            ]
+          },
+          "entityType": "SelfManagedEntity",
+          "globalAssetId": "https://vws.xitaso.com/tracking_camera",
+          "modelType": "Entity"
+        },
+        {
+          "idShort": "HasPart_Tracking_Camera",
+          "description": [
+            {
+              "language": "en",
+              "text": "Modeling of logical connections between components and sub-components. Either this or \"IsPartOf\" shall be used, not both."
+            }
+          ],
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+              }
+            ]
+          },
+          "qualifiers": [
+            {
+              "type": "Multiplicity",
+              "valueType": "xs:string",
+              "value": "ZeroToMany"
+            },
+            {
+              "type": "EditIdShort",
+              "valueType": "xs:string",
+              "value": "True"
+            }
+          ],
+          "first": {
+            "type": "ModelReference",
+            "keys": [
+              {
+                "type": "Submodel",
+                "value": "https://vws.xitaso.com/sm/booth_bill_of_material"
+              },
+              {
+                "type": "Entity",
+                "value": "Booth"
+              },
+              {
+                "type": "Entity",
+                "value": "Robot_Cell"
+              }
+            ]
+          },
+          "second": {
+            "type": "ModelReference",
+            "keys": [
+              {
+                "type": "Submodel",
+                "value": "https://vws.xitaso.com/sm/booth_bill_of_material"
+              },
+              {
+                "type": "Entity",
+                "value": "Booth"
+              },
+              {
+                "type": "Entity",
+                "value": "Tracking_Camera"
+              }
+            ]
+          },
+          "modelType": "RelationshipElement"
+        },
+        {
+          "idShort": "Scanning_Camera",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/Node/1/0"
+              }
+            ]
+          },
+          "entityType": "SelfManagedEntity",
+          "globalAssetId": "https://vws.xitaso.com/scanning_camera",
+          "modelType": "Entity"
+        },
+        {
+          "idShort": "HasPart_Scanning_Camera",
+          "description": [
+            {
+              "language": "en",
+              "text": "Modeling of logical connections between components and sub-components. Either this or \"IsPartOf\" shall be used, not both."
+            }
+          ],
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+              }
+            ]
+          },
+          "qualifiers": [
+            {
+              "type": "Multiplicity",
+              "valueType": "xs:string",
+              "value": "ZeroToMany"
+            },
+            {
+              "type": "EditIdShort",
+              "valueType": "xs:string",
+              "value": "True"
+            }
+          ],
+          "first": {
+            "type": "ModelReference",
+            "keys": [
+              {
+                "type": "Submodel",
+                "value": "https://vws.xitaso.com/sm/booth_bill_of_material"
+              },
+              {
+                "type": "Entity",
+                "value": "Booth"
+              },
+              {
+                "type": "Entity",
+                "value": "Robot_Cell"
+              }
+            ]
+          },
+          "second": {
+            "type": "ModelReference",
+            "keys": [
+              {
+                "type": "Submodel",
+                "value": "https://vws.xitaso.com/sm/booth_bill_of_material"
+              },
+              {
+                "type": "Entity",
+                "value": "Booth"
+              },
+              {
+                "type": "Entity",
+                "value": "Scanning_Camera"
+              }
+            ]
+          },
+          "modelType": "RelationshipElement"
+        },
+        {
+          "idShort": "Gripper",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/Node/1/0"
+              }
+            ]
+          },
+          "entityType": "SelfManagedEntity",
+          "globalAssetId": "https://vws.xitaso.com/gripper",
+          "modelType": "Entity"
+        },
+        {
+          "idShort": "HasPart_Gripper",
+          "description": [
+            {
+              "language": "en",
+              "text": "Modeling of logical connections between components and sub-components. Either this or \"IsPartOf\" shall be used, not both."
+            }
+          ],
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+              }
+            ]
+          },
+          "qualifiers": [
+            {
+              "type": "Multiplicity",
+              "valueType": "xs:string",
+              "value": "ZeroToMany"
+            },
+            {
+              "type": "EditIdShort",
+              "valueType": "xs:string",
+              "value": "True"
+            }
+          ],
+          "first": {
+            "type": "ModelReference",
+            "keys": [
+              {
+                "type": "Submodel",
+                "value": "https://vws.xitaso.com/sm/booth_bill_of_material"
+              },
+              {
+                "type": "Entity",
+                "value": "Booth"
+              },
+              {
+                "type": "Entity",
+                "value": "Robot"
+              }
+            ]
+          },
+          "second": {
+            "type": "ModelReference",
+            "keys": [
+              {
+                "type": "Submodel",
+                "value": "https://vws.xitaso.com/sm/booth_bill_of_material"
+              },
+              {
+                "type": "Entity",
+                "value": "Booth"
+              },
+              {
+                "type": "Entity",
+                "value": "Gripper"
+              }
+            ]
+          },
+          "modelType": "RelationshipElement"
+        },
+        {
+          "idShort": "Robot_Controller",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/Node/1/0"
+              }
+            ]
+          },
+          "entityType": "SelfManagedEntity",
+          "globalAssetId": "https://vws.xitaso.com/robot_controller",
+          "modelType": "Entity"
+        },
+        {
+          "idShort": "HasPart_Robot_Controller",
+          "description": [
+            {
+              "language": "en",
+              "text": "Modeling of logical connections between components and sub-components. Either this or \"IsPartOf\" shall be used, not both."
+            }
+          ],
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+              }
+            ]
+          },
+          "qualifiers": [
+            {
+              "type": "Multiplicity",
+              "valueType": "xs:string",
+              "value": "ZeroToMany"
+            },
+            {
+              "type": "EditIdShort",
+              "valueType": "xs:string",
+              "value": "True"
+            }
+          ],
+          "first": {
+            "type": "ModelReference",
+            "keys": [
+              {
+                "type": "Submodel",
+                "value": "https://vws.xitaso.com/sm/booth_bill_of_material"
+              },
+              {
+                "type": "Entity",
+                "value": "Booth"
+              },
+              {
+                "type": "Entity",
+                "value": "Robot"
+              }
+            ]
+          },
+          "second": {
+            "type": "ModelReference",
+            "keys": [
+              {
+                "type": "Submodel",
+                "value": "https://vws.xitaso.com/sm/booth_bill_of_material"
+              },
+              {
+                "type": "Entity",
+                "value": "Booth"
+              },
+              {
+                "type": "Entity",
+                "value": "Robot_Controller"
+              }
+            ]
+          },
+          "modelType": "RelationshipElement"
+        },
+        {
+          "idShort": "Robot_Operator",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/Node/1/0"
+              }
+            ]
+          },
+          "entityType": "SelfManagedEntity",
+          "globalAssetId": "https://vws.xitaso.com/robot_controller",
+          "modelType": "Entity"
+        },
+        {
+          "idShort": "HasPart_Robot_Operator",
+          "description": [
+            {
+              "language": "en",
+              "text": "Modeling of logical connections between components and sub-components. Either this or \"IsPartOf\" shall be used, not both."
+            }
+          ],
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+              }
+            ]
+          },
+          "qualifiers": [
+            {
+              "type": "Multiplicity",
+              "valueType": "xs:string",
+              "value": "ZeroToMany"
+            },
+            {
+              "type": "EditIdShort",
+              "valueType": "xs:string",
+              "value": "True"
+            }
+          ],
+          "first": {
+            "type": "ModelReference",
+            "keys": [
+              {
+                "type": "Submodel",
+                "value": "https://vws.xitaso.com/sm/booth_bill_of_material"
+              },
+              {
+                "type": "Entity",
+                "value": "Booth"
+              },
+              {
+                "type": "Entity",
+                "value": "Robot"
+              }
+            ]
+          },
+          "second": {
+            "type": "ModelReference",
+            "keys": [
+              {
+                "type": "Submodel",
+                "value": "https://vws.xitaso.com/sm/booth_bill_of_material"
+              },
+              {
+                "type": "Entity",
+                "value": "Booth"
+              },
+              {
+                "type": "Entity",
+                "value": "Robot_Operator"
+              }
+            ]
+          },
+          "modelType": "RelationshipElement"
+        },
+        {
+          "idShort": "Coffee_Machine",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/Node/1/0"
+              }
+            ]
+          },
+          "entityType": "SelfManagedEntity",
+          "globalAssetId": "https://vws.xitaso.com/coffee_machine",
+          "modelType": "Entity"
+        },
+        {
+          "idShort": "HasPart_Coffee_Machine",
+          "description": [
+            {
+              "language": "en",
+              "text": "Modeling of logical connections between components and sub-components. Either this or \"IsPartOf\" shall be used, not both."
+            }
+          ],
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+              }
+            ]
+          },
+          "qualifiers": [
+            {
+              "type": "Multiplicity",
+              "valueType": "xs:string",
+              "value": "ZeroToMany"
+            },
+            {
+              "type": "EditIdShort",
+              "valueType": "xs:string",
+              "value": "True"
+            }
+          ],
+          "first": {
+            "type": "ModelReference",
+            "keys": [
+              {
+                "type": "Submodel",
+                "value": "https://vws.xitaso.com/sm/booth_bill_of_material"
+              },
+              {
+                "type": "Entity",
+                "value": "Booth"
+              },
+              {
+                "type": "Entity",
+                "value": "Coffee_Bar"
+              }
+            ]
+          },
+          "second": {
+            "type": "ModelReference",
+            "keys": [
+              {
+                "type": "Submodel",
+                "value": "https://vws.xitaso.com/sm/booth_bill_of_material"
+              },
+              {
+                "type": "Entity",
+                "value": "Booth"
+              },
+              {
+                "type": "Entity",
+                "value": "Coffee_Machine"
+              }
+            ]
+          },
+          "modelType": "RelationshipElement"
+        },
+        {
+          "idShort": "Coffee_Grinder",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/Node/1/0"
+              }
+            ]
+          },
+          "entityType": "SelfManagedEntity",
+          "globalAssetId": "https://vws.xitaso.com/coffee_grinder",
+          "modelType": "Entity"
+        },
+        {
+          "idShort": "HasPart_Coffee_Grinder",
+          "description": [
+            {
+              "language": "en",
+              "text": "Modeling of logical connections between components and sub-components. Either this or \"IsPartOf\" shall be used, not both."
+            }
+          ],
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+              }
+            ]
+          },
+          "qualifiers": [
+            {
+              "type": "Multiplicity",
+              "valueType": "xs:string",
+              "value": "ZeroToMany"
+            },
+            {
+              "type": "EditIdShort",
+              "valueType": "xs:string",
+              "value": "True"
+            }
+          ],
+          "first": {
+            "type": "ModelReference",
+            "keys": [
+              {
+                "type": "Submodel",
+                "value": "https://vws.xitaso.com/sm/booth_bill_of_material"
+              },
+              {
+                "type": "Entity",
+                "value": "Booth"
+              },
+              {
+                "type": "Entity",
+                "value": "Coffee_Bar"
+              }
+            ]
+          },
+          "second": {
+            "type": "ModelReference",
+            "keys": [
+              {
+                "type": "Submodel",
+                "value": "https://vws.xitaso.com/sm/booth_bill_of_material"
+              },
+              {
+                "type": "Entity",
+                "value": "Booth"
+              },
+              {
+                "type": "Entity",
+                "value": "Coffee_Grinder"
+              }
+            ]
+          },
+          "modelType": "RelationshipElement"
+        },
+        {
+          "category": "CONSTANT",
+          "idShort": "Data_Display",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/Node/1/0"
+              }
+            ]
+          },
+          "entityType": "CoManagedEntity",
+          "modelType": "Entity"
+        },
+        {
+          "category": "CONSTANT",
+          "idShort": "HasPart_Data_Display",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/HasPart/1/0"
+              }
+            ]
+          },
+          "first": {
+            "type": "ModelReference",
+            "keys": [
+              {
+                "type": "Submodel",
+                "value": "https://vws.xitaso.com/sm/booth_bill_of_material"
+              },
+              {
+                "type": "Entity",
+                "value": "Booth"
+              }
+            ]
+          },
+          "second": {
+            "type": "ModelReference",
+            "keys": [
+              {
+                "type": "Submodel",
+                "value": "https://vws.xitaso.com/sm/booth_bill_of_material"
+              },
+              {
+                "type": "Entity",
+                "value": "Booth"
+              },
+              {
+                "type": "Entity",
+                "value": "Data_Display"
+              }
+            ]
+          },
+          "modelType": "RelationshipElement"
+        }
+      ],
+      "entityType": "SelfManagedEntity",
+      "globalAssetId": "https://vws.xitaso.com/booth",
+      "modelType": "Entity"
+    },
+    {
+      "category": "CONSTANT",
+      "idShort": "ArcheType",
+      "semanticId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "https://admin-shell.io/idta/HierarchicalStructures/ArcheType/1/0"
+          }
+        ]
+      },
+      "valueType": "xs:string",
+      "value": "Full",
+      "modelType": "Property"
+    },
+    {
+      "category": "CONSTANT",
+      "idShort": "LevelOfDetail",
+      "semanticId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "https://admin-shell.io/idta/HierachicalStructures/LevelOfDetail/1/0"
+          }
+        ]
+      },
+      "valueType": "xs:string",
+      "value": "0",
+      "modelType": "Property"
+    }
+  ],
+  "modelType": "Submodel"
+}

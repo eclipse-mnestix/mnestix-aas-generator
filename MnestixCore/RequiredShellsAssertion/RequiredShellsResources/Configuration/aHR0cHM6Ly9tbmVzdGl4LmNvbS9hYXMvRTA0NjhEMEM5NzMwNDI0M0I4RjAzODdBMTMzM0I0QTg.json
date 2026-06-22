@@ -1,0 +1,19 @@
+{
+  "id": "https://mnestix.com/aas/E0468D0C97304243B8F0387A1333B4A8",
+  "idShort": "MnestixConfiguration",
+  "modelType": "AssetAdministrationShell",
+  "assetInformation": {
+    "assetKind": "Instance",
+    "globalAssetId": "https://mnestix.com/E0468D0C97304243B8F0387A1333B4A8",
+    "specificAssetIds": [
+      {
+        "name": "assetIdShort",
+        "value": "aas_E0468D0C97304243B8F0387A1333B4A8"
+      },
+      {
+        "name": "aasListFilterId",
+        "value": "filterThisOut"
+      }
+    ]
+  }
+}

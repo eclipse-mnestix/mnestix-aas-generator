@@ -1,0 +1,2144 @@
+{
+  "semanticId": {
+    "keys": [
+      {
+        "type": "GlobalReference",
+        "value": "https://admin-shell.io/idta/SimulationModels/SimulationModels/1/0"
+      }
+    ],
+    "type": "ExternalReference"
+  },
+  "qualifiers": [
+    {
+      "type": "FormTitle",
+      "valueType": "xs:string",
+      "value": "Simulation Submodel v008"
+    },
+    {
+      "type": "FormInfo",
+      "valueType": "xs:string",
+      "value": "Das Submodel kann ein oder mehere Simulationsmodelle bereitstellen, einen Service zur Generierung eines spezifischen Modells oder einen Zugang zu einer offenen oder spezifischen Anfrage."
+    },
+    {
+      "type": "mnestixSubmodelIdShort",
+      "valueType": "xs:string",
+      "value": "SimulationModels"
+    },
+    {
+      "type": "mnestixSubmodelId",
+      "valueType": "xs:string",
+      "value": "https://admin-shell.io/idta/SimulationModels/SimulationModel/1/0"
+    }
+  ],
+  "id": "https://admin-shell.io/idta/SimulationModels/SimulationModel/1/0",
+  "administration": {
+    "version": "1",
+    "revision": "0"
+  },
+  "idShort": "SimulationModels",
+  "category": "CONSTANT",
+  "modelType": "Submodel",
+  "kind": "Template",
+  "submodelElements": [
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "https://admin-shell.io/idta/SimulationModels/SimulationModel/1/0"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "SimulationModel",
+      "category": "CONSTANT",
+      "modelType": "SubmodelElementCollection",
+      "value": [
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/SimulationModels/Summary/1/0"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "Summary",
+          "category": "CONSTANT",
+          "modelType": "MultiLanguageProperty",
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "ZeroToOne"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/SimulationModels/SimPurpose/1/0"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "SimPurpose",
+          "modelType": "SubmodelElementCollection",
+          "value": [
+            {
+              "value": "",
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/SimulationModels/PosSimPurpose/1/0"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "PosSimPurpose",
+              "modelType": "Property",
+              "valueType": "xs:string",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "OneToMany"
+                }
+              ]
+            },
+            {
+              "value": "",
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/SimulationModels/NegSimPurpose/1/0"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "NegSimPurpose",
+              "modelType": "Property",
+              "valueType": "xs:string",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToMany"
+                }
+              ]
+            }
+          ],
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "One"
+            }
+          ]
+        },
+        {
+          "value": "",
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/SimulationModels/TypeOfModel/1/0"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "TypeOfModel",
+          "modelType": "Property",
+          "valueType": "xs:string",
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "ZeroToMany"
+            }
+          ]
+        },
+        {
+          "value": "",
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/SimulationModels/ScopeOfModel/1/0"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "ScopeOfModel",
+          "modelType": "Property",
+          "valueType": "xs:string",
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "OneToMany"
+            }
+          ]
+        },
+        {
+          "value": "",
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/SimulationModels/LicenseModel/1/0"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "LicenseModel",
+          "modelType": "Property",
+          "valueType": "xs:string",
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "ZeroToOne"
+            }
+          ]
+        },
+        {
+          "value": "",
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/SimulationModels/EngineeringDomain/1/0"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "EngineeringDomain",
+          "modelType": "Property",
+          "valueType": "xs:string",
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "ZeroToMany"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/SimulationModels/Environment/1/0"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "Environment",
+          "modelType": "SubmodelElementCollection",
+          "value": [
+            {
+              "value": "",
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/SimulationModels/OperatingSystem/1/0"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "OperatingSystem",
+              "modelType": "Property",
+              "valueType": "xs:string",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "One"
+                }
+              ]
+            },
+            {
+              "value": "",
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/SimulationModels/ToolEnvironment/1/0"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "ToolEnvironment",
+              "modelType": "Property",
+              "valueType": "xs:string",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToMany"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/SimulationModels/DependencyEnvironment/1/0"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "DependencyEnvironment",
+              "category": "CONSTANT",
+              "modelType": "MultiLanguageProperty",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "value": "",
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/SimulationModels/VisualizationInformation/1/0"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "VisualizationInformation",
+              "modelType": "Property",
+              "valueType": "xs:string",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/SimulationModels/SimulationTool/1/0"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "SimulationTool",
+              "category": "CONSTANT",
+              "modelType": "SubmodelElementCollection",
+              "value": [
+                {
+                  "value": "",
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/idta/SimulationModel/SimToolName/1/0"
+                      }
+                    ],
+                    "type": "ExternalReference"
+                  },
+                  "idShort": "SimToolName",
+                  "category": "CONSTANT",
+                  "modelType": "Property",
+                  "valueType": "xs:string",
+                  "qualifiers": [
+                    {
+                      "semanticId": {
+                        "type": "ExternalReference",
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                          }
+                        ]
+                      },
+                      "type": "SMT/Cardinality",
+                      "valueType": "xs:string",
+                      "value": "One"
+                    }
+                  ]
+                },
+                {
+                  "value": "",
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/idta/SimulationModels/DependencySimTool/1/0"
+                      }
+                    ],
+                    "type": "ExternalReference"
+                  },
+                  "idShort": "DependencySimTool",
+                  "category": "CONSTANT",
+                  "modelType": "Property",
+                  "valueType": "xs:string",
+                  "qualifiers": [
+                    {
+                      "semanticId": {
+                        "type": "ExternalReference",
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                          }
+                        ]
+                      },
+                      "type": "SMT/Cardinality",
+                      "valueType": "xs:string",
+                      "value": "ZeroToMany"
+                    }
+                  ]
+                },
+                {
+                  "value": "",
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/idta/SimulationModels/Compiler/1/0"
+                      }
+                    ],
+                    "type": "ExternalReference"
+                  },
+                  "idShort": "Compiler",
+                  "category": "CONSTANT",
+                  "modelType": "Property",
+                  "valueType": "xs:string",
+                  "qualifiers": [
+                    {
+                      "semanticId": {
+                        "type": "ExternalReference",
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                          }
+                        ]
+                      },
+                      "type": "SMT/Cardinality",
+                      "valueType": "xs:string",
+                      "value": "ZeroToMany"
+                    }
+                  ]
+                },
+                {
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/idta/SimulationModels/SolverAndTolerances/1/0"
+                      }
+                    ],
+                    "type": "ExternalReference"
+                  },
+                  "idShort": "SolverAndTolerances",
+                  "modelType": "SubmodelElementCollection",
+                  "value": [
+                    {
+                      "semanticId": {
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/idta/SimulationModels/StepSizeControlNeeded/1/0"
+                          }
+                        ],
+                        "type": "ExternalReference"
+                      },
+                      "idShort": "StepSizeControlNeeded",
+                      "modelType": "Property",
+                      "valueType": "xs:boolean",
+                      "qualifiers": [
+                        {
+                          "semanticId": {
+                            "type": "ExternalReference",
+                            "keys": [
+                              {
+                                "type": "GlobalReference",
+                                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                              }
+                            ]
+                          },
+                          "type": "SMT/Cardinality",
+                          "valueType": "xs:string",
+                          "value": "One"
+                        }
+                      ]
+                    },
+                    {
+                      "semanticId": {
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/idta/SimulationModels/FixedStepSize/1/0"
+                          }
+                        ],
+                        "type": "ExternalReference"
+                      },
+                      "idShort": "FixedStepSize",
+                      "modelType": "Property",
+                      "valueType": "xs:float",
+                      "qualifiers": [
+                        {
+                          "semanticId": {
+                            "type": "ExternalReference",
+                            "keys": [
+                              {
+                                "type": "GlobalReference",
+                                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                              }
+                            ]
+                          },
+                          "type": "SMT/Cardinality",
+                          "valueType": "xs:string",
+                          "value": "ZeroToOne"
+                        }
+                      ]
+                    },
+                    {
+                      "semanticId": {
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/idta/SimulationModels/StiffSolverNeeded/1/0"
+                          }
+                        ],
+                        "type": "ExternalReference"
+                      },
+                      "idShort": "StiffSolverNeeded",
+                      "modelType": "Property",
+                      "valueType": "xs:boolean",
+                      "qualifiers": [
+                        {
+                          "semanticId": {
+                            "type": "ExternalReference",
+                            "keys": [
+                              {
+                                "type": "GlobalReference",
+                                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                              }
+                            ]
+                          },
+                          "type": "SMT/Cardinality",
+                          "valueType": "xs:string",
+                          "value": "One"
+                        }
+                      ]
+                    },
+                    {
+                      "semanticId": {
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/idta/SimulationModels/SolverIncluded/1/0"
+                          }
+                        ],
+                        "type": "ExternalReference"
+                      },
+                      "idShort": "SolverIncluded",
+                      "modelType": "Property",
+                      "valueType": "xs:boolean",
+                      "qualifiers": [
+                        {
+                          "semanticId": {
+                            "type": "ExternalReference",
+                            "keys": [
+                              {
+                                "type": "GlobalReference",
+                                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                              }
+                            ]
+                          },
+                          "type": "SMT/Cardinality",
+                          "valueType": "xs:string",
+                          "value": "One"
+                        }
+                      ]
+                    },
+                    {
+                      "semanticId": {
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/idta/SimulationModels/TestedToolSolverAlgorithm/1/0"
+                          }
+                        ],
+                        "type": "ExternalReference"
+                      },
+                      "idShort": "TestedToolSolverAlgorithm",
+                      "modelType": "SubmodelElementCollection",
+                      "value": [
+                        {
+                          "value": "",
+                          "semanticId": {
+                            "keys": [
+                              {
+                                "type": "GlobalReference",
+                                "value": "https://admin-shell.io/idta/SimulationModels/SolverAlgorithm/1/0"
+                              }
+                            ],
+                            "type": "ExternalReference"
+                          },
+                          "idShort": "SolverAlgorithm",
+                          "modelType": "Property",
+                          "valueType": "xs:string",
+                          "qualifiers": [
+                            {
+                              "semanticId": {
+                                "type": "ExternalReference",
+                                "keys": [
+                                  {
+                                    "type": "GlobalReference",
+                                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                                  }
+                                ]
+                              },
+                              "type": "SMT/Cardinality",
+                              "valueType": "xs:string",
+                              "value": "One"
+                            }
+                          ]
+                        },
+                        {
+                          "value": "",
+                          "semanticId": {
+                            "keys": [
+                              {
+                                "type": "GlobalReference",
+                                "value": "https://admin-shell.io/idta/SimulationModels/ToolSolverFurtherDescription/1/0"
+                              }
+                            ],
+                            "type": "ExternalReference"
+                          },
+                          "idShort": "ToolSolverFurtherDescription",
+                          "modelType": "Property",
+                          "valueType": "xs:string",
+                          "qualifiers": [
+                            {
+                              "semanticId": {
+                                "type": "ExternalReference",
+                                "keys": [
+                                  {
+                                    "type": "GlobalReference",
+                                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                                  }
+                                ]
+                              },
+                              "type": "SMT/Cardinality",
+                              "valueType": "xs:string",
+                              "value": "ZeroToOne"
+                            }
+                          ]
+                        },
+                        {
+                          "semanticId": {
+                            "keys": [
+                              {
+                                "type": "GlobalReference",
+                                "value": "https://admin-shell.io/idta/SimulationModels/Tolerance/1/0"
+                              }
+                            ],
+                            "type": "ExternalReference"
+                          },
+                          "idShort": "Tolerance",
+                          "modelType": "Property",
+                          "valueType": "xs:float",
+                          "qualifiers": [
+                            {
+                              "semanticId": {
+                                "type": "ExternalReference",
+                                "keys": [
+                                  {
+                                    "type": "GlobalReference",
+                                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                                  }
+                                ]
+                              },
+                              "type": "SMT/Cardinality",
+                              "valueType": "xs:string",
+                              "value": "ZeroToOne"
+                            }
+                          ]
+                        }
+                      ],
+                      "qualifiers": [
+                        {
+                          "semanticId": {
+                            "type": "ExternalReference",
+                            "keys": [
+                              {
+                                "type": "GlobalReference",
+                                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                              }
+                            ]
+                          },
+                          "type": "SMT/Cardinality",
+                          "valueType": "xs:string",
+                          "value": "ZeroToMany"
+                        }
+                      ]
+                    }
+                  ],
+                  "qualifiers": [
+                    {
+                      "semanticId": {
+                        "type": "ExternalReference",
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                          }
+                        ]
+                      },
+                      "type": "SMT/Cardinality",
+                      "valueType": "xs:string",
+                      "value": "One"
+                    }
+                  ]
+                }
+              ],
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "OneToMany"
+                }
+              ]
+            }
+          ],
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "ZeroToMany"
+            }
+          ]
+        },
+        {
+          "contentType": "application/pdf",
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/SimulationModels/RefSimDocumentation/1/0"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "RefSimDocumentation",
+          "modelType": "File",
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "ZeroToMany"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/SimulationModels/ModelFile/1/0"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "ModelFile",
+          "category": "CONSTANT",
+          "modelType": "SubmodelElementCollection",
+          "value": [
+            {
+              "value": "",
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/SimulationModels/ModelFileType/1/0"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "ModelFileType",
+              "modelType": "Property",
+              "valueType": "xs:string",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/SimulationModels/ModelFileVersion/1/0"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "ModelFileVersion",
+              "category": "CONSTANT",
+              "modelType": "SubmodelElementCollection",
+              "value": [
+                {
+                  "value": "",
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/idta/SimulationModels/ModelVersionId/1/0"
+                      }
+                    ],
+                    "type": "ExternalReference"
+                  },
+                  "idShort": "ModelVersionId",
+                  "modelType": "Property",
+                  "valueType": "xs:string",
+                  "qualifiers": [
+                    {
+                      "semanticId": {
+                        "type": "ExternalReference",
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                          }
+                        ]
+                      },
+                      "type": "SMT/Cardinality",
+                      "valueType": "xs:string",
+                      "value": "One"
+                    }
+                  ]
+                },
+                {
+                  "contentType": "image/png",
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/idta/SimulationModels/ModelPreviewImage/1/0"
+                      }
+                    ],
+                    "type": "ExternalReference"
+                  },
+                  "idShort": "ModelPreviewImage",
+                  "category": "CONSTANT",
+                  "modelType": "File",
+                  "qualifiers": [
+                    {
+                      "semanticId": {
+                        "type": "ExternalReference",
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                          }
+                        ]
+                      },
+                      "type": "SMT/Cardinality",
+                      "valueType": "xs:string",
+                      "value": "ZeroToOne"
+                    }
+                  ]
+                },
+                {
+                  "contentType": "application/pdf",
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/idta/SimulationModels/DigitalFile/1/0"
+                      }
+                    ],
+                    "type": "ExternalReference"
+                  },
+                  "idShort": "DigitalFile",
+                  "category": "CONSTANT",
+                  "modelType": "File",
+                  "qualifiers": [
+                    {
+                      "semanticId": {
+                        "type": "ExternalReference",
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                          }
+                        ]
+                      },
+                      "type": "SMT/Cardinality",
+                      "valueType": "xs:string",
+                      "value": "One"
+                    }
+                  ]
+                },
+                {
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/idta/SimulationModels/ModelFileReleaseNotesTxt/1/0"
+                      }
+                    ],
+                    "type": "ExternalReference"
+                  },
+                  "idShort": "ModelFileReleaseNotesTxt",
+                  "modelType": "MultiLanguageProperty",
+                  "qualifiers": [
+                    {
+                      "semanticId": {
+                        "type": "ExternalReference",
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                          }
+                        ]
+                      },
+                      "type": "SMT/Cardinality",
+                      "valueType": "xs:string",
+                      "value": "ZeroToOne"
+                    }
+                  ]
+                },
+                {
+                  "contentType": "application/pdf",
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/idta/SimulationModels/ModelFileReleaseNotesFile/1/0"
+                      }
+                    ],
+                    "type": "ExternalReference"
+                  },
+                  "idShort": "ModelFileReleaseNotesFile",
+                  "modelType": "File",
+                  "qualifiers": [
+                    {
+                      "semanticId": {
+                        "type": "ExternalReference",
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                          }
+                        ]
+                      },
+                      "type": "SMT/Cardinality",
+                      "valueType": "xs:string",
+                      "value": "ZeroToOne"
+                    }
+                  ]
+                }
+              ],
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "OneToMany"
+                }
+              ]
+            }
+          ],
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "One"
+            }
+          ]
+        },
+        {
+          "value": "",
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/SimulationModels/ParamMethod/1/0"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "ParamMethod",
+          "modelType": "Property",
+          "valueType": "xs:string",
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "One"
+            }
+          ]
+        },
+        {
+          "contentType": "application/pdf",
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/SimulationModels/ParamFile/1/0"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "ParamFile",
+          "modelType": "File",
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "ZeroToOne"
+            }
+          ]
+        },
+        {
+          "value": "",
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/SimulationModels/InitStateMethod/1/0"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "InitStateMethod",
+          "modelType": "Property",
+          "valueType": "xs:string",
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "One"
+            }
+          ]
+        },
+        {
+          "contentType": "application/pdf",
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/SimulationModels/InitStateFile/1/0"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "InitStateFile",
+          "modelType": "File",
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "ZeroToOne"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/SimulationModels/DefaultSimTime/1/0"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "DefaultSimTime",
+          "modelType": "Property",
+          "valueType": "xs:float",
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "ZeroToOne"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/SimulationModels/SimModManufacturerInformation/1/0"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "SimModManufacturerInformation",
+          "category": "CONSTANT",
+          "modelType": "SubmodelElementCollection",
+          "value": [
+            {
+              "value": "",
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0173-1#02-AAW001#001"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "Company",
+              "modelType": "Property",
+              "valueType": "xs:string",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "One"
+                }
+              ]
+            },
+            {
+              "value": "",
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0173-1#02-AAO895#003"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "Language",
+              "modelType": "Property",
+              "valueType": "xs:string",
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "OneToMany"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0173-1#02-AAQ836#005"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "Email",
+              "modelType": "SubmodelElementCollection",
+              "value": [
+                {
+                  "value": "",
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "0173-1#02-AAO199#003"
+                      }
+                    ],
+                    "type": "ExternalReference"
+                  },
+                  "idShort": "TypeOfEmailAddress",
+                  "modelType": "Property",
+                  "valueType": "xs:string",
+                  "qualifiers": [
+                    {
+                      "semanticId": {
+                        "type": "ExternalReference",
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                          }
+                        ]
+                      },
+                      "type": "SMT/Cardinality",
+                      "valueType": "xs:string",
+                      "value": "ZeroToOne"
+                    }
+                  ]
+                },
+                {
+                  "value": "",
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "0173-1#02-AAO198#002"
+                      }
+                    ],
+                    "type": "ExternalReference"
+                  },
+                  "idShort": "EmailAddress",
+                  "modelType": "Property",
+                  "valueType": "xs:string",
+                  "qualifiers": [
+                    {
+                      "semanticId": {
+                        "type": "ExternalReference",
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                          }
+                        ]
+                      },
+                      "type": "SMT/Cardinality",
+                      "valueType": "xs:string",
+                      "value": "One"
+                    }
+                  ]
+                },
+                {
+                  "value": "",
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "0173-1#02-AAO201#002"
+                      }
+                    ],
+                    "type": "ExternalReference"
+                  },
+                  "idShort": "TypeOfPublicKey",
+                  "modelType": "Property",
+                  "valueType": "xs:string",
+                  "qualifiers": [
+                    {
+                      "semanticId": {
+                        "type": "ExternalReference",
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                          }
+                        ]
+                      },
+                      "type": "SMT/Cardinality",
+                      "valueType": "xs:string",
+                      "value": "ZeroToOne"
+                    }
+                  ]
+                },
+                {
+                  "value": "",
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "0173-1#02-AAO200#002"
+                      }
+                    ],
+                    "type": "ExternalReference"
+                  },
+                  "idShort": "PublicKey",
+                  "modelType": "Property",
+                  "valueType": "xs:string",
+                  "qualifiers": [
+                    {
+                      "semanticId": {
+                        "type": "ExternalReference",
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                          }
+                        ]
+                      },
+                      "type": "SMT/Cardinality",
+                      "valueType": "xs:string",
+                      "value": "ZeroToOne"
+                    }
+                  ]
+                }
+              ],
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            },
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/zvei/nameplate/1/0/ContactInformations/ContactInformation/Phone"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "Phone",
+              "modelType": "SubmodelElementCollection",
+              "value": [
+                {
+                  "value": "",
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "0173-1#02-AAO137#003"
+                      }
+                    ],
+                    "type": "ExternalReference"
+                  },
+                  "idShort": "TypeOfTelephone",
+                  "modelType": "Property",
+                  "valueType": "xs:string",
+                  "qualifiers": [
+                    {
+                      "semanticId": {
+                        "type": "ExternalReference",
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                          }
+                        ]
+                      },
+                      "type": "SMT/Cardinality",
+                      "valueType": "xs:string",
+                      "value": "ZeroToOne"
+                    }
+                  ]
+                },
+                {
+                  "value": "",
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "0173-1#02-AAO136#002"
+                      }
+                    ],
+                    "type": "ExternalReference"
+                  },
+                  "idShort": "TelephoneNumber",
+                  "modelType": "Property",
+                  "valueType": "xs:string",
+                  "qualifiers": [
+                    {
+                      "semanticId": {
+                        "type": "ExternalReference",
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                          }
+                        ]
+                      },
+                      "type": "SMT/Cardinality",
+                      "valueType": "xs:string",
+                      "value": "One"
+                    }
+                  ]
+                },
+                {
+                  "value": "",
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/zvei/nameplate/1/0/ContactInformations/ContactInformation/AvailableTime/"
+                      }
+                    ],
+                    "type": "ExternalReference"
+                  },
+                  "idShort": "AvailableTime",
+                  "modelType": "Property",
+                  "valueType": "xs:string",
+                  "qualifiers": [
+                    {
+                      "semanticId": {
+                        "type": "ExternalReference",
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                          }
+                        ]
+                      },
+                      "type": "SMT/Cardinality",
+                      "valueType": "xs:string",
+                      "value": "ZeroToOne"
+                    }
+                  ]
+                }
+              ],
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ]
+            }
+          ],
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "ZeroToMany"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/SimulationModels/Ports/1/0"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "Ports",
+          "modelType": "SubmodelElementCollection",
+          "value": [
+            {
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/idta/SimulationModels/PortsConnector/1/0"
+                  }
+                ],
+                "type": "ExternalReference"
+              },
+              "idShort": "PortsConnector",
+              "modelType": "SubmodelElementCollection",
+              "value": [
+                {
+                  "value": "",
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/idta/SimulationModels/PortsConnectorName/1/0"
+                      }
+                    ],
+                    "type": "ExternalReference"
+                  },
+                  "idShort": "PortConnectorName",
+                  "modelType": "Property",
+                  "valueType": "xs:string",
+                  "qualifiers": [
+                    {
+                      "semanticId": {
+                        "type": "ExternalReference",
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                          }
+                        ]
+                      },
+                      "type": "SMT/Cardinality",
+                      "valueType": "xs:string",
+                      "value": "One"
+                    }
+                  ]
+                },
+                {
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/idta/SimulationModel/portConDescription/1/0"
+                      }
+                    ],
+                    "type": "ExternalReference"
+                  },
+                  "idShort": "PortConDescription",
+                  "modelType": "MultiLanguageProperty",
+                  "qualifiers": [
+                    {
+                      "semanticId": {
+                        "type": "ExternalReference",
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                          }
+                        ]
+                      },
+                      "type": "SMT/Cardinality",
+                      "valueType": "xs:string",
+                      "value": "ZeroToOne"
+                    }
+                  ]
+                },
+                {
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/idta/SimulationModels/Variable/1/0"
+                      }
+                    ],
+                    "type": "ExternalReference"
+                  },
+                  "idShort": "Variable",
+                  "modelType": "SubmodelElementCollection",
+                  "value": [
+                    {
+                      "value": "",
+                      "semanticId": {
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/idta/SimulationModels/VariableName/1/0"
+                          }
+                        ],
+                        "type": "ExternalReference"
+                      },
+                      "idShort": "VariableName",
+                      "modelType": "Property",
+                      "valueType": "xs:string",
+                      "qualifiers": [
+                        {
+                          "semanticId": {
+                            "type": "ExternalReference",
+                            "keys": [
+                              {
+                                "type": "GlobalReference",
+                                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                              }
+                            ]
+                          },
+                          "type": "SMT/Cardinality",
+                          "valueType": "xs:string",
+                          "value": "One"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "",
+                      "semanticId": {
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/idta/SimulationModels/Range/1/0"
+                          }
+                        ],
+                        "type": "ExternalReference"
+                      },
+                      "idShort": "Range",
+                      "modelType": "Property",
+                      "valueType": "xs:string",
+                      "qualifiers": [
+                        {
+                          "semanticId": {
+                            "type": "ExternalReference",
+                            "keys": [
+                              {
+                                "type": "GlobalReference",
+                                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                              }
+                            ]
+                          },
+                          "type": "SMT/Cardinality",
+                          "valueType": "xs:string",
+                          "value": "ZeroToOne"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "",
+                      "semanticId": {
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/idta/SimulationModels/VariableType/1/0"
+                          }
+                        ],
+                        "type": "ExternalReference"
+                      },
+                      "idShort": "VariableType",
+                      "modelType": "Property",
+                      "valueType": "xs:string",
+                      "qualifiers": [
+                        {
+                          "semanticId": {
+                            "type": "ExternalReference",
+                            "keys": [
+                              {
+                                "type": "GlobalReference",
+                                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                              }
+                            ]
+                          },
+                          "type": "SMT/Cardinality",
+                          "valueType": "xs:string",
+                          "value": "One"
+                        }
+                      ]
+                    },
+                    {
+                      "semanticId": {
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/idta/SimulationModels/VariableDescription/1/0"
+                          }
+                        ],
+                        "type": "ExternalReference"
+                      },
+                      "idShort": "VariableDescription",
+                      "modelType": "MultiLanguageProperty",
+                      "qualifiers": [
+                        {
+                          "semanticId": {
+                            "type": "ExternalReference",
+                            "keys": [
+                              {
+                                "type": "GlobalReference",
+                                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                              }
+                            ]
+                          },
+                          "type": "SMT/Cardinality",
+                          "valueType": "xs:string",
+                          "value": "ZeroToOne"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "",
+                      "semanticId": {
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/idta/SimulationModels/UnitList/1/0"
+                          }
+                        ],
+                        "type": "ExternalReference"
+                      },
+                      "idShort": "UnitList",
+                      "modelType": "Property",
+                      "valueType": "xs:string",
+                      "qualifiers": [
+                        {
+                          "semanticId": {
+                            "type": "ExternalReference",
+                            "keys": [
+                              {
+                                "type": "GlobalReference",
+                                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                              }
+                            ]
+                          },
+                          "type": "SMT/Cardinality",
+                          "valueType": "xs:string",
+                          "value": "One"
+                        }
+                      ]
+                    },
+                    {
+                      "semanticId": {
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/idta/SimulationModels/UnitDescription/1/0"
+                          }
+                        ],
+                        "type": "ExternalReference"
+                      },
+                      "idShort": "UnitDescription",
+                      "modelType": "MultiLanguageProperty",
+                      "qualifiers": [
+                        {
+                          "semanticId": {
+                            "type": "ExternalReference",
+                            "keys": [
+                              {
+                                "type": "GlobalReference",
+                                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                              }
+                            ]
+                          },
+                          "type": "SMT/Cardinality",
+                          "valueType": "xs:string",
+                          "value": "ZeroToOne"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "",
+                      "semanticId": {
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/idta/SimulationModels/VariableCausality/1/0"
+                          }
+                        ],
+                        "type": "ExternalReference"
+                      },
+                      "idShort": "VariableCausality",
+                      "modelType": "Property",
+                      "valueType": "xs:string",
+                      "qualifiers": [
+                        {
+                          "semanticId": {
+                            "type": "ExternalReference",
+                            "keys": [
+                              {
+                                "type": "GlobalReference",
+                                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                              }
+                            ]
+                          },
+                          "type": "SMT/Cardinality",
+                          "valueType": "xs:string",
+                          "value": "One"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "",
+                      "semanticId": {
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/idta/SimulationModels/VariablePrefix/1/0"
+                          }
+                        ],
+                        "type": "ExternalReference"
+                      },
+                      "idShort": "VariablePrefix",
+                      "modelType": "Property",
+                      "valueType": "xs:string",
+                      "qualifiers": [
+                        {
+                          "semanticId": {
+                            "type": "ExternalReference",
+                            "keys": [
+                              {
+                                "type": "GlobalReference",
+                                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                              }
+                            ]
+                          },
+                          "type": "SMT/Cardinality",
+                          "valueType": "xs:string",
+                          "value": "ZeroToOne"
+                        }
+                      ]
+                    }
+                  ],
+                  "qualifiers": [
+                    {
+                      "semanticId": {
+                        "type": "ExternalReference",
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                          }
+                        ]
+                      },
+                      "type": "SMT/Cardinality",
+                      "valueType": "xs:string",
+                      "value": "ZeroToMany"
+                    }
+                  ]
+                },
+                {
+                  "idShort": "BinaryConnector",
+                  "modelType": "SubmodelElementCollection",
+                  "value": [
+                    {
+                      "value": "",
+                      "semanticId": {
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/idta/SimulationModels/BinaryConnectorName/1/0"
+                          }
+                        ],
+                        "type": "ExternalReference"
+                      },
+                      "idShort": "BinaryConName",
+                      "modelType": "Property",
+                      "valueType": "xs:string",
+                      "qualifiers": [
+                        {
+                          "semanticId": {
+                            "type": "ExternalReference",
+                            "keys": [
+                              {
+                                "type": "GlobalReference",
+                                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                              }
+                            ]
+                          },
+                          "type": "SMT/Cardinality",
+                          "valueType": "xs:string",
+                          "value": "One"
+                        }
+                      ]
+                    },
+                    {
+                      "semanticId": {
+                        "keys": [
+                          {
+                            "type": "GlobalReference",
+                            "value": "https://admin-shell.io/idta/SimulationModels/BinaryConDescription/1/0"
+                          }
+                        ],
+                        "type": "ExternalReference"
+                      },
+                      "idShort": "BinaryConDescription",
+                      "modelType": "MultiLanguageProperty",
+                      "qualifiers": [
+                        {
+                          "semanticId": {
+                            "type": "ExternalReference",
+                            "keys": [
+                              {
+                                "type": "GlobalReference",
+                                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                              }
+                            ]
+                          },
+                          "type": "SMT/Cardinality",
+                          "valueType": "xs:string",
+                          "value": "ZeroToOne"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "qualifiers": [
+                {
+                  "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                      }
+                    ]
+                  },
+                  "type": "SMT/Cardinality",
+                  "valueType": "xs:string",
+                  "value": "ZeroToMany"
+                }
+              ]
+            }
+          ],
+          "qualifiers": [
+            {
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+                  }
+                ]
+              },
+              "type": "SMT/Cardinality",
+              "valueType": "xs:string",
+              "value": "ZeroToOne"
+            }
+          ]
+        }
+      ],
+      "qualifiers": [
+        {
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/SubmodelTemplates/Cardinality/1/0"
+              }
+            ]
+          },
+          "type": "SMT/Cardinality",
+          "valueType": "xs:string",
+          "value": "ZeroToMany"
+        }
+      ]
+    }
+  ]
+}

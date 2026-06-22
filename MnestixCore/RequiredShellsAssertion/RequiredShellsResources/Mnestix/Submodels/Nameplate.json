@@ -1,0 +1,429 @@
+{
+  "idShort": "Nameplate",
+  "administration": {
+    "version": "1",
+    "revision": "0"
+  },
+  "id": "https://vws.xitaso.com/sm/nameplate/5240_8927_2203_5742",
+  "kind": "Instance",
+  "semanticId": {
+    "type": "ExternalReference",
+    "keys": [
+      {
+        "type": "GlobalReference",
+        "value": "https://admin-shell.io/zvei/nameplate/2/0/Nameplate"
+      }
+    ]
+  },
+  "submodelElements": [
+    {
+      "idShort": "URIOfTheProduct",
+      "semanticId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "0173-1#02-AAY811#001"
+          }
+        ]
+      },
+      "valueType": "xs:string",
+      "value": "https://mnestix.io",
+      "modelType": "Property"
+    },
+    {
+      "idShort": "ManufacturerName",
+      "semanticId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "0173-1#02-AAO677#002"
+          }
+        ]
+      },
+      "value": [
+        {
+          "language": "de",
+          "text": "XITASO GmbH"
+        },
+        {
+          "language": "en",
+          "text": "XITASO GmbH"
+        }
+      ],
+      "modelType": "MultiLanguageProperty"
+    },
+    {
+      "idShort": "ManufacturerProductDesignation",
+      "semanticId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "0173-1#02-AAW338#001"
+          }
+        ]
+      },
+      "value": [
+        {
+          "language": "en",
+          "text": "Platform for Asset Administration Shells"
+        },
+        {
+          "language": "de",
+          "text": "Plattform für Verwaltungsschalen"
+        }
+      ],
+      "modelType": "MultiLanguageProperty"
+    },
+    {
+      "idShort": "YearOfConstruction",
+      "semanticId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "0173-1#02-AAP906#001"
+          }
+        ]
+      },
+      "valueType": "xs:string",
+      "value": "2024",
+      "modelType": "Property"
+    },
+    {
+      "idShort": "CompanyLogo",
+      "semanticId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "https://admin-shell.io/zvei/nameplate/2/0/Nameplate/CompanyLogo "
+          }
+        ]
+      },
+      "qualifiers": [
+        {
+          "type": "Multiplicity",
+          "valueType": "xs:string",
+          "value": "ZeroToOne"
+        }
+      ],
+      "value": "file:/aasx/files/XITASO_Logo.png",
+      "contentType": "image/png",
+      "modelType": "File"
+    },
+    {
+      "idShort": "CountryOfOrigin",
+      "semanticId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "0173-1#02-AAO259#004"
+          }
+        ]
+      },
+      "valueType": "xs:string",
+      "value": "Germany",
+      "modelType": "Property"
+    },
+    {
+      "idShort": "ContactInformation",
+      "semanticId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "https://admin-shell.io/zvei/nameplate/1/0/ContactInformations/ContactInformation"
+          }
+        ]
+      },
+      "value": [
+        {
+          "idShort": "Company",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAW001#001"
+              }
+            ]
+          },
+          "qualifiers": [
+            {
+              "type": "Multiplicity",
+              "valueType": "xs:string",
+              "value": "ZeroToOne"
+            }
+          ],
+          "value": [
+            {
+              "language": "en",
+              "text": "XITASO GmbH"
+            },
+            {
+              "language": "de",
+              "text": "XITASO GmbH"
+            }
+          ],
+          "modelType": "MultiLanguageProperty"
+        },
+        {
+          "idShort": "CityTown",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO132#002"
+              }
+            ]
+          },
+          "value": [
+            {
+              "language": "de",
+              "text": "Augsburg"
+            },
+            {
+              "language": "en",
+              "text": "Augsburg"
+            }
+          ],
+          "modelType": "MultiLanguageProperty"
+        },
+        {
+          "idShort": "Zipcode",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO129#002"
+              }
+            ]
+          },
+          "value": [
+            {
+              "language": "en",
+              "text": "86153"
+            },
+            {
+              "language": "de",
+              "text": "86153"
+            }
+          ],
+          "modelType": "MultiLanguageProperty"
+        },
+        {
+          "idShort": "Street",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO128#002"
+              }
+            ]
+          },
+          "value": [
+            {
+              "language": "de",
+              "text": "Austr. 35"
+            },
+            {
+              "language": "en",
+              "text": "Austr. 35"
+            }
+          ],
+          "modelType": "MultiLanguageProperty"
+        },
+        {
+          "idShort": "NationalCode",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO134#002"
+              }
+            ]
+          },
+          "value": [
+            {
+              "language": "de",
+              "text": "DE"
+            },
+            {
+              "language": "en",
+              "text": "DE"
+            }
+          ],
+          "modelType": "MultiLanguageProperty"
+        },
+        {
+          "idShort": "Email",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAQ836#005"
+              }
+            ]
+          },
+          "qualifiers": [
+            {
+              "type": "Multiplicity",
+              "valueType": "xs:string",
+              "value": "ZeroToOne"
+            }
+          ],
+          "value": [
+            {
+              "idShort": "EmailAddress",
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0173-1#02-AAO198#002"
+                  }
+                ]
+              },
+              "qualifiers": [
+                {
+                  "type": "Multiplicity",
+                  "valueType": "xs:string",
+                  "value": "One"
+                }
+              ],
+              "valueType": "xs:string",
+              "value": "nutshell@xitaso.com",
+              "modelType": "Property"
+            },
+            {
+              "idShort": "TypeOfEmailAddress",
+              "description": [
+                {
+                  "language": "en",
+                  "text": "enumeration: 0173-1#07-AAS754#001 (office), 0173-1#07-AAS756#001 (secretary), 0173-1#07-AAS757#001 (substitute), 0173-1#07-AAS758#001 (home)"
+                }
+              ],
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0173-1#02-AAO199#003"
+                  }
+                ]
+              },
+              "qualifiers": [
+                {
+                  "type": "Multiplicity",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ],
+              "valueType": "xs:string",
+              "value": "0173-1#07-AAS754#001",
+              "modelType": "Property"
+            }
+          ],
+          "modelType": "SubmodelElementCollection"
+        },
+        {
+          "idShort": "Phone",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/zvei/nameplate/1/0/ContactInformations/ContactInformation/Phone"
+              }
+            ]
+          },
+          "qualifiers": [
+            {
+              "type": "Multiplicity",
+              "valueType": "xs:string",
+              "value": "ZeroToOne"
+            }
+          ],
+          "value": [
+            {
+              "idShort": "TelephoneNumber",
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Recommendation: property declaration as MLP is required by its semantic definition. As the property value is language independent, users are recommended to provide maximal 1 string in any language of the user’s choice."
+                }
+              ],
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0173-1#02-AAO136#002"
+                  }
+                ]
+              },
+              "qualifiers": [
+                {
+                  "type": "Multiplicity",
+                  "valueType": "xs:string",
+                  "value": "One"
+                }
+              ],
+              "value": [
+                {
+                  "language": "en",
+                  "text": "+49 821 8858820"
+                },
+                {
+                  "language": "de",
+                  "text": "0 821 885 882 0"
+                }
+              ],
+              "modelType": "MultiLanguageProperty"
+            },
+            {
+              "idShort": "TypeOfTelephone",
+              "description": [
+                {
+                  "language": "en",
+                  "text": " enumeration: 0173-1#07-AAS754#001 (office), 0173-1#07-AAS755#001 (office mobile), 0173-1#07-AAS756#001 (secretary), 0173-1#07-AAS757#001 (substitute), 0173-1#07-AAS758#001 (home), 0173-1#07-AAS759#001 (private mobile)"
+                }
+              ],
+              "semanticId": {
+                "type": "ExternalReference",
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "0173-1#02-AAO137#003"
+                  }
+                ]
+              },
+              "qualifiers": [
+                {
+                  "type": "Multiplicity",
+                  "valueType": "xs:string",
+                  "value": "ZeroToOne"
+                }
+              ],
+              "valueType": "xs:string",
+              "value": "0173-1#07-AAS754#001",
+              "modelType": "Property"
+            }
+          ],
+          "modelType": "SubmodelElementCollection"
+        }
+      ],
+      "modelType": "SubmodelElementCollection"
+    }
+  ],
+  "modelType": "Submodel"
+}

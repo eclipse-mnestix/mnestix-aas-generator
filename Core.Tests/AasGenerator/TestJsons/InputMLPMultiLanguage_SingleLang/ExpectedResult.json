@@ -1,0 +1,32 @@
+{
+  "modelType": "Submodel",
+  "kind": "Instance",
+  "id": "TheNewSubmodelId",
+  "idShort": "DemoTemplate",
+  "submodelElements": [
+    {
+      "modelType": "MultiLanguageProperty",
+      "idShort": "CompanyName",
+      "value": [
+        {
+          "text": "Only English",
+          "language": "en"
+        }
+      ],
+      "qualifiers": [
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "value": "One",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/MappingInfo/multiLanguage",
+          "value": "company.name",
+          "valueType": "xs:string"
+        }
+      ]
+    }
+  ]
+}

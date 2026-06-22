@@ -1,0 +1,30 @@
+using MnestixCore.AasGenerator;
+using MnestixCore.Dtos;
+using Newtonsoft.Json.Linq;
+
+namespace MnestixCore.AasCreator;
+
+/// <summary>
+/// Result of the creation of a new AAS with optional submodels.
+/// </summary>
+/// <param name="aasIds">The set of ids of the AAS to create.</param>
+/// <param name="status">Indicates whether the creation of the AAS was successful.</param>
+/// <param name="submodelResults">Results from submodel generation. Empty if no submodels were requested.</param>
+/// <param name="aasRepoUrl">Repository Url where the AAS got created</param>
+/// <param name="errorMessage">
+/// An error message that can be set in case of unknown errors.
+/// </param>
+/// <param name="previousAas">
+/// The full old AAS shell as captured before an overwrite. Null when nothing was overwritten.
+/// </param>
+/// <param name="orphanedSubmodelIds">
+/// Ids of submodels that were POSTed in this request but could not be rolled back after a failure.
+/// </param>
+public record AasCreationWithSubmodelsResult(
+    AasIds aasIds,
+    AasCreationStatus status,
+    IEnumerable<AasGeneratorResult> submodelResults,
+    string? aasRepoUrl = null,
+    string? errorMessage = null,
+    JObject? previousAas = null,
+    IEnumerable<string>? orphanedSubmodelIds = null);

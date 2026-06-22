@@ -1,0 +1,67 @@
+{
+  "modelType": "Submodel",
+  "kind": "Instance",
+  "id": "TheNewSubmodelId",
+  "idShort": "DemoTemplate",
+  "administration": {
+    "version": "1",
+    "revision": "0"
+  },
+  "qualifiers": [],
+  "submodelElements": [
+    {
+      "modelType": "RelationshipElement",
+      "idShort": "HasPart",
+      "first": {
+        "type": "ModelReference",
+        "keys": [
+          {
+            "type": "Submodel",
+            "value": "urn:submodel:hierarchy"
+          },
+          {
+            "type": "Entity",
+            "value": "CableSet"
+          }
+        ]
+      },
+      "second": {
+        "type": "ModelReference",
+        "keys": [
+          {
+            "type": "Submodel",
+            "value": "urn:submodel:hierarchy"
+          },
+          {
+            "type": "Entity",
+            "value": "CableSet"
+          },
+          {
+            "type": "Entity",
+            "value": "Housing_001"
+          }
+        ]
+      },
+      "qualifiers": [
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "value": "One",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/MappingInfo/first",
+          "value": "relationship.firstRef",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/MappingInfo/second",
+          "value": "relationship.secondRef",
+          "valueType": "xs:string"
+        }
+      ]
+    }
+  ]
+}

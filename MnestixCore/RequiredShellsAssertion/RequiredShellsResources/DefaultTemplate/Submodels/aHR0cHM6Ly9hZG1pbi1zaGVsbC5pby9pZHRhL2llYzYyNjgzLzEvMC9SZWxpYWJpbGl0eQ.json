@@ -1,0 +1,458 @@
+{
+  "semanticId": {
+    "keys": [
+      {
+        "type": "GlobalReference",
+        "value": "https://admin-shell.io/idta/iec62683/1/0/Reliability"
+      }
+    ],
+    "type": "ExternalReference"
+  },
+  "qualifiers": [
+    {
+      "valueType": "xs:string",
+      "type": "mnestixSubmodelIdShort",
+      "value": "Reliability"
+    },
+    {
+      "valueType": "xs:string",
+      "type": "mnestixSubmodelId",
+      "value": "https://admin-shell.io/idta/iec62683/1/0/Reliability"
+    }
+  ],
+  "id": "https://admin-shell.io/idta/iec62683/1/0/Reliability",
+  "administration": {
+    "version": "1",
+    "revision": "0"
+  },
+  "idShort": "Reliability",
+  "modelType": "Submodel",
+  "kind": "Template",
+  "submodelElements": [
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "0112/2///62683#ACE006#001"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "NumberOfReliabilitySets",
+      "modelType": "Property",
+      "valueType": "xs:int",
+      "description": [
+        {
+          "language": "en",
+          "text": "number of reliability sets of characteristics"
+        },
+        {
+          "language": "fr",
+          "text": "nombre d'ensembles de caractéristiques de fiabilité"
+        }
+      ]
+    },
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "0112/2///62683#ACG071#001"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "OperatingConditionsOfReliabilityCharacteristics",
+      "modelType": "SubmodelElementCollection",
+      "value": [
+        {
+          "value": "",
+          "valueId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///61987#ABL837#001"
+              },
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///61987#ABL838#001"
+              },
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///61987#ABI407#004"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///61987#ABA969#007"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "TypeOfVoltage",
+          "modelType": "Property",
+          "valueType": "xs:string",
+          "description": [
+            {
+              "language": "en",
+              "text": "type of voltage"
+            },
+            {
+              "language": "fr",
+              "text": "type de tension"
+            },
+            {
+              "language": "de",
+              "text": "Spannungsart"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///61987#ABA588#004"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "RatedVoltage",
+          "modelType": "Property",
+          "valueType": "xs:double",
+          "description": [
+            {
+              "language": "en",
+              "text": "rated voltage"
+            },
+            {
+              "language": "fr",
+              "text": "tension assignée"
+            },
+            {
+              "language": "de",
+              "text": "Bemessungsspannung"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///61987#ABD461#004"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "MinimumRatedVoltage",
+          "modelType": "Property",
+          "valueType": "xs:double",
+          "description": [
+            {
+              "language": "en",
+              "text": "minimum rated voltage"
+            },
+            {
+              "language": "fr",
+              "text": "tension assignée minimale"
+            },
+            {
+              "language": "de",
+              "text": "minimale Bemessungsspannung"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///61987#ABD462#004"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "MaximumRatedVoltage",
+          "modelType": "Property",
+          "valueType": "xs:double",
+          "description": [
+            {
+              "language": "en",
+              "text": "maximum rated voltage"
+            },
+            {
+              "language": "fr",
+              "text": "tension assignée maximale"
+            },
+            {
+              "language": "de",
+              "text": "maximale Bemessungsspannung"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/FunctionalSafety/RatedOperationalCurrent/1/0"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "RatedOperationalCurrent",
+          "modelType": "Property",
+          "valueType": "xs:double",
+          "description": [
+            {
+              "language": "en",
+              "text": "rated operational current"
+            }
+          ]
+        },
+        {
+          "value": "",
+          "valueId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///62683#ACH673#001"
+              },
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///62683#ACH674#001"
+              },
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///62683#ACH675#001"
+              },
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///62683#ACH676#001"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///62683#ACE053#001"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "TypeOfInterlockingDevice",
+          "modelType": "Property",
+          "valueType": "xs:string",
+          "description": [
+            {
+              "language": "en",
+              "text": "type of interlocking device"
+            },
+            {
+              "language": "fr",
+              "text": "type de dispositif de verrouillage"
+            }
+          ]
+        },
+        {
+          "value": "",
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///62683#ACE070#001"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "OtherOperatingConditions",
+          "modelType": "Property",
+          "valueType": "xs:string",
+          "description": [
+            {
+              "language": "en",
+              "text": "other operating conditions"
+            },
+            {
+              "language": "fr",
+              "text": "autres conditions de fonctionnement"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///62683#ACE055#001"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "UsefulLifeInNumberOfOperations",
+          "modelType": "Property",
+          "valueType": "xs:double",
+          "description": [
+            {
+              "language": "en",
+              "text": "useful life in number of operations"
+            },
+            {
+              "language": "fr",
+              "text": "durée de vie utile en cycle de fonctionnement"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///62683#ACE054#001"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "UsefulLifeInTimeInterval",
+          "modelType": "Property",
+          "valueType": "xs:double",
+          "description": [
+            {
+              "language": "en",
+              "text": "useful life in time interval"
+            },
+            {
+              "language": "fr",
+              "text": "durée de vie utile en intervalle de temps"
+            }
+          ]
+        }
+      ],
+      "description": [
+        {
+          "language": "en",
+          "text": "operating conditions of reliability characteristics"
+        },
+        {
+          "language": "fr",
+          "text": "conditions de fonctionnement des caractéristiques de fiabilité et de sécurité fonctionnelle"
+        }
+      ]
+    },
+    {
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "0112/2///62683#ACG080#001"
+          }
+        ],
+        "type": "ExternalReference"
+      },
+      "idShort": "ReliabilityCharacteristics",
+      "modelType": "SubmodelElementCollection",
+      "value": [
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///62683#ACE061#001"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "MTTF",
+          "modelType": "Property",
+          "valueType": "xs:int",
+          "description": [
+            {
+              "language": "en",
+              "text": "mean operating time to failure"
+            },
+            {
+              "language": "fr",
+              "text": "durée moyenne de fonctionnement avant défaillance"
+            },
+            {
+              "language": "de",
+              "text": "mittlere Betriebszeit bis zum Ausfall"
+            },
+            {
+              "language": "jp",
+              "text": "平均故障間動作時間"
+            },
+            {
+              "language": "cn",
+              "text": "平均失效前工作时间"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0112/2///62683#ACE062#001"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "MTBF",
+          "modelType": "Property",
+          "valueType": "xs:int",
+          "description": [
+            {
+              "language": "en",
+              "text": "mean operating time between failure"
+            },
+            {
+              "language": "fr",
+              "text": "moyenne des temps de bon fonctionnement"
+            },
+            {
+              "language": "de",
+              "text": "mittlere Betriebszeit zwischen Ausfällen"
+            },
+            {
+              "language": "cn",
+              "text": "平均失效间隔工作时间"
+            }
+          ]
+        },
+        {
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/Reliability/B10/1/0"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "idShort": "B10",
+          "modelType": "Property",
+          "valueType": "xs:int"
+        }
+      ],
+      "description": [
+        {
+          "language": "en",
+          "text": "Reliability characteristics"
+        },
+        {
+          "language": "fr",
+          "text": "Caractéristiques de fiabilité"
+        }
+      ]
+    }
+  ]
+}

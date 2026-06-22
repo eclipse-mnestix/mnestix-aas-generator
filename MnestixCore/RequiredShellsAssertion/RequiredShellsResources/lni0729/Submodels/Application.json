@@ -1,0 +1,148 @@
+{
+  "idShort": "Applications",
+  "description": [
+    {
+      "language": "en",
+      "text": "A list of applications of the asset"
+    },
+    {
+      "language": "de",
+      "text": "Eine Liste der Anwendungen des Assets"
+    }
+  ],
+  "administration": {
+    "version": "1",
+    "revision": "0"
+  },
+  "id": "https://vws.xitaso.com/sm/pen_bill_of_applications",
+  "kind": "Instance",
+  "semanticId": {
+    "type": "ExternalReference",
+    "keys": [
+      {
+        "type": "GlobalReference",
+        "value": "https://xitaso.com/BillOfApplications"
+      }
+    ]
+  },
+  "submodelElements": [
+    {
+      "idShort": "BillOfApplications",
+      "semanticId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "https://admin-shell.io/idta/HierarchicalStructures/EntryNode/1/0"
+          }
+        ]
+      },
+      "statements": [
+        {
+          "idShort": "SparePartOrder",
+          "description": [
+            {
+              "language": "en",
+              "text": "Order for a spare part"
+            },
+            {
+              "language": "de",
+              "text": "Bestellung eines Ersatzteils"
+            }
+          ],
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/Node/1/0"
+              }
+            ]
+          },
+          "statements": [
+            {
+              "category": "CONSTANT",
+              "idShort": "ApplicationURL",
+              "description": [
+                {
+                  "language": "en",
+                  "text": "URL of the application"
+                },
+                {
+                  "language": "de",
+                  "text": "URL der Anwendung"
+                }
+              ],
+              "valueType": "xs:string",
+              "value": "https://www.amazon.de",
+              "modelType": "Property"
+            }
+          ],
+          "entityType": "CoManagedEntity",
+          "modelType": "Entity"
+        },
+        {
+          "idShort": "NewPenOrder",
+          "description": [
+            {
+              "language": "en",
+              "text": "Order for a new pen"
+            },
+            {
+              "language": "de",
+              "text": "Bestellung eines neuen Kugelschreibers"
+            }
+          ],
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://admin-shell.io/idta/HierarchicalStructures/Node/1/0"
+              }
+            ]
+          },
+          "statements": [
+            {
+              "category": "CONSTANT",
+              "idShort": "ApplicationURL",
+              "description": [
+                {
+                  "language": "en",
+                  "text": "URL of the application"
+                },
+                {
+                  "language": "de",
+                  "text": "URL der Anwendung"
+                }
+              ],
+              "valueType": "xs:string",
+              "value": "https://www.otto.de",
+              "modelType": "Property"
+            }
+          ],
+          "entityType": "CoManagedEntity",
+          "modelType": "Entity"
+        }
+      ],
+      "entityType": "CoManagedEntity",
+      "modelType": "Entity"
+    },
+    {
+      "idShort": "ArcheType",
+      "semanticId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "https://admin-shell.io/idta/HierarchicalStructures/ArcheType/1/0"
+          }
+        ]
+      },
+      "valueType": "xs:string",
+      "value": "Full",
+      "modelType": "Property"
+    }
+  ],
+  "modelType": "Submodel"
+}

@@ -1,0 +1,36 @@
+{
+  "modelType": "Submodel",
+  "kind": "Instance",
+  "id": "TheNewSubmodelId",
+  "idShort": "DemoTemplate",
+  "submodelElements": [
+    {
+      "modelType": "MultiLanguageProperty",
+      "idShort": "ProductCount",
+      "value": [
+        {
+          "text": "42",
+          "language": "en"
+        },
+        {
+          "text": "True",
+          "language": "de"
+        }
+      ],
+      "qualifiers": [
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "value": "One",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/MappingInfo/multiLanguage",
+          "value": "product.count",
+          "valueType": "xs:string"
+        }
+      ]
+    }
+  ]
+}

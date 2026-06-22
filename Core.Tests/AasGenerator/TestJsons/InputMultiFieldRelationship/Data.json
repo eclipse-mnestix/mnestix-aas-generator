@@ -1,0 +1,34 @@
+{
+  "relationship": {
+    "firstRef": {
+      "type": "ModelReference",
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "urn:submodel:hierarchy"
+        },
+        {
+          "type": "Entity",
+          "value": "CableSet"
+        }
+      ]
+    },
+    "secondRef": {
+      "type": "ModelReference",
+      "keys": [
+        {
+          "type": "Submodel",
+          "value": "urn:submodel:hierarchy"
+        },
+        {
+          "type": "Entity",
+          "value": "CableSet"
+        },
+        {
+          "type": "Entity",
+          "value": "Housing_001"
+        }
+      ]
+    }
+  }
+}

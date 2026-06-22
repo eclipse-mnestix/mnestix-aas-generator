@@ -1,0 +1,57 @@
+{
+  "idShort": "ReplacementOrder",
+  "id": "https://example.com/ids/sm/1084_4050_0132_2099",
+  "modelType": "Submodel",
+  "kind": "Instance",
+  "submodelElements": [
+    {
+      "value": "LNI Ball Pen Refill",
+      "idShort": "OrderItems",
+      "category": "PARAMETER",
+      "valueType": "xs:string",
+      "modelType": "Property"
+    },
+    {
+      "value": "No addons ",
+      "idShort": "Orderoptions",
+      "category": "PARAMETER",
+      "valueType": "xs:string",
+      "modelType": "Property"
+    },
+    {
+      "value": "black",
+      "idShort": "Color",
+      "category": "PARAMETER",
+      "valueType": "xs:string",
+      "modelType": "Property"
+    },
+    {
+      "value": "Order Number to be updated by ERP",
+      "idShort": "OrderNumber",
+      "category": "PARAMETER",
+      "valueType": "xs:string",
+      "modelType": "Property"
+    },
+    {
+      "value": "Our reference: lni1394",
+      "idShort": "OrderState",
+      "category": "VARIABLE",
+      "valueType": "xs:string",
+      "modelType": "Property"
+    },
+    {
+      "value": "Standard Delivery",
+      "idShort": "Orderpriority",
+      "category": "PARAMETER",
+      "valueType": "xs:string",
+      "modelType": "Property"
+    },
+    {
+      "value": "06.01.2024",
+      "idShort": "OrderDate",
+      "category": "PARAMETER",
+      "valueType": "xs:string",
+      "modelType": "Property"
+    }
+  ]
+}
