@@ -28,7 +28,7 @@ The following element types support data mapping via qualifiers:
 |--------------|-----------------|-------|
 | `Property` | ✅ Full | Value mapping via `SMT/MappingInfo` |
 | `MultiLanguageProperty` | ✅ Full | Multi-language via `SMT/MappingInfo/multiLanguage`, or single language via `SMT/MappingInfo/value` |
-| `Blob` | ✅ Partial | Value mapping only (`SMT/MappingInfo`) |
+| `Blob` | ✅ Partial | Value and contentType mapping (`SMT/MappingInfo/value`, `SMT/MappingInfo/contentType`) |
 | `File` | ✅ Full | Value and contentType mapping via `SMT/MappingInfo/value` and `SMT/MappingInfo/contentType` |
 | `SubmodelElementCollection` | ✅ Full | Supports collection duplication |
 | `SubmodelElementList` | ✅ Full | Supports collection duplication |
@@ -156,7 +156,7 @@ Extends path mapping to target specific fields on an element beyond just `value`
 | FieldName | Target | Applicable Model Types | Notes |
 |-----------|--------|----------------------|-------|
 | `value` | Element value | Property, Blob, File, MultiLanguageProperty | Default (same as legacy `SMT/MappingInfo`) |
-| `contentType` | File content type | File | MIME type string or JSONata expression extracting from URL |
+| `contentType` | File content type | File, Blob | MIME type string or JSONata expression extracting from URL |
 | `idShort` | Element identifier | All | Auto-sanitized to `[a-zA-Z][a-zA-Z0-9_]*` |
 | `globalAssetId` | Entity asset reference | Entity | String (URI) |
 | `entityType` | Entity type enum | Entity | `SelfManagedEntity` or `CoManagedEntity` |
@@ -1270,10 +1270,12 @@ Set `"debug": true` to receive detailed logs about the generation process. This 
         "logs": [
           "Started DuplicateCollectionsStep",
           "Processing collection at path 'company.employees[*]' (depth: 1, mandatory: false, elements: 2)",
-          "Successfully duplicated 2 elements for collection...",
+          "Successfully duplicated 2 elements for collection with mapping path 'company.employees[*]'",
           "Finished DuplicateCollectionsStep",
-          "Started MapDataToInstanceStep",
-          "Successfully mapped value 'ACME Corporation' from path 'company.name'",
+          "Started ResolveMappingExpressionsStep",
+          "Finished ResolveMappingExpressionsStep",
+          "Started AssignMappedFieldsStep",
+          "Successfully mapped value 'ACME Corporation' from path 'company.name' to field 'value'",
           "..."
         ]
       }
@@ -1335,7 +1337,7 @@ Not all fields can be mapped on every element type. The following matrix defines
 |-----------|---------------|
 | `Property` | `value`, `idShort`, `displayName` |
 | `MultiLanguageProperty` | `value`, `idShort`, `displayName`, `multiLanguage` |
-| `Blob` | `value`, `idShort`, `displayName` |
+| `Blob` | `value`, `contentType`, `idShort`, `displayName` |
 | `File` | `value`, `contentType`, `idShort`, `displayName` |
 | `Entity` | `idShort`, `displayName`, `globalAssetId`, `entityType` |
 | `RelationshipElement` | `idShort`, `displayName`, `first`, `second` |

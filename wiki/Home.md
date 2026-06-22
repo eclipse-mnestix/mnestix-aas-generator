@@ -14,7 +14,7 @@
 
 ## Features
 
-- **AAS Management**: Create, read, update, delete operations for AAS instances
+- **AAS Creation**: Create AAS instances with optional auto-generated Submodels (supports overwriting existing shells)
 - **Template Management**: Blueprint-based AAS and Submodel templates
 - **AAS Generator (Rules Engine)**: Automated generation of AAS Submodels from structured data
 - **Authentication & Authorization**: API key and OAuth-based security
@@ -38,20 +38,23 @@
 
 ### Development Setup
 1. **Prerequisites**: .NET 8, Docker (for BaSyx), MongoDB
-2. **Local Run**: `dotnet run --watch` or use Rider configuration
-3. **Docker**: `docker compose -f ./docker-compose/compose.dev.yml up`
+2. **Local Run**: `dotnet watch run` or use Rider configuration
+3. **Docker**: `docker compose -f ./docker-compose/compose.dev.go.yml up`
 
 ### Key Endpoints
 - `/api/v2/DataIngest` - Generate Submodels from templates and data
 - `/api/v2/Blueprints` - Manage Submodel blueprints
-- `/api/v2/AasCreator` - AAS CRUD operations
+- `/api/v2/AasCreator` - Create an AAS with optional Submodels
 - `/swagger` - Interactive API documentation
 
 ### Configuration
 Key settings in `appsettings.json`:
 - `Features__UseAuthentication` - Enable/disable auth
-- `Features__AllowRetrievingAllShellsAndSubmodels` - Bulk operations
-- `ReverseProxy__Clusters` - BaSyx repository addresses
+- `Features__RequiredShells` - Assert required shells exist on startup
+- `CustomerEndpointsSecurity__ApiKey` - API key for secured endpoints
+- `Configuration__SubmodelTemplatesApiUrl` - Optional remote templates API URL
+
+BaSyx repository addresses are configured via `ReverseProxy__Clusters` environment variables in the Docker Compose file (see `docker-compose/compose.dev.go.yml`).
 
 ## Documentation
 
