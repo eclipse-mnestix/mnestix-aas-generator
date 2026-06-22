@@ -88,5 +88,5 @@ The `AasInheritanceService` and the `AasRelationshipController` (`GET /api/v2/Aa
 
 1. `dotnet build` — Compilation succeeds
 2. `dotnet test` — All tests pass
-3. `docker compose -f docker-compose/compose.dev.yml up` — All Go services start healthy
+3. `docker compose -f docker-compose/compose.dev.go.yml up` — All Go services start healthy
 4. POST AAS + submodel through API → round-trips correctly

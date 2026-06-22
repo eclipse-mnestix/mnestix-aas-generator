@@ -8,7 +8,6 @@ The Mnestix AAS Generator enables automated creation of Asset Administration She
 - **AAS Creation Endpoint**: Create Asset Administration Shells (AAS) using only the assetIdShort, with optional automatic Submodel generation.
 - **Data Ingest Endpoint**: Generate Submodels from Blueprints and map structured JSON data into them using a rules engine.
 - **Blueprints & Templates**: Manage Submodel templates with embedded mapping rules for automated data transformation.
-- **AasRelationship Endpoint**: Navigate `derivedFrom` relationships between AAS.
 - **ID Generator**: Generate standardized identifiers for AAS and Submodels.
 
 > **Note:** The proxy functionality has been moved to a separate repository: [Mnestix Proxy](https://github.com/eclipse-mnestix/mnestix-proxy)
