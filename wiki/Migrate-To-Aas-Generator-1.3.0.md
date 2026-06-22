@@ -10,12 +10,10 @@ The most significant change in 1.3.0 is the migration from **BaSyx Java (MongoDB
 ### What Changed
 
 - **MongoDB has been replaced with PostgreSQL 16** (`postgres:16-alpine`). Existing MongoDB data is **not** automatically migrated.
-- The single combined `aas-environment` service is replaced by **three separate Go services**:
-  - `eclipsebasyx/aasrepository-go:1.0.0-rc.1` (port `8081`)
-  - `eclipsebasyx/submodelrepository-go:1.0.0-rc.1` (port `8082`)
-  - `eclipsebasyx/aasdiscovery-go:1.0.0-rc.1` (port `8083`)
+- The BaSyx Java `aas-environment` is replaced by the **unified BaSyx Go environment** (`eclipsebasyx/aasenvironment-go:1.0.0-rc.5`, port `8081`), which serves the AAS repository, Submodel repository, Concept Description repository, registries, and discovery from a single service.
+- A one-shot **configuration service** (`eclipsebasyx/basyxconfigurationservice-go:1.0.0-rc.5`) initializes the PostgreSQL schema before the environment starts.
 - The development compose file has been renamed to **`docker-compose/compose.dev.go.yml`**.
-- Health checks now use `wget` instead of curl/actuator endpoints.
+- Health checks now use the bundled `/bin/healthprobe` binary instead of curl/actuator endpoints.
 
 ### Migration Steps
 
@@ -24,7 +22,7 @@ The most significant change in 1.3.0 is the migration from **BaSyx Java (MongoDB
    docker compose -f docker-compose/compose.dev.go.yml up
    ```
 2. Re-import any AAS and Submodels into the new PostgreSQL-backed repositories (MongoDB data does not carry over).
-3. If you maintain your own deployment manifests, update them to point at the three Go services and the PostgreSQL database.
+3. If you maintain your own deployment manifests, update them to point at the unified Go environment, the configuration service, and the PostgreSQL database.
 
 > See [BaSyx Go Migration](basyx-go-migration/README) for the full technical breakdown.
 

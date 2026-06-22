@@ -20,9 +20,8 @@ MongoDB ← aas-environment (combined AAS + Submodel) ← mnestix-aas-generator
 
 ### After (BaSyx Go)
 ```
-PostgreSQL ← aas-repository-go    ← mnestix-aas-generator
-             submodel-repository-go  ↑
-             aas-discovery-go        ↑
+PostgreSQL ← basyx-configuration (one-shot schema init)
+             aas-environment-go (unified AAS + Submodel + CD + registries + discovery) ← mnestix-aas-generator
 ```
 
 ## Changes Overview
@@ -67,11 +66,10 @@ The `AasInheritanceService` and the `AasRelationshipController` (`GET /api/v2/Aa
 ### 5. Docker Compose
 
 - MongoDB replaced with PostgreSQL 16 (`postgres:16-alpine`)
-- BaSyx Java services replaced with Go equivalents (all `1.0.0-rc.1`):
-  - `eclipsebasyx/aasrepository-go` (port 8081)
-  - `eclipsebasyx/submodelrepository-go` (port 8082)
-  - `eclipsebasyx/aasdiscovery-go` (port 8083)
-- Health checks updated (wget-based instead of curl/actuator)
+- BaSyx Java services replaced with the unified Go environment (all `1.0.0-rc.5`):
+  - `eclipsebasyx/aasenvironment-go` (port 8081) — unified AAS, Submodel, Concept Description, registries, and discovery
+  - `eclipsebasyx/basyxconfigurationservice-go` — one-shot PostgreSQL schema initialization
+- Health checks updated (`/bin/healthprobe`-based instead of curl/actuator)
 
 ### 6. Dockerfile
 
