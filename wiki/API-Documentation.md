@@ -135,10 +135,13 @@ If you want to create an AAS with submodels, include a JSON body.
 | `extensions` | object | No | Key-value pairs to add as extensions to the AAS root level. Each entry will be added as `{"name": "key", "value": "value"}` in the extensions array. |
 | `specificAssetIds` | array | No | Array of specific asset identifier objects to add to the asset information. Each object must have `name` and `value` properties. These identifiers are used to identify the asset in specific contexts (e.g., serial numbers, part numbers). The default `assetIdShort` identifier is always included. Example: `[{"name": "SerialNumber", "value": "12345"}, {"name": "PartNumber", "value": "ABC-001"}]` |
 | `administration` | object | No | Administrative information for the AAS (version and revision). Object with `version` (required, string) and `revision` (optional, string) properties. Example: `{"version": "1.0", "revision": "2"}`. This is added at the AAS root level according to IDTA AAS specification. |
+| `defaultThumbnail` | object | No | Default thumbnail for the AAS asset information. Matches the AAS v3 Resource schema: `path` (required) and `contentType` (optional). |
 
 #### Response
 
-**Success (200 OK)**
+**Success (201 Created)** — when a new AAS is created. The `previousAas` field is absent.
+
+**Success (200 OK)** — when an existing AAS is replaced (`overwrite=true`). The response includes the `previousAas` field capturing the shell as it was before the overwrite.
 
 ```json
 {
@@ -159,9 +162,13 @@ If you want to create an AAS with submodels, include a JSON body.
 ```
 
 
+**Conflict (409 Conflict)**
+
+Returned when an AAS with the generated ID already exists and `overwrite=false`. The response body contains an `error` message and any `orphanedSubmodelIds` that could not be rolled back. See the `overwrite` section above for details.
+
 **Error (400 Bad Request)**
 
-Returned when an AAS with the generated ID already exists or submodel generation fails.
+Returned when submodel generation or input validation fails.
 
 ---
 
@@ -229,10 +236,26 @@ POST /api/v2/DataIngest/{base64EncodedAasId}
           "INFO [2026-04-24T10:30:01.2200000Z] - Generating submodel ID",
           "INFO [2026-04-24T10:30:01.3000000Z] - Submodel ID generated: https://example.com/submodels/contact-001",
           "INFO [2026-04-24T10:30:01.3100000Z] - Starting data mapping",
-          "INFO [2026-04-24T10:30:01.3200000Z] - Started DeepCloneTemplateStep",
-          "INFO [2026-04-24T10:30:01.3300000Z] - Finished DeepCloneTemplateStep",
-          "INFO [2026-04-24T10:30:01.3400000Z] - Started MapDataToInstanceStep",
-          "INFO [2026-04-24T10:30:01.3500000Z] - Finished MapDataToInstanceStep",
+          "INFO [2026-04-24T10:30:01.3200000Z] - Started ValidateBlueprintStep",
+          "INFO [2026-04-24T10:30:01.3210000Z] - Finished ValidateBlueprintStep",
+          "INFO [2026-04-24T10:30:01.3220000Z] - Started DeepCloneBlueprintStep",
+          "INFO [2026-04-24T10:30:01.3230000Z] - Finished DeepCloneBlueprintStep",
+          "INFO [2026-04-24T10:30:01.3240000Z] - Started SetKindInstanceStep",
+          "INFO [2026-04-24T10:30:01.3250000Z] - Finished SetKindInstanceStep",
+          "INFO [2026-04-24T10:30:01.3260000Z] - Started DuplicateCollectionsStep",
+          "INFO [2026-04-24T10:30:01.3270000Z] - Finished DuplicateCollectionsStep",
+          "INFO [2026-04-24T10:30:01.3280000Z] - Started FilterElementsStep",
+          "INFO [2026-04-24T10:30:01.3290000Z] - Finished FilterElementsStep",
+          "INFO [2026-04-24T10:30:01.3300000Z] - Started DiscoverMappingDescriptorsStep",
+          "INFO [2026-04-24T10:30:01.3310000Z] - Finished DiscoverMappingDescriptorsStep",
+          "INFO [2026-04-24T10:30:01.3320000Z] - Started ResolveMappingExpressionsStep",
+          "INFO [2026-04-24T10:30:01.3330000Z] - Finished ResolveMappingExpressionsStep",
+          "INFO [2026-04-24T10:30:01.3340000Z] - Started AssignMappedFieldsStep",
+          "INFO [2026-04-24T10:30:01.3350000Z] - Finished AssignMappedFieldsStep",
+          "INFO [2026-04-24T10:30:01.3360000Z] - Started RemoveTopLevelQualifiersStep",
+          "INFO [2026-04-24T10:30:01.3370000Z] - Finished RemoveTopLevelQualifiersStep",
+          "INFO [2026-04-24T10:30:01.3380000Z] - Started ReplaceIdentificationStep",
+          "INFO [2026-04-24T10:30:01.3390000Z] - Finished ReplaceIdentificationStep",
           "INFO [2026-04-24T10:30:01.3600000Z] - Data mapping completed",
           "INFO [2026-04-24T10:30:02.0000000Z] - Posting submodel to repository",
           "INFO [2026-04-24T10:30:02.1000000Z] - Adding submodel reference to shell",
@@ -288,6 +311,23 @@ On error, `errorInfo.logs` always contains the workflow log trail up to (and inc
       }
     }
   ]
+}
+```
+
+**Error (500 Internal Server Error)**
+
+Returned when one or more blueprints fail structural validation at generation time. This happens when a stored blueprint predates the current validation rules or was modified outside the API and is now in an invalid state. The response contains the aggregated `errors` and the per-blueprint `results`:
+
+```json
+{
+  "errors": [
+    {
+      "rule": "FieldNotApplicableToModelType",
+      "path": "ContactInformation > ContactName",
+      "message": "Field 'first' is not valid on model type 'Property'. Allowed fields: value, idShort, displayName."
+    }
+  ],
+  "results": []
 }
 ```
 
@@ -615,43 +655,6 @@ PATCH /api/v2/Configuration?idShortPath={path}&value={value}
 
 - **204 No Content** - Update successful
 - **404 Not Found** - Setting not found
-
----
-
-## AAS Relationships
-
-Navigate relationships between Asset Administration Shells.
-
-### Get Derived From
-
-Returns all AAS instances that have a direct `derivedFrom` relationship to the specified AAS.
-
-```http
-GET /api/v2/AasRelationship/GetDerivedFrom?aasId={aasId}
-```
-
-#### Query Parameters
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `aasId` | string | Yes | The ID of the AAS to find inheritors for |
-
-#### Response
-
-**Success (200 OK)**
-
-```json
-[
-  {
-    "aasId": "https://example.com/aas/derived-001",
-    "assetIdShort": "derived-asset-001"
-  }
-]
-```
-
-**Error (400 Bad Request)**
-
-AAS ID is missing or invalid.
 
 ---
 

@@ -14,15 +14,15 @@ The AAS Generator solves the Industry 4.0 challenge of transforming existing str
 ## Component Architecture
 
 ### Entry Points
-- **Main Interface**: `IAasGenerator` (`AasGenerator.cs:23`) - Primary service interface
-- **REST Endpoint**: `POST /api/v1/DataIngest` - HTTP API for generation requests
+- **Main Interface**: `IAasGenerator` (`AASGenerator/Interfaces/IAasGenerator.cs`) - Primary service interface, implemented by `AasGenerator` (`AASGenerator/AASGenerator.cs`)
+- **REST Endpoint**: `POST /api/v2/DataIngest/{base64EncodedAasId}` - HTTP API for generation requests (v1 is deprecated)
 - **Integration**: Called by other Mnestix components for automated Submodel creation
 
 ### Core Classes
 - **AasGenerator**: Orchestrates the entire generation process
 - **SubmodelDataToInstanceMapper**: Coordinates the transformation pipeline
 - **BlueprintProvider**: Manages template storage and retrieval
-- **Pipeline Steps**: Individual transformation operations (6 steps)
+- **Pipeline Steps**: Individual transformation operations (10 steps)
 
 ### Pipeline Processing Architecture
 Uses Pipes-and-Filters pattern (`MnestixCore/Shared/Pipeline/`) with 10 sequential steps:
@@ -164,7 +164,7 @@ Rules are stored as Template Qualifiers directly within AAS Submodel templates.
 ### 5. Cardinality Rules (Optional/Mandatory)
 **Purpose**: Define behavior when referenced data is missing  
 **Qualifier**: `SMT/Cardinality`  
-**Values**: `"One"` (mandatory, throws error) | `"ZeroToOne"` (optional, empty value)  
+**Values**: `"One"` / `"OneToMany"` (mandatory, throws error if missing) | `"ZeroToOne"` / `"ZeroToMany"` (optional, empty value + warning if missing). A value is treated as mandatory when it starts with `"One"`.  
 **Implementation**: Checked in `ResolveMappingExpressionsStep` (mandatory → exception, optional → warning + skip)
 
 ## Path Expressions
@@ -313,10 +313,9 @@ Each phase of `AddDataToAasAsync` is instrumented:
 
 ### Basic Generation Request
 ```http
-POST /api/v1/DataIngest
+POST /api/v2/DataIngest/{base64EncodedAasId}
 {
-  "aasId": "base64-encoded-aas-id",
-  "blueprintIds": ["contact-template-v1"],
+  "blueprintsIds": ["contact-template-v1"],
   "data": {
     "contacts": [
       {"name": "John Doe", "email": "john@example.com"}
