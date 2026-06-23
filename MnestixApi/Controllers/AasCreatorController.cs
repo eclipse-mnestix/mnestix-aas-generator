@@ -68,7 +68,8 @@ public class AasCreatorController : ControllerBase
             Extensions = requestBody?.Extensions,
             SpecificAssetIds = requestBody?.SpecificAssetIds,
             Administration = requestBody?.Administration,
-            DefaultThumbnail = requestBody?.DefaultThumbnail
+            DefaultThumbnail = requestBody?.DefaultThumbnail,
+            DerivedFrom = requestBody?.DerivedFrom
         };
 
         var aasCreationResult = await _aasCreatorService.CreateAasWithSubmodelsAsync(

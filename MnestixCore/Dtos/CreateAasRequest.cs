@@ -68,4 +68,11 @@ public class CreateAasRequest
     /// Contains version and revision information at the AAS root level.
     /// </summary>
     public AdministrativeInformation? Administration { get; set; }
+
+    /// <summary>
+    /// Optional derivedFrom reference indicating the parent AAS from which this AAS was derived.
+    /// Accepts the parent AAS ID as a string, which will be converted to the proper AAS Metamodel v3.0 reference structure.
+    /// Used for navigating product family hierarchies and inheritance relationships.
+    /// </summary>
+    public string? DerivedFrom { get; set; }
 }

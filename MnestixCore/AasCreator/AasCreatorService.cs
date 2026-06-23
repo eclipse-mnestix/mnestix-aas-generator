@@ -34,7 +34,7 @@ public class AasCreatorService(
         }
 
         var assetKind = options?.AssetKind ?? AssetKind.Instance;
-        var aas = TemplateProvider.GetAas(aasIds, options?.DefaultThumbnail, assetKind, options?.Extensions, options?.SpecificAssetIds, options?.Administration);
+        var aas = TemplateProvider.GetAas(aasIds, options?.DefaultThumbnail, assetKind, options?.Extensions, options?.SpecificAssetIds, options?.Administration, options?.DerivedFrom);
 
         try
         {
@@ -269,7 +269,7 @@ public class AasCreatorService(
     private string BuildShellWithRefs(AasIds aasIds, IReadOnlyCollection<string> submodelIds, AasCreationOptions? options = null)
     {
         var assetKind = options?.AssetKind ?? AssetKind.Instance;
-        var shell = JObject.Parse(TemplateProvider.GetAas(aasIds, options?.DefaultThumbnail, assetKind, options?.Extensions, options?.SpecificAssetIds, options?.Administration));
+        var shell = JObject.Parse(TemplateProvider.GetAas(aasIds, options?.DefaultThumbnail, assetKind, options?.Extensions, options?.SpecificAssetIds, options?.Administration, options?.DerivedFrom));
         if (submodelIds.Count > 0)
         {
             var refs = new JArray();

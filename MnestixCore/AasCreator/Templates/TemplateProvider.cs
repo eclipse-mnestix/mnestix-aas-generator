@@ -20,7 +20,7 @@ public static class TemplateProvider
         };
     }
 
-    public static string GetAas(AasIds aasIds, AssetKind assetKind = AssetKind.Instance, Dictionary<string, string>? extensions = null, List<SpecificAssetId>? specificAssetIds = null, AdministrativeInformation? administration = null)
+    public static string GetAas(AasIds aasIds, AssetKind assetKind = AssetKind.Instance, Dictionary<string, string>? extensions = null, List<SpecificAssetId>? specificAssetIds = null, AdministrativeInformation? administration = null, string? derivedFrom = null)
     {
         var template = EmbeddedResourceProvider.GetEmbeddedResourceContent("AasCreator.Templates.aas.json");
         var json = template.Replace("#assetId#", JsonEncodedText.Encode(aasIds.assetId).ToString())
@@ -29,7 +29,7 @@ public static class TemplateProvider
             .Replace("#aasIdShort#", JsonEncodedText.Encode(aasIds.aasIdShort).ToString())
             .Replace("#assetKind#", assetKind.ToString());
 
-        if (extensions == null && specificAssetIds == null && administration == null)
+        if (extensions == null && specificAssetIds == null && administration == null && derivedFrom == null)
         {
             return json;
         }
@@ -70,12 +70,29 @@ public static class TemplateProvider
             aasObject["administration"] = administrationObject;
         }
 
+        if (!string.IsNullOrWhiteSpace(derivedFrom))
+        {
+            var derivedFromObject = new JObject
+            {
+                ["type"] = "ModelReference",
+                ["keys"] = new JArray
+                {
+                    new JObject
+                    {
+                        ["type"] = "AssetAdministrationShell",
+                        ["value"] = derivedFrom
+                    }
+                }
+            };
+            aasObject["derivedFrom"] = derivedFromObject;
+        }
+
         return aasObject.ToString(Newtonsoft.Json.Formatting.None);
     }
 
-    public static string GetAas(AasIds aasIds, DefaultThumbnail? defaultThumbnail, AssetKind assetKind = AssetKind.Instance, Dictionary<string, string>? extensions = null, List<SpecificAssetId>? specificAssetIds = null, AdministrativeInformation? administration = null)
+    public static string GetAas(AasIds aasIds, DefaultThumbnail? defaultThumbnail, AssetKind assetKind = AssetKind.Instance, Dictionary<string, string>? extensions = null, List<SpecificAssetId>? specificAssetIds = null, AdministrativeInformation? administration = null, string? derivedFrom = null)
     {
-        var json = GetAas(aasIds, assetKind, extensions, specificAssetIds, administration);
+        var json = GetAas(aasIds, assetKind, extensions, specificAssetIds, administration, derivedFrom);
 
         if (defaultThumbnail == null)
         {

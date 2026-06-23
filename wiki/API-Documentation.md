@@ -120,7 +120,8 @@ If you want to create an AAS with submodels, include a JSON body.
   "defaultThumbnail": {
     "path": "https://example.com/images/asset-thumbnail.png",
     "contentType": "image/png"
-  }
+  },
+  "derivedFrom": "https://example.com/aas/parent-machine-template"
 }
 ```
 
@@ -136,6 +137,7 @@ If you want to create an AAS with submodels, include a JSON body.
 | `specificAssetIds` | array | No | Array of specific asset identifier objects to add to the asset information. Each object must have `name` and `value` properties. These identifiers are used to identify the asset in specific contexts (e.g., serial numbers, part numbers). The default `assetIdShort` identifier is always included. Example: `[{"name": "SerialNumber", "value": "12345"}, {"name": "PartNumber", "value": "ABC-001"}]` |
 | `administration` | object | No | Administrative information for the AAS (version and revision). Object with `version` (required, string) and `revision` (optional, string) properties. Example: `{"version": "1.0", "revision": "2"}`. This is added at the AAS root level according to IDTA AAS specification. |
 | `defaultThumbnail` | object | No | Default thumbnail for the AAS asset information. Matches the AAS v3 Resource schema: `path` (required) and `contentType` (optional). |
+| `derivedFrom` | string | No | Parent AAS ID from which this AAS is derived. Used for navigating product family hierarchies and inheritance relationships. The value is converted to the proper AAS Metamodel v3.0 reference structure with a keys array. Example: `"https://example.com/aas/parent-template"`. Only basic format validation is performed (non-empty string); the parent AAS existence is not validated. |
 
 #### Response
 

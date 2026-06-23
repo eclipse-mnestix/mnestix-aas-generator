@@ -31,4 +31,9 @@ public class AasCreationOptions
     /// Optional default thumbnail for the AAS asset information.
     /// </summary>
     public DefaultThumbnail? DefaultThumbnail { get; set; }
+
+    /// <summary>
+    /// Optional derivedFrom reference indicating the parent AAS from which this AAS was derived.
+    /// </summary>
+    public string? DerivedFrom { get; set; }
 }
