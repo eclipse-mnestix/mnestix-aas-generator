@@ -269,7 +269,11 @@ public class AasCreatorControllerTest
         var objectResult = result.Result as ObjectResult;
         objectResult!.StatusCode.Should().Be(StatusCodes.Status201Created);
         mockService.Verify(s => s.CreateAasWithSubmodelsAsync(
-            assetIdShort, null, null, null, false, null, false,It.IsAny<AasCreationOptions?>()), Times.Once);
+            assetIdShort, null, null, null, false, null, false,
+            It.Is<AasCreationOptions?>(o => o != null
+                && o.DefaultThumbnail != null
+                && o.DefaultThumbnail.Path == thumbnail.Path
+                && o.DefaultThumbnail.ContentType == thumbnail.ContentType)), Times.Once);
     }
 
     [Test]
@@ -293,7 +297,8 @@ public class AasCreatorControllerTest
         var objectResult = result.Result as ObjectResult;
         objectResult!.StatusCode.Should().Be(StatusCodes.Status201Created);
         mockService.Verify(s => s.CreateAasWithSubmodelsAsync(
-            assetIdShort, null, null, null, false, null, false,It.IsAny<AasCreationOptions?>()), Times.Once);
+            assetIdShort, null, null, null, false, null, false,
+            It.Is<AasCreationOptions?>(o => o != null && o.AssetKind == AssetKind.Type)), Times.Once);
     }
 
     [Test]
@@ -317,7 +322,8 @@ public class AasCreatorControllerTest
         var objectResult = result.Result as ObjectResult;
         objectResult!.StatusCode.Should().Be(StatusCodes.Status201Created);
         mockService.Verify(s => s.CreateAasWithSubmodelsAsync(
-            assetIdShort, null, null, null, false, null, false,It.IsAny<AasCreationOptions?>()), Times.Once);
+            assetIdShort, null, null, null, false, null, false,
+            It.Is<AasCreationOptions?>(o => o != null && o.AssetKind == AssetKind.NotApplicable)), Times.Once);
     }
 
     [Test]
@@ -341,7 +347,8 @@ public class AasCreatorControllerTest
         var objectResult = result.Result as ObjectResult;
         objectResult!.StatusCode.Should().Be(StatusCodes.Status201Created);
         mockService.Verify(s => s.CreateAasWithSubmodelsAsync(
-            assetIdShort, null, null, null, false, null, false,It.IsAny<AasCreationOptions?>()), Times.Once);
+            assetIdShort, null, null, null, false, null, false,
+            It.Is<AasCreationOptions?>(o => o != null && o.AssetKind == AssetKind.Instance)), Times.Once);
     }
 
     [Test]
@@ -363,6 +370,7 @@ public class AasCreatorControllerTest
         var objectResult = result.Result as ObjectResult;
         objectResult!.StatusCode.Should().Be(StatusCodes.Status201Created);
         mockService.Verify(s => s.CreateAasWithSubmodelsAsync(
-            assetIdShort, null, null, null, false, null, false,It.IsAny<AasCreationOptions?>()), Times.Once);
+            assetIdShort, null, null, null, false, null, false,
+            It.Is<AasCreationOptions?>(o => o != null && o.AssetKind == AssetKind.Instance)), Times.Once);
     }
 }

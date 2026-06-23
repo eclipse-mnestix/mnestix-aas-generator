@@ -1,4 +1,5 @@
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace MnestixCore.Dtos;
 
@@ -6,7 +7,7 @@ namespace MnestixCore.Dtos;
 /// AssetKind enum as defined in AAS specification.
 /// Describes whether an AAS represents a Type (template), Instance (concrete asset), or is NotApplicable.
 /// </summary>
-[JsonConverter(typeof(JsonStringEnumConverter))]
+[JsonConverter(typeof(StringEnumConverter))]
 public enum AssetKind
 {
     Instance,

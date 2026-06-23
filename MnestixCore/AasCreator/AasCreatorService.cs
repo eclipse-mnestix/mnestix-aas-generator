@@ -34,7 +34,7 @@ public class AasCreatorService(
         }
 
         var assetKind = options?.AssetKind ?? AssetKind.Instance;
-        var aas = TemplateProvider.GetAas(aasIds, assetKind, options?.Extensions, options?.SpecificAssetIds, options?.Administration);
+        var aas = TemplateProvider.GetAas(aasIds, options?.DefaultThumbnail, assetKind, options?.Extensions, options?.SpecificAssetIds, options?.Administration);
 
         try
         {
