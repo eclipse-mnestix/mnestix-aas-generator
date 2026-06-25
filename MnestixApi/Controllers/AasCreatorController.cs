@@ -80,7 +80,8 @@ public class AasCreatorController : ControllerBase
             requestBody?.Debug ?? false,
             requestBody?.GlobalAssetId,
             overwrite,
-            options);
+            options,
+            requestBody?.SubmodelIds);
 
         switch (aasCreationResult.status)
         {

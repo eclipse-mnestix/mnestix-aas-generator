@@ -27,6 +27,7 @@ public interface IAasCreatorService
     /// <param name="globalAssetId">Optional globalAssetId to use directly instead of generating one.</param>
     /// <param name="overwrite">When true, an existing shell with the generated id is overwritten instead of returning a conflict.</param>
     /// <param name="options">Optional configuration for AAS metadata (assetKind, extensions, specificAssetIds, administration, defaultThumbnail)</param>
+    /// <param name="submodelIds">Optional list of existing submodel IDs to link to the AAS. All IDs must exist in the repository or creation will fail.</param>
     /// <returns><see cref="AasCreationWithSubmodelsResult"/></returns>
     public Task<AasCreationWithSubmodelsResult> CreateAasWithSubmodelsAsync(
         string assetIdShortParam,
@@ -36,5 +37,6 @@ public interface IAasCreatorService
         bool debug = false,
         string? globalAssetId = null,
         bool overwrite = false,
-        AasCreationOptions? options = null);
+        AasCreationOptions? options = null,
+        IEnumerable<string>? submodelIds = null);
 }

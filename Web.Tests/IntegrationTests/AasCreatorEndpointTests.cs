@@ -1,6 +1,7 @@
 using Core.Tests.TestFiles;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
+using MnestixCore.Shared;
 using Moq;
 using Newtonsoft.Json.Linq;
 using RestSharp;
@@ -538,5 +539,141 @@ public class AasCreatorEndpointTests : IntegrationTestsBase
         administration.Should().NotBeNull();
         administration!["version"]?.ToString().Should().Be("3.0");
         administration["revision"]?.ToString().Should().Be("5");
+    }
+
+    [Test]
+    public async Task CreateAas_WithSubmodelIds_ShouldLinkExistingSubmodels()
+    {
+        // ARRANGE
+        var existingSubmodelId1 = "https://example.com/submodels/existing-sm-1";
+        var existingSubmodelId2 = "https://example.com/submodels/existing-sm-2";
+        var existingSubmodelId1Base64 = Base64StringDeAndEncoder.EncodeTo64(existingSubmodelId1);
+        var existingSubmodelId2Base64 = Base64StringDeAndEncoder.EncodeTo64(existingSubmodelId2);
+
+        var aasList = new List<JObject>();
+
+        var json = $@"
+            {{
+              ""submodelIds"": [
+                ""{existingSubmodelId1}"",
+                ""{existingSubmodelId2}""
+              ]
+            }}";
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var mockedRestClient = new MockRestClientBuilder(aas: aasList)
+            .WithGetAas("aHR0cHM6Ly9leGFtcGxlLmNvbS9hYXMvd2l0aFN1Ym1vZGVsSWRz", "", HttpStatusCode.NotFound, false)
+            .WithGetIdSettings()
+            .WithGetSubmodel(existingSubmodelId1Base64, "{\"id\":\"" + existingSubmodelId1 + "\"}", HttpStatusCode.OK)
+            .WithGetSubmodel(existingSubmodelId2Base64, "{\"id\":\"" + existingSubmodelId2 + "\"}", HttpStatusCode.OK)
+            .WithPostAas()
+            .Build();
+
+        Func<IRestClient> restClientFactory = () => mockedRestClient;
+        HttpClientMock.Setup(x => x.GetConfiguredClientAsync(It.IsAny<string>())).ReturnsAsync(restClientFactory);
+
+        // ACT
+        var responseContent = await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/withSubmodelIds", content, StatusCodes.Status201Created);
+
+        // ASSERT
+        responseContent.Should().Contain("\"assetId\":\"assetIdPrefixwithSubmodelIds\"");
+        aasList.Should().HaveCount(1);
+
+        // Verify shell has references to both provided submodel IDs
+        var shellRefs = aasList[0]["submodels"] as JArray;
+        shellRefs.Should().NotBeNull().And.HaveCount(2);
+        shellRefs!.ToString().Should().Contain(existingSubmodelId1);
+        shellRefs.ToString().Should().Contain(existingSubmodelId2);
+    }
+
+    [Test]
+    public async Task CreateAas_WithBlueprintsAndSubmodelIds_ShouldCreateAndLinkSubmodels()
+    {
+        // ARRANGE
+        var blueprintSubmodel = TestFileProvider.GetExampleBlueprintJson();
+        var blueprintIdBase64 = "TmFtZXBsYXRlX1RlbXBsYXRlXzViZjBkZjk4LWUxNDMtNDdiMS04ZDNlLTQyMTgwYjQwODg2Yg";
+        var existingSubmodelId = "https://example.com/submodels/existing-sm";
+        var existingSubmodelIdBase64 = Base64StringDeAndEncoder.EncodeTo64(existingSubmodelId);
+
+        var submodels = new List<JObject>();
+        var aasList = new List<JObject>();
+
+        var json = $@"
+            {{
+              ""language"": ""de"",
+              ""data"": {{
+                ""SerialNumber"": ""12345"",
+                ""ManufacturerName"": ""Test""
+              }},
+              ""blueprintsIds"": [
+                ""Nameplate_Template_5bf0df98-e143-47b1-8d3e-42180b40886b""
+              ],
+              ""submodelIds"": [
+                ""{existingSubmodelId}""
+              ]
+            }}";
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var mockedRestClient = new MockRestClientBuilder(aas: aasList, submodels: submodels)
+            .WithGetAas("aHR0cHM6Ly9leGFtcGxlLmNvbS9hYXMvbWl4ZWRTdWJtb2RlbHM", "", HttpStatusCode.NotFound, false)
+            .WithGetIdSettings()
+            .WithGetSubmodel(existingSubmodelIdBase64, "{\"id\":\"" + existingSubmodelId + "\"}", HttpStatusCode.OK)
+            .WithGetSubmodel(blueprintIdBase64, blueprintSubmodel, HttpStatusCode.OK)
+            .WithPostSubmodel()
+            .WithPostAas()
+            .Build();
+
+        Func<IRestClient> restClientFactory = () => mockedRestClient;
+        HttpClientMock.Setup(x => x.GetConfiguredClientAsync(It.IsAny<string>())).ReturnsAsync(restClientFactory);
+
+        // ACT
+        var responseContent = await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/mixedSubmodels", content, StatusCodes.Status201Created);
+
+        // ASSERT
+        responseContent.Should().Contain("\"assetId\":\"assetIdPrefixmixedSubmodels\"");
+        aasList.Should().HaveCount(1);
+        submodels.Should().HaveCount(1); // only the generated one
+
+        // Verify shell has references to both generated and provided submodels (generated first)
+        var shellRefs = aasList[0]["submodels"] as JArray;
+        shellRefs.Should().NotBeNull().And.HaveCount(2);
+
+        var generatedSubmodelId = submodels[0]["id"]?.ToString();
+        generatedSubmodelId.Should().NotBeNullOrEmpty();
+
+        // Check ordering: generated first, then provided
+        shellRefs![0]["keys"]?[0]?["value"]?.ToString().Should().Be(generatedSubmodelId);
+        shellRefs[1]["keys"]?[0]?["value"]?.ToString().Should().Be(existingSubmodelId);
+    }
+
+    [Test]
+    public async Task CreateAas_WithInvalidSubmodelId_ShouldReturnBadRequest()
+    {
+        // ARRANGE
+        var invalidSubmodelId = "https://example.com/submodels/non-existent";
+        var invalidSubmodelIdBase64 = Base64StringDeAndEncoder.EncodeTo64(invalidSubmodelId);
+
+        var json = $@"
+            {{
+              ""submodelIds"": [
+                ""{invalidSubmodelId}""
+              ]
+            }}";
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var mockedRestClient = new MockRestClientBuilder()
+            .WithGetIdSettings()
+            .WithGetSubmodel(invalidSubmodelIdBase64, "", HttpStatusCode.NotFound, false)
+            .Build();
+
+        Func<IRestClient> restClientFactory = () => mockedRestClient;
+        HttpClientMock.Setup(x => x.GetConfiguredClientAsync(It.IsAny<string>())).ReturnsAsync(restClientFactory);
+
+        // ACT
+        var responseContent = await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/invalidSubmodel", content, StatusCodes.Status400BadRequest);
+
+        // ASSERT
+        responseContent.Should().Contain(invalidSubmodelId);
+        responseContent.Should().Contain("do not exist");
     }
 }
