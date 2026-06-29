@@ -121,7 +121,11 @@ If you want to create an AAS with submodels, include a JSON body.
     "path": "https://example.com/images/asset-thumbnail.png",
     "contentType": "image/png"
   },
-  "derivedFrom": "https://example.com/aas/parent-machine-template"
+  "derivedFrom": "https://example.com/aas/parent-machine-template",
+  "submodelIds": [
+    "https://example.com/submodels/existing-sm-1",
+    "https://example.com/submodels/existing-sm-2"
+  ]
 }
 ```
 
