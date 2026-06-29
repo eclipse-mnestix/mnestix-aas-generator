@@ -237,13 +237,10 @@ public class FieldAssignerTests
     [TestCase("xs:notatype")]
     [TestCase("string")]
     [TestCase("integer")]
-    [TestCase("xs:String")]
-    [TestCase("XS:STRING")]
-    [TestCase("xs:INTEGER")]
     [TestCase(" xs:string")]
     [TestCase("xs:string ")]
     [TestCase("")]
-    public void ValueType_InvalidOrNonCanonicalString_Throws(string valueType)
+    public void ValueType_InvalidString_Throws(string valueType)
     {
         var element = MakeElement();
         var sut = new ValueTypeFieldAssigner();
@@ -313,20 +310,20 @@ public class FieldAssignerTests
             .Which.Message.Should().Contain("xs:nope").And.Contain("xs:string");
     }
 
-    [Test]
-    public void ValueType_NonCanonicalCasing_Throws_DivergingFromNormalizer()
+    [TestCase("xs:Integer", "xs:integer")]
+    [TestCase("XS:STRING", "xs:string")]
+    [TestCase("xs:INT", "xs:int")]
+    [TestCase("Xs:DateTime", "xs:dateTime")]
+    public void ValueType_NonCanonicalCasing_NormalizedToCanonical(string input, string expected)
     {
-        // Intentional, pinned behavior: the assigner requires canonical DataTypeDefXsd casing
-        // (DataTypeDefXsd.IsValid uses StringComparer.Ordinal) and rejects 'xs:Integer'.
-        // This deliberately differs from AasJsonNormalizer, which repairs valueType casing
-        // case-insensitively. Mapped valueType values must already be canonical.
+        // The assigner matches case-insensitively and stores the canonical casing, consistent with
+        // AasJsonNormalizer (both route through DataTypeDefXsd.TryGetCanonical).
         var element = MakeElement();
         var sut = new ValueTypeFieldAssigner();
 
-        var act = () => sut.Assign(element, JValue.CreateString("xs:Integer"), "Property", null, MakeContext());
+        sut.Assign(element, JValue.CreateString(input), "Property", null, MakeContext());
 
-        act.Should().Throw<SubmodelDataToInstanceMapperException>();
-        element["valueType"].Should().BeNull();
+        element["valueType"]!.Value<string>().Should().Be(expected);
     }
 
     [Test]

@@ -20,10 +20,6 @@ namespace MnestixCore.Shared;
 /// </summary>
 public static class AasJsonNormalizer
 {
-    // Canonical XSD value-type mapping (BaSyx Go requires lowercase)
-    private static readonly Dictionary<string, string> ValueTypeCaseMap =
-        DataTypeDefXsd.All.ToDictionary(v => v, v => v, StringComparer.OrdinalIgnoreCase);
-
     /// <summary>
     /// Normalizes any AAS JSON object for compatibility with BaSyx Go's stricter v3 schema.
     /// Accepts any top-level AAS element: AssetAdministrationShell, Submodel, SubmodelElement,
@@ -128,7 +124,7 @@ public static class AasJsonNormalizer
                 if (obj["valueType"] is JToken vt && vt.Type == JTokenType.String)
                 {
                     var raw = vt.Value<string>();
-                    if (raw != null && ValueTypeCaseMap.TryGetValue(raw, out var canonical))
+                    if (DataTypeDefXsd.TryGetCanonical(raw, out var canonical))
                     {
                         obj["valueType"] = canonical;
                     }

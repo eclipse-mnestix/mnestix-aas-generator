@@ -413,7 +413,7 @@ Each duplicated element gets its own `idShort`, `globalAssetId`, and `entityType
 }
 ```
 
-The resolved `semanticId` value must be a scalar (string, number, boolean); it is wrapped into an `ExternalReference` with a single `GlobalReference` key. Mapping an object or array to `semanticId` fails generation. The `valueType` value must be a recognized `DataTypeDefXsd` (e.g. `xs:int`, `xs:double`) in canonical casing, or generation fails. Using either field outside a collection scope is rejected at blueprint save time (`FieldRequiresCollectionScope`).
+The resolved `semanticId` value must be a scalar (string, number, boolean); it is wrapped into an `ExternalReference` with a single `GlobalReference` key. Mapping an object or array to `semanticId` fails generation. The `valueType` value must be a recognized `DataTypeDefXsd` (e.g. `xs:int`, `xs:double`); it is matched case-insensitively and stored in canonical casing, otherwise generation fails. Using either field outside a collection scope is rejected at blueprint save time (`FieldRequiresCollectionScope`).
 
 ---
 

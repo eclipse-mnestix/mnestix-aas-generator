@@ -44,7 +44,31 @@ public static class DataTypeDefXsd
     };
 
     /// <summary>
-    /// Returns true if <paramref name="valueType"/> is a recognized AAS DataTypeDefXsd value (canonical casing).
+    /// Case-insensitive lookup from any-casing value type to its canonical form.
+    /// Centralizes the case policy so validation and normalization agree.
     /// </summary>
-    public static bool IsValid(string? valueType) => valueType != null && All.Contains(valueType);
+    private static readonly IReadOnlyDictionary<string, string> CanonicalByValue =
+        All.ToDictionary(v => v, v => v, StringComparer.OrdinalIgnoreCase);
+
+    /// <summary>
+    /// Returns true if <paramref name="valueType"/> is a recognized AAS DataTypeDefXsd value.
+    /// The comparison is case-insensitive; use <see cref="TryGetCanonical"/> to obtain the canonical casing.
+    /// </summary>
+    public static bool IsValid(string? valueType) => valueType != null && CanonicalByValue.ContainsKey(valueType);
+
+    /// <summary>
+    /// Attempts to resolve <paramref name="valueType"/> (in any casing) to its canonical AAS DataTypeDefXsd form.
+    /// Returns false when the value is not a recognized XSD value type.
+    /// </summary>
+    public static bool TryGetCanonical(string? valueType, out string canonical)
+    {
+        if (valueType != null && CanonicalByValue.TryGetValue(valueType, out var found))
+        {
+            canonical = found;
+            return true;
+        }
+
+        canonical = string.Empty;
+        return false;
+    }
 }
