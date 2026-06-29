@@ -125,11 +125,6 @@ public class AasGeneratorTests
         await RunDataIngestTest("InputListWithOptionalListMissing");
     }
 
-    [Test, Ignore("Performance test depends on Hardware")]
-    public async Task AddDataToAasAsync_InputList_PerformanceWith10kElements()
-    {
-        await RunPerformanceTestWith10kElements();
-    }
 
     [Test]
     public async Task AddDataToAasAsync_InputFilter_Success()
@@ -550,97 +545,6 @@ public class AasGeneratorTests
         result.First().Success.Should().BeFalse($"Test case '{testCaseName}' should fail due to missing mandatory data");
     }
     
-    private async Task RunPerformanceTestWith10kElements()
-    {
-        // ARRANGE
-        var templateSubmodel = DataIngestTestFileProvider.GetTemplateSubmodel("InputList");
-        
-        // Create test data with 10,000 contact persons and pets
-        var contactPersons = new List<object>();
-        var pets = new List<object>();
-        
-        for (int i = 0; i < 10000; i++)
-        {
-            contactPersons.Add(new
-            {
-                name = $"ContactPerson_{i}",
-                email = $"person_{i}@example.com"
-            });
-            
-            pets.Add(new
-            {
-                name = $"Pet_{i}",
-                typeOfAnimal = i % 2 == 0 ? "Dog" : "Cat"
-            });
-        }
-        
-        var templateData = JObject.FromObject(new
-        {
-            sourceData = new
-            {
-                contactPersons = contactPersons,
-                pets = pets
-            }
-        });
-        
-        var aasId = "TestAasId";
-        var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
-        
-        string? capturedSubmodelContent = null;
-        
-        _repoProxyClientMock
-            .Setup(x => x.PostAsync(It.Is<string>(path => path == TestSubmodelPath), It.IsAny<string>()))
-            .Callback<string, string>((path, content) => capturedSubmodelContent = content)
-            .ReturnsAsync("created");
-            
-        _repoProxyClientMock
-            .Setup(x => x.PostAsync(It.Is<string>(path => path == TestAasPath), It.IsAny<string>()))
-            .ReturnsAsync("created");
-        
-        _templateSubmodelsProviderMock
-            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
-            .ReturnsAsync(templateSubmodel);
-        
-        _idGeneratorMock
-            .Setup(x => x.GenerateSubmodelIdsAsync(It.IsAny<uint>()))
-            .ReturnsAsync(new List<string> { "TheNewSubmodelId" });
-        
-        // ACT - Measure execution time
-        var stopwatch = Stopwatch.StartNew();
-        var result = await _aasGenerator.AddDataToAasAsync(aasId, templateIds, templateData, "en");
-        stopwatch.Stop();
-        
-        // ASSERT
-        result.Should().NotBeNull();
-        result.Should().HaveCount(1);
-        result.First().Success.Should().BeTrue();
-        
-        capturedSubmodelContent.Should().NotBeNull();
-        var actualSubmodel = JObject.Parse(capturedSubmodelContent!);
-        
-        // Verify that we processed all 10,000 elements
-        var contactPersonsArray = actualSubmodel.SelectToken("$.submodelElements[?(@.idShort=='ContactPersons')].value") as JArray;
-        var petsArray = actualSubmodel.SelectToken("$.submodelElements[?(@.idShort=='Pets')].value") as JArray;
-        
-        contactPersonsArray.Should().NotBeNull();
-        contactPersonsArray!.Count.Should().Be(10000, "Should have processed all 10,000 contact persons");
-        
-        petsArray.Should().NotBeNull();
-        petsArray!.Count.Should().Be(10000, "Should have processed all 10,000 pets");
-        
-        // Log performance results
-        var elapsedMs = stopwatch.ElapsedMilliseconds;
-        var elementsPerSecond = (20000.0 / elapsedMs) * 1000; // 20k total elements (10k contacts + 10k pets)
-        
-        TestContext.WriteLine($"Performance Test Results:");
-        TestContext.WriteLine($"- Processed 20,000 elements (10,000 contact persons + 10,000 pets)");
-        TestContext.WriteLine($"- Execution time: {elapsedMs} ms ({stopwatch.Elapsed.TotalSeconds:F2} seconds)");
-        TestContext.WriteLine($"- Throughput: {elementsPerSecond:F0} elements/second");
-        
-        // Assert performance requirement (adjust threshold as needed)
-        elapsedMs.Should().BeLessThan(30000, "Processing 20,000 elements should complete within 30 seconds");
-    }
-
     #region Workflow Logging Tests
 
     // T003: Successful generation with debug=true returns DebugInfo.Logs from all workflow phases
