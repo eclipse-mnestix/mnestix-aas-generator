@@ -9,6 +9,8 @@ public static class FieldAssignerRegistry
     private static readonly Dictionary<string, FieldAssignerBase> KnownAssigners = new()
     {
         ["value"] = new ValueFieldAssigner(),
+        ["valueType"] = new ValueTypeFieldAssigner(),
+        ["semanticId"] = new SemanticIdFieldAssigner(),
         ["idShort"] = new IdShortFieldAssigner(),
         ["multiLanguage"] = new MultiLanguageFieldAssigner(),
         ["displayName"] = new DisplayNameFieldAssigner(),

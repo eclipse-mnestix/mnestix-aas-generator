@@ -20,5 +20,6 @@ public enum BlueprintValidationRule
     InvalidCollectionJsonPath,
     CollectionPathMissingWildcard,
     InvalidCollectionParentModelType,
-    InvalidCardinalityValue
+    InvalidCardinalityValue,
+    FieldRequiresCollectionScope
 }

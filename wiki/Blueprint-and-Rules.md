@@ -26,7 +26,7 @@ The following element types support data mapping via qualifiers:
 
 | Element Type | Mapping Support | Notes |
 |--------------|-----------------|-------|
-| `Property` | ✅ Full | Value mapping via `SMT/MappingInfo` |
+| `Property` | ✅ Full | Value mapping via `SMT/MappingInfo`; per-entry `semanticId`/`valueType` within a collection scope |
 | `MultiLanguageProperty` | ✅ Full | Multi-language via `SMT/MappingInfo/multiLanguage`, or single language via `SMT/MappingInfo/value` |
 | `Blob` | ✅ Partial | Value and contentType mapping (`SMT/MappingInfo/value`, `SMT/MappingInfo/contentType`) |
 | `File` | ✅ Full | Value and contentType mapping via `SMT/MappingInfo/value` and `SMT/MappingInfo/contentType` |
@@ -164,6 +164,8 @@ Extends path mapping to target specific fields on an element beyond just `value`
 | `first` | Relationship first reference | RelationshipElement, AnnotatedRelationshipElement | AAS Reference JSON object |
 | `second` | Relationship second reference | RelationshipElement, AnnotatedRelationshipElement | AAS Reference JSON object |
 | `multiLanguage` | Multi-language value | MultiLanguageProperty | JSON object with language keys (see below) |
+| `semanticId` | Semantic reference | Property, MultiLanguageProperty, File, Range, SubmodelElementCollection, SubmodelElementList | String → ExternalReference/GlobalReference, or an AAS Reference JSON object passed through. **Collection scope only.** |
+| `valueType` | XSD value type | Property, Blob, Range | One of the AAS `DataTypeDefXsd` values (e.g. `xs:int`). **Collection scope only.** Assigned before `value` so value content is validated against it. |
 
 #### Example: Entity with globalAssetId + idShort
 
@@ -390,6 +392,28 @@ Multi-field mapping works with `SMT/CollectionMappingInfo` for dynamic element c
 ```
 
 Each duplicated element gets its own `idShort`, `globalAssetId`, and `entityType` from the corresponding array item.
+
+#### Per-entry classification with `semanticId` and `valueType`
+
+`semanticId` and `valueType` are **only allowed within a `SMT/CollectionMappingInfo` scope**. This lets one blueprint Property classify each entry of a heterogeneous source array (e.g. IDTA Technical Data) with its own semantic ID and XSD value type:
+
+```json
+{
+  "modelType": "Property",
+  "idShort": "DataPoint",
+  "valueType": "xs:string",
+  "value": "",
+  "qualifiers": [
+    { "type": "SMT/CollectionMappingInfo", "value": "product.TechnicalData.v1[*]" },
+    { "type": "SMT/MappingInfo/idShort", "value": "product.TechnicalData.v1[*].name" },
+    { "type": "SMT/MappingInfo/value", "value": "product.TechnicalData.v1[*].value" },
+    { "type": "SMT/MappingInfo/semanticId", "value": "product.TechnicalData.v1[*].conceptId" },
+    { "type": "SMT/MappingInfo/valueType", "value": "product.TechnicalData.v1[*].type" }
+  ]
+}
+```
+
+A string `semanticId` is wrapped into an `ExternalReference` with a single `GlobalReference` key; a JSON object is used as-is. The `valueType` value must be a recognized `DataTypeDefXsd` (e.g. `xs:int`, `xs:double`) or generation fails. Using either field outside a collection scope is rejected at blueprint save time (`FieldRequiresCollectionScope`).
 
 ---
 

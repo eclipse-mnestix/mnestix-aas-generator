@@ -857,4 +857,69 @@ public class BlueprintValidatorTests
     }
 
     #endregion
+
+    #region Rule 16: FieldRequiresCollectionScope
+
+    [Test]
+    public void Validate_ValueTypeOutsideCollectionScope_ReturnsFieldRequiresCollectionScopeError()
+    {
+        var blueprint = MakeBlueprint(
+            MakeElement("Property", "Temp",
+                MakeQualifier("SMT/MappingInfo/valueType", "$.type"))
+        );
+
+        var errors = _sut.Validate(blueprint);
+
+        errors.Should().ContainSingle(e => e.Rule == BlueprintValidationRule.FieldRequiresCollectionScope);
+    }
+
+    [Test]
+    public void Validate_SemanticIdOutsideCollectionScope_ReturnsFieldRequiresCollectionScopeError()
+    {
+        var blueprint = MakeBlueprint(
+            MakeElement("Property", "Temp",
+                MakeQualifier("SMT/MappingInfo/semanticId", "$.sid"))
+        );
+
+        var errors = _sut.Validate(blueprint);
+
+        errors.Should().ContainSingle(e => e.Rule == BlueprintValidationRule.FieldRequiresCollectionScope);
+    }
+
+    [Test]
+    public void Validate_ValueTypeOnElementWithCollectionMappingInfo_ReturnsNoError()
+    {
+        var child = MakeElement("Property", "Item",
+            MakeQualifier("SMT/CollectionMappingInfo", "$.items[*]"),
+            MakeQualifier("SMT/MappingInfo/valueType", "$.items[*].type"),
+            MakeQualifier("SMT/MappingInfo/semanticId", "$.items[*].sid"));
+
+        var blueprint = MakeBlueprint(
+            MakeSmc("Items", [child])
+        );
+
+        var errors = _sut.Validate(blueprint);
+
+        errors.Should().BeEmpty();
+    }
+
+    [Test]
+    public void Validate_SemanticIdOnElementUnderCollectionAncestor_ReturnsNoError()
+    {
+        // Property carries the collection scope; a nested SMC child inherits it via ancestor walk
+        var grandchild = MakeElement("Property", "Inner",
+            MakeQualifier("SMT/MappingInfo/semanticId", "$.items[*].sid"));
+        var collectionItem = MakeSmc("Item", [grandchild],
+            MakeQualifier("SMT/CollectionMappingInfo", "$.items[*]"));
+
+        var blueprint = MakeBlueprint(
+            MakeSmc("Items", [collectionItem])
+        );
+
+        var errors = _sut.Validate(blueprint);
+
+        errors.Should().BeEmpty();
+    }
+
+    #endregion
 }
