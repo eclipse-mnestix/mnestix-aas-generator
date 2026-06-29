@@ -887,6 +887,38 @@ public class BlueprintValidatorTests
     }
 
     [Test]
+    public void Validate_CollectionScopedFieldOnTypelessElement_NotFlaggedByRule16()
+    {
+        // Rule 16 is gated behind modelType != null (BlueprintValidator). A scoped field on an
+        // element without a modelType is therefore not flagged. This pins that boundary.
+        var typelessElement = new JObject
+        {
+            ["idShort"] = "Temp",
+            ["qualifiers"] = new JArray(MakeQualifier("SMT/MappingInfo/semanticId", "$.sid"))
+        };
+        var blueprint = MakeBlueprint(typelessElement);
+
+        var errors = _sut.Validate(blueprint);
+
+        errors.Should().NotContain(e => e.Rule == BlueprintValidationRule.FieldRequiresCollectionScope);
+    }
+
+    [Test]
+    public void Validate_NonScopedFieldOutsideCollection_DoesNotTriggerRule16()
+    {
+        // value and idShort are not collection-scoped; Rule 16 must stay narrow and not over-fire.
+        var blueprint = MakeBlueprint(
+            MakeElement("Property", "Temp",
+                MakeQualifier("SMT/MappingInfo/value", "$.serial"),
+                MakeQualifier("SMT/MappingInfo/idShort", "$.name"))
+        );
+
+        var errors = _sut.Validate(blueprint);
+
+        errors.Should().NotContain(e => e.Rule == BlueprintValidationRule.FieldRequiresCollectionScope);
+    }
+
+    [Test]
     public void Validate_ValueTypeOnElementWithCollectionMappingInfo_ReturnsNoError()
     {
         var child = MakeElement("Property", "Item",

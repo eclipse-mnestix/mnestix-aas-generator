@@ -164,7 +164,7 @@ Extends path mapping to target specific fields on an element beyond just `value`
 | `first` | Relationship first reference | RelationshipElement, AnnotatedRelationshipElement | AAS Reference JSON object |
 | `second` | Relationship second reference | RelationshipElement, AnnotatedRelationshipElement | AAS Reference JSON object |
 | `multiLanguage` | Multi-language value | MultiLanguageProperty | JSON object with language keys (see below) |
-| `semanticId` | Semantic reference | Property, MultiLanguageProperty, File, Range, SubmodelElementCollection, SubmodelElementList | String → ExternalReference/GlobalReference, or an AAS Reference JSON object passed through. **Collection scope only.** |
+| `semanticId` | Semantic reference | Property, MultiLanguageProperty, File, Range, SubmodelElementCollection, SubmodelElementList | Resolved scalar (string, number, boolean) is wrapped into an `ExternalReference` with a single `GlobalReference` key. Objects and arrays are rejected. **Collection scope only.** |
 | `valueType` | XSD value type | Property, Blob, Range | One of the AAS `DataTypeDefXsd` values (e.g. `xs:int`). **Collection scope only.** Assigned before `value` so value content is validated against it. |
 
 #### Example: Entity with globalAssetId + idShort
@@ -413,7 +413,7 @@ Each duplicated element gets its own `idShort`, `globalAssetId`, and `entityType
 }
 ```
 
-A string `semanticId` is wrapped into an `ExternalReference` with a single `GlobalReference` key; a JSON object is used as-is. The `valueType` value must be a recognized `DataTypeDefXsd` (e.g. `xs:int`, `xs:double`) or generation fails. Using either field outside a collection scope is rejected at blueprint save time (`FieldRequiresCollectionScope`).
+The resolved `semanticId` value must be a scalar (string, number, boolean); it is wrapped into an `ExternalReference` with a single `GlobalReference` key. Mapping an object or array to `semanticId` fails generation. The `valueType` value must be a recognized `DataTypeDefXsd` (e.g. `xs:int`, `xs:double`) in canonical casing, or generation fails. Using either field outside a collection scope is rejected at blueprint save time (`FieldRequiresCollectionScope`).
 
 ---
 
@@ -1330,6 +1330,7 @@ The following checks are performed on all qualifiers in the blueprint:
 | **DuplicateMappingField** | Two qualifiers target the same field on the same element |
 | **MlpValueAndMultiLanguageConflict** | Both `value` and `multiLanguage` mappings on same MultiLanguageProperty |
 | **InvalidJsonataSyntax** | JSONata expression cannot be parsed |
+| **FieldRequiresCollectionScope** | `valueType` or `semanticId` is mapped on an element that is not within a `SMT/CollectionMappingInfo` scope |
 
 #### SMT/FilterMappingInfo Qualifiers
 
@@ -1359,17 +1360,19 @@ Not all fields can be mapped on every element type. The following matrix defines
 
 | Model Type | Allowed Fields |
 |-----------|---------------|
-| `Property` | `value`, `idShort`, `displayName` |
-| `MultiLanguageProperty` | `value`, `idShort`, `displayName`, `multiLanguage` |
-| `Blob` | `value`, `contentType`, `idShort`, `displayName` |
-| `File` | `value`, `contentType`, `idShort`, `displayName` |
+| `Property` | `value`, `idShort`, `displayName`, `semanticId`, `valueType` |
+| `MultiLanguageProperty` | `value`, `idShort`, `displayName`, `multiLanguage`, `semanticId` |
+| `Blob` | `value`, `contentType`, `idShort`, `displayName`, `valueType` |
+| `File` | `value`, `contentType`, `idShort`, `displayName`, `semanticId` |
 | `Entity` | `idShort`, `displayName`, `globalAssetId`, `entityType` |
 | `RelationshipElement` | `idShort`, `displayName`, `first`, `second` |
 | `AnnotatedRelationshipElement` | `idShort`, `displayName`, `first`, `second` |
-| `SubmodelElementCollection` | `idShort`, `displayName` |
-| `SubmodelElementList` | `idShort`, `displayName` |
+| `SubmodelElementCollection` | `idShort`, `displayName`, `semanticId` |
+| `SubmodelElementList` | `idShort`, `displayName`, `semanticId` |
 | `ReferenceElement` | `idShort`, `displayName` |
-| `Range` | `idShort`, `displayName` |
+| `Range` | `idShort`, `displayName`, `semanticId`, `valueType` |
+
+> **Note:** `semanticId` and `valueType` additionally require a `SMT/CollectionMappingInfo` scope (see **FieldRequiresCollectionScope** above).
 
 Model types not in this list (e.g. `Operation`, `BasicEventElement`, `Capability`) are unsupported for mapping qualifiers.
 

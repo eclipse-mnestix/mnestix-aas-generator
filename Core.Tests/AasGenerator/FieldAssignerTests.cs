@@ -314,6 +314,34 @@ public class FieldAssignerTests
     }
 
     [Test]
+    public void ValueType_NonCanonicalCasing_Throws_DivergingFromNormalizer()
+    {
+        // Intentional, pinned behavior: the assigner requires canonical DataTypeDefXsd casing
+        // (DataTypeDefXsd.IsValid uses StringComparer.Ordinal) and rejects 'xs:Integer'.
+        // This deliberately differs from AasJsonNormalizer, which repairs valueType casing
+        // case-insensitively. Mapped valueType values must already be canonical.
+        var element = MakeElement();
+        var sut = new ValueTypeFieldAssigner();
+
+        var act = () => sut.Assign(element, JValue.CreateString("xs:Integer"), "Property", null, MakeContext());
+
+        act.Should().Throw<SubmodelDataToInstanceMapperException>();
+        element["valueType"].Should().BeNull();
+    }
+
+    [Test]
+    public void ValueType_EmptyString_Throws()
+    {
+        var element = MakeElement();
+        var sut = new ValueTypeFieldAssigner();
+
+        var act = () => sut.Assign(element, JValue.CreateString(string.Empty), "Property", null, MakeContext());
+
+        act.Should().Throw<SubmodelDataToInstanceMapperException>();
+        element["valueType"].Should().BeNull();
+    }
+
+    [Test]
     public void ValueType_NoExistingValue_DoesNotWarn()
     {
         var element = MakeElement();
