@@ -15,17 +15,17 @@ public static class FieldMappingRules
     public static readonly IReadOnlyDictionary<string, IReadOnlySet<string>> AllowedFieldsByModelType =
         new Dictionary<string, IReadOnlySet<string>>
         {
-            ["Property"] = new HashSet<string> { "value", "idShort", "displayName" },
-            ["MultiLanguageProperty"] = new HashSet<string> { "value", "idShort", "displayName", "multiLanguage" },
-            ["Blob"] = new HashSet<string> { "value", "idShort", "displayName", "contentType" },
-            ["File"] = new HashSet<string> { "value", "idShort", "displayName", "contentType" },
+            ["Property"] = new HashSet<string> { "value", "idShort", "displayName", "semanticId", "valueType" },
+            ["MultiLanguageProperty"] = new HashSet<string> { "value", "idShort", "displayName", "multiLanguage", "semanticId" },
+            ["Blob"] = new HashSet<string> { "value", "idShort", "displayName", "contentType", "valueType" },
+            ["File"] = new HashSet<string> { "value", "idShort", "displayName", "contentType", "semanticId" },
             ["Entity"] = new HashSet<string> { "idShort", "displayName", "globalAssetId", "entityType" },
             ["RelationshipElement"] = new HashSet<string> { "idShort", "displayName", "first", "second" },
             ["AnnotatedRelationshipElement"] = new HashSet<string> { "idShort", "displayName", "first", "second" },
-            ["SubmodelElementCollection"] = new HashSet<string> { "idShort", "displayName" },
-            ["SubmodelElementList"] = new HashSet<string> { "idShort", "displayName" },
+            ["SubmodelElementCollection"] = new HashSet<string> { "idShort", "displayName", "semanticId" },
+            ["SubmodelElementList"] = new HashSet<string> { "idShort", "displayName", "semanticId" },
             ["ReferenceElement"] = new HashSet<string> { "idShort", "displayName" },
-            ["Range"] = new HashSet<string> { "idShort", "displayName" },
+            ["Range"] = new HashSet<string> { "idShort", "displayName", "semanticId", "valueType" },
         };
 
     /// <summary>

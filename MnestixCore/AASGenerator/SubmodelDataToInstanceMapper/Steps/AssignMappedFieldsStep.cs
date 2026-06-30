@@ -18,7 +18,11 @@ public sealed class AssignMappedFieldsAasGeneratorPipelineStep : IPipelineStep<D
 
     private static void AssignFields(DataMappingContext ctx)
     {
-        foreach (var mapping in ctx.ResolvedMappings)
+        // valueType must be assigned before value so value content can be validated against it.
+        var ordered = ctx.ResolvedMappings
+            .OrderBy(m => m.Descriptor.FieldName == "valueType" ? 0 : 1);
+
+        foreach (var mapping in ordered)
         {
             if (mapping.ResolvedValue == null)
             {

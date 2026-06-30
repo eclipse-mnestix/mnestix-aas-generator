@@ -20,41 +20,6 @@ namespace MnestixCore.Shared;
 /// </summary>
 public static class AasJsonNormalizer
 {
-    // Canonical XSD value-type mapping (BaSyx Go requires lowercase)
-    private static readonly Dictionary<string, string> ValueTypeCaseMap = new(StringComparer.OrdinalIgnoreCase)
-    {
-        ["xs:string"] = "xs:string",
-        ["xs:boolean"] = "xs:boolean",
-        ["xs:integer"] = "xs:integer",
-        ["xs:int"] = "xs:int",
-        ["xs:long"] = "xs:long",
-        ["xs:short"] = "xs:short",
-        ["xs:decimal"] = "xs:decimal",
-        ["xs:double"] = "xs:double",
-        ["xs:float"] = "xs:float",
-        ["xs:dateTime"] = "xs:dateTime",
-        ["xs:date"] = "xs:date",
-        ["xs:time"] = "xs:time",
-        ["xs:anyURI"] = "xs:anyURI",
-        ["xs:base64Binary"] = "xs:base64Binary",
-        ["xs:hexBinary"] = "xs:hexBinary",
-        ["xs:byte"] = "xs:byte",
-        ["xs:unsignedByte"] = "xs:unsignedByte",
-        ["xs:unsignedShort"] = "xs:unsignedShort",
-        ["xs:unsignedInt"] = "xs:unsignedInt",
-        ["xs:unsignedLong"] = "xs:unsignedLong",
-        ["xs:positiveInteger"] = "xs:positiveInteger",
-        ["xs:nonNegativeInteger"] = "xs:nonNegativeInteger",
-        ["xs:negativeInteger"] = "xs:negativeInteger",
-        ["xs:nonPositiveInteger"] = "xs:nonPositiveInteger",
-        ["xs:duration"] = "xs:duration",
-        ["xs:gDay"] = "xs:gDay",
-        ["xs:gMonth"] = "xs:gMonth",
-        ["xs:gMonthDay"] = "xs:gMonthDay",
-        ["xs:gYear"] = "xs:gYear",
-        ["xs:gYearMonth"] = "xs:gYearMonth",
-    };
-
     /// <summary>
     /// Normalizes any AAS JSON object for compatibility with BaSyx Go's stricter v3 schema.
     /// Accepts any top-level AAS element: AssetAdministrationShell, Submodel, SubmodelElement,
@@ -159,7 +124,7 @@ public static class AasJsonNormalizer
                 if (obj["valueType"] is JToken vt && vt.Type == JTokenType.String)
                 {
                     var raw = vt.Value<string>();
-                    if (raw != null && ValueTypeCaseMap.TryGetValue(raw, out var canonical))
+                    if (DataTypeDefXsd.TryGetCanonical(raw, out var canonical))
                     {
                         obj["valueType"] = canonical;
                     }
