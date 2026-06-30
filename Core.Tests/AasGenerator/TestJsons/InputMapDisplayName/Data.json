@@ -1,0 +1,9 @@
+{
+  "technicalProperty": {
+    "value": "220 V",
+    "displayName": {
+      "en": "Voltage",
+      "de": "Spannung"
+    }
+  }
+}

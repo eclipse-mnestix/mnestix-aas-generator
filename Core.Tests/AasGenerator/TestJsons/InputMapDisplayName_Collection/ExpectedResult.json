@@ -1,0 +1,130 @@
+{
+  "modelType": "Submodel",
+  "kind": "Instance",
+  "id": "TheNewSubmodelId",
+  "idShort": "DemoTemplate",
+  "qualifiers": [],
+  "submodelElements": [
+    {
+      "modelType": "SubmodelElementCollection",
+      "idShort": "TechnicalProperties",
+      "value": [
+        {
+          "modelType": "Property",
+          "idShort": "TechnicalProperty_0",
+          "valueType": "xs:string",
+          "value": "220 V",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO677#002"
+              }
+            ]
+          },
+          "displayName": [
+            {
+              "language": "en",
+              "text": "Voltage"
+            },
+            {
+              "language": "de",
+              "text": "Spannung"
+            }
+          ],
+          "qualifiers": [
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "value": "One",
+              "valueType": "xs:string"
+            },
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/MappingInfo/value",
+              "value": "custom.TechnicalData.v1[0].value",
+              "valueType": "xs:string"
+            },
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/MappingInfo/valueType",
+              "value": "custom.TechnicalData.v1[0].valueType",
+              "valueType": "xs:string"
+            },
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/MappingInfo/semanticId",
+              "value": "custom.TechnicalData.v1[0].semanticId",
+              "valueType": "xs:string"
+            },
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/MappingInfo/displayName",
+              "value": "custom.TechnicalData.v1[0].displayName",
+              "valueType": "xs:string"
+            }
+          ]
+        },
+        {
+          "modelType": "Property",
+          "idShort": "TechnicalProperty_1",
+          "valueType": "xs:string",
+          "value": "50 Hz",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO678#003"
+              }
+            ]
+          },
+          "displayName": [
+            {
+              "language": "en",
+              "text": "Frequency"
+            },
+            {
+              "language": "de",
+              "text": "Frequenz"
+            }
+          ],
+          "qualifiers": [
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "value": "One",
+              "valueType": "xs:string"
+            },
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/MappingInfo/value",
+              "value": "custom.TechnicalData.v1[1].value",
+              "valueType": "xs:string"
+            },
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/MappingInfo/valueType",
+              "value": "custom.TechnicalData.v1[1].valueType",
+              "valueType": "xs:string"
+            },
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/MappingInfo/semanticId",
+              "value": "custom.TechnicalData.v1[1].semanticId",
+              "valueType": "xs:string"
+            },
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/MappingInfo/displayName",
+              "value": "custom.TechnicalData.v1[1].displayName",
+              "valueType": "xs:string"
+            }
+          ]
+        }
+      ],
+      "qualifiers": []
+    }
+  ]
+}

@@ -20,6 +20,13 @@ public class FieldAssignerTests
             new WorkflowLogger(NullLogger.Instance), new BlueprintValidator());
     }
 
+    private static DataMappingContext MakeContext(string? language)
+    {
+        return new DataMappingContext(
+            new JObject(), new JObject(), language, "urn:new",
+            new WorkflowLogger(NullLogger.Instance), new BlueprintValidator());
+    }
+
     private static JObject MakeElement(string modelType = "Property", string idShort = "P")
     {
         return new JObject { ["modelType"] = modelType, ["idShort"] = idShort };
@@ -362,5 +369,123 @@ public class FieldAssignerTests
 
         HasWarning(ctx).Should().BeTrue();
         element["valueType"]!.Value<string>().Should().Be("xs:integer");
+    }
+
+    // ──────────────────────────────────────────────────────────────────────
+    // DisplayNameFieldAssigner
+    // ──────────────────────────────────────────────────────────────────────
+
+    [Test]
+    public void DisplayName_LanguageMap_ReplacesArrayWithAllLanguages()
+    {
+        var element = MakeElement();
+        var map = new JObject { ["en"] = "Voltage", ["de"] = "Spannung" };
+        var sut = new DisplayNameFieldAssigner();
+
+        sut.Assign(element, map, "Property", "en", MakeContext());
+
+        var displayName = (JArray)element["displayName"]!;
+        displayName.Should().HaveCount(2);
+        displayName[0]!["language"]!.Value<string>().Should().Be("en");
+        displayName[0]!["text"]!.Value<string>().Should().Be("Voltage");
+        displayName[1]!["language"]!.Value<string>().Should().Be("de");
+        displayName[1]!["text"]!.Value<string>().Should().Be("Spannung");
+    }
+
+    [Test]
+    public void DisplayName_LanguageMap_OverwritesExistingTemplateDefaults()
+    {
+        var element = MakeElement();
+        element["displayName"] = new JArray
+        {
+            new JObject { ["language"] = "fr", ["text"] = "Tension" }
+        };
+        var map = new JObject { ["en"] = "Voltage" };
+        var sut = new DisplayNameFieldAssigner();
+
+        sut.Assign(element, map, "Property", null, MakeContext());
+
+        var displayName = (JArray)element["displayName"]!;
+        displayName.Should().HaveCount(1);
+        displayName[0]!["language"]!.Value<string>().Should().Be("en");
+        displayName[0]!["text"]!.Value<string>().Should().Be("Voltage");
+    }
+
+    [Test]
+    public void DisplayName_LanguageMap_SkipsNullAndEmptyEntries()
+    {
+        var element = MakeElement();
+        var map = new JObject
+        {
+            ["en"] = "Voltage",
+            ["de"] = JValue.CreateNull(),
+            ["nl"] = ""
+        };
+        var sut = new DisplayNameFieldAssigner();
+
+        sut.Assign(element, map, "Property", null, MakeContext());
+
+        var displayName = (JArray)element["displayName"]!;
+        displayName.Should().HaveCount(1);
+        displayName[0]!["language"]!.Value<string>().Should().Be("en");
+    }
+
+    [Test]
+    public void DisplayName_LanguageMap_NonStringValuesAreStringified()
+    {
+        var element = MakeElement();
+        var map = new JObject { ["en"] = 123, ["de"] = true };
+        var sut = new DisplayNameFieldAssigner();
+
+        sut.Assign(element, map, "Property", null, MakeContext());
+
+        var displayName = (JArray)element["displayName"]!;
+        displayName.Should().HaveCount(2);
+        displayName[0]!["text"]!.Value<string>().Should().Be("123");
+        displayName[1]!["text"]!.Value<string>().Should().Be("True");
+    }
+
+    [Test]
+    public void DisplayName_LanguageMap_AllEmpty_LeavesAttributeUntouched()
+    {
+        var element = MakeElement();
+        var map = new JObject { ["en"] = "", ["de"] = JValue.CreateNull() };
+        var sut = new DisplayNameFieldAssigner();
+
+        sut.Assign(element, map, "Property", null, MakeContext());
+
+        element["displayName"].Should().BeNull();
+    }
+
+    [Test]
+    public void DisplayName_ScalarValue_FindOrAddsSingleLanguageEntry()
+    {
+        var element = MakeElement();
+        element["displayName"] = new JArray
+        {
+            new JObject { ["language"] = "en", ["text"] = "" },
+            new JObject { ["language"] = "de", ["text"] = "Vordefiniert" }
+        };
+        var sut = new DisplayNameFieldAssigner();
+
+        sut.Assign(element, JValue.CreateString("Housing"), "Entity", "en", MakeContext("en"));
+
+        var displayName = (JArray)element["displayName"]!;
+        displayName.Should().HaveCount(2);
+        displayName.First(e => e["language"]!.Value<string>() == "en")["text"]!.Value<string>().Should().Be("Housing");
+        displayName.First(e => e["language"]!.Value<string>() == "de")["text"]!.Value<string>().Should().Be("Vordefiniert");
+    }
+
+    [Test]
+    public void DisplayName_ScalarValue_NoLanguage_SkipsAssignmentWithWarning()
+    {
+        var element = MakeElement();
+        var ctx = MakeContext(null);
+        var sut = new DisplayNameFieldAssigner();
+
+        sut.Assign(element, JValue.CreateString("Housing"), "Entity", null, ctx);
+
+        element["displayName"].Should().BeNull();
+        HasWarning(ctx).Should().BeTrue();
     }
 }

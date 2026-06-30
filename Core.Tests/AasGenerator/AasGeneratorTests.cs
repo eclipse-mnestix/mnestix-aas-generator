@@ -259,6 +259,42 @@ public class AasGeneratorTests
     }
 
     [Test]
+    public async Task AddDataToAasAsync_InputMapDisplayName_Success()
+    {
+        // displayName mapped from a language-keyed map alongside value
+        await RunDataIngestTest("InputMapDisplayName");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMapDisplayName_Collection_Success()
+    {
+        // Each collection item gets its own displayName, value, valueType and semanticId
+        await RunDataIngestTest("InputMapDisplayName_Collection");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMapDisplayName_EmptyOmitted_Success()
+    {
+        // Missing displayName map → attribute omitted, generation still succeeds
+        await RunDataIngestTest("InputMapDisplayName_EmptyOmitted");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMapDisplayName_NullValueSkipped_Success()
+    {
+        // null / empty language entries are skipped
+        await RunDataIngestTest("InputMapDisplayName_NullValueSkipped");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputDisplayName_Scalar_Success()
+    {
+        // Legacy scalar displayName mapping: the scalar value is written into the SME's
+        // displayName under the generation language ("en").
+        await RunDataIngestTest("InputDisplayName_Scalar");
+    }
+
+    [Test]
     public async Task AddDataToAasAsync_InputMultiFieldRelationship_Success()
     {
         await RunDataIngestTest("InputMultiFieldRelationship");
@@ -464,7 +500,7 @@ public class AasGeneratorTests
         await RunDataIngestFailureTest("InputMLPMultiLanguage_AllEmptyStrings_Mandatory");
     }
 
-    private async Task RunDataIngestTest(string testCaseName)
+    private async Task RunDataIngestTest(string testCaseName, string? language = "en")
     {
         // ARRANGE
         var templateSubmodel = DataIngestTestFileProvider.GetTemplateSubmodel(testCaseName);
@@ -499,7 +535,7 @@ public class AasGeneratorTests
         // The real implementation will process the template and data according to the mapping rules
         
         // ACT
-        var result = await _aasGenerator.AddDataToAasAsync(aasId, templateIds, templateData, "en");
+        var result = await _aasGenerator.AddDataToAasAsync(aasId, templateIds, templateData, language);
         
         // ASSERT
         result.Should().NotBeNull();
