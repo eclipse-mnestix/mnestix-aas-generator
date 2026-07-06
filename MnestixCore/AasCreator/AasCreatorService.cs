@@ -22,7 +22,7 @@ public class AasCreatorService(
     private readonly RepoProxyOptions _repoProxyOptions = repoProxyOptions.Value ?? throw new ArgumentNullException(nameof(repoProxyOptions));
 
     /// <inheritdoc />
-    public async Task<AasCreationResult> CreateAasAsync(string assetIdShortParam, string? globalAssetId = null)
+    public async Task<AasCreationResult> CreateAasAsync(string assetIdShortParam, string? globalAssetId = null, AasCreationOptions? options = null)
     {
         var aasIds = await aasIdGeneratorService.GenerateAasIdsAsync(assetIdShortParam, globalAssetId);
         var base64EncodedAasId = Base64StringDeAndEncoder.EncodeTo64(aasIds.aasId);
@@ -33,7 +33,7 @@ public class AasCreatorService(
             return new AasCreationResult(aasIds, AasCreationStatus.AlreadyExists);
         }
 
-        var aas = TemplateProvider.GetAas(aasIds);
+        var aas = TemplateProvider.GetAas(aasIds, options);
 
         try
         {
@@ -62,37 +62,39 @@ public class AasCreatorService(
     /// <inheritdoc />
     public async Task<AasCreationWithSubmodelsResult> CreateAasWithSubmodelsAsync(
         string assetIdShortParam,
-        IEnumerable<string>? blueprintsIds = null,
-        JObject? data = null,
-        string? language = null,
-        bool debug = false,
-        string? globalAssetId = null,
-        bool overwrite = false,
-        DefaultThumbnail? defaultThumbnail = null)
+        CreateAasParameters? input = null,
+        bool overwrite = false)
     {
-        var aasIds = await aasIdGeneratorService.GenerateAasIdsAsync(assetIdShortParam, globalAssetId);
+        var aasIds = await aasIdGeneratorService.GenerateAasIdsAsync(assetIdShortParam, input?.GlobalAssetId);
         var base64EncodedAasId = Base64StringDeAndEncoder.EncodeTo64(aasIds.aasId);
         var shellPath = $"{_repoProxyOptions.AasPath}/{base64EncodedAasId}";
 
-        // 1. Build + validate all submodels in memory (no repo writes)
+        // 1. Validate provided submodel IDs exist (fail fast before creating anything)
+        var validationFailure = await ValidateSubmodelIdsExistAsync(aasIds, input?.SubmodelIds);
+        if (validationFailure != null)
+        {
+            return validationFailure;
+        }
+
+        // 2. Build + validate all submodels in memory (no repo writes)
         var (buildFailure, builtResults, instancesToPost) =
-            await BuildSubmodelsAsync(aasIds, blueprintsIds, data, language, debug);
+            await BuildSubmodelsAsync(aasIds, input?.BlueprintsIds, input?.Data, input?.Language, input?.Debug ?? false);
         if (buildFailure != null)
         {
             return buildFailure;
         }
 
-        // 2. POST submodel bodies (fail fast: roll back already-posted submodels on failure)
+        // 3. POST submodel bodies (fail fast: roll back already-posted submodels on failure)
         var (postFailure, postedSubmodelIds) = await PostSubmodelsAsync(aasIds, builtResults, instancesToPost);
         if (postFailure != null)
         {
             return postFailure;
         }
 
-        // 3. Build shell template with all submodel-refs baked in
-        var shell = BuildShellWithRefs(aasIds, postedSubmodelIds, defaultThumbnail);
+        // 4. Build shell template with all submodel-refs baked in
+        var shell = BuildShellWithRefs(aasIds, postedSubmodelIds, input?.Metadata, input?.SubmodelIds);
 
-        // 4. POST shell
+        // 5. POST shell
         try
         {
             await repoProxyClient.PostAsync($"{_repoProxyOptions.AasPath}", shell);
@@ -111,6 +113,52 @@ public class AasCreatorService(
             AasCreationStatus.Created,
             builtResults,
             repoProxyClient.GetAasRepositoryUrl());
+    }
+
+    /// <summary>
+    /// Validates that all provided submodel IDs exist in the repository. When no submodel IDs are provided this is a no-op.
+    /// On any missing ID a terminal <see cref="AasCreationStatus.GenerationFailed"/> result is returned.
+    /// </summary>
+    /// <param name="aasIds">Ids of the AAS being created (for error reporting).</param>
+    /// <param name="submodelIds">Submodel IDs to validate; null/empty means no validation needed.</param>
+    /// <returns>A terminal failure result (non-null on error), or null if all IDs exist.</returns>
+    private async Task<AasCreationWithSubmodelsResult?> ValidateSubmodelIdsExistAsync(
+        AasIds aasIds,
+        IEnumerable<string>? submodelIds)
+    {
+        if (submodelIds == null || !submodelIds.Any())
+        {
+            return null;
+        }
+
+        var missingIds = new List<string>();
+
+        foreach (var submodelId in submodelIds)
+        {
+            var base64SubmodelId = Base64StringDeAndEncoder.EncodeTo64(submodelId);
+            try
+            {
+                await repoProxyClient.GetAsync($"{_repoProxyOptions.SubmodelPath}/{base64SubmodelId}");
+                // If we reach here, the submodel exists
+            }
+            catch (RepoProxyException ex) when (ex.InnerException is HttpRequestException httpEx && httpEx.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                // GetAsync wraps HTTP errors in RepoProxyException with InnerException = HttpRequestException
+                missingIds.Add(submodelId);
+            }
+        }
+
+        if (missingIds.Any())
+        {
+            var errorMessage = $"The following submodel IDs do not exist in the repository: {string.Join(", ", missingIds)}";
+            return new AasCreationWithSubmodelsResult(
+                aasIds,
+                AasCreationStatus.GenerationFailed,
+                Enumerable.Empty<AasGenerator.AasGeneratorResult>(),
+                errorMessage: errorMessage);
+        }
+
+        return null;
     }
 
     /// <summary>
@@ -259,19 +307,28 @@ public class AasCreatorService(
 
     /// <summary>
     /// Builds the shell template for <paramref name="aasIds"/> with submodel references for every id in
-    /// <paramref name="submodelIds"/> baked into its <c>submodels</c> array, so the shell is created in one POST.
+    /// <paramref name="generatedSubmodelIds"/> and <paramref name="providedSubmodelIds"/> baked into its <c>submodels</c> array, so the shell is created in one POST.
     /// </summary>
     /// <param name="aasIds">Ids of the AAS to template.</param>
-    /// <param name="submodelIds">Submodel ids (not encoded) to reference from the shell.</param>
-    /// <param name="defaultThumbnail">Optional default thumbnail to inject into the shell's asset information.</param>
+    /// <param name="generatedSubmodelIds">Submodel ids (not encoded) generated from blueprints to reference from the shell.</param>
+    /// <param name="options">Optional configuration for AAS metadata (assetKind, extensions, specificAssetIds, administration, defaultThumbnail, derivedFrom)</param>
+    /// <param name="providedSubmodelIds">Optional existing submodel ids (not encoded) provided by the caller to reference from the shell.</param>
     /// <returns>The serialized shell JSON.</returns>
-    private string BuildShellWithRefs(AasIds aasIds, IReadOnlyCollection<string> submodelIds, DefaultThumbnail? defaultThumbnail = null)
+    private string BuildShellWithRefs(AasIds aasIds, IReadOnlyCollection<string> generatedSubmodelIds, AasCreationOptions? options = null, IEnumerable<string>? providedSubmodelIds = null)
     {
-        var shell = JObject.Parse(TemplateProvider.GetAas(aasIds, defaultThumbnail));
-        if (submodelIds.Count > 0)
+        var shell = JObject.Parse(TemplateProvider.GetAas(aasIds, options));
+
+        var allSubmodelIds = new List<string>();
+        allSubmodelIds.AddRange(generatedSubmodelIds);
+        if (providedSubmodelIds != null)
+        {
+            allSubmodelIds.AddRange(providedSubmodelIds);
+        }
+
+        if (allSubmodelIds.Count > 0)
         {
             var refs = new JArray();
-            foreach (var submodelId in submodelIds)
+            foreach (var submodelId in allSubmodelIds)
             {
                 refs.Add(JObject.Parse(SubmodelReference.ToJson(submodelId)));
             }

@@ -66,7 +66,22 @@ Important semantics and trade-offs:
 
 #### Request Body (Optional)
 
-If you want to create an AAS with submodels, include a JSON body:
+If you want to create an AAS with submodels, include a JSON body.
+
+**Minimal example:**
+
+```json
+{
+  "blueprintsIds": ["blueprint-id-1", "blueprint-id-2"],
+  "data": {
+    "serialNumber": "SN-12345",
+    "manufacturer": "ACME Corp"
+  },
+  "language": "en"
+}
+```
+
+**Complete example with all optional fields:**
 
 ```json
 {
@@ -77,7 +92,40 @@ If you want to create an AAS with submodels, include a JSON body:
   },
   "language": "en",
   "debug": false,
-  "globalAssetId": "https://example.com/assets/my-custom-asset-id"
+  "globalAssetId": "https://example.com/assets/my-custom-asset-id",
+  "assetKind": "Instance",
+  "extensions": {
+    "manufacturer": "ACME Corp",
+    "location": "Building A",
+    "department": "Production"
+  },
+  "specificAssetIds": [
+    {
+      "name": "SerialNumber",
+      "value": "SN-12345"
+    },
+    {
+      "name": "PartNumber",
+      "value": "PN-ABC-001"
+    },
+    {
+      "name": "BatchNumber",
+      "value": "BATCH-2024-001"
+    }
+  ],
+  "administration": {
+    "version": "1.0",
+    "revision": "3"
+  },
+  "defaultThumbnail": {
+    "path": "https://example.com/images/asset-thumbnail.png",
+    "contentType": "image/png"
+  },
+  "derivedFrom": "https://example.com/aas/parent-machine-template",
+  "submodelIds": [
+    "https://example.com/submodels/existing-sm-1",
+    "https://example.com/submodels/existing-sm-2"
+  ]
 }
 ```
 
@@ -88,7 +136,13 @@ If you want to create an AAS with submodels, include a JSON body:
 | `language` | string | No | Language code for MultiLanguageProperties (e.g., `"en"`, `"de"`) |
 | `debug` | boolean | No | Include workflow logs in response (default: `false`). When enabled, the response includes a chronological log trail spanning all generation phases: blueprint retrieval, ID generation, data mapping, and repository persistence. |
 | `globalAssetId` | string | No | Custom globalAssetId to use directly instead of generating one. If omitted, the globalAssetId is auto-generated from the configured prefix and ID generation rules. |
+| `assetKind` | string | No | AssetKind for the AAS: `"Instance"`, `"Type"`, or `"NotApplicable"` (default: `"Instance"`). Specifies whether the AAS represents a concrete asset instance, a type/template, or if asset classification is not applicable. |
+| `extensions` | object | No | Key-value pairs to add as extensions to the AAS root level. Each entry will be added as `{"name": "key", "value": "value"}` in the extensions array. **Note:** This is a simplified implementation supporting only string name-value pairs. The full AAS specification includes additional fields (`valueType`, `refersTo`, `semanticId`) which are not supported. Extension names must be 1-128 characters. |
+| `specificAssetIds` | array | No | Array of specific asset identifier objects to add to the asset information. Each object must have `name` and `value` properties. These identifiers are used to identify the asset in specific contexts (e.g., serial numbers, part numbers). The default `assetIdShort` identifier is always included. Example: `[{"name": "SerialNumber", "value": "12345"}, {"name": "PartNumber", "value": "ABC-001"}]` |
+| `administration` | object | No | Administrative information for the AAS (version and revision). Object with `version` (required, string) and `revision` (optional, string) properties. Example: `{"version": "1.0", "revision": "2"}`. This is added at the AAS root level according to IDTA AAS specification. |
 | `defaultThumbnail` | object | No | Default thumbnail for the AAS asset information. Matches the AAS v3 Resource schema: `path` (required) and `contentType` (optional). |
+| `derivedFrom` | string | No | Parent AAS ID from which this AAS is derived. Used for navigating product family hierarchies and inheritance relationships. The value is converted to the proper AAS Metamodel v3.0 reference structure with a keys array. Example: `"https://example.com/aas/parent-template"`. Only basic format validation is performed (non-empty string); the parent AAS existence is not validated. |
+| `submodelIds` | string[] | No | List of existing submodel IDs to link to the new AAS. IDs are plain (not base64-encoded) and all must exist in the repository; otherwise the request fails and lists the missing IDs. |
 
 #### Response
 

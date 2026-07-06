@@ -62,15 +62,23 @@ public class AasCreatorController : ControllerBase
             return BadRequest("DefaultThumbnail.Path is required when DefaultThumbnail is provided.");
         }
 
+        if (requestBody?.Extensions != null)
+        {
+            foreach (var (key, _) in requestBody.Extensions)
+            {
+                if (string.IsNullOrEmpty(key) || key.Length > 128)
+                {
+                    return BadRequest($"Extension name '{key}' must be between 1 and 128 characters.");
+                }
+            }
+        }
+
+        var input = CreateAasParameters.FromRequest(requestBody);
+
         var aasCreationResult = await _aasCreatorService.CreateAasWithSubmodelsAsync(
             assetIdShort,
-            requestBody?.BlueprintsIds,
-            requestBody?.Data,
-            requestBody?.Language,
-            requestBody?.Debug ?? false,
-            requestBody?.GlobalAssetId,
-            overwrite,
-            requestBody?.DefaultThumbnail);
+            input,
+            overwrite);
 
         switch (aasCreationResult.status)
         {
