@@ -676,4 +676,139 @@ public class AasCreatorEndpointTests : IntegrationTestsBase
         responseContent.Should().Contain(invalidSubmodelId);
         responseContent.Should().Contain("do not exist");
     }
+
+    [Test]
+    public async Task CreateAas_WithAdministrationMissingVersion_ShouldReturnBadRequest()
+    {
+        // ARRANGE
+        var json = @"
+            {
+              ""administration"": {
+                ""revision"": ""2""
+              }
+            }";
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var mockedRestClient = new MockRestClientBuilder()
+            .WithGetIdSettings()
+            .Build();
+
+        Func<IRestClient> restClientFactory = () => mockedRestClient;
+        HttpClientMock.Setup(x => x.GetConfiguredClientAsync(It.IsAny<string>())).ReturnsAsync(restClientFactory);
+
+        // ACT
+        var responseContent = await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/missingVersion", content, StatusCodes.Status400BadRequest);
+
+        // ASSERT
+        responseContent.ToLower().Should().Match(s => s.Contains("version") || s.Contains("required"));
+    }
+
+    [Test]
+    public async Task CreateAas_WithSpecificAssetIdMissingName_ShouldReturnBadRequest()
+    {
+        // ARRANGE
+        var json = @"
+            {
+              ""specificAssetIds"": [
+                {
+                  ""value"": ""12345""
+                }
+              ]
+            }";
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var mockedRestClient = new MockRestClientBuilder()
+            .WithGetIdSettings()
+            .Build();
+
+        Func<IRestClient> restClientFactory = () => mockedRestClient;
+        HttpClientMock.Setup(x => x.GetConfiguredClientAsync(It.IsAny<string>())).ReturnsAsync(restClientFactory);
+
+        // ACT
+        var responseContent = await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/missingName", content, StatusCodes.Status400BadRequest);
+
+        // ASSERT
+        responseContent.ToLower().Should().Match(s => s.Contains("name") || s.Contains("required"));
+    }
+
+    [Test]
+    public async Task CreateAas_WithSpecificAssetIdMissingValue_ShouldReturnBadRequest()
+    {
+        // ARRANGE
+        var json = @"
+            {
+              ""specificAssetIds"": [
+                {
+                  ""name"": ""SerialNumber""
+                }
+              ]
+            }";
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var mockedRestClient = new MockRestClientBuilder()
+            .WithGetIdSettings()
+            .Build();
+
+        Func<IRestClient> restClientFactory = () => mockedRestClient;
+        HttpClientMock.Setup(x => x.GetConfiguredClientAsync(It.IsAny<string>())).ReturnsAsync(restClientFactory);
+
+        // ACT
+        var responseContent = await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/missingValue", content, StatusCodes.Status400BadRequest);
+
+        // ASSERT
+        responseContent.ToLower().Should().Match(s => s.Contains("value") || s.Contains("required"));
+    }
+
+    [Test]
+    public async Task CreateAas_WithExtensionNameTooLong_ShouldReturnBadRequest()
+    {
+        // ARRANGE
+        var longName = new string('a', 129);
+        var json = $@"
+            {{
+              ""extensions"": {{
+                ""{longName}"": ""value1""
+              }}
+            }}";
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var mockedRestClient = new MockRestClientBuilder()
+            .WithGetIdSettings()
+            .Build();
+
+        Func<IRestClient> restClientFactory = () => mockedRestClient;
+        HttpClientMock.Setup(x => x.GetConfiguredClientAsync(It.IsAny<string>())).ReturnsAsync(restClientFactory);
+
+        // ACT
+        var responseContent = await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/longExtName", content, StatusCodes.Status400BadRequest);
+
+        // ASSERT
+        responseContent.ToLower().Should().Match(s => s.Contains("extension") && (s.Contains("128") || s.Contains("character")));
+    }
+
+    [Test]
+    public async Task CreateAas_WithExtensionNameEmpty_ShouldReturnBadRequest()
+    {
+        // ARRANGE
+        var json = @"
+            {
+              ""extensions"": {
+                """": ""value1""
+              }
+            }";
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var mockedRestClient = new MockRestClientBuilder()
+            .WithGetIdSettings()
+            .Build();
+
+        Func<IRestClient> restClientFactory = () => mockedRestClient;
+        HttpClientMock.Setup(x => x.GetConfiguredClientAsync(It.IsAny<string>())).ReturnsAsync(restClientFactory);
+
+        // ACT
+        var responseContent = await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/emptyExtName", content, StatusCodes.Status400BadRequest);
+
+        // ASSERT
+        responseContent.ToLower().Should().Match(s => s.Contains("extension") && (s.Contains("1") || s.Contains("character")));
+    }
 }

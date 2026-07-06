@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace MnestixCore.Dtos;
 
 /// <summary>
@@ -9,6 +11,7 @@ public class AdministrativeInformation
     /// <summary>
     /// Version of the AAS (e.g., "1", "2.0", "1.0.0").
     /// </summary>
+    [JsonProperty(Required = Required.Always)]
     public required string Version { get; set; }
 
     /// <summary>

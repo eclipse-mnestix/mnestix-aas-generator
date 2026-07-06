@@ -147,22 +147,10 @@ public class AasCreatorService(
                 await repoProxyClient.GetAsync($"{_repoProxyOptions.SubmodelPath}/{base64SubmodelId}");
                 // If we reach here, the submodel exists
             }
-            catch (RepoProxyException ex)
+            catch (RepoProxyException ex) when (ex.InnerException is HttpRequestException httpEx && httpEx.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
-                // Check if it's a 404 (submodel not found)
-                if (ex.InnerException is HttpRequestException httpEx && httpEx.StatusCode == System.Net.HttpStatusCode.NotFound)
-                {
-                    missingIds.Add(submodelId);
-                }
-                else if (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
-                {
-                    missingIds.Add(submodelId);
-                }
-                else
-                {
-                    // Re-throw other errors (e.g., network issues, auth failures)
-                    throw;
-                }
+                // GetAsync wraps HTTP errors in RepoProxyException with InnerException = HttpRequestException
+                missingIds.Add(submodelId);
             }
         }
 

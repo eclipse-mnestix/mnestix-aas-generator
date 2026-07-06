@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace MnestixCore.Dtos;
 
 /// <summary>
@@ -9,10 +11,12 @@ public class SpecificAssetId
     /// <summary>
     /// The name/key of the specific asset identifier (e.g., "SerialNumber", "PartNumber").
     /// </summary>
+    [JsonProperty(Required = Required.Always)]
     public required string Name { get; set; }
 
     /// <summary>
     /// The value of the specific asset identifier.
     /// </summary>
+    [JsonProperty(Required = Required.Always)]
     public required string Value { get; set; }
 }
