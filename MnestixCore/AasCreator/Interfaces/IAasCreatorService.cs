@@ -20,23 +20,11 @@ public interface IAasCreatorService
     /// If submodel generation fails, the AAS will not be created.
     /// </summary>
     /// <param name="assetIdShortParam">Short identifier of the asset</param>
-    /// <param name="blueprintsIds">Optional list of blueprint IDs to generate submodels</param>
-    /// <param name="data">Optional data JSON for populating the blueprints</param>
-    /// <param name="language">Optional language for multi-language properties</param>
-    /// <param name="debug">Optional flag to include debug logs in the response</param>
-    /// <param name="globalAssetId">Optional globalAssetId to use directly instead of generating one.</param>
+    /// <param name="input">Optional input parameters for AAS and submodel creation</param>
     /// <param name="overwrite">When true, an existing shell with the generated id is overwritten instead of returning a conflict.</param>
-    /// <param name="options">Optional configuration for AAS metadata (assetKind, extensions, specificAssetIds, administration, defaultThumbnail, derivedFrom)</param>
-    /// <param name="submodelIds">Optional list of existing submodel IDs to link to the AAS. All IDs must exist in the repository or creation will fail.</param>
     /// <returns><see cref="AasCreationWithSubmodelsResult"/></returns>
     public Task<AasCreationWithSubmodelsResult> CreateAasWithSubmodelsAsync(
         string assetIdShortParam,
-        IEnumerable<string>? blueprintsIds = null,
-        JObject? data = null,
-        string? language = null,
-        bool debug = false,
-        string? globalAssetId = null,
-        bool overwrite = false,
-        AasCreationOptions? options = null,
-        IEnumerable<string>? submodelIds = null);
+        CreateAasParameters? input = null,
+        bool overwrite = false);
 }

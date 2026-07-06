@@ -62,21 +62,15 @@ public class AasCreatorService(
     /// <inheritdoc />
     public async Task<AasCreationWithSubmodelsResult> CreateAasWithSubmodelsAsync(
         string assetIdShortParam,
-        IEnumerable<string>? blueprintsIds = null,
-        JObject? data = null,
-        string? language = null,
-        bool debug = false,
-        string? globalAssetId = null,
-        bool overwrite = false,
-        AasCreationOptions? options = null,
-        IEnumerable<string>? submodelIds = null)
+        CreateAasParameters? input = null,
+        bool overwrite = false)
     {
-        var aasIds = await aasIdGeneratorService.GenerateAasIdsAsync(assetIdShortParam, globalAssetId);
+        var aasIds = await aasIdGeneratorService.GenerateAasIdsAsync(assetIdShortParam, input?.GlobalAssetId);
         var base64EncodedAasId = Base64StringDeAndEncoder.EncodeTo64(aasIds.aasId);
         var shellPath = $"{_repoProxyOptions.AasPath}/{base64EncodedAasId}";
 
         // 1. Validate provided submodel IDs exist (fail fast before creating anything)
-        var validationFailure = await ValidateSubmodelIdsExistAsync(aasIds, submodelIds);
+        var validationFailure = await ValidateSubmodelIdsExistAsync(aasIds, input?.SubmodelIds);
         if (validationFailure != null)
         {
             return validationFailure;
@@ -84,7 +78,7 @@ public class AasCreatorService(
 
         // 2. Build + validate all submodels in memory (no repo writes)
         var (buildFailure, builtResults, instancesToPost) =
-            await BuildSubmodelsAsync(aasIds, blueprintsIds, data, language, debug);
+            await BuildSubmodelsAsync(aasIds, input?.BlueprintsIds, input?.Data, input?.Language, input?.Debug ?? false);
         if (buildFailure != null)
         {
             return buildFailure;
@@ -98,7 +92,7 @@ public class AasCreatorService(
         }
 
         // 4. Build shell template with all submodel-refs baked in
-        var shell = BuildShellWithRefs(aasIds, postedSubmodelIds, options, submodelIds);
+        var shell = BuildShellWithRefs(aasIds, postedSubmodelIds, input?.Metadata, input?.SubmodelIds);
 
         // 5. POST shell
         try

@@ -73,26 +73,12 @@ public class AasCreatorController : ControllerBase
             }
         }
 
-        var options = new AasCreationOptions
-        {
-            AssetKind = requestBody?.AssetKind ?? AssetKind.Instance,
-            Extensions = requestBody?.Extensions,
-            SpecificAssetIds = requestBody?.SpecificAssetIds,
-            Administration = requestBody?.Administration,
-            DefaultThumbnail = requestBody?.DefaultThumbnail,
-            DerivedFrom = requestBody?.DerivedFrom
-        };
+        var input = CreateAasParameters.FromRequest(requestBody);
 
         var aasCreationResult = await _aasCreatorService.CreateAasWithSubmodelsAsync(
             assetIdShort,
-            requestBody?.BlueprintsIds,
-            requestBody?.Data,
-            requestBody?.Language,
-            requestBody?.Debug ?? false,
-            requestBody?.GlobalAssetId,
-            overwrite,
-            options,
-            requestBody?.SubmodelIds);
+            input,
+            overwrite);
 
         switch (aasCreationResult.status)
         {
