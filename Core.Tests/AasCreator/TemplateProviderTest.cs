@@ -17,14 +17,17 @@ public class TemplateProviderTest
     public void GetAas_WithThumbnail_InjectsDefaultThumbnail()
     {
         // ARRANGE
-        var thumbnail = new DefaultThumbnail
+        var options = new AasCreationOptions
         {
-            Path = "https://example.com/logo.png",
-            ContentType = "image/png"
+            DefaultThumbnail = new DefaultThumbnail
+            {
+                Path = "https://example.com/logo.png",
+                ContentType = "image/png"
+            }
         };
 
         // ACT
-        var result = TemplateProvider.GetAas(TestAasIds, thumbnail);
+        var result = TemplateProvider.GetAas(TestAasIds, options);
 
         // ASSERT
         var json = JObject.Parse(result);
@@ -38,14 +41,17 @@ public class TemplateProviderTest
     public void GetAas_WithThumbnailNoContentType_OmitsContentType()
     {
         // ARRANGE
-        var thumbnail = new DefaultThumbnail
+        var options = new AasCreationOptions
         {
-            Path = "https://example.com/logo.png",
-            ContentType = null
+            DefaultThumbnail = new DefaultThumbnail
+            {
+                Path = "https://example.com/logo.png",
+                ContentType = null
+            }
         };
 
         // ACT
-        var result = TemplateProvider.GetAas(TestAasIds, thumbnail);
+        var result = TemplateProvider.GetAas(TestAasIds, options);
 
         // ASSERT
         var json = JObject.Parse(result);
@@ -59,14 +65,17 @@ public class TemplateProviderTest
     public void GetAas_WithThumbnailEmptyContentType_OmitsContentType()
     {
         // ARRANGE
-        var thumbnail = new DefaultThumbnail
+        var options = new AasCreationOptions
         {
-            Path = "https://example.com/logo.png",
-            ContentType = ""
+            DefaultThumbnail = new DefaultThumbnail
+            {
+                Path = "https://example.com/logo.png",
+                ContentType = ""
+            }
         };
 
         // ACT
-        var result = TemplateProvider.GetAas(TestAasIds, thumbnail);
+        var result = TemplateProvider.GetAas(TestAasIds, options);
 
         // ASSERT
         var json = JObject.Parse(result);
@@ -80,7 +89,7 @@ public class TemplateProviderTest
     public void GetAas_WithNullThumbnail_NoDefaultThumbnailInJson()
     {
         // ACT
-        var result = TemplateProvider.GetAas(TestAasIds, null);
+        var result = TemplateProvider.GetAas(TestAasIds, options: null);
 
         // ASSERT
         var json = JObject.Parse(result);
@@ -101,8 +110,11 @@ public class TemplateProviderTest
     [Test]
     public void GetAas_WithTypeAssetKind_InjectsType()
     {
+        // ARRANGE
+        var options = new AasCreationOptions { AssetKind = AssetKind.Type };
+
         // ACT
-        var result = TemplateProvider.GetAas(TestAasIds, AssetKind.Type);
+        var result = TemplateProvider.GetAas(TestAasIds, options);
 
         // ASSERT
         var json = JObject.Parse(result);
@@ -112,8 +124,11 @@ public class TemplateProviderTest
     [Test]
     public void GetAas_WithNotApplicableAssetKind_InjectsNotApplicable()
     {
+        // ARRANGE
+        var options = new AasCreationOptions { AssetKind = AssetKind.NotApplicable };
+
         // ACT
-        var result = TemplateProvider.GetAas(TestAasIds, AssetKind.NotApplicable);
+        var result = TemplateProvider.GetAas(TestAasIds, options);
 
         // ASSERT
         var json = JObject.Parse(result);
@@ -124,14 +139,18 @@ public class TemplateProviderTest
     public void GetAas_WithThumbnailAndTypeAssetKind_InjectsBoth()
     {
         // ARRANGE
-        var thumbnail = new DefaultThumbnail
+        var options = new AasCreationOptions
         {
-            Path = "https://example.com/logo.png",
-            ContentType = "image/png"
+            DefaultThumbnail = new DefaultThumbnail
+            {
+                Path = "https://example.com/logo.png",
+                ContentType = "image/png"
+            },
+            AssetKind = AssetKind.Type
         };
 
         // ACT
-        var result = TemplateProvider.GetAas(TestAasIds, thumbnail, AssetKind.Type);
+        var result = TemplateProvider.GetAas(TestAasIds, options);
 
         // ASSERT
         var json = JObject.Parse(result);

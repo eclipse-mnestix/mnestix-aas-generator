@@ -33,8 +33,7 @@ public class AasCreatorService(
             return new AasCreationResult(aasIds, AasCreationStatus.AlreadyExists);
         }
 
-        var assetKind = options?.AssetKind ?? AssetKind.Instance;
-        var aas = TemplateProvider.GetAas(aasIds, options?.DefaultThumbnail, assetKind, options?.Extensions, options?.SpecificAssetIds, options?.Administration, options?.DerivedFrom);
+        var aas = TemplateProvider.GetAas(aasIds, options);
 
         try
         {
@@ -330,13 +329,12 @@ public class AasCreatorService(
     /// </summary>
     /// <param name="aasIds">Ids of the AAS to template.</param>
     /// <param name="generatedSubmodelIds">Submodel ids (not encoded) generated from blueprints to reference from the shell.</param>
-    /// <param name="options">Optional configuration for AAS metadata (assetKind, extensions, specificAssetIds, administration, defaultThumbnail)</param>
+    /// <param name="options">Optional configuration for AAS metadata (assetKind, extensions, specificAssetIds, administration, defaultThumbnail, derivedFrom)</param>
     /// <param name="providedSubmodelIds">Optional existing submodel ids (not encoded) provided by the caller to reference from the shell.</param>
     /// <returns>The serialized shell JSON.</returns>
     private string BuildShellWithRefs(AasIds aasIds, IReadOnlyCollection<string> generatedSubmodelIds, AasCreationOptions? options = null, IEnumerable<string>? providedSubmodelIds = null)
     {
-        var assetKind = options?.AssetKind ?? AssetKind.Instance;
-        var shell = JObject.Parse(TemplateProvider.GetAas(aasIds, options?.DefaultThumbnail, assetKind, options?.Extensions, options?.SpecificAssetIds, options?.Administration, options?.DerivedFrom));
+        var shell = JObject.Parse(TemplateProvider.GetAas(aasIds, options));
 
         var allSubmodelIds = new List<string>();
         allSubmodelIds.AddRange(generatedSubmodelIds);

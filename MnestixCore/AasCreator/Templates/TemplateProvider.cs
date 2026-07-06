@@ -20,8 +20,9 @@ public static class TemplateProvider
         };
     }
 
-    public static string GetAas(AasIds aasIds, AssetKind assetKind = AssetKind.Instance, Dictionary<string, string>? extensions = null, List<SpecificAssetId>? specificAssetIds = null, AdministrativeInformation? administration = null, string? derivedFrom = null)
+    public static string GetAas(AasIds aasIds, AasCreationOptions? options = null)
     {
+        var assetKind = options?.AssetKind ?? AssetKind.Instance;
         var template = EmbeddedResourceProvider.GetEmbeddedResourceContent("AasCreator.Templates.aas.json");
         var json = template.Replace("#assetId#", JsonEncodedText.Encode(aasIds.assetId).ToString())
             .Replace("#assetIdShort#", JsonEncodedText.Encode(aasIds.assetIdShort).ToString())
@@ -29,48 +30,48 @@ public static class TemplateProvider
             .Replace("#aasIdShort#", JsonEncodedText.Encode(aasIds.aasIdShort).ToString())
             .Replace("#assetKind#", assetKind.ToString());
 
-        if (extensions == null && specificAssetIds == null && administration == null && derivedFrom == null)
+        if (options == null || (options.Extensions == null && options.SpecificAssetIds == null && options.Administration == null && options.DerivedFrom == null && options.DefaultThumbnail == null))
         {
             return json;
         }
 
         var aasObject = JObject.Parse(json);
 
-        if (extensions != null && extensions.Count > 0)
+        if (options.Extensions != null && options.Extensions.Count > 0)
         {
             var extensionsArray = new JArray();
-            foreach (var (key, value) in extensions)
+            foreach (var (key, value) in options.Extensions)
             {
                 extensionsArray.Add(CreateNameValueObject(key, value));
             }
             aasObject["extensions"] = extensionsArray;
         }
 
-        if (specificAssetIds != null && specificAssetIds.Count > 0)
+        if (options.SpecificAssetIds != null && options.SpecificAssetIds.Count > 0)
         {
             var assetInformation = (JObject)aasObject["assetInformation"]!;
             var currentSpecificAssetIds = (JArray)assetInformation["specificAssetIds"]!;
 
-            foreach (var specificAssetId in specificAssetIds)
+            foreach (var specificAssetId in options.SpecificAssetIds)
             {
                 currentSpecificAssetIds.Add(CreateNameValueObject(specificAssetId.Name, specificAssetId.Value));
             }
         }
 
-        if (administration != null)
+        if (options.Administration != null)
         {
             var administrationObject = new JObject
             {
-                ["version"] = administration.Version
+                ["version"] = options.Administration.Version
             };
-            if (!string.IsNullOrEmpty(administration.Revision))
+            if (!string.IsNullOrEmpty(options.Administration.Revision))
             {
-                administrationObject["revision"] = administration.Revision;
+                administrationObject["revision"] = options.Administration.Revision;
             }
             aasObject["administration"] = administrationObject;
         }
 
-        if (!string.IsNullOrWhiteSpace(derivedFrom))
+        if (!string.IsNullOrWhiteSpace(options.DerivedFrom))
         {
             var derivedFromObject = new JObject
             {
@@ -80,35 +81,23 @@ public static class TemplateProvider
                     new JObject
                     {
                         ["type"] = "AssetAdministrationShell",
-                        ["value"] = derivedFrom
+                        ["value"] = options.DerivedFrom
                     }
                 }
             };
             aasObject["derivedFrom"] = derivedFromObject;
         }
 
-        return aasObject.ToString(Newtonsoft.Json.Formatting.None);
-    }
-
-    public static string GetAas(AasIds aasIds, DefaultThumbnail? defaultThumbnail, AssetKind assetKind = AssetKind.Instance, Dictionary<string, string>? extensions = null, List<SpecificAssetId>? specificAssetIds = null, AdministrativeInformation? administration = null, string? derivedFrom = null)
-    {
-        var json = GetAas(aasIds, assetKind, extensions, specificAssetIds, administration, derivedFrom);
-
-        if (defaultThumbnail == null)
+        if (options.DefaultThumbnail != null)
         {
-            return json;
+            var assetInformation = (JObject)aasObject["assetInformation"]!;
+            var thumbnailObject = new JObject { ["path"] = options.DefaultThumbnail.Path };
+            if (!string.IsNullOrEmpty(options.DefaultThumbnail.ContentType))
+            {
+                thumbnailObject["contentType"] = options.DefaultThumbnail.ContentType;
+            }
+            assetInformation["defaultThumbnail"] = thumbnailObject;
         }
-
-        var aasObject = JObject.Parse(json);
-        var assetInformation = (JObject)aasObject["assetInformation"]!;
-
-        var thumbnailObject = new JObject { ["path"] = defaultThumbnail.Path };
-        if (!string.IsNullOrEmpty(defaultThumbnail.ContentType))
-        {
-            thumbnailObject["contentType"] = defaultThumbnail.ContentType;
-        }
-
-        assetInformation["defaultThumbnail"] = thumbnailObject;
 
         return aasObject.ToString(Newtonsoft.Json.Formatting.None);
     }
