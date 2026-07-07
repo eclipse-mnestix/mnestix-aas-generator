@@ -100,12 +100,17 @@ Step 8 (AssignMappedFields) delegates value assignment to specialized `FieldAssi
 | `ValueFieldAssigner` | `value` | Model-type-aware: MLP scalar→lang array (requires language param); Property/Blob/File validates valueType conformance |
 | `MultiLanguageFieldAssigner` | `multiLanguage` | Expects `JObject` with language keys; produces lang array |
 | `IdShortFieldAssigner` | `idShort` | Sanitizes to AAS v3 pattern `[a-zA-Z][a-zA-Z0-9_]*` |
-| `DisplayNameFieldAssigner` | `displayName` | Find-or-add by language in the displayName array |
+| `DisplayNameFieldAssigner` | `displayName` | Language-keyed `JObject` → replaces the `displayName` array with all languages; a scalar → find-or-add a single entry for the generation language. Always optional. |
 | `FirstFieldAssigner` | `first` | AAS Reference object for RelationshipElement |
 | `SecondFieldAssigner` | `second` | AAS Reference object for RelationshipElement |
 | `DefaultFieldAssigner` | _(any other)_ | Fallback: `element[field] = value.ToString()` |
 
 All assigners log a **warning** when the target field already holds a non-empty template default that is being overridden by mapped data. This gives visibility into cases where partial defaults are silently replaced.
+
+`FieldAssignerBase` exposes two hooks so field-specific optionality rules live with the assigner instead of the pipeline steps:
+
+- `IsAlwaysOptional` (default `false`) — when `true`, the field ignores the element's `SMT/Cardinality` and is never mandatory. Overridden to `true` by `DisplayNameFieldAssigner` (a display name is an auxiliary label; a mapped property is still generated without it).
+- `IsResolvedValueMissing(JToken)` (default `false`) — lets a field treat a resolved value as "not present" so an optional mapping is omitted and a mandatory one fails. The language-map fields (`multiLanguage`, `displayName`) override it to treat an empty / all-empty object as missing.
 
 ### Data Flow Through Pipeline
 
@@ -165,7 +170,8 @@ Rules are stored as Template Qualifiers directly within AAS Submodel templates.
 **Purpose**: Define behavior when referenced data is missing  
 **Qualifier**: `SMT/Cardinality`  
 **Values**: `"One"` / `"OneToMany"` (mandatory, throws error if missing) | `"ZeroToOne"` / `"ZeroToMany"` (optional, empty value + warning if missing). A value is treated as mandatory when it starts with `"One"`.  
-**Implementation**: Checked in `ResolveMappingExpressionsStep` (mandatory → exception, optional → warning + skip)
+**Implementation**: Checked in `ResolveMappingExpressionsStep` (mandatory → exception, optional → warning + skip)  
+**Exception**: Fields whose assigner reports `IsAlwaysOptional` (e.g. `displayName`) ignore this cardinality and are never mandatory, even on a `"One"` element.
 
 ## Path Expressions
 JSONata-style syntax:
