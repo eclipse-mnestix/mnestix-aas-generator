@@ -1,4 +1,5 @@
 using MnestixCore.AasGenerator.Interfaces;
+using MnestixCore.AasGenerator.Pipelines.FieldAssigners;
 using MnestixCore.AasGenerator.Pipelines.Shared;
 using MnestixCore.Errors;
 using Newtonsoft.Json.Linq;
@@ -29,10 +30,11 @@ public sealed class ResolveMappingExpressionsAasGeneratorPipelineStep : IPipelin
 
             var result = JsonataEvaluator.Evaluate(ctx.Data, descriptor.MappingExpression, ctx);
 
-            // For multiLanguage field: treat empty/all-null object as missing
-            if (descriptor.FieldName == "multiLanguage" && result is JObject obj &&
-                (!obj.HasValues || obj.Properties().All(p =>
-                    p.Value.Type == JTokenType.Null || string.IsNullOrEmpty(p.Value.ToString()))))
+            // The assigner owns what counts as "missing" for its field (e.g. language-map
+            // fields treat an empty / all-empty object as missing), so optional mappings are
+            // omitted (no empty value written) and mandatory ones fail.
+            if (result != null &&
+                FieldAssignerRegistry.GetAssigner(descriptor.FieldName).IsResolvedValueMissing(result))
             {
                 result = null;
             }

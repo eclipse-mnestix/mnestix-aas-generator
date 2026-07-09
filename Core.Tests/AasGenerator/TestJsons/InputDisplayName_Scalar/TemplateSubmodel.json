@@ -1,0 +1,35 @@
+{
+  "modelType": "Submodel",
+  "kind": "Template",
+  "id": "urn:smtemplate:DemoTemplate",
+  "idShort": "DemoTemplate",
+  "qualifiers": [],
+  "submodelElements": [
+    {
+      "modelType": "Property",
+      "idShort": "TechnicalProperty",
+      "valueType": "xs:string",
+      "value": "",
+      "qualifiers": [
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "value": "One",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/MappingInfo/value",
+          "value": "technicalProperty.value",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/MappingInfo/displayName",
+          "value": "technicalProperty.name",
+          "valueType": "xs:string"
+        }
+      ]
+    }
+  ]
+}

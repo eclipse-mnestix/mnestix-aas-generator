@@ -1,0 +1,60 @@
+{
+  "modelType": "Submodel",
+  "kind": "Template",
+  "id": "urn:smtemplate:DemoTemplate",
+  "idShort": "DemoTemplate",
+  "qualifiers": [],
+  "submodelElements": [
+    {
+      "modelType": "SubmodelElementCollection",
+      "idShort": "TechnicalProperties",
+      "value": [
+        {
+          "modelType": "Property",
+          "idShort": "TechnicalProperty",
+          "valueType": "xs:string",
+          "value": "",
+          "qualifiers": [
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "value": "One",
+              "valueType": "xs:string"
+            },
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/CollectionMappingInfo",
+              "value": "custom.TechnicalData.v1[*]",
+              "valueType": "xs:string"
+            },
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/MappingInfo/value",
+              "value": "custom.TechnicalData.v1[*].value",
+              "valueType": "xs:string"
+            },
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/MappingInfo/valueType",
+              "value": "custom.TechnicalData.v1[*].valueType",
+              "valueType": "xs:string"
+            },
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/MappingInfo/semanticId",
+              "value": "custom.TechnicalData.v1[*].semanticId",
+              "valueType": "xs:string"
+            },
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/MappingInfo/displayName",
+              "value": "custom.TechnicalData.v1[*].displayName",
+              "valueType": "xs:string"
+            }
+          ]
+        }
+      ],
+      "qualifiers": []
+    }
+  ]
+}
