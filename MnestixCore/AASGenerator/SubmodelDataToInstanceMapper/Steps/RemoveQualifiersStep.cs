@@ -11,8 +11,20 @@ namespace MnestixCore.AasGenerator.Pipelines.Steps;
 public sealed class RemoveQualifiersStep : IPipelineStep<DataMappingContext>
 {
     /// <summary>
+    /// Prefixes (case-insensitive) that a qualifier <c>type</c> must start with before it is considered
+    /// a generation-only qualifier at all. Only the part of the type after the prefix is checked for the
+    /// mapping substrings, so unrelated qualifiers that happen to contain "mapping" are left untouched.
+    /// </summary>
+    private static readonly IReadOnlyList<string> MappingQualifierTypePrefixes =
+    [
+        "smt/",
+        "mnestix/"
+    ];
+
+    /// <summary>
     /// Substrings (case-insensitive) that mark a qualifier as a generation-only mapping qualifier.
-    /// Any qualifier whose <c>type</c> contains one of these substrings is stripped from the output.
+    /// Any qualifier whose <c>type</c> starts with one of <see cref="MappingQualifierTypePrefixes"/> and
+    /// whose remainder contains one of these substrings is stripped from the output.
     /// </summary>
     private static readonly IReadOnlyList<string> MappingQualifierTypeSubstrings =
     [
@@ -82,7 +94,8 @@ public sealed class RemoveQualifiersStep : IPipelineStep<DataMappingContext>
     /// <summary>
     /// Removes all mapping qualifiers from every <c>qualifiers</c> array in the submodel tree
     /// (at any nesting depth, via JSONPath recursive descent).
-    /// A qualifier is considered a mapping qualifier when its (lower-cased) <c>type</c> contains any of
+    /// A qualifier is considered a mapping qualifier when its <c>type</c> (compared case-insensitively) starts with one of
+    /// <see cref="MappingQualifierTypePrefixes"/> and the remainder contains any of
     /// <see cref="MappingQualifierTypeSubstrings"/>. Qualifiers without a matching type (e.g. SMT/Cardinality)
     /// are preserved.
     /// </summary>
@@ -114,8 +127,16 @@ public sealed class RemoveQualifiersStep : IPipelineStep<DataMappingContext>
             return false;
         }
 
-        var lowered = type.ToLowerInvariant();
-        return MappingQualifierTypeSubstrings.Any(substring => lowered.Contains(substring));
+        var prefix = MappingQualifierTypePrefixes
+            .FirstOrDefault(pre => type.StartsWith(pre, StringComparison.OrdinalIgnoreCase));
+        if (prefix is null)
+        {
+            return false;
+        }
+
+        var remainder = type[prefix.Length..];
+        return MappingQualifierTypeSubstrings
+            .Any(substring => remainder.Contains(substring, StringComparison.OrdinalIgnoreCase));
     }
 }
 
