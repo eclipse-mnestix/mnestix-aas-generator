@@ -8,7 +8,7 @@ namespace MnestixCore.AasGenerator.Pipelines.Steps;
 /// In this Step, we remove the top level Qualifiers and all Mapping Qualifiers.
 /// We also add the Blueprint ID and the Generation Timestamp at the root of the Submodel for better traceability.
 /// </summary>
-public sealed class RemoveQualifiersStep : IPipelineStep<DataMappingContext>
+public sealed class RemoveQualifiersAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
 {
     /// <summary>
     /// Prefixes (case-insensitive) that a qualifier <c>type</c> must start with before it is considered
@@ -37,7 +37,7 @@ public sealed class RemoveQualifiersStep : IPipelineStep<DataMappingContext>
 
     public Task<DataMappingContext> ExecuteAsync(DataMappingContext ctx)
     {
-        ctx.Log($"Started RemoveQualifiersStep");
+        ctx.Log($"Started RemoveQualifiersAasGeneratorPipelineStep");
 
         var topLevelQualifierCount = RemoveTopLevelQualifiers(ctx.SubmodelInstance);
         ctx.LogInfo($"Removed {topLevelQualifierCount} top-level qualifiers from submodel instance");
@@ -48,7 +48,7 @@ public sealed class RemoveQualifiersStep : IPipelineStep<DataMappingContext>
         AddConceptQualifiers(ctx.SubmodelInstance, ctx.Blueprint);
         ctx.LogInfo("Added concept qualifiers (blueprint id + generation timestamp) to submodel root");
 
-        ctx.Log($"Finished RemoveQualifiersStep");
+        ctx.Log($"Finished RemoveQualifiersAasGeneratorPipelineStep");
         return Task.FromResult(ctx);
     }
 

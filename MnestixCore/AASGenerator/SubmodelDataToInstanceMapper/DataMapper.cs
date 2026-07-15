@@ -45,7 +45,7 @@ public sealed class DataMapper : IDataMapper
             .Use<DiscoverMappingDescriptorsAasGeneratorPipelineStep>()
             .Use<ResolveMappingExpressionsAasGeneratorPipelineStep>()
             .Use<AssignMappedFieldsAasGeneratorPipelineStep>()
-            .Use<RemoveQualifiersStep>()
+            .Use<RemoveQualifiersAasGeneratorPipelineStep>()
             .Use<ReplaceIdentificationAasGeneratorPipelineStep>()
             .Build();
 
