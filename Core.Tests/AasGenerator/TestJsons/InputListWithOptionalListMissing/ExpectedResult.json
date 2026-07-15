@@ -16,7 +16,14 @@
     "version": "1",
     "revision": "0"
   },
-  "qualifiers": [],
+  "qualifiers": [
+    {
+      "kind": "ConceptQualifier",
+      "type": "Mnestix/OriginalBlueprintID",
+      "value": "urn:smtemplate:ListTemplate1",
+      "valueType": "xs:string"
+    }
+  ],
   "submodelElements": [
     {
       "modelType": "SubmodelElementCollection",
@@ -38,12 +45,6 @@
                   "type": "SMT/Cardinality",
                   "value": "One",
                   "valueType": "xs:string"
-                },
-                {
-                  "kind": "TemplateQualifier",
-                  "type": "SMT/MappingInfo",
-                  "value": "sourceData.contactPersons[0].name",
-                  "valueType": "xs:string"
                 }
               ],
               "description": [
@@ -63,12 +64,6 @@
                   "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "value": "ZeroToOne",
-                  "valueType": "xs:string"
-                },
-                {
-                  "kind": "TemplateQualifier",
-                  "type": "SMT/MappingInfo",
-                  "value": "sourceData.contactPersons[0].email",
                   "valueType": "xs:string"
                 }
               ],
@@ -111,12 +106,6 @@
                   "type": "SMT/Cardinality",
                   "value": "One",
                   "valueType": "xs:string"
-                },
-                {
-                  "kind": "TemplateQualifier",
-                  "type": "SMT/MappingInfo",
-                  "value": "sourceData.contactPersons[1].name",
-                  "valueType": "xs:string"
                 }
               ],
               "description": [
@@ -136,12 +125,6 @@
                   "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "value": "ZeroToOne",
-                  "valueType": "xs:string"
-                },
-                {
-                  "kind": "TemplateQualifier",
-                  "type": "SMT/MappingInfo",
-                  "value": "sourceData.contactPersons[1].email",
                   "valueType": "xs:string"
                 }
               ],
@@ -184,12 +167,6 @@
                   "type": "SMT/Cardinality",
                   "value": "One",
                   "valueType": "xs:string"
-                },
-                {
-                  "kind": "TemplateQualifier",
-                  "type": "SMT/MappingInfo",
-                  "value": "sourceData.contactPersons[2].name",
-                  "valueType": "xs:string"
                 }
               ],
               "description": [
@@ -209,12 +186,6 @@
                   "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "value": "ZeroToOne",
-                  "valueType": "xs:string"
-                },
-                {
-                  "kind": "TemplateQualifier",
-                  "type": "SMT/MappingInfo",
-                  "value": "sourceData.contactPersons[2].email",
                   "valueType": "xs:string"
                 }
               ],

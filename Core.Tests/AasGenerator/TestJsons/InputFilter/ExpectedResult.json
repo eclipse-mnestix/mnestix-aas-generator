@@ -14,28 +14,14 @@
       "modelType": "SubmodelElementCollection",
       "idShort": "BatteryInfo",
       "valueType": "xs:string",
-      "qualifiers": [
-        {
-          "kind": "TemplateQualifier",
-          "type": "SMT/FilterMappingInfo",
-          "value": "car.engineType = 'electric'",
-          "valueType": "xs:string"
-        }
-      ],
+      "qualifiers": [],
       "value": [
         {
           "modelType": "Property",
           "idShort": "CapacityKWh",
           "valueType": "xs:integer",
           "value": 90,
-          "qualifiers": [
-            {
-              "kind": "TemplateQualifier",
-              "type": "SMT/MappingInfo",
-              "value": "car.battery.capacityKWh",
-              "valueType": "xs:string"
-            }
-          ]
+          "qualifiers": []
         }
       ],
       "description": [
@@ -44,6 +30,14 @@
           "text": "Battery information for electric vehicles"
         }
       ]
+    }
+  ],
+  "qualifiers": [
+    {
+      "kind": "ConceptQualifier",
+      "type": "Mnestix/OriginalBlueprintID",
+      "value": "VehicleSpecs_Template",
+      "valueType": "xs:string"
     }
   ]
 }

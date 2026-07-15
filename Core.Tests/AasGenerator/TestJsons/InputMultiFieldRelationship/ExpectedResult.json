@@ -7,7 +7,14 @@
     "version": "1",
     "revision": "0"
   },
-  "qualifiers": [],
+  "qualifiers": [
+    {
+      "kind": "ConceptQualifier",
+      "type": "Mnestix/OriginalBlueprintID",
+      "value": "urn:smtemplate:DemoTemplate",
+      "valueType": "xs:string"
+    }
+  ],
   "submodelElements": [
     {
       "modelType": "RelationshipElement",
@@ -47,18 +54,6 @@
           "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "value": "One",
-          "valueType": "xs:string"
-        },
-        {
-          "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo/first",
-          "value": "relationship.firstRef",
-          "valueType": "xs:string"
-        },
-        {
-          "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo/second",
-          "value": "relationship.secondRef",
           "valueType": "xs:string"
         }
       ]

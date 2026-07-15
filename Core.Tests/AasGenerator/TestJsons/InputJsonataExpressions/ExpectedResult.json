@@ -7,7 +7,14 @@
     "version": "1",
     "revision": "0"
   },
-  "qualifiers": [],
+  "qualifiers": [
+    {
+      "kind": "ConceptQualifier",
+      "type": "Mnestix/OriginalBlueprintID",
+      "value": "urn:smtemplate:JsonataExpressions",
+      "valueType": "xs:string"
+    }
+  ],
   "submodelElements": [
     {
       "modelType": "Property",
@@ -19,12 +26,6 @@
           "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "value": "One",
-          "valueType": "xs:string"
-        },
-        {
-          "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo",
-          "value": "$length(sourceData.testString)",
           "valueType": "xs:string"
         }
       ],
@@ -46,12 +47,6 @@
           "type": "SMT/Cardinality",
           "value": "One",
           "valueType": "xs:string"
-        },
-        {
-          "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo",
-          "value": "$substring(sourceData.testString, 0, 4)",
-          "valueType": "xs:string"
         }
       ],
       "description": [
@@ -71,12 +66,6 @@
           "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "value": "One",
-          "valueType": "xs:string"
-        },
-        {
-          "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo",
-          "value": "sourceData.testString ~> $contains(\"test\")",
           "valueType": "xs:string"
         }
       ],
@@ -98,12 +87,6 @@
           "type": "SMT/Cardinality",
           "value": "One",
           "valueType": "xs:string"
-        },
-        {
-          "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo",
-          "value": "$string(sourceData.numberValue)",
-          "valueType": "xs:string"
         }
       ],
       "description": [
@@ -123,12 +106,6 @@
           "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "value": "One",
-          "valueType": "xs:string"
-        },
-        {
-          "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo",
-          "value": "sourceData.numA > sourceData.numB",
           "valueType": "xs:string"
         }
       ],

@@ -7,7 +7,14 @@
     "version": "1",
     "revision": "0"
   },
-  "qualifiers": [],
+  "qualifiers": [
+    {
+      "kind": "ConceptQualifier",
+      "type": "Mnestix/OriginalBlueprintID",
+      "value": "urn:smtemplate:DemoTemplate",
+      "valueType": "xs:string"
+    }
+  ],
   "submodelElements": [
     {
       "modelType": "Entity",
@@ -20,12 +27,6 @@
           "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "value": "One",
-          "valueType": "xs:string"
-        },
-        {
-          "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo/idShort",
-          "value": "part.partNumber",
           "valueType": "xs:string"
         }
       ]

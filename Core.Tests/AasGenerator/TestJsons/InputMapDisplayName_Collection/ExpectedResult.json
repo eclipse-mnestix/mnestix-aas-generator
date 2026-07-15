@@ -3,7 +3,14 @@
   "kind": "Instance",
   "id": "TheNewSubmodelId",
   "idShort": "DemoTemplate",
-  "qualifiers": [],
+  "qualifiers": [
+    {
+      "kind": "ConceptQualifier",
+      "type": "Mnestix/OriginalBlueprintID",
+      "value": "urn:smtemplate:DemoTemplate",
+      "valueType": "xs:string"
+    }
+  ],
   "submodelElements": [
     {
       "modelType": "SubmodelElementCollection",
@@ -39,30 +46,6 @@
               "type": "SMT/Cardinality",
               "value": "One",
               "valueType": "xs:string"
-            },
-            {
-              "kind": "TemplateQualifier",
-              "type": "SMT/MappingInfo/value",
-              "value": "custom.TechnicalData.v1[0].value",
-              "valueType": "xs:string"
-            },
-            {
-              "kind": "TemplateQualifier",
-              "type": "SMT/MappingInfo/valueType",
-              "value": "custom.TechnicalData.v1[0].valueType",
-              "valueType": "xs:string"
-            },
-            {
-              "kind": "TemplateQualifier",
-              "type": "SMT/MappingInfo/semanticId",
-              "value": "custom.TechnicalData.v1[0].semanticId",
-              "valueType": "xs:string"
-            },
-            {
-              "kind": "TemplateQualifier",
-              "type": "SMT/MappingInfo/displayName",
-              "value": "custom.TechnicalData.v1[0].displayName",
-              "valueType": "xs:string"
             }
           ]
         },
@@ -95,30 +78,6 @@
               "kind": "TemplateQualifier",
               "type": "SMT/Cardinality",
               "value": "One",
-              "valueType": "xs:string"
-            },
-            {
-              "kind": "TemplateQualifier",
-              "type": "SMT/MappingInfo/value",
-              "value": "custom.TechnicalData.v1[1].value",
-              "valueType": "xs:string"
-            },
-            {
-              "kind": "TemplateQualifier",
-              "type": "SMT/MappingInfo/valueType",
-              "value": "custom.TechnicalData.v1[1].valueType",
-              "valueType": "xs:string"
-            },
-            {
-              "kind": "TemplateQualifier",
-              "type": "SMT/MappingInfo/semanticId",
-              "value": "custom.TechnicalData.v1[1].semanticId",
-              "valueType": "xs:string"
-            },
-            {
-              "kind": "TemplateQualifier",
-              "type": "SMT/MappingInfo/displayName",
-              "value": "custom.TechnicalData.v1[1].displayName",
               "valueType": "xs:string"
             }
           ]
