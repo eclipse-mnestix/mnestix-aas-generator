@@ -45,7 +45,7 @@ public sealed class RemoveQualifiersAasGeneratorPipelineStep : IPipelineStep<Dat
         var mappingQualifierCount = RemoveMappingQualifiers(ctx.SubmodelInstance);
         ctx.LogInfo($"Removed {mappingQualifierCount} mapping qualifiers from submodel instance");
 
-        AddConceptQualifiers(ctx.SubmodelInstance, ctx.Blueprint);
+        AddConceptQualifiers(ctx.SubmodelInstance, ctx.Blueprint, ctx.TimeProvider);
         ctx.LogInfo("Added concept qualifiers (blueprint id + generation timestamp) to submodel root");
 
         ctx.Log($"Finished RemoveQualifiersAasGeneratorPipelineStep");
@@ -57,10 +57,10 @@ public sealed class RemoveQualifiersAasGeneratorPipelineStep : IPipelineStep<Dat
     /// to the submodel root <c>qualifiers</c> array, so the generated submodel remains traceable to the
     /// blueprint and generation run that produced it.
     /// </summary>
-    private static void AddConceptQualifiers(JObject submodel, JObject blueprint)
+    private static void AddConceptQualifiers(JObject submodel, JObject blueprint, TimeProvider timeProvider)
     {
         var blueprintId = blueprint["id"]?.Value<string>();
-        var generationTimestamp = DateTime.UtcNow.ToString("O", CultureInfo.InvariantCulture);
+        var generationTimestamp = timeProvider.GetUtcNow().UtcDateTime.ToString("O", CultureInfo.InvariantCulture);
 
         if (submodel["qualifiers"] is not JArray qualifiers)
         {

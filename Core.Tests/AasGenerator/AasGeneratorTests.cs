@@ -9,6 +9,7 @@ using MnestixCore.TemplateBuilder.Interfaces;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Time.Testing;
 using Moq;
 using Newtonsoft.Json.Linq;
 
@@ -29,10 +30,14 @@ public class AasGeneratorTests
     private const string TestAasPath = "/aas";
     private const string TestBase64EncodedAasId = "dGVzdEFhc0lk"; // base64 encoded "testAasId"
 
+    // Fixed generation timestamp so the emitted Mnestix/GenerationTimestamp qualifier is
+    // deterministic and can be asserted directly in the fixtures.
+    private static readonly DateTimeOffset FixedGenerationTime = new(2026, 1, 2, 3, 4, 5, TimeSpan.Zero);
+
     [SetUp]
     public void SetUp()
     {
-        _dataToInstanceMapper = new DataMapper(new BlueprintValidator());
+        _dataToInstanceMapper = new DataMapper(new BlueprintValidator(), new FakeTimeProvider(FixedGenerationTime));
         _repoProxyClientMock = new Mock<IRepoProxyClient>();
         _templateSubmodelsProviderMock = new Mock<IBlueprintProvider>();
         _idGeneratorMock = new Mock<IAasIdGeneratorService>();

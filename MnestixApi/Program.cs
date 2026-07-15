@@ -117,6 +117,7 @@ namespace MnestixApi
             builder.Services.AddTransient<IAasGenerator, AasGenerator>();
             
             // Pipeline-based mapper
+            builder.Services.AddSingleton(TimeProvider.System);
             builder.Services.AddTransient<IDataMapper, DataMapper>();
 
 

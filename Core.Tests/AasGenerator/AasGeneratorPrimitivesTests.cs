@@ -28,7 +28,7 @@ public class AasGeneratorPrimitivesTests
     [SetUp]
     public void SetUp()
     {
-        _dataToInstanceMapper = new DataMapper(new BlueprintValidator());
+        _dataToInstanceMapper = new DataMapper(new BlueprintValidator(), TimeProvider.System);
         _repoProxyClientMock = new Mock<IRepoProxyClient>();
         _blueprintProviderMock = new Mock<IBlueprintProvider>();
         _idGeneratorMock = new Mock<IAasIdGeneratorService>();
