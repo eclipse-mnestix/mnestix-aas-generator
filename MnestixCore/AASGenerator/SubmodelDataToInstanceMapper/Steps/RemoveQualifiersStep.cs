@@ -37,7 +37,7 @@ public sealed class RemoveQualifiersStep : IPipelineStep<DataMappingContext>
 
     public Task<DataMappingContext> ExecuteAsync(DataMappingContext ctx)
     {
-        ctx.Log($"Started RemoveTopLevelQualifiersStep");
+        ctx.Log($"Started RemoveQualifiersStep");
 
         var topLevelQualifierCount = RemoveTopLevelQualifiers(ctx.SubmodelInstance);
         ctx.LogInfo($"Removed {topLevelQualifierCount} top-level qualifiers from submodel instance");
@@ -48,7 +48,7 @@ public sealed class RemoveQualifiersStep : IPipelineStep<DataMappingContext>
         AddConceptQualifiers(ctx.SubmodelInstance, ctx.Blueprint);
         ctx.LogInfo("Added concept qualifiers (blueprint id + generation timestamp) to submodel root");
 
-        ctx.Log($"Finished ReplaceQualifiersStep");
+        ctx.Log($"Finished RemoveQualifiersStep");
         return Task.FromResult(ctx);
     }
 
