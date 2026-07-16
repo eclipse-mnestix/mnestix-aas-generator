@@ -5,6 +5,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Time.Testing;
 using Moq;
 using MnestixCore.Dtos.AppSettingsOptions;
 using MnestixCore.RepoProxyClient.Interfaces;
@@ -71,6 +72,7 @@ public class BlueprintCreatorTest
             new OptionsWrapper<ConfigurationOptions>(configurationOptions),
             new OptionsWrapper<RepoProxyOptions>(repoProxyOptions),
             new Mock<ILogger<BlueprintCreator>>().Object,
+            TimeProvider.System,
             restClientFactory);
 
         var toEncodeAsBytes = Encoding.ASCII.GetBytes(blueprintsAasId);
@@ -115,7 +117,8 @@ public class BlueprintCreatorTest
             repoProxyClientMock.Object,
             new OptionsWrapper<ConfigurationOptions>(configurationOptions),
             new OptionsWrapper<RepoProxyOptions>(repoProxyOptions),
-            new Mock<ILogger<BlueprintCreator>>().Object);
+            new Mock<ILogger<BlueprintCreator>>().Object,
+            TimeProvider.System);
 
         var toEncodeAsBytes = Encoding.ASCII.GetBytes(blueprintsAasId);
         var aasBase64 = WebEncoders.Base64UrlEncode(toEncodeAsBytes);
@@ -190,6 +193,7 @@ public class BlueprintCreatorTest
             new OptionsWrapper<ConfigurationOptions>(configurationOptions),
             new OptionsWrapper<RepoProxyOptions>(repoProxyOptions),
             new Mock<ILogger<BlueprintCreator>>().Object,
+            TimeProvider.System,
             restClientFactory);
 
         var updatedSubmodel = TestFileProvider.GetBlueprintSubmodelNameplate();
@@ -267,6 +271,7 @@ public class BlueprintCreatorTest
             new OptionsWrapper<ConfigurationOptions>(configurationOptions),
             new OptionsWrapper<RepoProxyOptions>(repoProxyOptions),
             new Mock<ILogger<BlueprintCreator>>().Object,
+            TimeProvider.System,
             restClientFactory);
 
         const string originalSubmodelId = "https://blueprints.example.com/submodels/123";
@@ -288,6 +293,82 @@ public class BlueprintCreatorTest
         repoProxyClientMock.Verify(
             s => s.DeleteAsync(expectedSubmodelPath),
             Times.Never);
+    }
+
+    [Test]
+    public async Task CreateNewBlueprintInAas_SetsDisplayNameQualifierFromTimeProvider()
+    {
+        // ARRANGE
+        const string blueprintsAasId = "http://test.sm.id";
+        const string repoProxyAasPath = "/testpath/for/AasPath";
+        const string repoProxySubmodelPath = "/testpath/for/SubmodelPath";
+        const string blueprintsEndpoint = "https://blueprints.example.com/api/submodels";
+
+        // Fixed point in time so the emitted displayName qualifier is deterministic.
+        // FakeTimeProvider's local time zone defaults to UTC, so GetLocalNow() equals this value.
+        var fixedTime = new DateTimeOffset(2026, 1, 2, 3, 4, 5, TimeSpan.Zero);
+        var timeProvider = new FakeTimeProvider(fixedTime);
+
+        var repoProxyOptions = new RepoProxyOptions
+        {
+            AasPath = repoProxyAasPath,
+            SubmodelPath = repoProxySubmodelPath
+        };
+
+        var configurationOptions = new ConfigurationOptions
+        {
+            BlueprintsAasId = blueprintsAasId,
+            SubmodelBlueprintsApiUrl = blueprintsEndpoint
+        };
+
+        var template = TestFileProvider.GetTemplateSubmodelNameplate();
+        var repoProxyClientMock = new Mock<IRepoProxyClient>();
+
+        var blueprintCallTcs = new TaskCompletionSource<string?>(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        var restClientFactory = new Func<string, RestClient>(url =>
+        {
+            var options = new RestClientOptions(url)
+            {
+                ConfigureMessageHandler = _ => new BlueprintStubHttpMessageHandler(async request =>
+                {
+                    var content = request.Content is null
+                        ? null
+                        : await request.Content.ReadAsStringAsync();
+
+                    blueprintCallTcs.TrySetResult(content);
+
+                    return new HttpResponseMessage(HttpStatusCode.Created)
+                    {
+                        Content = new StringContent("{}", Encoding.UTF8, "application/json")
+                    };
+                })
+            };
+
+            return new RestClient(options);
+        });
+
+        var blueprintCreator = new BlueprintCreator(
+            repoProxyClientMock.Object,
+            new OptionsWrapper<ConfigurationOptions>(configurationOptions),
+            new OptionsWrapper<RepoProxyOptions>(repoProxyOptions),
+            new Mock<ILogger<BlueprintCreator>>().Object,
+            timeProvider,
+            restClientFactory);
+
+        // ACT
+        await blueprintCreator.CreateNewSubmodelInBlueprintAasAsync(template);
+
+        // ASSERT
+        var blueprintPayload = await blueprintCallTcs.Task;
+        blueprintPayload.Should().NotBeNull();
+
+        var persistedBlueprint = JObject.Parse(blueprintPayload!);
+        var displayNameQualifier = persistedBlueprint["qualifiers"]!
+            .Single(q => (string?)q["type"] == "displayName");
+
+        displayNameQualifier["value"].Should().NotBeNull();
+        ((string?)displayNameQualifier["value"]).Should().Be("Nameplate_2026-01-02T03:04:05");
     }
 
     private sealed class BlueprintStubHttpMessageHandler(Func<HttpRequestMessage, Task<HttpResponseMessage>> responseFactory) : HttpMessageHandler
