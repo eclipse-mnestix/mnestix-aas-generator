@@ -105,9 +105,14 @@ public static class AasJsonNormalizer
                     obj.Remove(name);
                 }
 
+                // Detect qualifier objects once; shared by Rule 3 (kind exception) and Rule 8.
+                var isInsideQualifiersArray = IsInsideQualifiersArray(obj);
+
                 // Rule 3: Strip kind from non-Submodel elements
                 // Only objects with modelType="Submodel" may keep "kind".
                 // Objects with a different modelType OR with no modelType at all must have it removed.
+                // Qualifiers are an exception too: they carry a valid qualifier "kind"
+                // (e.g. "ConceptQualifier") that must be preserved.
                 var modelTypeToken = obj["modelType"];
                 var modelType = modelTypeToken switch
                 {
@@ -115,7 +120,7 @@ public static class AasJsonNormalizer
                     JObject jo => jo["name"]?.Value<string>(), // AAS v2 format: {"name": "..."}
                     _ => null
                 };
-                if (obj.ContainsKey("kind") && modelType != "Submodel")
+                if (obj.ContainsKey("kind") && modelType != "Submodel" && !isInsideQualifiersArray)
                 {
                     obj.Remove("kind");
                 }
@@ -134,8 +139,6 @@ public static class AasJsonNormalizer
                 // Detect qualifier objects by their parent property name ("qualifiers") rather than
                 // by modelType == null, because AAS v3 qualifiers carry "modelType": "Qualifier".
                 // Also treat an empty-string valueType as missing.
-                var isInsideQualifiersArray =
-                    (obj.Parent as JArray)?.Parent is JProperty { Name: "qualifiers" };
                 if (isInsideQualifiersArray && obj["type"] != null)
                 {
                     var existingValueType = obj["valueType"]?.Value<string>();
@@ -171,6 +174,15 @@ public static class AasJsonNormalizer
                 break;
         }
     }
+
+    /// <summary>
+    /// Determines whether <paramref name="obj"/> is a qualifier object, i.e. an item of a
+    /// "qualifiers" array. Detects qualifiers by their enclosing property name rather than by
+    /// modelType, because a qualifier's "modelType" may be absent ("Qualifier" in AAS v3, or
+    /// nothing at all in v2 payloads).
+    /// </summary>
+    private static bool IsInsideQualifiersArray(JObject obj) =>
+        (obj.Parent as JArray)?.Parent is JProperty { Name: "qualifiers" };
 
     /// <summary>
     /// Serializes a <see cref="JToken"/> to its JSON text representation.
