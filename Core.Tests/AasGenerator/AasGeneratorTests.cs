@@ -9,6 +9,7 @@ using MnestixCore.TemplateBuilder.Interfaces;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Time.Testing;
 using Moq;
 using Newtonsoft.Json.Linq;
 
@@ -29,10 +30,14 @@ public class AasGeneratorTests
     private const string TestAasPath = "/aas";
     private const string TestBase64EncodedAasId = "dGVzdEFhc0lk"; // base64 encoded "testAasId"
 
+    // Fixed generation timestamp so the emitted Mnestix/GenerationTimestamp qualifier is
+    // deterministic and can be asserted directly in the fixtures.
+    private static readonly DateTimeOffset FixedGenerationTime = new(2026, 1, 2, 3, 4, 5, TimeSpan.Zero);
+
     [SetUp]
     public void SetUp()
     {
-        _dataToInstanceMapper = new DataMapper(new BlueprintValidator());
+        _dataToInstanceMapper = new DataMapper(new BlueprintValidator(), new FakeTimeProvider(FixedGenerationTime));
         _repoProxyClientMock = new Mock<IRepoProxyClient>();
         _templateSubmodelsProviderMock = new Mock<IBlueprintProvider>();
         _idGeneratorMock = new Mock<IAasIdGeneratorService>();
@@ -544,7 +549,18 @@ public class AasGeneratorTests
         
         capturedSubmodelContent.Should().NotBeNull();
         var actualSubmodel = JObject.Parse(capturedSubmodelContent!);
-        
+
+        // Guards against the fixtures merely freezing a buggy value: assert the emitted
+        // generation timestamp reflects the injected FixedGenerationTime, not just whatever
+        // the golden file happens to contain. Compared as a DateTime because JObject.Parse
+        // deserializes date-like strings into DateTime tokens.
+        var timestampValue = (actualSubmodel["qualifiers"] as JArray)?
+            .FirstOrDefault(q => q["type"]?.Value<string>() == "Mnestix/GenerationTimestamp")?["value"]
+            ?.Value<DateTime>();
+        timestampValue.Should().Be(
+            FixedGenerationTime.UtcDateTime,
+            "the emitted generation timestamp must reflect the injected time");
+
         JToken.DeepEquals(actualSubmodel, expectedResult).Should().BeTrue(
             $"Test case '{testCaseName}' failed: Expected submodel content to match expected result \n Expected: {expectedResult}\n Actual: {actualSubmodel}");
     }

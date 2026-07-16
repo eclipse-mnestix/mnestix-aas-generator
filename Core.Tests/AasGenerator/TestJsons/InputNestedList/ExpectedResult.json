@@ -16,7 +16,20 @@
     "version": "1",
     "revision": "1"
   },
-  "qualifiers": [],
+  "qualifiers": [
+    {
+      "kind": "ConceptQualifier",
+      "type": "Mnestix/OriginalBlueprintID",
+      "value": "urn:smtemplate:NestedListTemplate",
+      "valueType": "xs:string"
+    },
+    {
+      "kind": "ConceptQualifier",
+      "type": "Mnestix/GenerationTimestamp",
+      "value": "2026-01-02T03:04:05.0000000Z",
+      "valueType": "xs:dateTime"
+    }
+  ],
   "submodelElements": [
     {
       "modelType": "SubmodelElementCollection",
@@ -48,12 +61,6 @@
                   "type": "SMT/Cardinality",
                   "value": "One",
                   "valueType": "xs:string"
-                },
-                {
-                  "kind": "TemplateQualifier",
-                  "type": "SMT/MappingInfo",
-                  "value": "sourceData.contactPersons[0].name",
-                  "valueType": "xs:string"
                 }
               ]
             },
@@ -67,12 +74,6 @@
                   "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "value": "One",
-                  "valueType": "xs:string"
-                },
-                {
-                  "kind": "TemplateQualifier",
-                  "type": "SMT/MappingInfo",
-                  "value": "sourceData.contactPersons[0].email",
                   "valueType": "xs:string"
                 }
               ]
@@ -107,12 +108,6 @@
                           "type": "SMT/Cardinality",
                           "value": "One",
                           "valueType": "xs:string"
-                        },
-                        {
-                          "kind": "TemplateQualifier",
-                          "type": "SMT/MappingInfo",
-                          "value": "sourceData.contactPersons[0].phone_numbers[0].name",
-                          "valueType": "xs:string"
                         }
                       ]
                     },
@@ -127,12 +122,6 @@
                           "type": "SMT/Cardinality",
                           "value": "One",
                           "valueType": "xs:string"
-                        },
-                        {
-                          "kind": "TemplateQualifier",
-                          "type": "SMT/MappingInfo",
-                          "value": "sourceData.contactPersons[0].phone_numbers[0].value",
-                          "valueType": "xs:string"
                         }
                       ]
                     },
@@ -146,12 +135,6 @@
                           "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "value": "One",
-                          "valueType": "xs:string"
-                        },
-                        {
-                          "kind": "TemplateQualifier",
-                          "type": "SMT/MappingInfo",
-                          "value": "sourceData.contactPersons[0].phone_numbers[0].hasMailbox",
                           "valueType": "xs:string"
                         }
                       ]
@@ -186,12 +169,6 @@
                   "type": "SMT/Cardinality",
                   "value": "One",
                   "valueType": "xs:string"
-                },
-                {
-                  "kind": "TemplateQualifier",
-                  "type": "SMT/MappingInfo",
-                  "value": "sourceData.contactPersons[1].name",
-                  "valueType": "xs:string"
                 }
               ]
             },
@@ -205,12 +182,6 @@
                   "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "value": "One",
-                  "valueType": "xs:string"
-                },
-                {
-                  "kind": "TemplateQualifier",
-                  "type": "SMT/MappingInfo",
-                  "value": "sourceData.contactPersons[1].email",
                   "valueType": "xs:string"
                 }
               ]
@@ -245,12 +216,6 @@
                           "type": "SMT/Cardinality",
                           "value": "One",
                           "valueType": "xs:string"
-                        },
-                        {
-                          "kind": "TemplateQualifier",
-                          "type": "SMT/MappingInfo",
-                          "value": "sourceData.contactPersons[1].phone_numbers[0].name",
-                          "valueType": "xs:string"
                         }
                       ]
                     },
@@ -265,12 +230,6 @@
                           "type": "SMT/Cardinality",
                           "value": "One",
                           "valueType": "xs:string"
-                        },
-                        {
-                          "kind": "TemplateQualifier",
-                          "type": "SMT/MappingInfo",
-                          "value": "sourceData.contactPersons[1].phone_numbers[0].value",
-                          "valueType": "xs:string"
                         }
                       ]
                     },
@@ -284,12 +243,6 @@
                           "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "value": "One",
-                          "valueType": "xs:string"
-                        },
-                        {
-                          "kind": "TemplateQualifier",
-                          "type": "SMT/MappingInfo",
-                          "value": "sourceData.contactPersons[1].phone_numbers[0].hasMailbox",
                           "valueType": "xs:string"
                         }
                       ]
@@ -320,12 +273,6 @@
                           "type": "SMT/Cardinality",
                           "value": "One",
                           "valueType": "xs:string"
-                        },
-                        {
-                          "kind": "TemplateQualifier",
-                          "type": "SMT/MappingInfo",
-                          "value": "sourceData.contactPersons[1].phone_numbers[1].name",
-                          "valueType": "xs:string"
                         }
                       ]
                     },
@@ -340,12 +287,6 @@
                           "type": "SMT/Cardinality",
                           "value": "One",
                           "valueType": "xs:string"
-                        },
-                        {
-                          "kind": "TemplateQualifier",
-                          "type": "SMT/MappingInfo",
-                          "value": "sourceData.contactPersons[1].phone_numbers[1].value",
-                          "valueType": "xs:string"
                         }
                       ]
                     },
@@ -359,12 +300,6 @@
                           "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "value": "One",
-                          "valueType": "xs:string"
-                        },
-                        {
-                          "kind": "TemplateQualifier",
-                          "type": "SMT/MappingInfo",
-                          "value": "sourceData.contactPersons[1].phone_numbers[1].hasMailbox",
                           "valueType": "xs:string"
                         }
                       ]
@@ -395,12 +330,6 @@
                           "type": "SMT/Cardinality",
                           "value": "One",
                           "valueType": "xs:string"
-                        },
-                        {
-                          "kind": "TemplateQualifier",
-                          "type": "SMT/MappingInfo",
-                          "value": "sourceData.contactPersons[1].phone_numbers[2].name",
-                          "valueType": "xs:string"
                         }
                       ]
                     },
@@ -415,12 +344,6 @@
                           "type": "SMT/Cardinality",
                           "value": "One",
                           "valueType": "xs:string"
-                        },
-                        {
-                          "kind": "TemplateQualifier",
-                          "type": "SMT/MappingInfo",
-                          "value": "sourceData.contactPersons[1].phone_numbers[2].value",
-                          "valueType": "xs:string"
                         }
                       ]
                     },
@@ -434,12 +357,6 @@
                           "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "value": "One",
-                          "valueType": "xs:string"
-                        },
-                        {
-                          "kind": "TemplateQualifier",
-                          "type": "SMT/MappingInfo",
-                          "value": "sourceData.contactPersons[1].phone_numbers[2].hasMailbox",
                           "valueType": "xs:string"
                         }
                       ]
@@ -474,12 +391,6 @@
                   "type": "SMT/Cardinality",
                   "value": "One",
                   "valueType": "xs:string"
-                },
-                {
-                  "kind": "TemplateQualifier",
-                  "type": "SMT/MappingInfo",
-                  "value": "sourceData.contactPersons[2].name",
-                  "valueType": "xs:string"
                 }
               ]
             },
@@ -493,12 +404,6 @@
                   "kind": "TemplateQualifier",
                   "type": "SMT/Cardinality",
                   "value": "One",
-                  "valueType": "xs:string"
-                },
-                {
-                  "kind": "TemplateQualifier",
-                  "type": "SMT/MappingInfo",
-                  "value": "sourceData.contactPersons[2].email",
                   "valueType": "xs:string"
                 }
               ]
@@ -533,12 +438,6 @@
                           "type": "SMT/Cardinality",
                           "value": "One",
                           "valueType": "xs:string"
-                        },
-                        {
-                          "kind": "TemplateQualifier",
-                          "type": "SMT/MappingInfo",
-                          "value": "sourceData.contactPersons[2].phone_numbers[0].name",
-                          "valueType": "xs:string"
                         }
                       ]
                     },
@@ -553,12 +452,6 @@
                           "type": "SMT/Cardinality",
                           "value": "One",
                           "valueType": "xs:string"
-                        },
-                        {
-                          "kind": "TemplateQualifier",
-                          "type": "SMT/MappingInfo",
-                          "value": "sourceData.contactPersons[2].phone_numbers[0].value",
-                          "valueType": "xs:string"
                         }
                       ]
                     },
@@ -572,12 +465,6 @@
                           "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "value": "One",
-                          "valueType": "xs:string"
-                        },
-                        {
-                          "kind": "TemplateQualifier",
-                          "type": "SMT/MappingInfo",
-                          "value": "sourceData.contactPersons[2].phone_numbers[0].hasMailbox",
                           "valueType": "xs:string"
                         }
                       ]
@@ -608,12 +495,6 @@
                           "type": "SMT/Cardinality",
                           "value": "One",
                           "valueType": "xs:string"
-                        },
-                        {
-                          "kind": "TemplateQualifier",
-                          "type": "SMT/MappingInfo",
-                          "value": "sourceData.contactPersons[2].phone_numbers[1].name",
-                          "valueType": "xs:string"
                         }
                       ]
                     },
@@ -628,12 +509,6 @@
                           "type": "SMT/Cardinality",
                           "value": "One",
                           "valueType": "xs:string"
-                        },
-                        {
-                          "kind": "TemplateQualifier",
-                          "type": "SMT/MappingInfo",
-                          "value": "sourceData.contactPersons[2].phone_numbers[1].value",
-                          "valueType": "xs:string"
                         }
                       ]
                     },
@@ -647,12 +522,6 @@
                           "kind": "TemplateQualifier",
                           "type": "SMT/Cardinality",
                           "value": "One",
-                          "valueType": "xs:string"
-                        },
-                        {
-                          "kind": "TemplateQualifier",
-                          "type": "SMT/MappingInfo",
-                          "value": "sourceData.contactPersons[2].phone_numbers[1].hasMailbox",
                           "valueType": "xs:string"
                         }
                       ]

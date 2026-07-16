@@ -11,7 +11,8 @@ public sealed class DataMappingContext
     public string? Language { get; }
     public string NewSubmodelId { get; }
     public IBlueprintValidator BlueprintValidator { get; }
-    
+    public TimeProvider TimeProvider { get; }
+
     // Shared workflow logger
     private readonly WorkflowLogger _workflowLogger;
 
@@ -43,7 +44,7 @@ public sealed class DataMappingContext
     public List<MappingDescriptor> MappingDescriptors { get; set; } = new();
     public List<ResolvedMapping> ResolvedMappings { get; set; } = new();
 
-    public DataMappingContext(JObject blueprint, JObject data, string? language, string newSubmodelId, WorkflowLogger workflowLogger, IBlueprintValidator blueprintValidator)
+    public DataMappingContext(JObject blueprint, JObject data, string? language, string newSubmodelId, WorkflowLogger workflowLogger, IBlueprintValidator blueprintValidator, TimeProvider timeProvider)
     {
         Blueprint = blueprint;
         Data = data;
@@ -51,6 +52,7 @@ public sealed class DataMappingContext
         NewSubmodelId = newSubmodelId;
         _workflowLogger = workflowLogger;
         BlueprintValidator = blueprintValidator;
+        TimeProvider = timeProvider;
         SubmodelInstance = new JObject();
     }
 }

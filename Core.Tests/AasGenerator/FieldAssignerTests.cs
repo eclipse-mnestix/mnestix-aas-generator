@@ -17,14 +17,14 @@ public class FieldAssignerTests
     {
         return new DataMappingContext(
             new JObject(), new JObject(), null, "urn:new",
-            new WorkflowLogger(NullLogger.Instance), new BlueprintValidator());
+            new WorkflowLogger(NullLogger.Instance), new BlueprintValidator(), TimeProvider.System);
     }
 
     private static DataMappingContext MakeContext(string? language)
     {
         return new DataMappingContext(
             new JObject(), new JObject(), language, "urn:new",
-            new WorkflowLogger(NullLogger.Instance), new BlueprintValidator());
+            new WorkflowLogger(NullLogger.Instance), new BlueprintValidator(), TimeProvider.System);
     }
 
     private static JObject MakeElement(string modelType = "Property", string idShort = "P")
