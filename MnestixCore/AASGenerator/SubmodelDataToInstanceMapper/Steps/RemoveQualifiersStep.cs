@@ -1,4 +1,3 @@
-using System.Globalization;
 using MnestixCore.AasGenerator.Interfaces;
 using Newtonsoft.Json.Linq;
 
@@ -6,9 +5,8 @@ namespace MnestixCore.AasGenerator.Pipelines.Steps;
 
 /// <summary>
 /// In this Step, we remove the top level Qualifiers and all Mapping Qualifiers.
-/// We also add the Blueprint ID and the Generation Timestamp at the root of the Submodel for better traceability.
 /// </summary>
-public sealed class RemoveQualifiersStep : IPipelineStep<DataMappingContext>
+public sealed class RemoveQualifiersAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
 {
     /// <summary>
     /// Prefixes (case-insensitive) that a qualifier <c>type</c> must start with before it is considered
@@ -31,13 +29,9 @@ public sealed class RemoveQualifiersStep : IPipelineStep<DataMappingContext>
         "mapping"
     ];
 
-    private const string ConceptQualifierKind = "ConceptQualifier";
-    private const string BlueprintIdQualifierType = "Mnestix/OriginalBlueprintID";
-    private const string GenerationTimestampQualifierType = "Mnestix/GenerationTimestamp";
-
     public Task<DataMappingContext> ExecuteAsync(DataMappingContext ctx)
     {
-        ctx.Log($"Started RemoveQualifiersStep");
+        ctx.Log($"Started RemoveQualifiersAasGeneratorPipelineStep");
 
         var topLevelQualifierCount = RemoveTopLevelQualifiers(ctx.SubmodelInstance);
         ctx.LogInfo($"Removed {topLevelQualifierCount} top-level qualifiers from submodel instance");
@@ -45,42 +39,8 @@ public sealed class RemoveQualifiersStep : IPipelineStep<DataMappingContext>
         var mappingQualifierCount = RemoveMappingQualifiers(ctx.SubmodelInstance);
         ctx.LogInfo($"Removed {mappingQualifierCount} mapping qualifiers from submodel instance");
 
-        AddConceptQualifiers(ctx.SubmodelInstance, ctx.Blueprint);
-        ctx.LogInfo("Added concept qualifiers (blueprint id + generation timestamp) to submodel root");
-
-        ctx.Log($"Finished RemoveQualifiersStep");
+        ctx.Log($"Finished RemoveQualifiersAasGeneratorPipelineStep");
         return Task.FromResult(ctx);
-    }
-
-    /// <summary>
-    /// Appends the Concept qualifiers carrying the original blueprint id and the generation timestamp
-    /// to the submodel root <c>qualifiers</c> array, so the generated submodel remains traceable to the
-    /// blueprint and generation run that produced it.
-    /// </summary>
-    private static void AddConceptQualifiers(JObject submodel, JObject blueprint)
-    {
-        var blueprintId = blueprint["id"]?.Value<string>();
-        var generationTimestamp = DateTime.UtcNow.ToString("O", CultureInfo.InvariantCulture);
-
-        if (submodel["qualifiers"] is not JArray qualifiers)
-        {
-            qualifiers = [];
-            submodel["qualifiers"] = qualifiers;
-        }
-
-        qualifiers.Add(CreateConceptQualifier(BlueprintIdQualifierType, blueprintId, "xs:string"));
-        qualifiers.Add(CreateConceptQualifier(GenerationTimestampQualifierType, generationTimestamp, "xs:dateTime"));
-    }
-
-    private static JObject CreateConceptQualifier(string type, string? value, string valueType)
-    {
-        return new JObject
-        {
-            ["kind"] = ConceptQualifierKind,
-            ["type"] = type,
-            ["value"] = value,
-            ["valueType"] = valueType,
-        };
     }
 
     private static int RemoveTopLevelQualifiers(JObject submodel)

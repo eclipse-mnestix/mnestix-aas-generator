@@ -20,12 +20,14 @@ public class BlueprintCreator : IBlueprintCreator
     private readonly RepoProxyOptions _repoProxyOptions;
     private readonly string _submodelBlueprintsApiUrl;
     private readonly Func<string, RestClient> _restClientFactory;
+    private readonly TimeProvider _timeProvider;
 
     public BlueprintCreator(
         IRepoProxyClient repoProxyClient,
         IOptions<ConfigurationOptions> configurationOptions,
         IOptions<RepoProxyOptions> repoProxyOptions,
         ILogger<BlueprintCreator> logger,
+        TimeProvider timeProvider,
         Func<string, RestClient>? restClientFactory = null)
     {
         ArgumentNullException.ThrowIfNull(configurationOptions);
@@ -35,6 +37,7 @@ public class BlueprintCreator : IBlueprintCreator
         _submodelBlueprintsApiUrl = configurationOptions.Value.SubmodelBlueprintsApiUrl;
         _repoProxyClient = repoProxyClient;
         _logger = logger;
+        _timeProvider = timeProvider;
         _restClientFactory = restClientFactory ?? (url => new RestClient(url));
     }
 
@@ -161,7 +164,7 @@ public class BlueprintCreator : IBlueprintCreator
 
     private void SetDisplayName(string submodelIdShort, ref JObject submodel)
     {
-        var displayName = submodelIdShort + "_" + DateTime.Now.ToString("s");
+        var displayName = submodelIdShort + "_" + _timeProvider.GetLocalNow().DateTime.ToString("s");
         _logger.LogDebug("SetDisplayName: {DisplayName}", displayName);
 
         var idShortQualifier = JToken.FromObject(new

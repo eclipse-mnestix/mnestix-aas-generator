@@ -16,10 +16,12 @@ namespace MnestixCore.AasGenerator;
 public sealed class DataMapper : IDataMapper
 {
     private readonly IBlueprintValidator _blueprintValidator;
+    private readonly TimeProvider _timeProvider;
 
-    public DataMapper(IBlueprintValidator blueprintValidator)
+    public DataMapper(IBlueprintValidator blueprintValidator, TimeProvider timeProvider)
     {
         _blueprintValidator = blueprintValidator;
+        _timeProvider = timeProvider;
     }
 
     /// <summary>
@@ -33,7 +35,7 @@ public sealed class DataMapper : IDataMapper
     /// <returns>Tuple containing the newly created submodel and the context.</returns>
     public (JObject Instance, DataMappingContext Context) CreateSubmodelInstanceFromDataJson(JObject blueprint, JObject data, string? language, string newSubmodelId, WorkflowLogger workflowLogger)
     {
-        var context = new DataMappingContext(blueprint, data, language, newSubmodelId, workflowLogger, _blueprintValidator);
+        var context = new DataMappingContext(blueprint, data, language, newSubmodelId, workflowLogger, _blueprintValidator, _timeProvider);
 
         // Build pipeline with all the steps in the correct order
         var pipeline = new Pipelines.Core.PipelineBuilder<DataMappingContext>()
@@ -45,7 +47,8 @@ public sealed class DataMapper : IDataMapper
             .Use<DiscoverMappingDescriptorsAasGeneratorPipelineStep>()
             .Use<ResolveMappingExpressionsAasGeneratorPipelineStep>()
             .Use<AssignMappedFieldsAasGeneratorPipelineStep>()
-            .Use<RemoveQualifiersStep>()
+            .Use<RemoveQualifiersAasGeneratorPipelineStep>()
+            .Use<AddConceptQualifiersAasGeneratorPipelineStep>()
             .Use<ReplaceIdentificationAasGeneratorPipelineStep>()
             .Build();
 

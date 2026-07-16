@@ -9,6 +9,7 @@ using MnestixCore.TemplateBuilder.Interfaces;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Time.Testing;
 using Moq;
 using Newtonsoft.Json.Linq;
 
@@ -29,10 +30,14 @@ public class AasGeneratorTests
     private const string TestAasPath = "/aas";
     private const string TestBase64EncodedAasId = "dGVzdEFhc0lk"; // base64 encoded "testAasId"
 
+    // Fixed generation timestamp so the emitted Mnestix/GenerationTimestamp qualifier is
+    // deterministic and can be asserted directly in the fixtures.
+    private static readonly DateTimeOffset FixedGenerationTime = new(2026, 1, 2, 3, 4, 5, TimeSpan.Zero);
+
     [SetUp]
     public void SetUp()
     {
-        _dataToInstanceMapper = new DataMapper(new BlueprintValidator());
+        _dataToInstanceMapper = new DataMapper(new BlueprintValidator(), new FakeTimeProvider(FixedGenerationTime));
         _repoProxyClientMock = new Mock<IRepoProxyClient>();
         _templateSubmodelsProviderMock = new Mock<IBlueprintProvider>();
         _idGeneratorMock = new Mock<IAasIdGeneratorService>();
@@ -500,63 +505,6 @@ public class AasGeneratorTests
         await RunDataIngestFailureTest("InputMLPMultiLanguage_AllEmptyStrings_Mandatory");
     }
 
-    // The generation timestamp is non-deterministic (DateTime.UtcNow), so the fixture-based
-    // RunDataIngestTest strips it before comparing. This test is the only place that verifies
-    // the timestamp qualifier is emitted at all, and that its kind/valueType/value are well-formed.
-    [Test]
-    public async Task AddDataToAasAsync_AddsGenerationTimestampQualifier()
-    {
-        // ARRANGE
-        var templateSubmodel = DataIngestTestFileProvider.GetTemplateSubmodel("MandatoryAndOptionalField");
-        var templateData = DataIngestTestFileProvider.GetData("MandatoryAndOptionalField");
-        var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
-
-        string? capturedSubmodelContent = null;
-        _repoProxyClientMock
-            .Setup(x => x.PostAsync(It.Is<string>(path => path == TestSubmodelPath), It.IsAny<string>()))
-            .Callback<string, string>((_, content) => capturedSubmodelContent = content)
-            .ReturnsAsync("created");
-        _repoProxyClientMock
-            .Setup(x => x.PostAsync(It.Is<string>(path => path == TestAasPath), It.IsAny<string>()))
-            .ReturnsAsync("created");
-        _templateSubmodelsProviderMock
-            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
-            .ReturnsAsync(templateSubmodel);
-
-        // ACT
-        await _aasGenerator.AddDataToAasAsync("TestAasId", templateIds, templateData, "en");
-
-        // ASSERT
-        capturedSubmodelContent.Should().NotBeNull();
-        var submodel = JObject.Parse(capturedSubmodelContent!);
-        var timestampQualifier = (submodel["qualifiers"] as JArray)?
-            .FirstOrDefault(q => q["type"]?.Value<string>() == "Mnestix/GenerationTimestamp");
-
-        timestampQualifier.Should().NotBeNull("a generation timestamp concept qualifier should be added at submodel root");
-        timestampQualifier!["kind"]?.Value<string>().Should().Be("ConceptQualifier");
-        timestampQualifier["valueType"]?.Value<string>().Should().Be("xs:dateTime");
-        DateTime.TryParse(timestampQualifier["value"]?.Value<string>(), out _)
-            .Should().BeTrue("the timestamp value should be a parseable date-time");
-    }
-
-    /// <summary>
-    /// Removes the non-deterministic generation-timestamp concept qualifier from the submodel
-    /// root so fixture comparisons stay stable. The blueprint-id concept qualifier and all
-    /// preserved qualifiers (e.g. SMT/Cardinality) remain untouched.
-    /// </summary>
-    private static void RemoveGenerationTimestampQualifier(JObject submodel)
-    {
-        if (submodel["qualifiers"] is not JArray qualifiers)
-        {
-            return;
-        }
-
-        qualifiers
-            .Where(q => q["type"]?.Value<string>() == "Mnestix/GenerationTimestamp")
-            .ToList()
-            .ForEach(q => q.Remove());
-    }
-
     private async Task RunDataIngestTest(string testCaseName, string? language = "en")
     {
         // ARRANGE
@@ -602,10 +550,16 @@ public class AasGeneratorTests
         capturedSubmodelContent.Should().NotBeNull();
         var actualSubmodel = JObject.Parse(capturedSubmodelContent!);
 
-        // The generation timestamp qualifier carries DateTime.UtcNow, which is
-        // non-deterministic and therefore excluded from the fixture comparison. It is
-        // asserted separately in AddDataToAasAsync_AddsGenerationTimestampQualifier.
-        RemoveGenerationTimestampQualifier(actualSubmodel);
+        // Guards against the fixtures merely freezing a buggy value: assert the emitted
+        // generation timestamp reflects the injected FixedGenerationTime, not just whatever
+        // the golden file happens to contain. Compared as a DateTime because JObject.Parse
+        // deserializes date-like strings into DateTime tokens.
+        var timestampValue = (actualSubmodel["qualifiers"] as JArray)?
+            .FirstOrDefault(q => q["type"]?.Value<string>() == "Mnestix/GenerationTimestamp")?["value"]
+            ?.Value<DateTime>();
+        timestampValue.Should().Be(
+            FixedGenerationTime.UtcDateTime,
+            "the emitted generation timestamp must reflect the injected time");
 
         JToken.DeepEquals(actualSubmodel, expectedResult).Should().BeTrue(
             $"Test case '{testCaseName}' failed: Expected submodel content to match expected result \n Expected: {expectedResult}\n Actual: {actualSubmodel}");
