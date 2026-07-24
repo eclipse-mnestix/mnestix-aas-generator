@@ -587,6 +587,46 @@ public class AasCreatorEndpointTests : IntegrationTestsBase
     }
 
     [Test]
+    public async Task CreateAas_WithUnknownSubmodelId_ShouldCreateWithDanglingReference()
+    {
+        // ARRANGE: existence of provided submodel IDs is no longer validated, so an
+        // unknown ID must still succeed and produce a dangling reference (not a 400).
+        var unknownSubmodelId = "https://example.com/submodels/non-existent";
+
+        var aasList = new List<JObject>();
+
+        var json = $@"
+            {{
+              ""submodelIds"": [
+                ""{unknownSubmodelId}""
+              ]
+            }}";
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        // No WithGetSubmodel mock: the creation flow must not GET-check the id.
+        var mockedRestClient = new MockRestClientBuilder(aas: aasList)
+            .WithGetAas("aHR0cHM6Ly9leGFtcGxlLmNvbS9hYXMvZGFuZ2xpbmdTdWJtb2RlbA", "", HttpStatusCode.NotFound, false)
+            .WithGetIdSettings()
+            .WithPostAas()
+            .Build();
+
+        Func<IRestClient> restClientFactory = () => mockedRestClient;
+        HttpClientMock.Setup(x => x.GetConfiguredClientAsync(It.IsAny<string>())).ReturnsAsync(restClientFactory);
+
+        // ACT
+        var responseContent = await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/danglingSubmodel", content, StatusCodes.Status201Created);
+
+        // ASSERT
+        responseContent.Should().Contain("\"assetId\":\"assetIdPrefixdanglingSubmodel\"");
+        aasList.Should().HaveCount(1);
+
+        // Shell references the unknown submodel id despite it not existing in the repo.
+        var shellRefs = aasList[0]["submodels"] as JArray;
+        shellRefs.Should().NotBeNull().And.HaveCount(1);
+        shellRefs!.ToString().Should().Contain(unknownSubmodelId);
+    }
+
+    [Test]
     public async Task CreateAas_WithBlueprintsAndSubmodelIds_ShouldCreateAndLinkSubmodels()
     {
         // ARRANGE
@@ -644,37 +684,6 @@ public class AasCreatorEndpointTests : IntegrationTestsBase
         // Check ordering: generated first, then provided
         shellRefs![0]["keys"]?[0]?["value"]?.ToString().Should().Be(generatedSubmodelId);
         shellRefs[1]["keys"]?[0]?["value"]?.ToString().Should().Be(existingSubmodelId);
-    }
-
-    [Test]
-    public async Task CreateAas_WithInvalidSubmodelId_ShouldReturnBadRequest()
-    {
-        // ARRANGE
-        var invalidSubmodelId = "https://example.com/submodels/non-existent";
-        var invalidSubmodelIdBase64 = Base64StringDeAndEncoder.EncodeTo64(invalidSubmodelId);
-
-        var json = $@"
-            {{
-              ""submodelIds"": [
-                ""{invalidSubmodelId}""
-              ]
-            }}";
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-        var mockedRestClient = new MockRestClientBuilder()
-            .WithGetIdSettings()
-            .WithGetSubmodel(invalidSubmodelIdBase64, "", HttpStatusCode.NotFound, false)
-            .Build();
-
-        Func<IRestClient> restClientFactory = () => mockedRestClient;
-        HttpClientMock.Setup(x => x.GetConfiguredClientAsync(It.IsAny<string>())).ReturnsAsync(restClientFactory);
-
-        // ACT
-        var responseContent = await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/invalidSubmodel", content, StatusCodes.Status400BadRequest);
-
-        // ASSERT
-        responseContent.Should().Contain(invalidSubmodelId);
-        responseContent.Should().Contain("do not exist");
     }
 
     [Test]

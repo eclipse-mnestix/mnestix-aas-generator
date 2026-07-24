@@ -69,14 +69,7 @@ public class AasCreatorService(
         var base64EncodedAasId = Base64StringDeAndEncoder.EncodeTo64(aasIds.aasId);
         var shellPath = $"{_repoProxyOptions.AasPath}/{base64EncodedAasId}";
 
-        // 1. Validate provided submodel IDs exist (fail fast before creating anything)
-        var validationFailure = await ValidateSubmodelIdsExistAsync(aasIds, input?.SubmodelIds);
-        if (validationFailure != null)
-        {
-            return validationFailure;
-        }
-
-        // 2. Build + validate all submodels in memory (no repo writes)
+        // 1. Build + validate all submodels in memory (no repo writes)
         var (buildFailure, builtResults, instancesToPost) =
             await BuildSubmodelsAsync(aasIds, input?.BlueprintsIds, input?.Data, input?.Language, input?.Debug ?? false);
         if (buildFailure != null)
@@ -84,17 +77,17 @@ public class AasCreatorService(
             return buildFailure;
         }
 
-        // 3. POST submodel bodies (fail fast: roll back already-posted submodels on failure)
+        // 2. POST submodel bodies (fail fast: roll back already-posted submodels on failure)
         var (postFailure, postedSubmodelIds) = await PostSubmodelsAsync(aasIds, builtResults, instancesToPost);
         if (postFailure != null)
         {
             return postFailure;
         }
 
-        // 4. Build shell template with all submodel-refs baked in
+        // 3. Build shell template with all submodel-refs baked in
         var shell = BuildShellWithRefs(aasIds, postedSubmodelIds, input?.Metadata, input?.SubmodelIds);
 
-        // 5. POST shell
+        // 4. POST shell
         try
         {
             await repoProxyClient.PostAsync($"{_repoProxyOptions.AasPath}", shell);
@@ -113,52 +106,6 @@ public class AasCreatorService(
             AasCreationStatus.Created,
             builtResults,
             repoProxyClient.GetAasRepositoryUrl());
-    }
-
-    /// <summary>
-    /// Validates that all provided submodel IDs exist in the repository. When no submodel IDs are provided this is a no-op.
-    /// On any missing ID a terminal <see cref="AasCreationStatus.GenerationFailed"/> result is returned.
-    /// </summary>
-    /// <param name="aasIds">Ids of the AAS being created (for error reporting).</param>
-    /// <param name="submodelIds">Submodel IDs to validate; null/empty means no validation needed.</param>
-    /// <returns>A terminal failure result (non-null on error), or null if all IDs exist.</returns>
-    private async Task<AasCreationWithSubmodelsResult?> ValidateSubmodelIdsExistAsync(
-        AasIds aasIds,
-        IEnumerable<string>? submodelIds)
-    {
-        if (submodelIds == null || !submodelIds.Any())
-        {
-            return null;
-        }
-
-        var missingIds = new List<string>();
-
-        foreach (var submodelId in submodelIds)
-        {
-            var base64SubmodelId = Base64StringDeAndEncoder.EncodeTo64(submodelId);
-            try
-            {
-                await repoProxyClient.GetAsync($"{_repoProxyOptions.SubmodelPath}/{base64SubmodelId}");
-                // If we reach here, the submodel exists
-            }
-            catch (RepoProxyException ex) when (ex.InnerException is HttpRequestException httpEx && httpEx.StatusCode == System.Net.HttpStatusCode.NotFound)
-            {
-                // GetAsync wraps HTTP errors in RepoProxyException with InnerException = HttpRequestException
-                missingIds.Add(submodelId);
-            }
-        }
-
-        if (missingIds.Any())
-        {
-            var errorMessage = $"The following submodel IDs do not exist in the repository: {string.Join(", ", missingIds)}";
-            return new AasCreationWithSubmodelsResult(
-                aasIds,
-                AasCreationStatus.GenerationFailed,
-                Enumerable.Empty<AasGenerator.AasGeneratorResult>(),
-                errorMessage: errorMessage);
-        }
-
-        return null;
     }
 
     /// <summary>
