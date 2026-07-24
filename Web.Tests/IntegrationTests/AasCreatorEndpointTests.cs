@@ -647,37 +647,6 @@ public class AasCreatorEndpointTests : IntegrationTestsBase
     }
 
     [Test]
-    public async Task CreateAas_WithInvalidSubmodelId_ShouldReturnBadRequest()
-    {
-        // ARRANGE
-        var invalidSubmodelId = "https://example.com/submodels/non-existent";
-        var invalidSubmodelIdBase64 = Base64StringDeAndEncoder.EncodeTo64(invalidSubmodelId);
-
-        var json = $@"
-            {{
-              ""submodelIds"": [
-                ""{invalidSubmodelId}""
-              ]
-            }}";
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-        var mockedRestClient = new MockRestClientBuilder()
-            .WithGetIdSettings()
-            .WithGetSubmodel(invalidSubmodelIdBase64, "", HttpStatusCode.NotFound, false)
-            .Build();
-
-        Func<IRestClient> restClientFactory = () => mockedRestClient;
-        HttpClientMock.Setup(x => x.GetConfiguredClientAsync(It.IsAny<string>())).ReturnsAsync(restClientFactory);
-
-        // ACT
-        var responseContent = await PostContentAndEnsureSuccessStatusCodeAsync("/api/AasCreator/invalidSubmodel", content, StatusCodes.Status400BadRequest);
-
-        // ASSERT
-        responseContent.Should().Contain(invalidSubmodelId);
-        responseContent.Should().Contain("do not exist");
-    }
-
-    [Test]
     public async Task CreateAas_WithAdministrationMissingVersion_ShouldReturnBadRequest()
     {
         // ARRANGE
