@@ -78,8 +78,8 @@ public class CreateAasRequest
 
     /// <summary>
     /// Optional list of existing submodel IDs to link to the new AAS.
-    /// These are plain (not base64-encoded) submodel IDs that will be validated against
-    /// the repository before AAS creation. All provided IDs must exist or the creation will fail.
+    /// These are plain (not base64-encoded) submodel IDs. Existence is not validated;
+    /// an ID that is not in the repository yields a dangling reference on the created shell.
     /// Can be combined with BlueprintsIds to both generate new submodels and link existing ones.
     /// </summary>
     public IEnumerable<string>? SubmodelIds { get; set; }
