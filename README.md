@@ -51,6 +51,7 @@ Configure in `MnestixApi/appsettings.json`:
 |------|---------|-------------|
 | `Features__UseAuthentication` | `false` | Enable/disable authentication |
 | `Features__RequiredShells` | `true` | Initialize required AAS shells on startup |
+| `Features__AddExampleAas` | `true` | Also initialize demo/example AAS (`lni0729`, `Mnestix`) when `Features__RequiredShells` is enabled. Configuration, DefaultTemplate and CustomTemplate are unaffected. |
 
 ### Repository Connection
 
