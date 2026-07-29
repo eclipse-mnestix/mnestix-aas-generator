@@ -211,7 +211,10 @@ namespace MnestixApi
 
                 if (parseSuccessful && requiredShells)
                 {
-                    requiredShellsAssertion.AssertRequiredShellsAsync();
+                    var addExampleAasParseSuccessful = bool.TryParse(builder.Configuration["Features:AddExampleAas"],
+                            out var addExampleAas);
+
+                    requiredShellsAssertion.AssertRequiredShellsAsync(!addExampleAasParseSuccessful || addExampleAas);
                 }
             });
 
