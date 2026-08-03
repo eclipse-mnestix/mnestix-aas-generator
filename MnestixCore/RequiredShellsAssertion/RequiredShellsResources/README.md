@@ -8,6 +8,10 @@ Additionally the submodels for each AAS will be added or overwritten in the repo
 unless the `SkipIfAlreadyExists` flag is set for the AAS in the `appsettings.json`.
 This is done, to be able to add or update submodels of existing AAS.
 
+If `Features__AddExampleAas` is set to `false`, the demo/example AAS (`lni0729`, `Mnestix`)
+are skipped. `Configuration`, `DefaultTemplate` and `CustomTemplate` are always checked
+regardless of this flag.
+
 ## Rules
 
 AAS

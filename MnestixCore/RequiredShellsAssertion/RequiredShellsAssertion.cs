@@ -32,16 +32,26 @@ public class RequiredShellsAssertion(ILogger<RequiredShellsAssertion> logger,
         "CustomTemplate"
     };
 
+    private static readonly HashSet<string> ExampleAas = new(StringComparer.Ordinal)
+    {
+        "lni0729",
+        "Mnestix"
+    };
+
     /// <summary>
     /// Assures that all required AAS are stored in the repository.
     /// </summary>
+    /// <param name="addExampleAas">
+    /// If false, demo/example shells (see <see cref="ExampleAas"/>) are skipped.
+    /// Configuration, DefaultTemplate and CustomTemplate are always checked.
+    /// </param>
     /// <remarks>
     /// If any required AAS is missing in the repository, it will be added.
     /// If any submodel of a required AAS is missing in the repository, it will be added.
     /// Existing submodels of a required AAS will be overwritten.
     /// Setting 'SkipIfAlreadyExists' of an AAS to true prevents existing submodels to be overwritten.
     /// </remarks>
-    public async Task AssertRequiredShellsAsync()
+    public async Task AssertRequiredShellsAsync(bool addExampleAas = true)
     {
         logger.LogInformation("Assert existence of required AAS");
 
@@ -53,17 +63,11 @@ public class RequiredShellsAssertion(ILogger<RequiredShellsAssertion> logger,
             logger.LogDebug("Checking AAS {AasId} (Name='{Name}')",
                 requiredShell.Base64EncodedAasId, requiredShell.Name);
 
-            if (VerifyBlueprintsConfiguration(requiredShell.Name))
+            var skipReason = GetSkipReason(requiredShell, addExampleAas);
+            if (skipReason != null)
             {
-                logger.LogInformation("Skip checking required AAS {AasId} (Name='{Name}') due to configured SubmodelBlueprintsApiUrl",
-                    requiredShell.Base64EncodedAasId, requiredShell.Name);
-                required--;
-                continue;
-            }
-            if (VerifyTemplatesConfiguration(requiredShell.Name))
-            {
-                logger.LogInformation("Skip checking required AAS {AasId} (Name='{Name}') due to configured SubmodelTemplatesApiUrl",
-                    requiredShell.Base64EncodedAasId, requiredShell.Name);
+                logger.LogInformation("Skip checking required AAS {AasId} (Name='{Name}') due to {Reason}",
+                    requiredShell.Base64EncodedAasId, requiredShell.Name, skipReason);
                 required--;
                 continue;
             }
@@ -264,6 +268,23 @@ public class RequiredShellsAssertion(ILogger<RequiredShellsAssertion> logger,
                 throw;
             }
         }
+    }
+
+    private string? GetSkipReason(RequiredShells requiredShell, bool addExampleAas)
+    {
+        if (!addExampleAas && ExampleAas.Contains(requiredShell.Name))
+        {
+            return "disabled 'AddExampleAas' feature";
+        }
+        if (VerifyBlueprintsConfiguration(requiredShell.Name))
+        {
+            return "configured SubmodelBlueprintsApiUrl";
+        }
+        if (VerifyTemplatesConfiguration(requiredShell.Name))
+        {
+            return "configured SubmodelTemplatesApiUrl";
+        }
+        return null;
     }
 
     private bool VerifyTemplatesConfiguration(string requiredShellName) =>
