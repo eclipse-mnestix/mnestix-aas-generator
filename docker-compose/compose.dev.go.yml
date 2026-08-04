@@ -54,6 +54,8 @@ services:
       - ASPNETCORE_URLS=http://+:5064
       - CustomerEndpointsSecurity__ApiKey=verySecureApiKey
       - Features__UseAuthentication=false
+      - Features__AddExampleAas=false
+      - Features__RequiredShells=true
       - ServerUrls=http://mnestix-proxy:5065/repo/
     depends_on:
       mnestix-proxy:
@@ -90,7 +92,7 @@ services:
 
 
   basyx-configuration:
-    image: eclipsebasyx/basyxconfigurationservice-go:1.0.0-rc.5
+    image: eclipsebasyx/basyxconfigurationservice-go:1.0.3
     container_name: basyx-configuration
     environment:
       - POSTGRES_HOST=basyx-db
@@ -103,7 +105,7 @@ services:
         condition: service_healthy
 
   aas-environment:
-    image: eclipsebasyx/aasenvironment-go:1.0.0-rc.5
+    image: eclipsebasyx/aasenvironment-go:1.0.3
     container_name: aas-environment
     command: ["/app/aasenvironmentservice"]
     ports:

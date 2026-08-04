@@ -26,7 +26,7 @@ The following element types support data mapping via qualifiers:
 
 | Element Type | Mapping Support | Notes |
 |--------------|-----------------|-------|
-| `Property` | ✅ Full | Value mapping via `SMT/MappingInfo` |
+| `Property` | ✅ Full | Value mapping via `SMT/MappingInfo`; per-entry `semanticId`/`valueType` within a collection scope |
 | `MultiLanguageProperty` | ✅ Full | Multi-language via `SMT/MappingInfo/multiLanguage`, or single language via `SMT/MappingInfo/value` |
 | `Blob` | ✅ Partial | Value and contentType mapping (`SMT/MappingInfo/value`, `SMT/MappingInfo/contentType`) |
 | `File` | ✅ Full | Value and contentType mapping via `SMT/MappingInfo/value` and `SMT/MappingInfo/contentType` |
@@ -160,10 +160,12 @@ Extends path mapping to target specific fields on an element beyond just `value`
 | `idShort` | Element identifier | All | Auto-sanitized to `[a-zA-Z][a-zA-Z0-9_]*` |
 | `globalAssetId` | Entity asset reference | Entity | String (URI) |
 | `entityType` | Entity type enum | Entity | `SelfManagedEntity` or `CoManagedEntity` |
-| `displayName` | Display name text | All | Sets `text` for current generation language |
+| `displayName` | Display name text | All | Language-keyed map (JObject) replaces the `displayName` array with all languages; a scalar sets the entry for the current generation language. Always optional. (see below) |
 | `first` | Relationship first reference | RelationshipElement, AnnotatedRelationshipElement | AAS Reference JSON object |
 | `second` | Relationship second reference | RelationshipElement, AnnotatedRelationshipElement | AAS Reference JSON object |
 | `multiLanguage` | Multi-language value | MultiLanguageProperty | JSON object with language keys (see below) |
+| `semanticId` | Semantic reference | Property, MultiLanguageProperty, File, Range, SubmodelElementCollection, SubmodelElementList | Resolved scalar (string, number, boolean) is wrapped into an `ExternalReference` with a single `GlobalReference` key. Objects and arrays are rejected. **Collection scope only.** |
+| `valueType` | XSD value type | Property, Blob, Range | One of the AAS `DataTypeDefXsd` values (e.g. `xs:int`). **Collection scope only.** Assigned before `value` so value content is validated against it. |
 
 #### Example: Entity with globalAssetId + idShort
 
@@ -390,6 +392,28 @@ Multi-field mapping works with `SMT/CollectionMappingInfo` for dynamic element c
 ```
 
 Each duplicated element gets its own `idShort`, `globalAssetId`, and `entityType` from the corresponding array item.
+
+#### Per-entry classification with `semanticId` and `valueType`
+
+`semanticId` and `valueType` are **only allowed within a `SMT/CollectionMappingInfo` scope**. This lets one blueprint Property classify each entry of a heterogeneous source array (e.g. IDTA Technical Data) with its own semantic ID and XSD value type:
+
+```json
+{
+  "modelType": "Property",
+  "idShort": "DataPoint",
+  "valueType": "xs:string",
+  "value": "",
+  "qualifiers": [
+    { "type": "SMT/CollectionMappingInfo", "value": "product.TechnicalData.v1[*]" },
+    { "type": "SMT/MappingInfo/idShort", "value": "product.TechnicalData.v1[*].name" },
+    { "type": "SMT/MappingInfo/value", "value": "product.TechnicalData.v1[*].value" },
+    { "type": "SMT/MappingInfo/semanticId", "value": "product.TechnicalData.v1[*].conceptId" },
+    { "type": "SMT/MappingInfo/valueType", "value": "product.TechnicalData.v1[*].type" }
+  ]
+}
+```
+
+The resolved `semanticId` value must be a scalar (string, number, boolean); it is wrapped into an `ExternalReference` with a single `GlobalReference` key. Mapping an object or array to `semanticId` fails generation. The `valueType` value must be a recognized `DataTypeDefXsd` (e.g. `xs:int`, `xs:double`); it is matched case-insensitively and stored in canonical casing, otherwise generation fails. Using either field outside a collection scope is rejected at blueprint save time (`FieldRequiresCollectionScope`).
 
 ---
 
@@ -1222,6 +1246,100 @@ Maps a scalar value and wraps it with the `language` parameter from the API requ
 
 ---
 
+## Display Name Mapping
+
+The `displayName` field (`SMT/MappingInfo/displayName`) sets the [Referable](https://industrialdigitaltwin.org/) `displayName` of any element. It accepts two input shapes, mirroring `multiLanguage`.
+
+The `displayName` is **always optional**, regardless of the element's `SMT/Cardinality`: an element whose display-name data is missing is still generated (simply without a `displayName`). It never fails generation.
+
+### Approach 1: Language-keyed map — Recommended
+
+Maps a JSON object where keys are language codes and values are the translated texts. This allows **multiple languages in a single generation call** without a `language` parameter. The resolved map **replaces** the element's `displayName` array.
+
+**Blueprint:**
+```json
+{
+  "modelType": "Property",
+  "idShort": "Voltage",
+  "valueType": "xs:string",
+  "qualifiers": [
+    {
+      "kind": "TemplateQualifier",
+      "type": "SMT/MappingInfo/value",
+      "value": "technicalProperty.value",
+      "valueType": "xs:string"
+    },
+    {
+      "kind": "TemplateQualifier",
+      "type": "SMT/MappingInfo/displayName",
+      "value": "technicalProperty.displayName",
+      "valueType": "xs:string"
+    }
+  ]
+}
+```
+
+**Input Data:**
+```json
+{
+  "technicalProperty": {
+    "value": "220 V",
+    "displayName": {
+      "en": "Voltage",
+      "de": "Spannung"
+    }
+  }
+}
+```
+
+**Generated Instance:**
+```json
+{
+  "modelType": "Property",
+  "idShort": "Voltage",
+  "valueType": "xs:string",
+  "value": "220 V",
+  "displayName": [
+    { "language": "en", "text": "Voltage" },
+    { "language": "de", "text": "Spannung" }
+  ]
+}
+```
+
+**Behavior:**
+- The expression must resolve to a JSON object (e.g. `{"en": "Voltage", "de": "Spannung"}`).
+- Each property becomes a language entry: key → `language`, value → `text`.
+- Entries where the value is `null` or an empty string are skipped.
+- If the source is missing, `null`, or the map is empty / all-empty, the `displayName` attribute is **omitted entirely** (it is not written as an empty list, and generation does not fail).
+- Non-string values (numbers, booleans) are converted to their string representation.
+
+### Approach 2: Legacy single language from request
+
+Maps a scalar value and writes it as a single entry using the `language` parameter from the API request (find-or-add by language, preserving any other languages already present in the blueprint's `displayName`).
+
+**Request:** `{ "blueprintsIds": ["my-blueprint"], "data": { ... }, "language": "en" }`
+
+**Blueprint qualifier:**
+```json
+{
+  "kind": "TemplateQualifier",
+  "type": "SMT/MappingInfo/displayName",
+  "value": "technicalProperty.name",
+  "valueType": "xs:string"
+}
+```
+
+**Generated entry:**
+```json
+"displayName": [
+  { "language": "en", "text": "Voltage" }
+]
+```
+
+> **Note:** The scalar (legacy) form requires the `language` parameter in the API request. If no language is provided, the assignment is skipped with a warning and no `displayName` is written. If your data already contains language codes as keys, prefer the language-keyed map above.
+
+---
+
 ## API Usage
 
 ### Create a Blueprint
@@ -1306,6 +1424,7 @@ The following checks are performed on all qualifiers in the blueprint:
 | **DuplicateMappingField** | Two qualifiers target the same field on the same element |
 | **MlpValueAndMultiLanguageConflict** | Both `value` and `multiLanguage` mappings on same MultiLanguageProperty |
 | **InvalidJsonataSyntax** | JSONata expression cannot be parsed |
+| **FieldRequiresCollectionScope** | `valueType` or `semanticId` is mapped on an element that is not within a `SMT/CollectionMappingInfo` scope |
 
 #### SMT/FilterMappingInfo Qualifiers
 
@@ -1335,17 +1454,19 @@ Not all fields can be mapped on every element type. The following matrix defines
 
 | Model Type | Allowed Fields |
 |-----------|---------------|
-| `Property` | `value`, `idShort`, `displayName` |
-| `MultiLanguageProperty` | `value`, `idShort`, `displayName`, `multiLanguage` |
-| `Blob` | `value`, `contentType`, `idShort`, `displayName` |
-| `File` | `value`, `contentType`, `idShort`, `displayName` |
+| `Property` | `value`, `idShort`, `displayName`, `semanticId`, `valueType` |
+| `MultiLanguageProperty` | `value`, `idShort`, `displayName`, `multiLanguage`, `semanticId` |
+| `Blob` | `value`, `contentType`, `idShort`, `displayName`, `valueType` |
+| `File` | `value`, `contentType`, `idShort`, `displayName`, `semanticId` |
 | `Entity` | `idShort`, `displayName`, `globalAssetId`, `entityType` |
 | `RelationshipElement` | `idShort`, `displayName`, `first`, `second` |
 | `AnnotatedRelationshipElement` | `idShort`, `displayName`, `first`, `second` |
-| `SubmodelElementCollection` | `idShort`, `displayName` |
-| `SubmodelElementList` | `idShort`, `displayName` |
+| `SubmodelElementCollection` | `idShort`, `displayName`, `semanticId` |
+| `SubmodelElementList` | `idShort`, `displayName`, `semanticId` |
 | `ReferenceElement` | `idShort`, `displayName` |
-| `Range` | `idShort`, `displayName` |
+| `Range` | `idShort`, `displayName`, `semanticId`, `valueType` |
+
+> **Note:** `semanticId` and `valueType` additionally require a `SMT/CollectionMappingInfo` scope (see **FieldRequiresCollectionScope** above).
 
 Model types not in this list (e.g. `Operation`, `BasicEventElement`, `Capability`) are unsupported for mapping qualifiers.
 

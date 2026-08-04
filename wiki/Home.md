@@ -51,6 +51,7 @@
 Key settings in `appsettings.json`:
 - `Features__UseAuthentication` - Enable/disable auth
 - `Features__RequiredShells` - Assert required shells exist on startup
+- `Features__AddExampleAas` - Also assert demo/example AAS (`lni0729`, `Mnestix`) when `Features__RequiredShells` is enabled
 - `CustomerEndpointsSecurity__ApiKey` - API key for secured endpoints
 - `Configuration__SubmodelTemplatesApiUrl` - Optional remote templates API URL
 

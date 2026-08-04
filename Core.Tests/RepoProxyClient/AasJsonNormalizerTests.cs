@@ -309,6 +309,29 @@ public class AasJsonNormalizerTests
         result.ContainsKey("qualifiers").Should().BeTrue();
         result["qualifiers"]!.Should().HaveCount(1);
     }
+    
+    [Test]
+    public void NormalizeJsonForRepository_NonEmptyQualifiersArray_AllPropertiesPreserved()
+    {
+        var input = JObject.Parse("""
+            {
+                "modelType": "Submodel",
+                "id": "test",
+                "qualifiers": [
+                    { "type": "SMT/MappingInfo", "value": "$.x", "valueType": "xs:string", "kind": "TemplateQualifier" }
+                ]
+            }
+            """);
+        var result = AasJsonNormalizer.NormalizeJsonForRepository(input);
+        result.ContainsKey("qualifiers").Should().BeTrue();
+        result["qualifiers"]!.Should().HaveCount(1);
+
+        var qualifier = (JObject)result["qualifiers"]![0]!;
+        qualifier["type"]!.Value<string>().Should().Be("SMT/MappingInfo");
+        qualifier["value"]!.Value<string>().Should().Be("$.x");
+        qualifier["valueType"]!.Value<string>().Should().Be("xs:string");
+        qualifier["kind"]!.Value<string>().Should().Be("TemplateQualifier");
+    }
 
     [Test]
     public void NormalizeJsonForRepository_NestedEmptyQualifiers_AreStripped()

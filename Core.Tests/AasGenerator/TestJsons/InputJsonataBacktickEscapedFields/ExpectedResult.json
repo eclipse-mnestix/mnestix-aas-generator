@@ -7,7 +7,20 @@
     "version": "1",
     "revision": "0"
   },
-  "qualifiers": [],
+  "qualifiers": [
+    {
+      "kind": "ConceptQualifier",
+      "type": "Mnestix/OriginalBlueprintID",
+      "value": "urn:smtemplate:JsonataBacktickEscapedFields",
+      "valueType": "xs:string"
+    },
+    {
+      "kind": "ConceptQualifier",
+      "type": "Mnestix/GenerationTimestamp",
+      "value": "2026-01-02T03:04:05.0000000Z",
+      "valueType": "xs:dateTime"
+    }
+  ],
   "submodelElements": [
     {
       "modelType": "Property",
@@ -19,12 +32,6 @@
           "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "value": "One",
-          "valueType": "xs:string"
-        },
-        {
-          "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo",
-          "value": "`source data`.`product name`",
           "valueType": "xs:string"
         }
       ],
@@ -46,12 +53,6 @@
           "type": "SMT/Cardinality",
           "value": "One",
           "valueType": "xs:string"
-        },
-        {
-          "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo",
-          "value": "`source data`.`unit price`",
-          "valueType": "xs:string"
         }
       ],
       "description": [
@@ -72,12 +73,6 @@
           "type": "SMT/Cardinality",
           "value": "One",
           "valueType": "xs:string"
-        },
-        {
-          "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo",
-          "value": "`source data`.`in stock`",
-          "valueType": "xs:string"
         }
       ],
       "description": [
@@ -97,12 +92,6 @@
           "kind": "TemplateQualifier",
           "type": "SMT/Cardinality",
           "value": "One",
-          "valueType": "xs:string"
-        },
-        {
-          "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo",
-          "value": "`source data`.`item-count`",
           "valueType": "xs:string"
         }
       ],

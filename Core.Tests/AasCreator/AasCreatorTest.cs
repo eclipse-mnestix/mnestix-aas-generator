@@ -77,6 +77,87 @@ public class AasCreatorTest
         callsToRepo.Should().Be(0);
     }
 
+    [Test]
+    public async Task CreateAas_WithTypeAssetKind_CreatesTypeAas()
+    {
+        // ARRANGE
+        const string randomAssetIdShort = "typeAsset123";
+        var aasIds = GetTestAasIds(randomAssetIdShort);
+
+        var aasSentToRepo = "";
+
+        _aasIdGeneratorService.Setup(a => a.GenerateAasIdsAsync(It.IsAny<string>(), It.IsAny<string?>())).ReturnsAsync(aasIds);
+        _repoProxyClientMock.Setup(r => r.GetAsync(It.IsAny<string>()))
+            .ThrowsAsync(new RepoProxyException(ErrorCodes.CouldNotGet, "Not found", new HttpRequestException("Not found", null, HttpStatusCode.NotFound)));
+        _repoProxyClientMock
+            .Setup(r => r.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .Callback((string _, string content) => aasSentToRepo = content)
+            .ReturnsAsync("");
+        var aasCreator =
+            new AasCreatorService(_aasIdGeneratorService.Object, _repoProxyClientMock.Object, _repoProxyOptions, _aasGeneratorMock.Object);
+
+        // ACT
+        var result = await aasCreator.CreateAasAsync(randomAssetIdShort, null, new AasCreationOptions { AssetKind = AssetKind.Type });
+
+        // ASSERT
+        result.status.Should().Be(AasCreationStatus.Created);
+        aasSentToRepo.Should().Contain("\"assetKind\": \"Type\"");
+    }
+
+    [Test]
+    public async Task CreateAas_WithNotApplicableAssetKind_CreatesNotApplicableAas()
+    {
+        // ARRANGE
+        const string randomAssetIdShort = "notApplicableAsset123";
+        var aasIds = GetTestAasIds(randomAssetIdShort);
+
+        var aasSentToRepo = "";
+
+        _aasIdGeneratorService.Setup(a => a.GenerateAasIdsAsync(It.IsAny<string>(), It.IsAny<string?>())).ReturnsAsync(aasIds);
+        _repoProxyClientMock.Setup(r => r.GetAsync(It.IsAny<string>()))
+            .ThrowsAsync(new RepoProxyException(ErrorCodes.CouldNotGet, "Not found", new HttpRequestException("Not found", null, HttpStatusCode.NotFound)));
+        _repoProxyClientMock
+            .Setup(r => r.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .Callback((string _, string content) => aasSentToRepo = content)
+            .ReturnsAsync("");
+        var aasCreator =
+            new AasCreatorService(_aasIdGeneratorService.Object, _repoProxyClientMock.Object, _repoProxyOptions, _aasGeneratorMock.Object);
+
+        // ACT
+        var result = await aasCreator.CreateAasAsync(randomAssetIdShort, null, new AasCreationOptions { AssetKind = AssetKind.NotApplicable });
+
+        // ASSERT
+        result.status.Should().Be(AasCreationStatus.Created);
+        aasSentToRepo.Should().Contain("\"assetKind\": \"NotApplicable\"");
+    }
+
+    [Test]
+    public async Task CreateAas_WithoutAssetKindParameter_DefaultsToInstance()
+    {
+        // ARRANGE
+        const string randomAssetIdShort = "defaultAsset123";
+        var aasIds = GetTestAasIds(randomAssetIdShort);
+
+        var aasSentToRepo = "";
+
+        _aasIdGeneratorService.Setup(a => a.GenerateAasIdsAsync(It.IsAny<string>(), It.IsAny<string?>())).ReturnsAsync(aasIds);
+        _repoProxyClientMock.Setup(r => r.GetAsync(It.IsAny<string>()))
+            .ThrowsAsync(new RepoProxyException(ErrorCodes.CouldNotGet, "Not found", new HttpRequestException("Not found", null, HttpStatusCode.NotFound)));
+        _repoProxyClientMock
+            .Setup(r => r.PostAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .Callback((string _, string content) => aasSentToRepo = content)
+            .ReturnsAsync("");
+        var aasCreator =
+            new AasCreatorService(_aasIdGeneratorService.Object, _repoProxyClientMock.Object, _repoProxyOptions, _aasGeneratorMock.Object);
+
+        // ACT
+        var result = await aasCreator.CreateAasAsync(randomAssetIdShort);
+
+        // ASSERT
+        result.status.Should().Be(AasCreationStatus.Created);
+        aasSentToRepo.Should().Contain("\"assetKind\": \"Instance\"");
+    }
+
     private static AasIds GetTestAasIds(string assetIdShort)
     {
         var aasIds = new AasIds("https://example.com/" + assetIdShort,

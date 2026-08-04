@@ -82,6 +82,57 @@ public class RequiredShellsAssertionTests
         repoProxyClientMock.Verify(client => client.GetAsync(It.IsAny<string>()), Times.Once);
     }
 
+    [TestCase("Mnestix")]
+    [TestCase("lni0729")]
+    public async Task AssertRequiredShellsAsync_ExampleAasDisabled_SkipsExampleShellButKeepsConfiguration(string exampleShellName)
+    {
+        // ARRANGE
+        var repoProxyClientMock = new Mock<IRepoProxyClient>();
+        repoProxyClientMock
+            .Setup(client => client.GetAsync(It.IsAny<string>()))
+            .ReturnsAsync(string.Empty);
+
+        var exampleShell = new RequiredShells { Name = exampleShellName, Base64EncodedAasId = "exampleAasId" };
+        var configurationShell = new RequiredShells { Name = "Configuration", Base64EncodedAasId = "configurationAasId", SkipIfAlreadyExists = true };
+
+        var shellAssertionService = CreateShellAssertionService(
+            repoProxyClientMock.Object,
+            new ConfigurationOptions(),
+            exampleShell, configurationShell);
+
+        // ACT
+        await shellAssertionService.AssertRequiredShellsAsync(addExampleAas: false);
+
+        // ASSERT
+        repoProxyClientMock.Verify(client => client.GetAsync(It.Is<string>(s => s.Contains("exampleAasId"))), Times.Never);
+        repoProxyClientMock.Verify(client => client.GetAsync(It.Is<string>(s => s.Contains("configurationAasId"))), Times.Once);
+    }
+
+    [Test]
+    public async Task AssertRequiredShellsAsync_ExampleAasEnabled_ChecksExampleAndConfigurationShell()
+    {
+        // ARRANGE
+        var repoProxyClientMock = new Mock<IRepoProxyClient>();
+        repoProxyClientMock
+            .Setup(client => client.GetAsync(It.IsAny<string>()))
+            .ReturnsAsync(string.Empty);
+
+        var exampleShell = new RequiredShells { Name = "Mnestix", Base64EncodedAasId = "exampleAasId" };
+        var configurationShell = new RequiredShells { Name = "Configuration", Base64EncodedAasId = "configurationAasId", SkipIfAlreadyExists = true };
+
+        var shellAssertionService = CreateShellAssertionService(
+            repoProxyClientMock.Object,
+            new ConfigurationOptions(),
+            exampleShell, configurationShell);
+
+        // ACT
+        await shellAssertionService.AssertRequiredShellsAsync(addExampleAas: true);
+
+        // ASSERT
+        repoProxyClientMock.Verify(client => client.GetAsync(It.Is<string>(s => s.Contains("exampleAasId"))), Times.Once);
+        repoProxyClientMock.Verify(client => client.GetAsync(It.Is<string>(s => s.Contains("configurationAasId"))), Times.Once);
+    }
+
     private static RequiredShellsAssertion CreateShellAssertionService(
         IRepoProxyClient repoProxyClient,
         string requiredShellName,
@@ -93,9 +144,17 @@ public class RequiredShellsAssertionTests
             Base64EncodedAasId = "encodedAasId"
         };
 
+        return CreateShellAssertionService(repoProxyClient, configurationOptions, requiredShell);
+    }
+
+    private static RequiredShellsAssertion CreateShellAssertionService(
+        IRepoProxyClient repoProxyClient,
+        ConfigurationOptions configurationOptions,
+        params RequiredShells[] requiredShells)
+    {
         return new RequiredShellsAssertion(
             Mock.Of<ILogger<RequiredShellsAssertion>>(),
-            Options.Create(new List<RequiredShells> { requiredShell }),
+            Options.Create(requiredShells.ToList()),
             repoProxyClient,
             Options.Create(new RepoProxyOptions
             {

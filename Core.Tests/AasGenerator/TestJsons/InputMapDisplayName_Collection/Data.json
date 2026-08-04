@@ -1,0 +1,26 @@
+{
+  "custom": {
+    "TechnicalData": {
+      "v1": [
+        {
+          "value": "220 V",
+          "valueType": "xs:string",
+          "semanticId": "0173-1#02-AAO677#002",
+          "displayName": {
+            "en": "Voltage",
+            "de": "Spannung"
+          }
+        },
+        {
+          "value": "50 Hz",
+          "valueType": "xs:string",
+          "semanticId": "0173-1#02-AAO678#003",
+          "displayName": {
+            "en": "Frequency",
+            "de": "Frequenz"
+          }
+        }
+      ]
+    }
+  }
+}

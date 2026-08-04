@@ -85,7 +85,7 @@ public class AasCreatorServiceOverwriteTest
             .ReturnsAsync("");
 
         var service = CreateService();
-        var result = await service.CreateAasWithSubmodelsAsync(AssetIdShort, new[] { "bp1", "bp2" }, new JObject(), "en");
+        var result = await service.CreateAasWithSubmodelsAsync(AssetIdShort, new CreateAasParameters { BlueprintsIds = new[] { "bp1", "bp2" }, Data = new JObject(), Language = "en" });
 
         result.status.Should().Be(AasCreationStatus.Created);
         callOrder.Should().ContainInOrder("submodel:sm1", "submodel:sm2", "shell");
@@ -104,7 +104,7 @@ public class AasCreatorServiceOverwriteTest
         SetupBuild("bp1", "", success: false);
         var service = CreateService();
 
-        var result = await service.CreateAasWithSubmodelsAsync(AssetIdShort, new[] { "bp1" }, new JObject(), "en");
+        var result = await service.CreateAasWithSubmodelsAsync(AssetIdShort, new CreateAasParameters { BlueprintsIds = new[] { "bp1" }, Data = new JObject(), Language = "en" });
 
         result.status.Should().Be(AasCreationStatus.GenerationFailed);
         _repo.Verify(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
@@ -122,7 +122,7 @@ public class AasCreatorServiceOverwriteTest
             .ThrowsAsync(new RepoProxyException(ErrorCodes.CouldNotPostShell, "boom"));
 
         var service = CreateService();
-        var result = await service.CreateAasWithSubmodelsAsync(AssetIdShort, new[] { "bp1", "bp2" }, new JObject(), "en");
+        var result = await service.CreateAasWithSubmodelsAsync(AssetIdShort, new CreateAasParameters { BlueprintsIds = new[] { "bp1", "bp2" }, Data = new JObject(), Language = "en" });
 
         result.status.Should().Be(AasCreationStatus.UnknownError);
         _repo.Verify(x => x.DeleteAsync("submodels/" + MnestixCore.Shared.Base64StringDeAndEncoder.EncodeTo64("sm1")), Times.Once);
@@ -139,7 +139,7 @@ public class AasCreatorServiceOverwriteTest
         _repo.Setup(x => x.DeleteAsync(It.IsAny<string>())).ReturnsAsync(true);
 
         var service = CreateService();
-        var result = await service.CreateAasWithSubmodelsAsync(AssetIdShort, new[] { "bp1" }, new JObject(), "en", overwrite: false);
+        var result = await service.CreateAasWithSubmodelsAsync(AssetIdShort, new CreateAasParameters { BlueprintsIds = new[] { "bp1" }, Data = new JObject(), Language = "en" }, overwrite: false);
 
         result.status.Should().Be(AasCreationStatus.Conflict);
         result.orphanedSubmodelIds.Should().BeEmpty();
@@ -159,7 +159,7 @@ public class AasCreatorServiceOverwriteTest
             .ThrowsAsync(new RepoProxyException(ErrorCodes.CouldNotDelete, "nope"));
 
         var service = CreateService();
-        var result = await service.CreateAasWithSubmodelsAsync(AssetIdShort, new[] { "bp1" }, new JObject(), "en", overwrite: false);
+        var result = await service.CreateAasWithSubmodelsAsync(AssetIdShort, new CreateAasParameters { BlueprintsIds = new[] { "bp1" }, Data = new JObject(), Language = "en" }, overwrite: false);
 
         result.status.Should().Be(AasCreationStatus.Conflict);
         result.orphanedSubmodelIds.Should().Contain("sm1");
@@ -173,7 +173,7 @@ public class AasCreatorServiceOverwriteTest
         _repo.Setup(x => x.PostAsync("shells", It.IsAny<string>())).ReturnsAsync("");
 
         var service = CreateService();
-        var result = await service.CreateAasWithSubmodelsAsync(AssetIdShort, new[] { "bp1" }, new JObject(), "en", overwrite: true);
+        var result = await service.CreateAasWithSubmodelsAsync(AssetIdShort, new CreateAasParameters { BlueprintsIds = new[] { "bp1" }, Data = new JObject(), Language = "en" }, overwrite: true);
 
         result.status.Should().Be(AasCreationStatus.Created);
         result.previousAas.Should().BeNull();
@@ -191,7 +191,7 @@ public class AasCreatorServiceOverwriteTest
         _repo.Setup(x => x.PutAsync("shells/" + _base64AasId, It.IsAny<string>())).ReturnsAsync("");
 
         var service = CreateService();
-        var result = await service.CreateAasWithSubmodelsAsync(AssetIdShort, new[] { "bp1" }, new JObject(), "en", overwrite: true);
+        var result = await service.CreateAasWithSubmodelsAsync(AssetIdShort, new CreateAasParameters { BlueprintsIds = new[] { "bp1" }, Data = new JObject(), Language = "en" }, overwrite: true);
 
         result.status.Should().Be(AasCreationStatus.Overwritten);
         result.previousAas.Should().NotBeNull();
@@ -213,7 +213,7 @@ public class AasCreatorServiceOverwriteTest
         _repo.Setup(x => x.DeleteAsync(It.IsAny<string>())).ReturnsAsync(true);
 
         var service = CreateService();
-        var result = await service.CreateAasWithSubmodelsAsync(AssetIdShort, new[] { "bp1" }, new JObject(), "en", overwrite: true);
+        var result = await service.CreateAasWithSubmodelsAsync(AssetIdShort, new CreateAasParameters { BlueprintsIds = new[] { "bp1" }, Data = new JObject(), Language = "en" }, overwrite: true);
 
         result.status.Should().Be(AasCreationStatus.UnknownError);
         result.orphanedSubmodelIds.Should().BeEmpty();
@@ -229,8 +229,100 @@ public class AasCreatorServiceOverwriteTest
             .ThrowsAsync(new RepoProxyException(ErrorCodes.CouldNotPostShell, "boom"));
 
         var service = CreateService();
-        await service.CreateAasWithSubmodelsAsync(AssetIdShort, new[] { "bp1" }, new JObject(), "en");
+        await service.CreateAasWithSubmodelsAsync(AssetIdShort, new CreateAasParameters { BlueprintsIds = new[] { "bp1" }, Data = new JObject(), Language = "en" });
 
         _repo.Verify(x => x.DeleteAsync(It.Is<string>(p => p.StartsWith("shells/"))), Times.Never);
+    }
+
+    [Test]
+    public async Task CreateAasWithSubmodels_WithTypeAssetKind_CreatesTypeAasWithSubmodels()
+    {
+        SetupBuild("bp1", "sm1");
+        _generator.Setup(g => g.PostSubmodelAsync(It.IsAny<JObject>())).ReturnsAsync((JObject j) => j["id"]!.ToString());
+
+        string? postedShell = null;
+        _repo.Setup(x => x.PostAsync("shells", It.IsAny<string>()))
+            .Callback<string, string>((_, content) => postedShell = content)
+            .ReturnsAsync("");
+
+        var service = CreateService();
+        var result = await service.CreateAasWithSubmodelsAsync(
+            AssetIdShort,
+            new CreateAasParameters
+            {
+                BlueprintsIds = new[] { "bp1" },
+                Data = new JObject(),
+                Language = "en",
+                Metadata = new AasCreationOptions { AssetKind = AssetKind.Type }
+            });
+
+        result.status.Should().Be(AasCreationStatus.Created);
+        postedShell.Should().NotBeNull();
+        postedShell.Should().Contain("\"assetKind\": \"Type\"");
+    }
+
+    [Test]
+    public async Task CreateAasWithSubmodels_WithNotApplicableAssetKind_CreatesNotApplicableAas()
+    {
+        string? postedShell = null;
+        _repo.Setup(x => x.PostAsync("shells", It.IsAny<string>()))
+            .Callback<string, string>((_, content) => postedShell = content)
+            .ReturnsAsync("");
+
+        var service = CreateService();
+        var result = await service.CreateAasWithSubmodelsAsync(
+            AssetIdShort,
+            new CreateAasParameters { Metadata = new AasCreationOptions { AssetKind = AssetKind.NotApplicable } });
+
+        result.status.Should().Be(AasCreationStatus.Created);
+        postedShell.Should().NotBeNull();
+        postedShell.Should().Contain("\"assetKind\": \"NotApplicable\"");
+    }
+
+    [Test]
+    public async Task CreateAasWithSubmodels_WithDefaultAssetKind_CreatesInstanceAas()
+    {
+        string? postedShell = null;
+        _repo.Setup(x => x.PostAsync("shells", It.IsAny<string>()))
+            .Callback<string, string>((_, content) => postedShell = content)
+            .ReturnsAsync("");
+
+        var service = CreateService();
+        var result = await service.CreateAasWithSubmodelsAsync(AssetIdShort);
+
+        result.status.Should().Be(AasCreationStatus.Created);
+        postedShell.Should().NotBeNull();
+        postedShell.Should().Contain("\"assetKind\": \"Instance\"");
+    }
+
+    [Test]
+    public async Task CreateAasWithSubmodels_TypeAasWithOverwrite_PreservesAssetKind()
+    {
+        SetupBuild("bp1", "sm1");
+        _generator.Setup(g => g.PostSubmodelAsync(It.IsAny<JObject>())).ReturnsAsync((JObject j) => j["id"]!.ToString());
+
+        string? postedShell = null;
+        _repo.Setup(x => x.PostAsync("shells", It.IsAny<string>()))
+            .ThrowsAsync(new RepoProxyException(ErrorCodes.CouldNotPostShell, "conflict", HttpStatusCode.Conflict, "exists"));
+        _repo.Setup(x => x.GetAsync(It.IsAny<string>())).ReturnsAsync("{\"id\":\"old-shell\"}");
+        _repo.Setup(x => x.PutAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .Callback<string, string>((_, content) => postedShell = content)
+            .ReturnsAsync("");
+
+        var service = CreateService();
+        var result = await service.CreateAasWithSubmodelsAsync(
+            AssetIdShort,
+            new CreateAasParameters
+            {
+                BlueprintsIds = new[] { "bp1" },
+                Data = new JObject(),
+                Language = "en",
+                Metadata = new AasCreationOptions { AssetKind = AssetKind.Type }
+            },
+            overwrite: true);
+
+        result.status.Should().Be(AasCreationStatus.Overwritten);
+        postedShell.Should().NotBeNull();
+        postedShell.Should().Contain("\"assetKind\": \"Type\"");
     }
 }

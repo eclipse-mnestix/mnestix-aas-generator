@@ -75,6 +75,7 @@ Mnestix provides multiple feature flags. Set them to `true` or `false` to define
 |--------------------------------------------------|------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| 
 | `Features__UseAuthentication`                    | false | Enable or disable authentication in the backend.                                                                                                                                                |
 | `Features__RequiredShells`                       | true | Enable initialization of required AAS shells on startup.                                                                                                                                                |
+| `Features__AddExampleAas`                        | true | Also initialize demo/example AAS (`lni0729`, `Mnestix`) when `Features__RequiredShells` is enabled. `Configuration`, `DefaultTemplate` and `CustomTemplate` are unaffected.                              |
 
 **MongoDb Configuration**
 - Public access for development only

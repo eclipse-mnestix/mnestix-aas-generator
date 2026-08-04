@@ -9,6 +9,7 @@ using MnestixCore.TemplateBuilder.Interfaces;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Time.Testing;
 using Moq;
 using Newtonsoft.Json.Linq;
 
@@ -29,10 +30,14 @@ public class AasGeneratorTests
     private const string TestAasPath = "/aas";
     private const string TestBase64EncodedAasId = "dGVzdEFhc0lk"; // base64 encoded "testAasId"
 
+    // Fixed generation timestamp so the emitted Mnestix/GenerationTimestamp qualifier is
+    // deterministic and can be asserted directly in the fixtures.
+    private static readonly DateTimeOffset FixedGenerationTime = new(2026, 1, 2, 3, 4, 5, TimeSpan.Zero);
+
     [SetUp]
     public void SetUp()
     {
-        _dataToInstanceMapper = new DataMapper(new BlueprintValidator());
+        _dataToInstanceMapper = new DataMapper(new BlueprintValidator(), new FakeTimeProvider(FixedGenerationTime));
         _repoProxyClientMock = new Mock<IRepoProxyClient>();
         _templateSubmodelsProviderMock = new Mock<IBlueprintProvider>();
         _idGeneratorMock = new Mock<IAasIdGeneratorService>();
@@ -125,11 +130,6 @@ public class AasGeneratorTests
         await RunDataIngestTest("InputListWithOptionalListMissing");
     }
 
-    [Test, Ignore("Performance test depends on Hardware")]
-    public async Task AddDataToAasAsync_InputList_PerformanceWith10kElements()
-    {
-        await RunPerformanceTestWith10kElements();
-    }
 
     [Test]
     public async Task AddDataToAasAsync_InputFilter_Success()
@@ -261,6 +261,42 @@ public class AasGeneratorTests
     public async Task AddDataToAasAsync_InputMultiFieldDisplayName_Success()
     {
         await RunDataIngestTest("InputMultiFieldDisplayName");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMapDisplayName_Success()
+    {
+        // displayName mapped from a language-keyed map alongside value
+        await RunDataIngestTest("InputMapDisplayName");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMapDisplayName_Collection_Success()
+    {
+        // Each collection item gets its own displayName, value, valueType and semanticId
+        await RunDataIngestTest("InputMapDisplayName_Collection");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMapDisplayName_EmptyOmitted_Success()
+    {
+        // Missing displayName map → attribute omitted, generation still succeeds
+        await RunDataIngestTest("InputMapDisplayName_EmptyOmitted");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputMapDisplayName_NullValueSkipped_Success()
+    {
+        // null / empty language entries are skipped
+        await RunDataIngestTest("InputMapDisplayName_NullValueSkipped");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputDisplayName_Scalar_Success()
+    {
+        // Legacy scalar displayName mapping: the scalar value is written into the SME's
+        // displayName under the generation language ("en").
+        await RunDataIngestTest("InputDisplayName_Scalar");
     }
 
     [Test]
@@ -469,7 +505,7 @@ public class AasGeneratorTests
         await RunDataIngestFailureTest("InputMLPMultiLanguage_AllEmptyStrings_Mandatory");
     }
 
-    private async Task RunDataIngestTest(string testCaseName)
+    private async Task RunDataIngestTest(string testCaseName, string? language = "en")
     {
         // ARRANGE
         var templateSubmodel = DataIngestTestFileProvider.GetTemplateSubmodel(testCaseName);
@@ -504,7 +540,7 @@ public class AasGeneratorTests
         // The real implementation will process the template and data according to the mapping rules
         
         // ACT
-        var result = await _aasGenerator.AddDataToAasAsync(aasId, templateIds, templateData, "en");
+        var result = await _aasGenerator.AddDataToAasAsync(aasId, templateIds, templateData, language);
         
         // ASSERT
         result.Should().NotBeNull();
@@ -513,7 +549,18 @@ public class AasGeneratorTests
         
         capturedSubmodelContent.Should().NotBeNull();
         var actualSubmodel = JObject.Parse(capturedSubmodelContent!);
-        
+
+        // Guards against the fixtures merely freezing a buggy value: assert the emitted
+        // generation timestamp reflects the injected FixedGenerationTime, not just whatever
+        // the golden file happens to contain. Compared as a DateTime because JObject.Parse
+        // deserializes date-like strings into DateTime tokens.
+        var timestampValue = (actualSubmodel["qualifiers"] as JArray)?
+            .FirstOrDefault(q => q["type"]?.Value<string>() == "Mnestix/GenerationTimestamp")?["value"]
+            ?.Value<DateTime>();
+        timestampValue.Should().Be(
+            FixedGenerationTime.UtcDateTime,
+            "the emitted generation timestamp must reflect the injected time");
+
         JToken.DeepEquals(actualSubmodel, expectedResult).Should().BeTrue(
             $"Test case '{testCaseName}' failed: Expected submodel content to match expected result \n Expected: {expectedResult}\n Actual: {actualSubmodel}");
     }
@@ -550,97 +597,6 @@ public class AasGeneratorTests
         result.First().Success.Should().BeFalse($"Test case '{testCaseName}' should fail due to missing mandatory data");
     }
     
-    private async Task RunPerformanceTestWith10kElements()
-    {
-        // ARRANGE
-        var templateSubmodel = DataIngestTestFileProvider.GetTemplateSubmodel("InputList");
-        
-        // Create test data with 10,000 contact persons and pets
-        var contactPersons = new List<object>();
-        var pets = new List<object>();
-        
-        for (int i = 0; i < 10000; i++)
-        {
-            contactPersons.Add(new
-            {
-                name = $"ContactPerson_{i}",
-                email = $"person_{i}@example.com"
-            });
-            
-            pets.Add(new
-            {
-                name = $"Pet_{i}",
-                typeOfAnimal = i % 2 == 0 ? "Dog" : "Cat"
-            });
-        }
-        
-        var templateData = JObject.FromObject(new
-        {
-            sourceData = new
-            {
-                contactPersons = contactPersons,
-                pets = pets
-            }
-        });
-        
-        var aasId = "TestAasId";
-        var templateIds = new List<string> { "urn:smtemplate:DemoTemplate" };
-        
-        string? capturedSubmodelContent = null;
-        
-        _repoProxyClientMock
-            .Setup(x => x.PostAsync(It.Is<string>(path => path == TestSubmodelPath), It.IsAny<string>()))
-            .Callback<string, string>((path, content) => capturedSubmodelContent = content)
-            .ReturnsAsync("created");
-            
-        _repoProxyClientMock
-            .Setup(x => x.PostAsync(It.Is<string>(path => path == TestAasPath), It.IsAny<string>()))
-            .ReturnsAsync("created");
-        
-        _templateSubmodelsProviderMock
-            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
-            .ReturnsAsync(templateSubmodel);
-        
-        _idGeneratorMock
-            .Setup(x => x.GenerateSubmodelIdsAsync(It.IsAny<uint>()))
-            .ReturnsAsync(new List<string> { "TheNewSubmodelId" });
-        
-        // ACT - Measure execution time
-        var stopwatch = Stopwatch.StartNew();
-        var result = await _aasGenerator.AddDataToAasAsync(aasId, templateIds, templateData, "en");
-        stopwatch.Stop();
-        
-        // ASSERT
-        result.Should().NotBeNull();
-        result.Should().HaveCount(1);
-        result.First().Success.Should().BeTrue();
-        
-        capturedSubmodelContent.Should().NotBeNull();
-        var actualSubmodel = JObject.Parse(capturedSubmodelContent!);
-        
-        // Verify that we processed all 10,000 elements
-        var contactPersonsArray = actualSubmodel.SelectToken("$.submodelElements[?(@.idShort=='ContactPersons')].value") as JArray;
-        var petsArray = actualSubmodel.SelectToken("$.submodelElements[?(@.idShort=='Pets')].value") as JArray;
-        
-        contactPersonsArray.Should().NotBeNull();
-        contactPersonsArray!.Count.Should().Be(10000, "Should have processed all 10,000 contact persons");
-        
-        petsArray.Should().NotBeNull();
-        petsArray!.Count.Should().Be(10000, "Should have processed all 10,000 pets");
-        
-        // Log performance results
-        var elapsedMs = stopwatch.ElapsedMilliseconds;
-        var elementsPerSecond = (20000.0 / elapsedMs) * 1000; // 20k total elements (10k contacts + 10k pets)
-        
-        TestContext.WriteLine($"Performance Test Results:");
-        TestContext.WriteLine($"- Processed 20,000 elements (10,000 contact persons + 10,000 pets)");
-        TestContext.WriteLine($"- Execution time: {elapsedMs} ms ({stopwatch.Elapsed.TotalSeconds:F2} seconds)");
-        TestContext.WriteLine($"- Throughput: {elementsPerSecond:F0} elements/second");
-        
-        // Assert performance requirement (adjust threshold as needed)
-        elapsedMs.Should().BeLessThan(30000, "Processing 20,000 elements should complete within 30 seconds");
-    }
-
     #region Workflow Logging Tests
 
     // T003: Successful generation with debug=true returns DebugInfo.Logs from all workflow phases

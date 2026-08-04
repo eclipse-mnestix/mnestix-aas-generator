@@ -857,4 +857,101 @@ public class BlueprintValidatorTests
     }
 
     #endregion
+
+    #region Rule 16: FieldRequiresCollectionScope
+
+    [Test]
+    public void Validate_ValueTypeOutsideCollectionScope_ReturnsFieldRequiresCollectionScopeError()
+    {
+        var blueprint = MakeBlueprint(
+            MakeElement("Property", "Temp",
+                MakeQualifier("SMT/MappingInfo/valueType", "$.type"))
+        );
+
+        var errors = _sut.Validate(blueprint);
+
+        errors.Should().ContainSingle(e => e.Rule == BlueprintValidationRule.FieldRequiresCollectionScope);
+    }
+
+    [Test]
+    public void Validate_SemanticIdOutsideCollectionScope_ReturnsFieldRequiresCollectionScopeError()
+    {
+        var blueprint = MakeBlueprint(
+            MakeElement("Property", "Temp",
+                MakeQualifier("SMT/MappingInfo/semanticId", "$.sid"))
+        );
+
+        var errors = _sut.Validate(blueprint);
+
+        errors.Should().ContainSingle(e => e.Rule == BlueprintValidationRule.FieldRequiresCollectionScope);
+    }
+
+    [Test]
+    public void Validate_CollectionScopedFieldOnTypelessElement_NotFlaggedByRule16()
+    {
+        // Rule 16 is gated behind modelType != null (BlueprintValidator). A scoped field on an
+        // element without a modelType is therefore not flagged. This pins that boundary.
+        var typelessElement = new JObject
+        {
+            ["idShort"] = "Temp",
+            ["qualifiers"] = new JArray(MakeQualifier("SMT/MappingInfo/semanticId", "$.sid"))
+        };
+        var blueprint = MakeBlueprint(typelessElement);
+
+        var errors = _sut.Validate(blueprint);
+
+        errors.Should().NotContain(e => e.Rule == BlueprintValidationRule.FieldRequiresCollectionScope);
+    }
+
+    [Test]
+    public void Validate_NonScopedFieldOutsideCollection_DoesNotTriggerRule16()
+    {
+        // value and idShort are not collection-scoped; Rule 16 must stay narrow and not over-fire.
+        var blueprint = MakeBlueprint(
+            MakeElement("Property", "Temp",
+                MakeQualifier("SMT/MappingInfo/value", "$.serial"),
+                MakeQualifier("SMT/MappingInfo/idShort", "$.name"))
+        );
+
+        var errors = _sut.Validate(blueprint);
+
+        errors.Should().NotContain(e => e.Rule == BlueprintValidationRule.FieldRequiresCollectionScope);
+    }
+
+    [Test]
+    public void Validate_ValueTypeOnElementWithCollectionMappingInfo_ReturnsNoError()
+    {
+        var child = MakeElement("Property", "Item",
+            MakeQualifier("SMT/CollectionMappingInfo", "$.items[*]"),
+            MakeQualifier("SMT/MappingInfo/valueType", "$.items[*].type"),
+            MakeQualifier("SMT/MappingInfo/semanticId", "$.items[*].sid"));
+
+        var blueprint = MakeBlueprint(
+            MakeSmc("Items", [child])
+        );
+
+        var errors = _sut.Validate(blueprint);
+
+        errors.Should().BeEmpty();
+    }
+
+    [Test]
+    public void Validate_SemanticIdOnElementUnderCollectionAncestor_ReturnsNoError()
+    {
+        // Property carries the collection scope; a nested SMC child inherits it via ancestor walk
+        var grandchild = MakeElement("Property", "Inner",
+            MakeQualifier("SMT/MappingInfo/semanticId", "$.items[*].sid"));
+        var collectionItem = MakeSmc("Item", [grandchild],
+            MakeQualifier("SMT/CollectionMappingInfo", "$.items[*]"));
+
+        var blueprint = MakeBlueprint(
+            MakeSmc("Items", [collectionItem])
+        );
+
+        var errors = _sut.Validate(blueprint);
+
+        errors.Should().BeEmpty();
+    }
+
+    #endregion
 }

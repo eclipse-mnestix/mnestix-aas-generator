@@ -22,6 +22,11 @@ public sealed class BlueprintValidator : IBlueprintValidator
         "SubmodelElementCollection", "SubmodelElementList", "Entity"
     };
 
+    private static readonly HashSet<string> CollectionScopedFields = new()
+    {
+        "valueType", "semanticId"
+    };
+
     public IReadOnlyList<BlueprintValidationError> Validate(JObject blueprint)
     {
         var errors = new List<BlueprintValidationError>();
@@ -128,6 +133,16 @@ public sealed class BlueprintValidator : IBlueprintValidator
                     BlueprintValidationRule.FieldNotApplicableToModelType,
                     path,
                     $"Field '{fieldName}' is not valid on model type '{modelType}'. Allowed fields: {string.Join(", ", FieldMappingRules.AllowedFieldsByModelType[modelType].OrderBy(x => x, StringComparer.Ordinal))}."));
+                return;
+            }
+
+            // Rule 16: FieldRequiresCollectionScope
+            if (CollectionScopedFields.Contains(fieldName) && !IsWithinCollectionScope(element))
+            {
+                errors.Add(new BlueprintValidationError(
+                    BlueprintValidationRule.FieldRequiresCollectionScope,
+                    path,
+                    $"Field '{fieldName}' may only be mapped on elements within a SMT/CollectionMappingInfo scope."));
                 return;
             }
         }
@@ -337,6 +352,27 @@ public sealed class BlueprintValidator : IBlueprintValidator
         var property = containingArray?.Parent;
         var parentElement = property?.Parent;
         return parentElement;
+    }
+
+    /// <summary>
+    /// Returns true if the element, or any of its ancestor elements, carries a CollectionMappingInfo qualifier.
+    /// </summary>
+    private static bool IsWithinCollectionScope(JToken? element)
+    {
+        var current = element;
+        while (current is JObject obj)
+        {
+            var qualifiers = obj["qualifiers"] as JArray;
+            if (qualifiers != null && qualifiers.Any(q =>
+                    q["type"]?.Value<string>() == CollectionMappingInfoType))
+            {
+                return true;
+            }
+
+            current = GetContainingElement(current);
+        }
+
+        return false;
     }
 
     /// <summary>

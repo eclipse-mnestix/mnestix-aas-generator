@@ -117,6 +117,7 @@ namespace MnestixApi
             builder.Services.AddTransient<IAasGenerator, AasGenerator>();
             
             // Pipeline-based mapper
+            builder.Services.AddSingleton(TimeProvider.System);
             builder.Services.AddTransient<IDataMapper, DataMapper>();
 
 
@@ -210,7 +211,10 @@ namespace MnestixApi
 
                 if (parseSuccessful && requiredShells)
                 {
-                    requiredShellsAssertion.AssertRequiredShellsAsync();
+                    var addExampleAasParseSuccessful = bool.TryParse(builder.Configuration["Features:AddExampleAas"],
+                            out var addExampleAas);
+
+                    requiredShellsAssertion.AssertRequiredShellsAsync(!addExampleAasParseSuccessful || addExampleAas).GetAwaiter().GetResult();
                 }
             });
 

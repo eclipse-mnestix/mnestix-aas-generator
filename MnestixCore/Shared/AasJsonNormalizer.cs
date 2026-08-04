@@ -20,41 +20,6 @@ namespace MnestixCore.Shared;
 /// </summary>
 public static class AasJsonNormalizer
 {
-    // Canonical XSD value-type mapping (BaSyx Go requires lowercase)
-    private static readonly Dictionary<string, string> ValueTypeCaseMap = new(StringComparer.OrdinalIgnoreCase)
-    {
-        ["xs:string"] = "xs:string",
-        ["xs:boolean"] = "xs:boolean",
-        ["xs:integer"] = "xs:integer",
-        ["xs:int"] = "xs:int",
-        ["xs:long"] = "xs:long",
-        ["xs:short"] = "xs:short",
-        ["xs:decimal"] = "xs:decimal",
-        ["xs:double"] = "xs:double",
-        ["xs:float"] = "xs:float",
-        ["xs:dateTime"] = "xs:dateTime",
-        ["xs:date"] = "xs:date",
-        ["xs:time"] = "xs:time",
-        ["xs:anyURI"] = "xs:anyURI",
-        ["xs:base64Binary"] = "xs:base64Binary",
-        ["xs:hexBinary"] = "xs:hexBinary",
-        ["xs:byte"] = "xs:byte",
-        ["xs:unsignedByte"] = "xs:unsignedByte",
-        ["xs:unsignedShort"] = "xs:unsignedShort",
-        ["xs:unsignedInt"] = "xs:unsignedInt",
-        ["xs:unsignedLong"] = "xs:unsignedLong",
-        ["xs:positiveInteger"] = "xs:positiveInteger",
-        ["xs:nonNegativeInteger"] = "xs:nonNegativeInteger",
-        ["xs:negativeInteger"] = "xs:negativeInteger",
-        ["xs:nonPositiveInteger"] = "xs:nonPositiveInteger",
-        ["xs:duration"] = "xs:duration",
-        ["xs:gDay"] = "xs:gDay",
-        ["xs:gMonth"] = "xs:gMonth",
-        ["xs:gMonthDay"] = "xs:gMonthDay",
-        ["xs:gYear"] = "xs:gYear",
-        ["xs:gYearMonth"] = "xs:gYearMonth",
-    };
-
     /// <summary>
     /// Normalizes any AAS JSON object for compatibility with BaSyx Go's stricter v3 schema.
     /// Accepts any top-level AAS element: AssetAdministrationShell, Submodel, SubmodelElement,
@@ -140,9 +105,14 @@ public static class AasJsonNormalizer
                     obj.Remove(name);
                 }
 
+                // Detect qualifier objects once; shared by Rule 3 (kind exception) and Rule 8.
+                var isInsideQualifiersArray = IsInsideQualifiersArray(obj);
+
                 // Rule 3: Strip kind from non-Submodel elements
                 // Only objects with modelType="Submodel" may keep "kind".
                 // Objects with a different modelType OR with no modelType at all must have it removed.
+                // Qualifiers are an exception too: they carry a valid qualifier "kind"
+                // (e.g. "ConceptQualifier") that must be preserved.
                 var modelTypeToken = obj["modelType"];
                 var modelType = modelTypeToken switch
                 {
@@ -150,7 +120,7 @@ public static class AasJsonNormalizer
                     JObject jo => jo["name"]?.Value<string>(), // AAS v2 format: {"name": "..."}
                     _ => null
                 };
-                if (obj.ContainsKey("kind") && modelType != "Submodel")
+                if (obj.ContainsKey("kind") && modelType != "Submodel" && !isInsideQualifiersArray)
                 {
                     obj.Remove("kind");
                 }
@@ -159,7 +129,7 @@ public static class AasJsonNormalizer
                 if (obj["valueType"] is JToken vt && vt.Type == JTokenType.String)
                 {
                     var raw = vt.Value<string>();
-                    if (raw != null && ValueTypeCaseMap.TryGetValue(raw, out var canonical))
+                    if (DataTypeDefXsd.TryGetCanonical(raw, out var canonical))
                     {
                         obj["valueType"] = canonical;
                     }
@@ -169,8 +139,6 @@ public static class AasJsonNormalizer
                 // Detect qualifier objects by their parent property name ("qualifiers") rather than
                 // by modelType == null, because AAS v3 qualifiers carry "modelType": "Qualifier".
                 // Also treat an empty-string valueType as missing.
-                var isInsideQualifiersArray =
-                    (obj.Parent as JArray)?.Parent is JProperty { Name: "qualifiers" };
                 if (isInsideQualifiersArray && obj["type"] != null)
                 {
                     var existingValueType = obj["valueType"]?.Value<string>();
@@ -206,6 +174,15 @@ public static class AasJsonNormalizer
                 break;
         }
     }
+
+    /// <summary>
+    /// Determines whether <paramref name="obj"/> is a qualifier object, i.e. an item of a
+    /// "qualifiers" array. Detects qualifiers by their enclosing property name rather than by
+    /// modelType, because a qualifier's "modelType" may be absent ("Qualifier" in AAS v3, or
+    /// nothing at all in v2 payloads).
+    /// </summary>
+    private static bool IsInsideQualifiersArray(JObject obj) =>
+        (obj.Parent as JArray)?.Parent is JProperty { Name: "qualifiers" };
 
     /// <summary>
     /// Serializes a <see cref="JToken"/> to its JSON text representation.

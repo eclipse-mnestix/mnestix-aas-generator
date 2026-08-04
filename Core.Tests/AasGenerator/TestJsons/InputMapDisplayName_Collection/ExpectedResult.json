@@ -1,0 +1,95 @@
+{
+  "modelType": "Submodel",
+  "kind": "Instance",
+  "id": "TheNewSubmodelId",
+  "idShort": "DemoTemplate",
+  "qualifiers": [
+    {
+      "kind": "ConceptQualifier",
+      "type": "Mnestix/OriginalBlueprintID",
+      "value": "urn:smtemplate:DemoTemplate",
+      "valueType": "xs:string"
+    },
+    {
+      "kind": "ConceptQualifier",
+      "type": "Mnestix/GenerationTimestamp",
+      "value": "2026-01-02T03:04:05.0000000Z",
+      "valueType": "xs:dateTime"
+    }
+  ],
+  "submodelElements": [
+    {
+      "modelType": "SubmodelElementCollection",
+      "idShort": "TechnicalProperties",
+      "value": [
+        {
+          "modelType": "Property",
+          "idShort": "TechnicalProperty_0",
+          "valueType": "xs:string",
+          "value": "220 V",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO677#002"
+              }
+            ]
+          },
+          "displayName": [
+            {
+              "language": "en",
+              "text": "Voltage"
+            },
+            {
+              "language": "de",
+              "text": "Spannung"
+            }
+          ],
+          "qualifiers": [
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "value": "One",
+              "valueType": "xs:string"
+            }
+          ]
+        },
+        {
+          "modelType": "Property",
+          "idShort": "TechnicalProperty_1",
+          "valueType": "xs:string",
+          "value": "50 Hz",
+          "semanticId": {
+            "type": "ExternalReference",
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "0173-1#02-AAO678#003"
+              }
+            ]
+          },
+          "displayName": [
+            {
+              "language": "en",
+              "text": "Frequency"
+            },
+            {
+              "language": "de",
+              "text": "Frequenz"
+            }
+          ],
+          "qualifiers": [
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "value": "One",
+              "valueType": "xs:string"
+            }
+          ]
+        }
+      ],
+      "qualifiers": []
+    }
+  ]
+}
