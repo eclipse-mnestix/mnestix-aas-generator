@@ -37,7 +37,7 @@ public static class OpenApiDocumentsRegistration
                 {
                     d.Info.Title = "Mnestix AAS Generator";
                     // Adapt manually. This is the application version, NOT the Api Version
-                    d.Info.Version = "1.3.0";
+                    d.Info.Version = "1.4.0";
                     d.Info.Contact = new OpenApiContact
                     {
                         Name = "XITASO GmbH",
