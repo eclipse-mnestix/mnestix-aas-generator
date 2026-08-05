@@ -18,7 +18,7 @@ public sealed class MultiLanguageFieldAssigner : FieldAssignerBase
         if (resolvedValue is not JObject langObject)
         {
             throw new SubmodelDataToInstanceMapperException(
-                $"SMT/MappingInfo/multiLanguage expects a JSON object with language keys, but got {resolvedValue.Type}", ctx);
+                $"MnestixAASGenerator/MappingInfo/multiLanguage expects a JSON object with language keys, but got {resolvedValue.Type}", ctx);
         }
 
         if (!langObject.HasValues)

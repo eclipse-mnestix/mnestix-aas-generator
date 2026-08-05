@@ -41,6 +41,7 @@ public sealed class DataMapper : IDataMapper
         var pipeline = new Pipelines.Core.PipelineBuilder<DataMappingContext>()
             .Use<ValidateBlueprintAasGeneratorPipelineStep>()
             .Use<DeepCloneBlueprintAasGeneratorPipelineStep>()
+            .Use<NormalizeQualifierPrefixAasGeneratorPipelineStep>()
             .Use<SetKindInstanceAasGeneratorPipelineStep>()
             .Use<DuplicateCollectionsAasGeneratorPipelineStep>()
             .Use<FilterElementsAasGeneratorPipelineStep>()

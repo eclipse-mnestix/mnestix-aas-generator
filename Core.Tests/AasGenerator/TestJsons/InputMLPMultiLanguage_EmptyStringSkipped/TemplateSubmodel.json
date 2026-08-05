@@ -17,7 +17,7 @@
         },
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo/multiLanguage",
+          "type": "MnestixAASGenerator/MappingInfo/multiLanguage",
           "value": "company.name",
           "valueType": "xs:string"
         }

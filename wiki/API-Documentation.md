@@ -313,7 +313,7 @@ On error, `errorInfo.logs` always contains the workflow log trail up to (and inc
           "INFO [2026-04-24T10:30:01.3100000Z] - Starting data mapping",
           "ERROR [2026-04-24T10:30:01.3200000Z] - Data mapping failed: Missing required data at path: contacts.name"
         ],
-        "qualifier": "SMT/MappingInfo",
+        "qualifier": "MnestixAASGenerator/MappingInfo",
         "qualifierPath": "contacts.name"
       }
     }
@@ -410,7 +410,7 @@ A complete Submodel JSON object with `kind: "Template"` and embedded Template Qu
       "valueType": "xs:string",
       "qualifiers": [
         {
-          "type": "SMT/MappingInfo",
+          "type": "MnestixAASGenerator/MappingInfo",
           "value": "contact.name"
         }
       ]
@@ -682,9 +682,9 @@ Blueprints use Template Qualifiers to define mapping rules. These qualifiers are
 
 | Qualifier Type | Purpose | Example Value |
 |----------------|---------|---------------|
-| `SMT/MappingInfo` | Map JSON path or Jsonata expression to element value | `"car.serialNo"` or `"$string(quantity)"` |
-| `SMT/CollectionMappingInfo` | Duplicate elements for arrays | `"car.contacts[*]"` |
-| `SMT/FilterMappingInfo` | Conditional element creation using boolean expressions | `"car.engineType = 'electric'"` |
+| `MnestixAASGenerator/MappingInfo` | Map JSON path or Jsonata expression to element value | `"car.serialNo"` or `"$string(quantity)"` |
+| `MnestixAASGenerator/CollectionMappingInfo` | Duplicate elements for arrays | `"car.contacts[*]"` |
+| `MnestixAASGenerator/FilterMappingInfo` | Conditional element creation using boolean expressions | `"car.engineType = 'electric'"` |
 | `SMT/Cardinality` | Define required/optional data | `"One"` or `"ZeroToOne"` |
 
 ### Path Expression Syntax
@@ -697,7 +697,7 @@ Path mappings support both simple JSON paths and advanced Jsonata expressions:
 - `data.array[*]` - Array iteration (for collections)
 - `data.array[0]` - Specific array index
 
-**Jsonata Expressions** (for `SMT/MappingInfo`):
+**Jsonata Expressions** (for `MnestixAASGenerator/MappingInfo`):
 - `$length(data.field)` - String/array length
 - `$substring(data.field, 0, 3)` - Extract substring
 - `data.field ~> $contains('text')` - Check if contains (returns boolean)
@@ -745,7 +745,7 @@ Returned by the Blueprint Create/Update endpoints when structural issues are det
     {
       "rule": "InvalidQualifierSegmentCount",
       "path": "Nameplate > SerialNumber",
-      "message": "Qualifier type 'SMT/MappingInfo/value/extra' has 4 segments; expected at most 3."
+      "message": "Qualifier type 'MnestixAASGenerator/MappingInfo/value/extra' has 4 segments; expected at most 3."
     }
   ]
 }
@@ -785,13 +785,13 @@ Content-Type: application/json
       "idShort": "ManufacturerName",
       "modelType": "Property",
       "valueType": "xs:string",
-      "qualifiers": [{"type": "SMT/MappingInfo", "value": "manufacturer.name"}]
+      "qualifiers": [{"type": "MnestixAASGenerator/MappingInfo", "value": "manufacturer.name"}]
     },
     {
       "idShort": "SerialNumber",
       "modelType": "Property",
       "valueType": "xs:string",
-      "qualifiers": [{"type": "SMT/MappingInfo", "value": "serialNumber"}]
+      "qualifiers": [{"type": "MnestixAASGenerator/MappingInfo", "value": "serialNumber"}]
     }
   ]
 }
@@ -859,17 +859,17 @@ Blueprint with collection mapping:
 {
   "idShort": "ContactPerson",
   "modelType": "SubmodelElementCollection",
-  "qualifiers": [{"type": "SMT/CollectionMappingInfo", "value": "contacts[*]"}],
+  "qualifiers": [{"type": "MnestixAASGenerator/CollectionMappingInfo", "value": "contacts[*]"}],
   "value": [
     {
       "idShort": "Name",
       "modelType": "Property",
-      "qualifiers": [{"type": "SMT/MappingInfo", "value": "contacts[*].name"}]
+      "qualifiers": [{"type": "MnestixAASGenerator/MappingInfo", "value": "contacts[*].name"}]
     },
     {
       "idShort": "Email", 
       "modelType": "Property",
-      "qualifiers": [{"type": "SMT/MappingInfo", "value": "contacts[*].email"}]
+      "qualifiers": [{"type": "MnestixAASGenerator/MappingInfo", "value": "contacts[*].email"}]
     }
   ]
 }

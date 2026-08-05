@@ -19,13 +19,13 @@
         },
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo/value",
+          "type": "MnestixAASGenerator/MappingInfo/value",
           "value": "technicalProperty.value",
           "valueType": "xs:string"
         },
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo/displayName",
+          "type": "MnestixAASGenerator/MappingInfo/displayName",
           "value": "technicalProperty.displayName",
           "valueType": "xs:string"
         }

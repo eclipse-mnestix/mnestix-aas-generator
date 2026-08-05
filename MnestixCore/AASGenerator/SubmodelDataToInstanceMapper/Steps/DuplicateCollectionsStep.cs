@@ -70,7 +70,7 @@ public sealed class DuplicateCollectionsAasGeneratorPipelineStep : IPipelineStep
     /// </exception>
     /// <remarks>
     /// This recursive method processes collection elements by:
-    /// 1. Finding qualifiers with type 'SMT/CollectionMappingInfo'
+    /// 1. Finding qualifiers with type 'MnestixAASGenerator/CollectionMappingInfo'
     /// 2. Sorting qualifiers by the number of [*] patterns (collection depth) - starting with the shallowest
     /// 3. Duplicating elements based on the collection length in the data payload
     /// 4. Updating mapping paths and idShort values for each duplicated element
@@ -86,14 +86,14 @@ public sealed class DuplicateCollectionsAasGeneratorPipelineStep : IPipelineStep
         var submodelInstance = ctx.SubmodelInstance;
         var data = ctx.Data;
 
-        var qualifiers = submodelInstance.SelectTokens("$..qualifiers[?(@.type=='SMT/CollectionMappingInfo')]");
+        var qualifiers = submodelInstance.SelectTokens("$..qualifiers[?(@.type=='MnestixAASGenerator/CollectionMappingInfo')]");
 
         if (!qualifiers.Any())
         {
             ctx.Qualifier = new JObject();
-            submodelInstance.SelectTokens("$..qualifiers[?(@.type=='_SMT/CollectionMappingInfo')]")
+            submodelInstance.SelectTokens("$..qualifiers[?(@.type=='_MnestixAASGenerator/CollectionMappingInfo')]")
                 .ToList()
-                .ForEach(q => q["type"]?.Replace("SMT/CollectionMappingInfo"));
+                .ForEach(q => q["type"]?.Replace("MnestixAASGenerator/CollectionMappingInfo"));
             return;
         }
 
@@ -141,7 +141,7 @@ public sealed class DuplicateCollectionsAasGeneratorPipelineStep : IPipelineStep
             /// <remarks>
             /// Deletes the qualifier that triggered this duplication to avoid infinite loops
             /// </remarks>
-            newElement.SelectTokens("$..qualifiers[?(@.type=='SMT/CollectionMappingInfo')]")
+            newElement.SelectTokens("$..qualifiers[?(@.type=='MnestixAASGenerator/CollectionMappingInfo')]")
                 .ToList()
                 .ForEach(q =>
                 {
@@ -163,8 +163,8 @@ public sealed class DuplicateCollectionsAasGeneratorPipelineStep : IPipelineStep
                     {
                         var t = q["type"]?.Value<string>();
                         if (t == null) return false;
-                        var isMappingInfo = t == "SMT/MappingInfo" || t.StartsWith("SMT/MappingInfo/", StringComparison.Ordinal);
-                        if (!isMappingInfo && t != "SMT/CollectionMappingInfo") return false;
+                        var isMappingInfo = t == "MnestixAASGenerator/MappingInfo" || t.StartsWith("MnestixAASGenerator/MappingInfo/", StringComparison.Ordinal);
+                        if (!isMappingInfo && t != "MnestixAASGenerator/CollectionMappingInfo") return false;
                         var v = q["value"]?.Value<string>();
                         return v != null && v.Contains($"{listIdentifier}[*]", StringComparison.Ordinal);
                     })
@@ -182,7 +182,7 @@ public sealed class DuplicateCollectionsAasGeneratorPipelineStep : IPipelineStep
             elementToBeDuplicated.Parent!.Add(newElement);
         }
 
-        ctx.Qualifier["type"]?.Replace("_SMT/CollectionMappingInfo");
+        ctx.Qualifier["type"]?.Replace("_MnestixAASGenerator/CollectionMappingInfo");
 
         elementToBeDuplicated.Remove();
 

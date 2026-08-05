@@ -1,7 +1,7 @@
 namespace MnestixCore.Shared;
 
 /// <summary>
-/// Single source of truth for which SMT/MappingInfo field names are permitted on each AAS model type.
+/// Single source of truth for which MnestixAASGenerator/MappingInfo field names are permitted on each AAS model type.
 /// Used by the blueprint validator (save-time) and referenced by the generator pipeline (generation-time)
 /// to enforce consistent field-to-model-type applicability rules.
 /// </summary>
@@ -9,7 +9,7 @@ public static class FieldMappingRules
 {
     /// <summary>
     /// Maps each supported AAS model type to the set of field names that may appear in
-    /// <c>SMT/MappingInfo/{field}</c> qualifiers on elements of that type.
+    /// <c>MnestixAASGenerator/MappingInfo/{field}</c> qualifiers on elements of that type.
     /// Model types absent from this dictionary are unsupported for mapping and will be rejected.
     /// </summary>
     public static readonly IReadOnlyDictionary<string, IReadOnlySet<string>> AllowedFieldsByModelType =

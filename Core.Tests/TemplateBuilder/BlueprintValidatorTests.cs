@@ -74,7 +74,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Property", "Temperature",
-                MakeQualifier("SMT/MappingInfo/value", "$.temperature"),
+                MakeQualifier("MnestixAASGenerator/MappingInfo/value", "$.temperature"),
                 MakeQualifier("SMT/Cardinality", "One"))
         );
 
@@ -88,7 +88,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Property", "Temperature",
-                MakeQualifier("SMT/MappingInfo", "$.temperature"))
+                MakeQualifier("MnestixAASGenerator/MappingInfo", "$.temperature"))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -112,8 +112,8 @@ public class BlueprintValidatorTests
     public void Validate_ValidCollectionMapping_ReturnsNoErrors()
     {
         var child = MakeElement("Property", "Item",
-            MakeQualifier("SMT/CollectionMappingInfo", "$.items[*]"),
-            MakeQualifier("SMT/MappingInfo/value", "$.items[*].name"));
+            MakeQualifier("MnestixAASGenerator/CollectionMappingInfo", "$.items[*]"),
+            MakeQualifier("MnestixAASGenerator/MappingInfo/value", "$.items[*].name"));
 
         var blueprint = MakeBlueprint(
             MakeSmc("Items", [child])
@@ -129,8 +129,8 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Property", "ConditionalProp",
-                MakeQualifier("SMT/FilterMappingInfo", "$.active = true"),
-                MakeQualifier("SMT/MappingInfo/value", "$.value"))
+                MakeQualifier("MnestixAASGenerator/FilterMappingInfo", "$.active = true"),
+                MakeQualifier("MnestixAASGenerator/MappingInfo/value", "$.value"))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -147,7 +147,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Property", "Temp",
-                MakeQualifier("SMT/MappingInfo/value/extra", "$.temp"))
+                MakeQualifier("MnestixAASGenerator/MappingInfo/value/extra", "$.temp"))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -160,7 +160,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Property", "Temp",
-                MakeQualifier("SMT/MappingInfo/value/extra/more", "$.temp"))
+                MakeQualifier("MnestixAASGenerator/MappingInfo/value/extra/more", "$.temp"))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -177,7 +177,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Property", "Temp",
-                MakeQualifier("SMT/MappingInfo/value", ""))
+                MakeQualifier("MnestixAASGenerator/MappingInfo/value", ""))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -190,7 +190,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Property", "Temp",
-                MakeQualifier("SMT/MappingInfo/value", null))
+                MakeQualifier("MnestixAASGenerator/MappingInfo/value", null))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -203,7 +203,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Property", "Temp",
-                MakeQualifier("SMT/MappingInfo", ""))
+                MakeQualifier("MnestixAASGenerator/MappingInfo", ""))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -216,7 +216,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Property", "Temp",
-                MakeQualifier("SMT/MappingInfo/value", "   "))
+                MakeQualifier("MnestixAASGenerator/MappingInfo/value", "   "))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -233,7 +233,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Property", "Temp",
-                MakeQualifier("SMT/MappingInfo/foobar", "$.temp"))
+                MakeQualifier("MnestixAASGenerator/MappingInfo/foobar", "$.temp"))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -246,7 +246,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Entity", "MyEntity",
-                MakeQualifier("SMT/MappingInfo/nonexistent", "$.data"))
+                MakeQualifier("MnestixAASGenerator/MappingInfo/nonexistent", "$.data"))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -263,7 +263,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Property", "Temp",
-                MakeQualifier("SMT/MappingInfo/first", "$.ref"))
+                MakeQualifier("MnestixAASGenerator/MappingInfo/first", "$.ref"))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -276,7 +276,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Entity", "MyEntity",
-                MakeQualifier("SMT/MappingInfo/value", "$.data"))
+                MakeQualifier("MnestixAASGenerator/MappingInfo/value", "$.data"))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -289,7 +289,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Property", "Temp",
-                MakeQualifier("SMT/MappingInfo/globalAssetId", "$.assetId"))
+                MakeQualifier("MnestixAASGenerator/MappingInfo/globalAssetId", "$.assetId"))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -302,7 +302,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Property", "Temp",
-                MakeQualifier("SMT/MappingInfo/multiLanguage", "$.translations"))
+                MakeQualifier("MnestixAASGenerator/MappingInfo/multiLanguage", "$.translations"))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -315,7 +315,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("RelationshipElement", "Rel",
-                MakeQualifier("SMT/MappingInfo/entityType", "$.type"))
+                MakeQualifier("MnestixAASGenerator/MappingInfo/entityType", "$.type"))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -328,7 +328,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("RelationshipElement", "Rel",
-                MakeQualifier("SMT/MappingInfo/first", "$.refA"))
+                MakeQualifier("MnestixAASGenerator/MappingInfo/first", "$.refA"))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -345,7 +345,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Operation", "DoSomething",
-                MakeQualifier("SMT/MappingInfo/value", "$.data"))
+                MakeQualifier("MnestixAASGenerator/MappingInfo/value", "$.data"))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -358,7 +358,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("BasicEventElement", "Event",
-                MakeQualifier("SMT/MappingInfo/value", "$.event"))
+                MakeQualifier("MnestixAASGenerator/MappingInfo/value", "$.event"))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -375,8 +375,8 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Property", "Temp",
-                MakeQualifier("SMT/MappingInfo/value", "$.temp1"),
-                MakeQualifier("SMT/MappingInfo/value", "$.temp2"))
+                MakeQualifier("MnestixAASGenerator/MappingInfo/value", "$.temp1"),
+                MakeQualifier("MnestixAASGenerator/MappingInfo/value", "$.temp2"))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -389,8 +389,8 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Property", "Temp",
-                MakeQualifier("SMT/MappingInfo", "$.temp1"),
-                MakeQualifier("SMT/MappingInfo/value", "$.temp2"))
+                MakeQualifier("MnestixAASGenerator/MappingInfo", "$.temp1"),
+                MakeQualifier("MnestixAASGenerator/MappingInfo/value", "$.temp2"))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -403,8 +403,8 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Property", "Temp",
-                MakeQualifier("SMT/MappingInfo/value", "$.temp"),
-                MakeQualifier("SMT/MappingInfo/idShort", "$.name"))
+                MakeQualifier("MnestixAASGenerator/MappingInfo/value", "$.temp"),
+                MakeQualifier("MnestixAASGenerator/MappingInfo/idShort", "$.name"))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -421,8 +421,8 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("MultiLanguageProperty", "Name",
-                MakeQualifier("SMT/MappingInfo/value", "$.name"),
-                MakeQualifier("SMT/MappingInfo/multiLanguage", "$.translations"))
+                MakeQualifier("MnestixAASGenerator/MappingInfo/value", "$.name"),
+                MakeQualifier("MnestixAASGenerator/MappingInfo/multiLanguage", "$.translations"))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -435,8 +435,8 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("MultiLanguageProperty", "Name",
-                MakeQualifier("SMT/MappingInfo", "$.name"),
-                MakeQualifier("SMT/MappingInfo/multiLanguage", "$.translations"))
+                MakeQualifier("MnestixAASGenerator/MappingInfo", "$.name"),
+                MakeQualifier("MnestixAASGenerator/MappingInfo/multiLanguage", "$.translations"))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -449,7 +449,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("MultiLanguageProperty", "Name",
-                MakeQualifier("SMT/MappingInfo/multiLanguage", "$.translations"))
+                MakeQualifier("MnestixAASGenerator/MappingInfo/multiLanguage", "$.translations"))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -462,7 +462,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("MultiLanguageProperty", "Name",
-                MakeQualifier("SMT/MappingInfo/value", "$.name"))
+                MakeQualifier("MnestixAASGenerator/MappingInfo/value", "$.name"))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -479,7 +479,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Property", "Temp",
-                MakeQualifier("SMT/MappingInfo/value", "$.foo["))
+                MakeQualifier("MnestixAASGenerator/MappingInfo/value", "$.foo["))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -492,7 +492,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Property", "Temp",
-                MakeQualifier("SMT/MappingInfo/value", "$substring($.name, "))
+                MakeQualifier("MnestixAASGenerator/MappingInfo/value", "$substring($.name, "))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -505,7 +505,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Property", "Temp",
-                MakeQualifier("SMT/MappingInfo/value", "$substring($.name, 0, 5)"))
+                MakeQualifier("MnestixAASGenerator/MappingInfo/value", "$substring($.name, 0, 5)"))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -522,7 +522,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Property", "Temp",
-                MakeQualifier("SMT/FilterMappingInfo", ""))
+                MakeQualifier("MnestixAASGenerator/FilterMappingInfo", ""))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -535,7 +535,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Property", "Temp",
-                MakeQualifier("SMT/FilterMappingInfo", null))
+                MakeQualifier("MnestixAASGenerator/FilterMappingInfo", null))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -552,7 +552,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Property", "Temp",
-                MakeQualifier("SMT/FilterMappingInfo", "$contains("))
+                MakeQualifier("MnestixAASGenerator/FilterMappingInfo", "$contains("))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -565,7 +565,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Property", "Temp",
-                MakeQualifier("SMT/FilterMappingInfo", "$.active = true"))
+                MakeQualifier("MnestixAASGenerator/FilterMappingInfo", "$.active = true"))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -581,7 +581,7 @@ public class BlueprintValidatorTests
     public void Validate_CollectionMappingInfoWithEmptyValue_ReturnsEmptyCollectionPathError()
     {
         var child = MakeElement("Property", "Item",
-            MakeQualifier("SMT/CollectionMappingInfo", ""));
+            MakeQualifier("MnestixAASGenerator/CollectionMappingInfo", ""));
 
         var blueprint = MakeBlueprint(
             MakeSmc("Items", [child])
@@ -596,7 +596,7 @@ public class BlueprintValidatorTests
     public void Validate_CollectionMappingInfoWithNullValue_ReturnsEmptyCollectionPathError()
     {
         var child = MakeElement("Property", "Item",
-            MakeQualifier("SMT/CollectionMappingInfo", null));
+            MakeQualifier("MnestixAASGenerator/CollectionMappingInfo", null));
 
         var blueprint = MakeBlueprint(
             MakeSmc("Items", [child])
@@ -615,7 +615,7 @@ public class BlueprintValidatorTests
     public void Validate_CollectionWithInvalidJsonPath_ReturnsInvalidPathError()
     {
         var child = MakeElement("Property", "Item",
-            MakeQualifier("SMT/CollectionMappingInfo", "$[???[*]"));
+            MakeQualifier("MnestixAASGenerator/CollectionMappingInfo", "$[???[*]"));
 
         var blueprint = MakeBlueprint(
             MakeSmc("Items", [child])
@@ -634,7 +634,7 @@ public class BlueprintValidatorTests
     public void Validate_CollectionPathNotEndingWithWildcard_ReturnsMissingWildcardError()
     {
         var child = MakeElement("Property", "Item",
-            MakeQualifier("SMT/CollectionMappingInfo", "$.items"));
+            MakeQualifier("MnestixAASGenerator/CollectionMappingInfo", "$.items"));
 
         var blueprint = MakeBlueprint(
             MakeSmc("Items", [child])
@@ -649,7 +649,7 @@ public class BlueprintValidatorTests
     public void Validate_CollectionPathEndingWithWildcard_ReturnsNoError()
     {
         var child = MakeElement("Property", "Item",
-            MakeQualifier("SMT/CollectionMappingInfo", "$.items[*]"));
+            MakeQualifier("MnestixAASGenerator/CollectionMappingInfo", "$.items[*]"));
 
         var blueprint = MakeBlueprint(
             MakeSmc("Items", [child])
@@ -669,7 +669,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Property", "Item",
-                MakeQualifier("SMT/CollectionMappingInfo", "$.items[*]"))
+                MakeQualifier("MnestixAASGenerator/CollectionMappingInfo", "$.items[*]"))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -682,7 +682,7 @@ public class BlueprintValidatorTests
     {
         // Property cannot be a collection parent — only SMC/SML/Entity
         var child = MakeElement("Property", "Item",
-            MakeQualifier("SMT/CollectionMappingInfo", "$.items[*]"));
+            MakeQualifier("MnestixAASGenerator/CollectionMappingInfo", "$.items[*]"));
 
         var parent = MakeElement("Property", "NotACollection");
         parent["value"] = new JArray(child);
@@ -698,7 +698,7 @@ public class BlueprintValidatorTests
     public void Validate_CollectionMappingInsideSmc_ReturnsNoError()
     {
         var child = MakeElement("Property", "Item",
-            MakeQualifier("SMT/CollectionMappingInfo", "$.items[*]"));
+            MakeQualifier("MnestixAASGenerator/CollectionMappingInfo", "$.items[*]"));
 
         var blueprint = MakeBlueprint(
             MakeSmc("Items", [child])
@@ -713,7 +713,7 @@ public class BlueprintValidatorTests
     public void Validate_CollectionMappingInsideEntity_ReturnsNoError()
     {
         var child = MakeElement("Property", "Item",
-            MakeQualifier("SMT/CollectionMappingInfo", "$.parts[*]"));
+            MakeQualifier("MnestixAASGenerator/CollectionMappingInfo", "$.parts[*]"));
 
         var entity = new JObject
         {
@@ -820,11 +820,11 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Property", "Prop1",
-                MakeQualifier("SMT/MappingInfo/foobar", "$.x")),       // UnknownFieldName
+                MakeQualifier("MnestixAASGenerator/MappingInfo/foobar", "$.x")),       // UnknownFieldName
             MakeElement("Property", "Prop2",
-                MakeQualifier("SMT/MappingInfo/value", "")),            // EmptyMappingExpression
+                MakeQualifier("MnestixAASGenerator/MappingInfo/value", "")),            // EmptyMappingExpression
             MakeElement("Operation", "Op1",
-                MakeQualifier("SMT/MappingInfo/value", "$.data"))       // UnsupportedModelType
+                MakeQualifier("MnestixAASGenerator/MappingInfo/value", "$.data"))       // UnsupportedModelType
         );
 
         var errors = _sut.Validate(blueprint);
@@ -843,7 +843,7 @@ public class BlueprintValidatorTests
     public void Validate_ErrorPath_ContainsIdShortBreadcrumb()
     {
         var child = MakeElement("Property", "NestedProp",
-            MakeQualifier("SMT/MappingInfo/foobar", "$.x"));
+            MakeQualifier("MnestixAASGenerator/MappingInfo/foobar", "$.x"));
 
         var blueprint = MakeBlueprint(
             MakeSmc("ParentCollection", [child])
@@ -865,7 +865,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Property", "Temp",
-                MakeQualifier("SMT/MappingInfo/valueType", "$.type"))
+                MakeQualifier("MnestixAASGenerator/MappingInfo/valueType", "$.type"))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -878,7 +878,7 @@ public class BlueprintValidatorTests
     {
         var blueprint = MakeBlueprint(
             MakeElement("Property", "Temp",
-                MakeQualifier("SMT/MappingInfo/semanticId", "$.sid"))
+                MakeQualifier("MnestixAASGenerator/MappingInfo/semanticId", "$.sid"))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -894,7 +894,7 @@ public class BlueprintValidatorTests
         var typelessElement = new JObject
         {
             ["idShort"] = "Temp",
-            ["qualifiers"] = new JArray(MakeQualifier("SMT/MappingInfo/semanticId", "$.sid"))
+            ["qualifiers"] = new JArray(MakeQualifier("MnestixAASGenerator/MappingInfo/semanticId", "$.sid"))
         };
         var blueprint = MakeBlueprint(typelessElement);
 
@@ -909,8 +909,8 @@ public class BlueprintValidatorTests
         // value and idShort are not collection-scoped; Rule 16 must stay narrow and not over-fire.
         var blueprint = MakeBlueprint(
             MakeElement("Property", "Temp",
-                MakeQualifier("SMT/MappingInfo/value", "$.serial"),
-                MakeQualifier("SMT/MappingInfo/idShort", "$.name"))
+                MakeQualifier("MnestixAASGenerator/MappingInfo/value", "$.serial"),
+                MakeQualifier("MnestixAASGenerator/MappingInfo/idShort", "$.name"))
         );
 
         var errors = _sut.Validate(blueprint);
@@ -922,9 +922,9 @@ public class BlueprintValidatorTests
     public void Validate_ValueTypeOnElementWithCollectionMappingInfo_ReturnsNoError()
     {
         var child = MakeElement("Property", "Item",
-            MakeQualifier("SMT/CollectionMappingInfo", "$.items[*]"),
-            MakeQualifier("SMT/MappingInfo/valueType", "$.items[*].type"),
-            MakeQualifier("SMT/MappingInfo/semanticId", "$.items[*].sid"));
+            MakeQualifier("MnestixAASGenerator/CollectionMappingInfo", "$.items[*]"),
+            MakeQualifier("MnestixAASGenerator/MappingInfo/valueType", "$.items[*].type"),
+            MakeQualifier("MnestixAASGenerator/MappingInfo/semanticId", "$.items[*].sid"));
 
         var blueprint = MakeBlueprint(
             MakeSmc("Items", [child])
@@ -940,9 +940,9 @@ public class BlueprintValidatorTests
     {
         // Property carries the collection scope; a nested SMC child inherits it via ancestor walk
         var grandchild = MakeElement("Property", "Inner",
-            MakeQualifier("SMT/MappingInfo/semanticId", "$.items[*].sid"));
+            MakeQualifier("MnestixAASGenerator/MappingInfo/semanticId", "$.items[*].sid"));
         var collectionItem = MakeSmc("Item", [grandchild],
-            MakeQualifier("SMT/CollectionMappingInfo", "$.items[*]"));
+            MakeQualifier("MnestixAASGenerator/CollectionMappingInfo", "$.items[*]"));
 
         var blueprint = MakeBlueprint(
             MakeSmc("Items", [collectionItem])
@@ -954,4 +954,66 @@ public class BlueprintValidatorTests
     }
 
     #endregion
+
+    // === BACKWARD-COMPAT (legacy SMT/ prefix) — delete this whole region when SMT/ support is dropped (MNE-428) ===
+    #region Backward compatibility
+
+    [Test]
+    public void Validate_LegacySmtMappingInfo_IsAcceptedLikeNewPrefix_BackwardCompat()
+    {
+        var blueprint = MakeBlueprint(
+            MakeElement("Property", "Temperature",
+                MakeQualifier("SMT/MappingInfo/value", "$.temperature"),
+                MakeQualifier("SMT/Cardinality", "One"))
+        );
+
+        var errors = _sut.Validate(blueprint);
+
+        errors.Should().BeEmpty();
+    }
+
+    [Test]
+    public void Validate_LegacySmtBareMappingInfo_IsAccepted_BackwardCompat()
+    {
+        var blueprint = MakeBlueprint(
+            MakeElement("Property", "Temperature",
+                MakeQualifier("SMT/MappingInfo", "$.temperature"))
+        );
+
+        var errors = _sut.Validate(blueprint);
+
+        errors.Should().BeEmpty();
+    }
+
+    [Test]
+    public void Validate_LegacySmtUnknownField_ReportsUnknownFieldName_BackwardCompat()
+    {
+        var blueprint = MakeBlueprint(
+            MakeElement("Property", "Temperature",
+                MakeQualifier("SMT/MappingInfo/bogus", "$.temperature"))
+        );
+
+        var errors = _sut.Validate(blueprint);
+
+        errors.Should().Contain(e => e.Rule == BlueprintValidationRule.UnknownFieldName);
+    }
+
+    [Test]
+    public void Validate_LegacySmtCollectionMapping_IsAccepted_BackwardCompat()
+    {
+        var child = MakeElement("Property", "Item",
+            MakeQualifier("SMT/CollectionMappingInfo", "$.items[*]"),
+            MakeQualifier("SMT/MappingInfo/value", "$.items[*].name"));
+
+        var blueprint = MakeBlueprint(
+            MakeSmc("Items", [child])
+        );
+
+        var errors = _sut.Validate(blueprint);
+
+        errors.Should().BeEmpty();
+    }
+
+    #endregion
+    // === END BACKWARD-COMPAT ===
 }

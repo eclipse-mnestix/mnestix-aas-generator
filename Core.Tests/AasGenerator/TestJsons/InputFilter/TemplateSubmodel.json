@@ -17,7 +17,7 @@
       "qualifiers": [
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/FilterMappingInfo",
+          "type": "MnestixAASGenerator/FilterMappingInfo",
           "value": "car.engineType = 'electric'",
           "valueType": "xs:string"
         }
@@ -31,7 +31,7 @@
           "qualifiers": [
             {
               "kind": "TemplateQualifier",
-              "type": "SMT/MappingInfo",
+              "type": "MnestixAASGenerator/MappingInfo",
               "value": "car.battery.capacityKWh",
               "valueType": "xs:string"
             }
@@ -52,7 +52,7 @@
       "qualifiers": [
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/FilterMappingInfo",
+          "type": "MnestixAASGenerator/FilterMappingInfo",
           "value": "car.engineType = 'combustion'",
           "valueType": "xs:string"
         }
@@ -66,7 +66,7 @@
           "qualifiers": [
             {
               "kind": "TemplateQualifier",
-              "type": "SMT/MappingInfo",
+              "type": "MnestixAASGenerator/MappingInfo",
               "value": "car.gasTank.capacityL",
               "valueType": "xs:string"
             }
