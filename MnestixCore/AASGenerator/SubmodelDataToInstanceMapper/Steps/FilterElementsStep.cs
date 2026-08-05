@@ -1,5 +1,7 @@
 using MnestixCore.AasGenerator.Interfaces;
+using MnestixCore.AasGenerator.Pipelines.Shared;
 using MnestixCore.Errors;
+using MnestixCore.Shared;
 using Newtonsoft.Json.Linq;
 using Jsonata.Net.Native;
 using Jsonata.Net.Native.JsonNet;
@@ -16,6 +18,9 @@ namespace MnestixCore.AasGenerator.Pipelines.Steps;
 /// </remarks>
 public sealed class FilterElementsAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
 {
+    // Derived from the single source of truth so a future rename only touches QualifierAliases.
+    private static readonly string FilterMappingInfoQualifierPath = QualifierHelpers.RecursiveQualifierPath(QualifierAliases.FilterMappingInfoType);
+
     public Task<DataMappingContext> ExecuteAsync(DataMappingContext ctx)
     {
         ctx.Log($"Started FilterElementsStep");
@@ -45,7 +50,7 @@ public sealed class FilterElementsAasGeneratorPipelineStep : IPipelineStep<DataM
         var data = ctx.Data;
         
         // Find all MnestixAASGenerator/FilterMappingInfo qualifiers recursively
-        var qualifiers = submodelInstance.SelectTokens("$..qualifiers[?(@.type=='MnestixAASGenerator/FilterMappingInfo')]");
+        var qualifiers = submodelInstance.SelectTokens(FilterMappingInfoQualifierPath);
         
         if (!qualifiers.Any())
         {

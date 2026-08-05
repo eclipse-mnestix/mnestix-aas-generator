@@ -1,6 +1,8 @@
 using System.Text.RegularExpressions;
 using MnestixCore.AasGenerator.Interfaces;
+using MnestixCore.AasGenerator.Pipelines.Shared;
 using MnestixCore.Errors;
+using MnestixCore.Shared;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -16,6 +18,17 @@ namespace MnestixCore.AasGenerator.Pipelines.Steps;
 /// </remarks>
 public sealed class DuplicateCollectionsAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
 {
+    // Derived from the single source of truth so a future rename only touches QualifierAliases.
+    private const string CollectionMappingInfoType = QualifierAliases.CollectionMappingInfoType;
+    private const string MappingInfoPrefix = QualifierAliases.MappingInfoPrefix;
+
+    // Temporary marker used to flag an already-processed collection qualifier so the recursion
+    // does not pick it up again; renamed back to the real type once all collections are handled.
+    private const string ProcessedCollectionMarker = "_" + CollectionMappingInfoType;
+
+    private static readonly string CollectionMappingInfoQualifierPath = QualifierHelpers.RecursiveQualifierPath(CollectionMappingInfoType);
+    private static readonly string ProcessedCollectionMarkerPath = QualifierHelpers.RecursiveQualifierPath(ProcessedCollectionMarker);
+
     public Task<DataMappingContext> ExecuteAsync(DataMappingContext ctx)
     {
         ctx.Log($"Started DuplicateCollectionsStep");
@@ -86,14 +99,14 @@ public sealed class DuplicateCollectionsAasGeneratorPipelineStep : IPipelineStep
         var submodelInstance = ctx.SubmodelInstance;
         var data = ctx.Data;
 
-        var qualifiers = submodelInstance.SelectTokens("$..qualifiers[?(@.type=='MnestixAASGenerator/CollectionMappingInfo')]");
+        var qualifiers = submodelInstance.SelectTokens(CollectionMappingInfoQualifierPath);
 
         if (!qualifiers.Any())
         {
             ctx.Qualifier = new JObject();
-            submodelInstance.SelectTokens("$..qualifiers[?(@.type=='_MnestixAASGenerator/CollectionMappingInfo')]")
+            submodelInstance.SelectTokens(ProcessedCollectionMarkerPath)
                 .ToList()
-                .ForEach(q => q["type"]?.Replace("MnestixAASGenerator/CollectionMappingInfo"));
+                .ForEach(q => q["type"]?.Replace(CollectionMappingInfoType));
             return;
         }
 
@@ -141,7 +154,7 @@ public sealed class DuplicateCollectionsAasGeneratorPipelineStep : IPipelineStep
             /// <remarks>
             /// Deletes the qualifier that triggered this duplication to avoid infinite loops
             /// </remarks>
-            newElement.SelectTokens("$..qualifiers[?(@.type=='MnestixAASGenerator/CollectionMappingInfo')]")
+            newElement.SelectTokens(CollectionMappingInfoQualifierPath)
                 .ToList()
                 .ForEach(q =>
                 {
@@ -163,8 +176,8 @@ public sealed class DuplicateCollectionsAasGeneratorPipelineStep : IPipelineStep
                     {
                         var t = q["type"]?.Value<string>();
                         if (t == null) return false;
-                        var isMappingInfo = t == "MnestixAASGenerator/MappingInfo" || t.StartsWith("MnestixAASGenerator/MappingInfo/", StringComparison.Ordinal);
-                        if (!isMappingInfo && t != "MnestixAASGenerator/CollectionMappingInfo") return false;
+                        var isMappingInfo = t == MappingInfoPrefix || t.StartsWith(MappingInfoPrefix + "/", StringComparison.Ordinal);
+                        if (!isMappingInfo && t != CollectionMappingInfoType) return false;
                         var v = q["value"]?.Value<string>();
                         return v != null && v.Contains($"{listIdentifier}[*]", StringComparison.Ordinal);
                     })
@@ -182,7 +195,7 @@ public sealed class DuplicateCollectionsAasGeneratorPipelineStep : IPipelineStep
             elementToBeDuplicated.Parent!.Add(newElement);
         }
 
-        ctx.Qualifier["type"]?.Replace("_MnestixAASGenerator/CollectionMappingInfo");
+        ctx.Qualifier["type"]?.Replace(ProcessedCollectionMarker);
 
         elementToBeDuplicated.Remove();
 

@@ -16,6 +16,8 @@ public static class QualifierAliases
     public const string FilterMappingInfoType = "MnestixAASGenerator/FilterMappingInfo";
 
     private const string LegacyMappingInfoPrefix = "SMT/MappingInfo";
+    private const string LegacyCollectionMappingInfoType = "SMT/CollectionMappingInfo";
+    private const string LegacyFilterMappingInfoType = "SMT/FilterMappingInfo";
 
     /// <summary>
     /// Exact-match legacy -> canonical entries. The MappingInfo "/&lt;field&gt;" suffix form is
@@ -24,8 +26,8 @@ public static class QualifierAliases
     public static IReadOnlyDictionary<string, string> Map { get; } = new Dictionary<string, string>(StringComparer.Ordinal)
     {
         [LegacyMappingInfoPrefix] = MappingInfoPrefix,
-        ["SMT/CollectionMappingInfo"] = CollectionMappingInfoType,
-        ["SMT/FilterMappingInfo"] = FilterMappingInfoType,
+        [LegacyCollectionMappingInfoType] = CollectionMappingInfoType,
+        [LegacyFilterMappingInfoType] = FilterMappingInfoType,
     };
 
     /// <summary>
