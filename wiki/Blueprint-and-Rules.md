@@ -47,7 +47,7 @@ Mapping rules are embedded as **qualifiers** within Submodel elements. The AAS G
 ```json
 {
   "kind": "TemplateQualifier",
-  "type": "SMT/<RuleType>",
+  "type": "MnestixAASGenerator/<RuleType>",
   "value": "<rule-configuration>",
   "valueType": "xs:string"
 }
@@ -57,7 +57,7 @@ Mapping rules are embedded as **qualifiers** within Submodel elements. The AAS G
 
 | Qualifier Type | Purpose |
 |----------------|---------|
-| `MnestixAASGenerator/MappingInfo` | Map a JSON path or Jsonata expression to an element's value (legacy format) |
+| `MnestixAASGenerator/MappingInfo` | Map a JSON path or Jsonata expression to an element's value (maps to `value` by default) |
 | `MnestixAASGenerator/MappingInfo/<FieldName>` | Map data to a specific element field (e.g., `idShort`, `globalAssetId`) |
 | `MnestixAASGenerator/CollectionMappingInfo` | Duplicate an element for each array item |
 | `MnestixAASGenerator/FilterMappingInfo` | Conditionally include/exclude an element based on a boolean expression |
@@ -161,7 +161,7 @@ Extends path mapping to target specific fields on an element beyond just `value`
 
 | FieldName | Target | Applicable Model Types | Notes |
 |-----------|--------|----------------------|-------|
-| `value` | Element value | Property, Blob, File, MultiLanguageProperty | Default (same as legacy `MnestixAASGenerator/MappingInfo`) |
+| `value` | Element value | Property, Blob, File, MultiLanguageProperty | Default (same as bare `MnestixAASGenerator/MappingInfo`) |
 | `contentType` | File content type | File, Blob | MIME type string or JSONata expression extracting from URL |
 | `idShort` | Element identifier | All | Auto-sanitized to `[a-zA-Z][a-zA-Z0-9_]*` |
 | `globalAssetId` | Entity asset reference | Entity | String (URI) |
@@ -1248,7 +1248,7 @@ Maps a scalar value and wraps it with the `language` parameter from the API requ
 }
 ```
 
-> **Note:** Using `MnestixAASGenerator/MappingInfo/value` (or the legacy `MnestixAASGenerator/MappingInfo`) on a `MultiLanguageProperty` requires the `language` parameter in the API request. If your data already contains language codes as keys, prefer `MnestixAASGenerator/MappingInfo/multiLanguage` instead.
+> **Note:** Using `MnestixAASGenerator/MappingInfo/value` (or the bare `MnestixAASGenerator/MappingInfo`) on a `MultiLanguageProperty` requires the `language` parameter in the API request. If your data already contains language codes as keys, prefer `MnestixAASGenerator/MappingInfo/multiLanguage` instead.
 
 ---
 
