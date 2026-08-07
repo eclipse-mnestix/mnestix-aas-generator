@@ -505,6 +505,30 @@ public class AasGeneratorTests
         await RunDataIngestFailureTest("InputMLPMultiLanguage_AllEmptyStrings_Mandatory");
     }
 
+    // === BACKWARD-COMPAT (legacy SMT/ prefix) — delete this whole region and its InputLegacySmt_* fixtures when SMT/ support is dropped (MNE-428) ===
+    // These prove that blueprints authored with the old SMT/ mapping prefix (whether freshly created
+    // or already stored) still generate correctly and produce the same output as the new prefix.
+
+    [Test]
+    public async Task AddDataToAasAsync_LegacySmtPrefix_MandatoryField_BackwardCompat()
+    {
+        await RunDataIngestTest("InputLegacySmt_MandatoryField");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_LegacySmtPrefix_Collection_BackwardCompat()
+    {
+        await RunDataIngestTest("InputLegacySmt_Collection");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_LegacySmtPrefix_Filter_BackwardCompat()
+    {
+        await RunDataIngestTest("InputLegacySmt_Filter");
+    }
+
+    // === END BACKWARD-COMPAT ===
+
     private async Task RunDataIngestTest(string testCaseName, string? language = "en")
     {
         // ARRANGE

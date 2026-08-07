@@ -2,18 +2,19 @@ using MnestixCore.AasGenerator.Interfaces;
 using MnestixCore.AasGenerator.Pipelines.FieldAssigners;
 using MnestixCore.AasGenerator.Pipelines.Shared;
 using MnestixCore.Errors;
+using MnestixCore.Shared;
 using Newtonsoft.Json.Linq;
 
 namespace MnestixCore.AasGenerator.Pipelines.Steps;
 
 /// <summary>
-/// Discovers SMT/MappingInfo qualifiers and populates ctx.MappingDescriptors for downstream steps.
+/// Discovers MnestixAASGenerator/MappingInfo qualifiers and populates ctx.MappingDescriptors for downstream steps.
 /// Structural validation (field names, duplicates, conflicts) is handled by the upstream
 /// ValidateBlueprintAasGeneratorPipelineStep via BlueprintValidator.
 /// </summary>
 public sealed class DiscoverMappingDescriptorsAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
 {
-    private const string MappingInfoPrefix = "SMT/MappingInfo";
+    private const string MappingInfoPrefix = QualifierAliases.MappingInfoPrefix;
 
     public Task<DataMappingContext> ExecuteAsync(DataMappingContext ctx)
     {

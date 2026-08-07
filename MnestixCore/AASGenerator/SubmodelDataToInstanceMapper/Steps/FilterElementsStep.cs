@@ -1,5 +1,7 @@
 using MnestixCore.AasGenerator.Interfaces;
+using MnestixCore.AasGenerator.Pipelines.Shared;
 using MnestixCore.Errors;
+using MnestixCore.Shared;
 using Newtonsoft.Json.Linq;
 using Jsonata.Net.Native;
 using Jsonata.Net.Native.JsonNet;
@@ -7,7 +9,7 @@ using Jsonata.Net.Native.JsonNet;
 namespace MnestixCore.AasGenerator.Pipelines.Steps;
 
 /// <summary>
-/// Pipeline step that filters submodel elements based on SMT/FilterMappingInfo qualifiers.
+/// Pipeline step that filters submodel elements based on MnestixAASGenerator/FilterMappingInfo qualifiers.
 /// </summary>
 /// <remarks>
 /// This step evaluates JSONATA boolean expressions in filter qualifiers and removes elements
@@ -16,6 +18,9 @@ namespace MnestixCore.AasGenerator.Pipelines.Steps;
 /// </remarks>
 public sealed class FilterElementsAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
 {
+    // Derived from the single source of truth so a future rename only touches QualifierAliases.
+    private static readonly string FilterMappingInfoQualifierPath = QualifierHelpers.RecursiveQualifierPath(QualifierAliases.FilterMappingInfoType);
+
     public Task<DataMappingContext> ExecuteAsync(DataMappingContext ctx)
     {
         ctx.Log($"Started FilterElementsStep");
@@ -32,7 +37,7 @@ public sealed class FilterElementsAasGeneratorPipelineStep : IPipelineStep<DataM
     /// Thrown when filter evaluation fails or when a mandatory filter fails.
     /// </exception>
     /// <remarks>
-    /// This method processes all SMT/FilterMappingInfo qualifiers found in the submodel instance.
+    /// This method processes all MnestixAASGenerator/FilterMappingInfo qualifiers found in the submodel instance.
     /// For each filter:
     /// 1. Evaluates the JSONATA expression against the data payload
     /// 2. Removes the element if the expression evaluates to false/null
@@ -44,8 +49,8 @@ public sealed class FilterElementsAasGeneratorPipelineStep : IPipelineStep<DataM
         var submodelInstance = ctx.SubmodelInstance;
         var data = ctx.Data;
         
-        // Find all SMT/FilterMappingInfo qualifiers recursively
-        var qualifiers = submodelInstance.SelectTokens("$..qualifiers[?(@.type=='SMT/FilterMappingInfo')]");
+        // Find all MnestixAASGenerator/FilterMappingInfo qualifiers recursively
+        var qualifiers = submodelInstance.SelectTokens(FilterMappingInfoQualifierPath);
         
         if (!qualifiers.Any())
         {

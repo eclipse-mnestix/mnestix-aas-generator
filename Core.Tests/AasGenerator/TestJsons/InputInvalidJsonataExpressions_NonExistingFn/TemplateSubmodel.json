@@ -29,7 +29,7 @@
         },
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo",
+          "type": "MnestixAASGenerator/MappingInfo",
           "value": "$nonExistingFunction(sourceData.value)",
           "valueType": "xs:string"
         }

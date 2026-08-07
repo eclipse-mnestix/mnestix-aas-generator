@@ -42,25 +42,25 @@
             },
             {
               "kind": "TemplateQualifier",
-              "type": "SMT/CollectionMappingInfo",
+              "type": "MnestixAASGenerator/CollectionMappingInfo",
               "value": "vec.components[*]",
               "valueType": "xs:string"
             },
             {
               "kind": "TemplateQualifier",
-              "type": "SMT/MappingInfo/idShort",
+              "type": "MnestixAASGenerator/MappingInfo/idShort",
               "value": "vec.components[*].partNumber",
               "valueType": "xs:string"
             },
             {
               "kind": "TemplateQualifier",
-              "type": "SMT/MappingInfo/globalAssetId",
+              "type": "MnestixAASGenerator/MappingInfo/globalAssetId",
               "value": "vec.components[*].assetId",
               "valueType": "xs:string"
             },
             {
               "kind": "TemplateQualifier",
-              "type": "SMT/MappingInfo/entityType",
+              "type": "MnestixAASGenerator/MappingInfo/entityType",
               "value": "vec.components[*].entityType",
               "valueType": "xs:string"
             }
@@ -87,19 +87,19 @@
             },
             {
               "kind": "TemplateQualifier",
-              "type": "SMT/CollectionMappingInfo",
+              "type": "MnestixAASGenerator/CollectionMappingInfo",
               "value": "vec.components[*]",
               "valueType": "xs:string"
             },
             {
               "kind": "TemplateQualifier",
-              "type": "SMT/MappingInfo/first",
+              "type": "MnestixAASGenerator/MappingInfo/first",
               "value": "vec.components[*].firstRef",
               "valueType": "xs:string"
             },
             {
               "kind": "TemplateQualifier",
-              "type": "SMT/MappingInfo/second",
+              "type": "MnestixAASGenerator/MappingInfo/second",
               "value": "vec.components[*].secondRef",
               "valueType": "xs:string"
             }

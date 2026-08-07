@@ -7,10 +7,10 @@ namespace MnestixCore.TemplateBuilder;
 
 public sealed class BlueprintValidator : IBlueprintValidator
 {
-    private const string MappingInfoPrefix = "SMT/MappingInfo";
-    private const string FilterMappingInfoType = "SMT/FilterMappingInfo";
-    private const string CollectionMappingInfoType = "SMT/CollectionMappingInfo";
-    private const string CardinalityType = "SMT/Cardinality";
+    private const string MappingInfoPrefix = QualifierAliases.MappingInfoPrefix;
+    private const string FilterMappingInfoType = QualifierAliases.FilterMappingInfoType;
+    private const string CollectionMappingInfoType = QualifierAliases.CollectionMappingInfoType;
+    private const string CardinalityType = "SMT/Cardinality"; // IDTA standard qualifier — not renamed
 
     private static readonly HashSet<string> ValidCardinalities = new()
     {
@@ -40,6 +40,10 @@ public sealed class BlueprintValidator : IBlueprintValidator
         {
             var type = qualifier["type"]?.Value<string>();
             if (string.IsNullOrEmpty(type)) continue;
+            // Accept the legacy "SMT/" mapping prefix by canonicalizing to the new prefix before
+            // matching (MNE-428 backward compatibility). SMT/Cardinality and custom qualifiers are
+            // returned unchanged by Canonicalize.
+            type = QualifierAliases.Canonicalize(type);
 
             var path = BuildPath(qualifier);
 
@@ -86,7 +90,7 @@ public sealed class BlueprintValidator : IBlueprintValidator
             return;
         }
 
-        // Resolve field name: bare "SMT/MappingInfo" → "value"
+        // Resolve field name: bare "MnestixAASGenerator/MappingInfo" → "value"
         var fieldName = segments.Length == 3 ? segments[2] : "value";
 
         // Rule 2: EmptyMappingExpression
@@ -142,7 +146,7 @@ public sealed class BlueprintValidator : IBlueprintValidator
                 errors.Add(new BlueprintValidationError(
                     BlueprintValidationRule.FieldRequiresCollectionScope,
                     path,
-                    $"Field '{fieldName}' may only be mapped on elements within a SMT/CollectionMappingInfo scope."));
+                    $"Field '{fieldName}' may only be mapped on elements within a MnestixAASGenerator/CollectionMappingInfo scope."));
                 return;
             }
         }
@@ -364,7 +368,7 @@ public sealed class BlueprintValidator : IBlueprintValidator
         {
             var qualifiers = obj["qualifiers"] as JArray;
             if (qualifiers != null && qualifiers.Any(q =>
-                    q["type"]?.Value<string>() == CollectionMappingInfoType))
+                    QualifierAliases.Canonicalize(q["type"]?.Value<string>() ?? string.Empty) == CollectionMappingInfoType))
             {
                 return true;
             }

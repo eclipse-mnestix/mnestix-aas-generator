@@ -26,10 +26,10 @@ The following element types support data mapping via qualifiers:
 
 | Element Type | Mapping Support | Notes |
 |--------------|-----------------|-------|
-| `Property` | ✅ Full | Value mapping via `SMT/MappingInfo`; per-entry `semanticId`/`valueType` within a collection scope |
-| `MultiLanguageProperty` | ✅ Full | Multi-language via `SMT/MappingInfo/multiLanguage`, or single language via `SMT/MappingInfo/value` |
-| `Blob` | ✅ Partial | Value and contentType mapping (`SMT/MappingInfo/value`, `SMT/MappingInfo/contentType`) |
-| `File` | ✅ Full | Value and contentType mapping via `SMT/MappingInfo/value` and `SMT/MappingInfo/contentType` |
+| `Property` | ✅ Full | Value mapping via `MnestixAASGenerator/MappingInfo`; per-entry `semanticId`/`valueType` within a collection scope |
+| `MultiLanguageProperty` | ✅ Full | Multi-language via `MnestixAASGenerator/MappingInfo/multiLanguage`, or single language via `MnestixAASGenerator/MappingInfo/value` |
+| `Blob` | ✅ Partial | Value and contentType mapping (`MnestixAASGenerator/MappingInfo/value`, `MnestixAASGenerator/MappingInfo/contentType`) |
+| `File` | ✅ Full | Value and contentType mapping via `MnestixAASGenerator/MappingInfo/value` and `MnestixAASGenerator/MappingInfo/contentType` |
 | `SubmodelElementCollection` | ✅ Full | Supports collection duplication |
 | `SubmodelElementList` | ✅ Full | Supports collection duplication |
 | `Entity` | ✅ Partial | Multi-field mapping: `globalAssetId`, `entityType`, `idShort`, `displayName` |
@@ -47,7 +47,7 @@ Mapping rules are embedded as **qualifiers** within Submodel elements. The AAS G
 ```json
 {
   "kind": "TemplateQualifier",
-  "type": "SMT/<RuleType>",
+  "type": "MnestixAASGenerator/<RuleType>",
   "value": "<rule-configuration>",
   "valueType": "xs:string"
 }
@@ -57,11 +57,17 @@ Mapping rules are embedded as **qualifiers** within Submodel elements. The AAS G
 
 | Qualifier Type | Purpose |
 |----------------|---------|
-| `SMT/MappingInfo` | Map a JSON path or Jsonata expression to an element's value (legacy format) |
-| `SMT/MappingInfo/<FieldName>` | Map data to a specific element field (e.g., `idShort`, `globalAssetId`) |
-| `SMT/CollectionMappingInfo` | Duplicate an element for each array item |
-| `SMT/FilterMappingInfo` | Conditionally include/exclude an element based on a boolean expression |
+| `MnestixAASGenerator/MappingInfo` | Map a JSON path or Jsonata expression to an element's value (maps to `value` by default) |
+| `MnestixAASGenerator/MappingInfo/<FieldName>` | Map data to a specific element field (e.g., `idShort`, `globalAssetId`) |
+| `MnestixAASGenerator/CollectionMappingInfo` | Duplicate an element for each array item |
+| `MnestixAASGenerator/FilterMappingInfo` | Conditionally include/exclude an element based on a boolean expression |
 | `SMT/Cardinality` | Define whether the data is required or optional |
+
+> **Backward compatibility:** The mapping qualifiers were previously prefixed with `SMT/`
+> (`SMT/MappingInfo`, `SMT/CollectionMappingInfo`, `SMT/FilterMappingInfo`). Blueprints using
+> the old prefix are still fully supported — the generator normalizes them internally — but new
+> blueprints should use the `MnestixAASGenerator/` prefix. Note that `SMT/Cardinality` is a
+> standard IDTA qualifier and is **not** renamed; it keeps the `SMT/` prefix.
 
 ---
 
@@ -85,7 +91,7 @@ For fields with constant values that don't change between instances, simply set 
 
 ---
 
-### 2. Path Mapping (`SMT/MappingInfo`)
+### 2. Path Mapping (`MnestixAASGenerator/MappingInfo`)
 
 Maps a JSON path from the input data to an element's value. This is the most common rule type.
 
@@ -93,7 +99,7 @@ Maps a JSON path from the input data to an element's value. This is the most com
 ```json
 {
   "kind": "TemplateQualifier",
-  "type": "SMT/MappingInfo",
+  "type": "MnestixAASGenerator/MappingInfo",
   "value": "product.serialNumber",
   "valueType": "xs:string"
 }
@@ -109,7 +115,7 @@ Maps a JSON path from the input data to an element's value. This is the most com
   "qualifiers": [
     {
       "kind": "TemplateQualifier",
-      "type": "SMT/MappingInfo",
+      "type": "MnestixAASGenerator/MappingInfo",
       "value": "product.serialNumber",
       "valueType": "xs:string"
     }
@@ -147,15 +153,15 @@ Maps a JSON path from the input data to an element's value. This is the most com
 
 ---
 
-### 2b. Multi-Field Mapping (`SMT/MappingInfo/<FieldName>`)
+### 2b. Multi-Field Mapping (`MnestixAASGenerator/MappingInfo/<FieldName>`)
 
-Extends path mapping to target specific fields on an element beyond just `value`. The `SMT/MappingInfo` (legacy) qualifier maps to `value` by default. The new format `SMT/MappingInfo/<FieldName>` allows mapping to any supported field.
+Extends path mapping to target specific fields on an element beyond just `value`. The `MnestixAASGenerator/MappingInfo` (legacy) qualifier maps to `value` by default. The new format `MnestixAASGenerator/MappingInfo/<FieldName>` allows mapping to any supported field.
 
 **Supported Fields:**
 
 | FieldName | Target | Applicable Model Types | Notes |
 |-----------|--------|----------------------|-------|
-| `value` | Element value | Property, Blob, File, MultiLanguageProperty | Default (same as legacy `SMT/MappingInfo`) |
+| `value` | Element value | Property, Blob, File, MultiLanguageProperty | Default (same as bare `MnestixAASGenerator/MappingInfo`) |
 | `contentType` | File content type | File, Blob | MIME type string or JSONata expression extracting from URL |
 | `idShort` | Element identifier | All | Auto-sanitized to `[a-zA-Z][a-zA-Z0-9_]*` |
 | `globalAssetId` | Entity asset reference | Entity | String (URI) |
@@ -179,13 +185,13 @@ Extends path mapping to target specific fields on an element beyond just `value`
   "qualifiers": [
     {
       "kind": "TemplateQualifier",
-      "type": "SMT/MappingInfo/idShort",
+      "type": "MnestixAASGenerator/MappingInfo/idShort",
       "value": "component.partNumber",
       "valueType": "xs:string"
     },
     {
       "kind": "TemplateQualifier",
-      "type": "SMT/MappingInfo/globalAssetId",
+      "type": "MnestixAASGenerator/MappingInfo/globalAssetId",
       "value": "'https://asset.example.com/' & component.partNumber",
       "valueType": "xs:string"
     }
@@ -223,12 +229,12 @@ Extends path mapping to target specific fields on an element beyond just `value`
   "second": {},
   "qualifiers": [
     {
-      "type": "SMT/MappingInfo/first",
+      "type": "MnestixAASGenerator/MappingInfo/first",
       "value": "relationship.parentRef",
       "valueType": "xs:string"
     },
     {
-      "type": "SMT/MappingInfo/second",
+      "type": "MnestixAASGenerator/MappingInfo/second",
       "value": "relationship.childRef",
       "valueType": "xs:string"
     }
@@ -264,13 +270,13 @@ The `File` element supports mapping both `value` (file URL) and `contentType` (M
   "qualifiers": [
     {
       "kind": "TemplateQualifier",
-      "type": "SMT/MappingInfo/value",
+      "type": "MnestixAASGenerator/MappingInfo/value",
       "value": "product.image.url",
       "valueType": "xs:string"
     },
     {
       "kind": "TemplateQualifier",
-      "type": "SMT/MappingInfo/contentType",
+      "type": "MnestixAASGenerator/MappingInfo/contentType",
       "value": "product.image.contentType",
       "valueType": "xs:string"
     }
@@ -302,13 +308,13 @@ The `File` element supports mapping both `value` (file URL) and `contentType` (M
   "qualifiers": [
     {
       "kind": "TemplateQualifier",
-      "type": "SMT/MappingInfo/value",
+      "type": "MnestixAASGenerator/MappingInfo/value",
       "value": "companyLogo",
       "valueType": "xs:string"
     },
     {
       "kind": "TemplateQualifier",
-      "type": "SMT/MappingInfo/contentType",
+      "type": "MnestixAASGenerator/MappingInfo/contentType",
       "value": "$lookup({\"svg\":\"image/svg+xml\",\"png\":\"image/png\",\"jpg\":\"image/jpeg\",\"jpeg\":\"image/jpeg\",\"pdf\":\"application/pdf\"}, $split($split(companyLogo,'?')[0], '.')[-1])",
       "valueType": "xs:string"
     }
@@ -370,11 +376,11 @@ When mapping to `value`, the generator validates that the mapped value conforms 
 | Field not applicable to model type | Error: `"Field '<FieldName>' is not applicable to model type '<ModelType>'"` |
 | Duplicate field mapping on same element | Error: `"Duplicate mapping for field '<FieldName>' on element '<idShort>'"` |
 | Value type mismatch | Error: `"Mapped value '<value>' does not conform to valueType '<valueType>'"` |
-| Malformed qualifier type (e.g. `SMT/MappingInfo/a/b`) | Error: `"Malformed qualifier type '...'. Expected 'SMT/MappingInfo' or 'SMT/MappingInfo/<FieldName>'"` |
+| Malformed qualifier type (e.g. `MnestixAASGenerator/MappingInfo/a/b`) | Error: `"Malformed qualifier type '...'. Expected 'MnestixAASGenerator/MappingInfo' or 'MnestixAASGenerator/MappingInfo/<FieldName>'"` |
 
 #### Combining with Collection Mapping
 
-Multi-field mapping works with `SMT/CollectionMappingInfo` for dynamic element creation:
+Multi-field mapping works with `MnestixAASGenerator/CollectionMappingInfo` for dynamic element creation:
 
 ```json
 {
@@ -383,10 +389,10 @@ Multi-field mapping works with `SMT/CollectionMappingInfo` for dynamic element c
   "entityType": "CoManagedEntity",
   "globalAssetId": "",
   "qualifiers": [
-    { "type": "SMT/CollectionMappingInfo", "value": "vec.components[*]" },
-    { "type": "SMT/MappingInfo/idShort", "value": "vec.components[*].partNumber" },
-    { "type": "SMT/MappingInfo/globalAssetId", "value": "vec.components[*].assetId" },
-    { "type": "SMT/MappingInfo/entityType", "value": "vec.components[*].entityType" }
+    { "type": "MnestixAASGenerator/CollectionMappingInfo", "value": "vec.components[*]" },
+    { "type": "MnestixAASGenerator/MappingInfo/idShort", "value": "vec.components[*].partNumber" },
+    { "type": "MnestixAASGenerator/MappingInfo/globalAssetId", "value": "vec.components[*].assetId" },
+    { "type": "MnestixAASGenerator/MappingInfo/entityType", "value": "vec.components[*].entityType" }
   ]
 }
 ```
@@ -395,7 +401,7 @@ Each duplicated element gets its own `idShort`, `globalAssetId`, and `entityType
 
 #### Per-entry classification with `semanticId` and `valueType`
 
-`semanticId` and `valueType` are **only allowed within a `SMT/CollectionMappingInfo` scope**. This lets one blueprint Property classify each entry of a heterogeneous source array (e.g. IDTA Technical Data) with its own semantic ID and XSD value type:
+`semanticId` and `valueType` are **only allowed within a `MnestixAASGenerator/CollectionMappingInfo` scope**. This lets one blueprint Property classify each entry of a heterogeneous source array (e.g. IDTA Technical Data) with its own semantic ID and XSD value type:
 
 ```json
 {
@@ -404,11 +410,11 @@ Each duplicated element gets its own `idShort`, `globalAssetId`, and `entityType
   "valueType": "xs:string",
   "value": "",
   "qualifiers": [
-    { "type": "SMT/CollectionMappingInfo", "value": "product.TechnicalData.v1[*]" },
-    { "type": "SMT/MappingInfo/idShort", "value": "product.TechnicalData.v1[*].name" },
-    { "type": "SMT/MappingInfo/value", "value": "product.TechnicalData.v1[*].value" },
-    { "type": "SMT/MappingInfo/semanticId", "value": "product.TechnicalData.v1[*].conceptId" },
-    { "type": "SMT/MappingInfo/valueType", "value": "product.TechnicalData.v1[*].type" }
+    { "type": "MnestixAASGenerator/CollectionMappingInfo", "value": "product.TechnicalData.v1[*]" },
+    { "type": "MnestixAASGenerator/MappingInfo/idShort", "value": "product.TechnicalData.v1[*].name" },
+    { "type": "MnestixAASGenerator/MappingInfo/value", "value": "product.TechnicalData.v1[*].value" },
+    { "type": "MnestixAASGenerator/MappingInfo/semanticId", "value": "product.TechnicalData.v1[*].conceptId" },
+    { "type": "MnestixAASGenerator/MappingInfo/valueType", "value": "product.TechnicalData.v1[*].type" }
   ]
 }
 ```
@@ -417,7 +423,7 @@ The resolved `semanticId` value must be a scalar (string, number, boolean); it i
 
 ---
 
-### 3. Collection Mapping (`SMT/CollectionMappingInfo`)
+### 3. Collection Mapping (`MnestixAASGenerator/CollectionMappingInfo`)
 
 Duplicates a Submodel element for each item in an array. This enables dynamic list generation.
 
@@ -427,7 +433,7 @@ Duplicates a Submodel element for each item in an array. This enables dynamic li
 ```json
 {
   "kind": "TemplateQualifier",
-  "type": "SMT/CollectionMappingInfo",
+  "type": "MnestixAASGenerator/CollectionMappingInfo",
   "value": "sourceData.contactPersons[*]",
   "valueType": "xs:string"
 }
@@ -440,7 +446,7 @@ Duplicates a Submodel element for each item in an array. This enables dynamic li
   "idShort": "contactPerson",
   "qualifiers": [
     {
-      "type": "SMT/CollectionMappingInfo",
+      "type": "MnestixAASGenerator/CollectionMappingInfo",
       "value": "sourceData.contactPersons[*]"
     }
   ],
@@ -451,7 +457,7 @@ Duplicates a Submodel element for each item in an array. This enables dynamic li
       "valueType": "xs:string",
       "qualifiers": [
         {
-          "type": "SMT/MappingInfo",
+          "type": "MnestixAASGenerator/MappingInfo",
           "value": "sourceData.contactPersons[*].name"
         }
       ]
@@ -462,7 +468,7 @@ Duplicates a Submodel element for each item in an array. This enables dynamic li
       "valueType": "xs:string",
       "qualifiers": [
         {
-          "type": "SMT/MappingInfo",
+          "type": "MnestixAASGenerator/MappingInfo",
           "value": "sourceData.contactPersons[*].email"
         }
       ]
@@ -509,7 +515,7 @@ Duplicates a Submodel element for each item in an array. This enables dynamic li
 
 #### How Collection Processing Works
 
-1. The generator finds all `SMT/CollectionMappingInfo` qualifiers
+1. The generator finds all `MnestixAASGenerator/CollectionMappingInfo` qualifiers
 2. Qualifiers are sorted by **nesting depth** (shallowest first) - counted by `[*]` occurrences
 3. For each array item in the data, the element is duplicated
 4. The `idShort` is suffixed with an index (`_0`, `_1`, `_2`, ...)
@@ -556,7 +562,7 @@ sourceData.contactPersons[*].phone_numbers[*].value  # Value in nested collectio
 
 ---
 
-### 4. Filter Rules (`SMT/FilterMappingInfo`)
+### 4. Filter Rules (`MnestixAASGenerator/FilterMappingInfo`)
 
 Conditionally includes or excludes an element from generation based on a boolean expression. Evaluated against the input data using Jsonata expressions.
 
@@ -566,7 +572,7 @@ Conditionally includes or excludes an element from generation based on a boolean
 ```json
 {
   "kind": "TemplateQualifier",
-  "type": "SMT/FilterMappingInfo",
+  "type": "MnestixAASGenerator/FilterMappingInfo",
   "value": "vehicle.engineType = 'electric'",
   "valueType": "xs:string"
 }
@@ -580,7 +586,7 @@ Conditionally includes or excludes an element from generation based on a boolean
   "qualifiers": [
     {
       "kind": "TemplateQualifier",
-      "type": "SMT/FilterMappingInfo",
+      "type": "MnestixAASGenerator/FilterMappingInfo",
       "value": "vehicle.engineType = 'electric'",
       "valueType": "xs:string"
     }
@@ -592,7 +598,7 @@ Conditionally includes or excludes an element from generation based on a boolean
       "valueType": "xs:integer",
       "qualifiers": [
         {
-          "type": "SMT/MappingInfo",
+          "type": "MnestixAASGenerator/MappingInfo",
           "value": "vehicle.battery.capacityKWh"
         }
       ]
@@ -635,7 +641,7 @@ Filter expressions use **Jsonata syntax** and must evaluate to a boolean value:
 
 ### 5. Jsonata Expressions in Mapping Rules
 
-Mapping rules (`SMT/MappingInfo`) support Jsonata expression syntax, enabling advanced data transformations beyond simple path navigation. Refer to the [Jsonata documentation](https://jsonata.org/docs/) and to the [Jsonata.Net.Native GitHub repository](https://github.com/mikhail-barg/jsonata.net.native) for a complete list of functions and operators.
+Mapping rules (`MnestixAASGenerator/MappingInfo`) support Jsonata expression syntax, enabling advanced data transformations beyond simple path navigation. Refer to the [Jsonata documentation](https://jsonata.org/docs/) and to the [Jsonata.Net.Native GitHub repository](https://github.com/mikhail-barg/jsonata.net.native) for a complete list of functions and operators.
 Note that not all exotic Jsonata features may be supported. We recommend constructing your input data as close as possible to the desired blueprint structure to minimize the need for complex transformations.
 
 #### Built-in Jsonata Functions
@@ -674,7 +680,7 @@ Note that not all exotic Jsonata features may be supported. We recommend constru
 **Example 1: Extract part of a code**
 ```json
 {
-  "type": "SMT/MappingInfo",
+  "type": "MnestixAASGenerator/MappingInfo",
   "value": "$substring(sku, 0, 3)"
 }
 ```
@@ -683,7 +689,7 @@ Input: `"sku": "ABC-12345"` → Output: `"ABC"`
 **Example 2: Convert number to string**
 ```json
 {
-  "type": "SMT/MappingInfo",
+  "type": "MnestixAASGenerator/MappingInfo",
   "value": "$string(quantity)"
 }
 ```
@@ -692,7 +698,7 @@ Input: `"quantity": 42` → Output: `"42"`
 **Example 3: Check if text contains substring (returns boolean)**
 ```json
 {
-  "type": "SMT/MappingInfo",
+  "type": "MnestixAASGenerator/MappingInfo",
   "value": "description ~> $contains('wireless')"
 }
 ```
@@ -701,7 +707,7 @@ Input: `"description": "wireless charging pad"` → Output: `true`
 **Example 4: Compare numeric values (returns boolean)**
 ```json
 {
-  "type": "SMT/MappingInfo",
+  "type": "MnestixAASGenerator/MappingInfo",
   "value": "price > 1000"
 }
 ```
@@ -710,7 +716,7 @@ Input: `"price": 1500` → Output: `true`
 **Example 5: Combine string operations**
 ```json
 {
-  "type": "SMT/MappingInfo",
+  "type": "MnestixAASGenerator/MappingInfo",
   "value": "$uppercase($substringBefore(email, '@'))"
 }
 ```
@@ -763,7 +769,7 @@ Defines whether a mapped value is required or optional.
       "value": "One"
     },
     {
-      "type": "SMT/MappingInfo",
+      "type": "MnestixAASGenerator/MappingInfo",
       "value": "product.serialNumber"
     }
   ]
@@ -801,7 +807,7 @@ Here's a complete blueprint demonstrating filters, collections, and Jsonata expr
         },
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo",
+          "type": "MnestixAASGenerator/MappingInfo",
           "value": "product.name",
           "valueType": "xs:string"
         }
@@ -815,7 +821,7 @@ Here's a complete blueprint demonstrating filters, collections, and Jsonata expr
       "qualifiers": [
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo",
+          "type": "MnestixAASGenerator/MappingInfo",
           "value": "$uppercase($substring(product.sku, 0, 3))",
           "valueType": "xs:string"
         }
@@ -835,7 +841,7 @@ Here's a complete blueprint demonstrating filters, collections, and Jsonata expr
       "qualifiers": [
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo",
+          "type": "MnestixAASGenerator/MappingInfo",
           "value": "$string(product.warranty.monthsIncluded) ~> $contains('24')",
           "valueType": "xs:string"
         }
@@ -853,7 +859,7 @@ Here's a complete blueprint demonstrating filters, collections, and Jsonata expr
       "qualifiers": [
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/FilterMappingInfo",
+          "type": "MnestixAASGenerator/FilterMappingInfo",
           "value": "product.type = 'battery-powered'",
           "valueType": "xs:string"
         }
@@ -865,7 +871,7 @@ Here's a complete blueprint demonstrating filters, collections, and Jsonata expr
           "valueType": "xs:integer",
           "qualifiers": [
             {
-              "type": "SMT/MappingInfo",
+              "type": "MnestixAASGenerator/MappingInfo",
               "value": "product.battery.capacityMah"
             }
           ]
@@ -876,7 +882,7 @@ Here's a complete blueprint demonstrating filters, collections, and Jsonata expr
           "valueType": "xs:decimal",
           "qualifiers": [
             {
-              "type": "SMT/MappingInfo",
+              "type": "MnestixAASGenerator/MappingInfo",
               "value": "$string(product.battery.chargingTimeMinutes) ~> $number($) / 60",
               "valueType": "xs:string"
             }
@@ -890,7 +896,7 @@ Here's a complete blueprint demonstrating filters, collections, and Jsonata expr
       "qualifiers": [
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/FilterMappingInfo",
+          "type": "MnestixAASGenerator/FilterMappingInfo",
           "value": "product.certifications ~> $length($) > 0",
           "valueType": "xs:string"
         }
@@ -902,7 +908,7 @@ Here's a complete blueprint demonstrating filters, collections, and Jsonata expr
           "qualifiers": [
             {
               "kind": "TemplateQualifier",
-              "type": "SMT/CollectionMappingInfo",
+              "type": "MnestixAASGenerator/CollectionMappingInfo",
               "value": "product.certifications[*]",
               "valueType": "xs:string"
             }
@@ -914,7 +920,7 @@ Here's a complete blueprint demonstrating filters, collections, and Jsonata expr
               "valueType": "xs:string",
               "qualifiers": [
                 {
-                  "type": "SMT/MappingInfo",
+                  "type": "MnestixAASGenerator/MappingInfo",
                   "value": "product.certifications[*].name"
                 }
               ]
@@ -925,7 +931,7 @@ Here's a complete blueprint demonstrating filters, collections, and Jsonata expr
               "valueType": "xs:boolean",
               "qualifiers": [
                 {
-                  "type": "SMT/MappingInfo",
+                  "type": "MnestixAASGenerator/MappingInfo",
                   "value": "product.certifications[*].expiryDate > '2025-01-01'",
                   "valueType": "xs:string"
                 }
@@ -945,7 +951,7 @@ Here's a complete blueprint demonstrating filters, collections, and Jsonata expr
           "qualifiers": [
             {
               "kind": "TemplateQualifier",
-              "type": "SMT/CollectionMappingInfo",
+              "type": "MnestixAASGenerator/CollectionMappingInfo",
               "value": "company.employees[*]",
               "valueType": "xs:string"
             }
@@ -957,7 +963,7 @@ Here's a complete blueprint demonstrating filters, collections, and Jsonata expr
               "valueType": "xs:string",
               "qualifiers": [
                 {
-                  "type": "SMT/MappingInfo",
+                  "type": "MnestixAASGenerator/MappingInfo",
                   "value": "company.employees[*].fullName"
                 }
               ]
@@ -968,7 +974,7 @@ Here's a complete blueprint demonstrating filters, collections, and Jsonata expr
               "valueType": "xs:string",
               "qualifiers": [
                 {
-                  "type": "SMT/MappingInfo",
+                  "type": "MnestixAASGenerator/MappingInfo",
                   "value": "company.employees[*].email"
                 }
               ]
@@ -979,7 +985,7 @@ Here's a complete blueprint demonstrating filters, collections, and Jsonata expr
               "valueType": "xs:string",
               "qualifiers": [
                 {
-                  "type": "SMT/MappingInfo",
+                  "type": "MnestixAASGenerator/MappingInfo",
                   "value": "company.employees[*].email ~> $substringAfter('@')",
                   "valueType": "xs:string"
                 }
@@ -1001,7 +1007,7 @@ Here's a complete blueprint demonstrating filters, collections, and Jsonata expr
                   "value": "ZeroToOne"
                 },
                 {
-                  "type": "SMT/MappingInfo",
+                  "type": "MnestixAASGenerator/MappingInfo",
                   "value": "company.employees[*].phone"
                 }
               ]
@@ -1079,7 +1085,7 @@ This is useful for:
 **Example: Include only for specific type**
 ```json
 {
-  "type": "SMT/FilterMappingInfo",
+  "type": "MnestixAASGenerator/FilterMappingInfo",
   "value": "product.type = 'electrical'"
 }
 ```
@@ -1087,7 +1093,7 @@ This is useful for:
 **Example: Check if array has items**
 ```json
 {
-  "type": "SMT/FilterMappingInfo", 
+  "type": "MnestixAASGenerator/FilterMappingInfo", 
   "value": "certifications ~> $length(certifications) > 0"
 }
 ```
@@ -1095,7 +1101,7 @@ This is useful for:
 **Example: Multiple conditions**
 ```json
 {
-  "type": "SMT/FilterMappingInfo",
+  "type": "MnestixAASGenerator/FilterMappingInfo",
   "value": "product.type = 'battery' and product.warranty.monthsIncluded >= 12"
 }
 ```
@@ -1147,7 +1153,7 @@ Transformed JSON:
 
 `MultiLanguageProperty` elements support two mapping approaches:
 
-### Approach 1: Multi-language from data (`SMT/MappingInfo/multiLanguage`) — Recommended
+### Approach 1: Multi-language from data (`MnestixAASGenerator/MappingInfo/multiLanguage`) — Recommended
 
 Maps a JSON object where keys are language codes and values are the translated texts. This allows **multiple languages in a single generation call** without requiring a `language` parameter in the request.
 
@@ -1160,7 +1166,7 @@ Maps a JSON object where keys are language codes and values are the translated t
   "qualifiers": [
     {
       "kind": "TemplateQualifier",
-      "type": "SMT/MappingInfo/multiLanguage",
+      "type": "MnestixAASGenerator/MappingInfo/multiLanguage",
       "value": "company.name",
       "valueType": "xs:string"
     }
@@ -1199,11 +1205,11 @@ Maps a JSON object where keys are language codes and values are the translated t
 - If all entries are empty/null, the element is treated as missing (respects cardinality rules).
 - Non-string values (numbers, booleans) are converted to their string representation.
 
-### Approach 2: Legacy single language from request (`SMT/MappingInfo/value`)
+### Approach 2: Legacy single language from request (`MnestixAASGenerator/MappingInfo/value`)
 
 Maps a scalar value and wraps it with the `language` parameter from the API request. Only **one language per generation call**.
 
-> ⚠️ **Deprecation Warning:** This is the legacy behavior and is still supported for backward compatibility, but using `SMT/MappingInfo/multiLanguage` is recommended for new blueprints. This feature might be deprecated in the future.
+> ⚠️ **Deprecation Warning:** This is the legacy behavior and is still supported for backward compatibility, but using `MnestixAASGenerator/MappingInfo/multiLanguage` is recommended for new blueprints. This feature might be deprecated in the future.
 
 **Request:**
 ```json
@@ -1223,7 +1229,7 @@ Maps a scalar value and wraps it with the `language` parameter from the API requ
   "qualifiers": [
     {
       "kind": "TemplateQualifier",
-      "type": "SMT/MappingInfo",
+      "type": "MnestixAASGenerator/MappingInfo",
       "value": "description",
       "valueType": "xs:string"
     }
@@ -1242,13 +1248,13 @@ Maps a scalar value and wraps it with the `language` parameter from the API requ
 }
 ```
 
-> **Note:** Using `SMT/MappingInfo/value` (or the legacy `SMT/MappingInfo`) on a `MultiLanguageProperty` requires the `language` parameter in the API request. If your data already contains language codes as keys, prefer `SMT/MappingInfo/multiLanguage` instead.
+> **Note:** Using `MnestixAASGenerator/MappingInfo/value` (or the bare `MnestixAASGenerator/MappingInfo`) on a `MultiLanguageProperty` requires the `language` parameter in the API request. If your data already contains language codes as keys, prefer `MnestixAASGenerator/MappingInfo/multiLanguage` instead.
 
 ---
 
 ## Display Name Mapping
 
-The `displayName` field (`SMT/MappingInfo/displayName`) sets the [Referable](https://industrialdigitaltwin.org/) `displayName` of any element. It accepts two input shapes, mirroring `multiLanguage`.
+The `displayName` field (`MnestixAASGenerator/MappingInfo/displayName`) sets the [Referable](https://industrialdigitaltwin.org/) `displayName` of any element. It accepts two input shapes, mirroring `multiLanguage`.
 
 The `displayName` is **always optional**, regardless of the element's `SMT/Cardinality`: an element whose display-name data is missing is still generated (simply without a `displayName`). It never fails generation.
 
@@ -1265,13 +1271,13 @@ Maps a JSON object where keys are language codes and values are the translated t
   "qualifiers": [
     {
       "kind": "TemplateQualifier",
-      "type": "SMT/MappingInfo/value",
+      "type": "MnestixAASGenerator/MappingInfo/value",
       "value": "technicalProperty.value",
       "valueType": "xs:string"
     },
     {
       "kind": "TemplateQualifier",
-      "type": "SMT/MappingInfo/displayName",
+      "type": "MnestixAASGenerator/MappingInfo/displayName",
       "value": "technicalProperty.displayName",
       "valueType": "xs:string"
     }
@@ -1323,7 +1329,7 @@ Maps a scalar value and writes it as a single entry using the `language` paramet
 ```json
 {
   "kind": "TemplateQualifier",
-  "type": "SMT/MappingInfo/displayName",
+  "type": "MnestixAASGenerator/MappingInfo/displayName",
   "value": "technicalProperty.name",
   "valueType": "xs:string"
 }
@@ -1412,11 +1418,11 @@ When saving a blueprint via the API (Create or Update), the system validates the
 
 The following checks are performed on all qualifiers in the blueprint:
 
-#### SMT/MappingInfo Qualifiers
+#### MnestixAASGenerator/MappingInfo Qualifiers
 
 | Rule | Description |
 |------|-------------|
-| **InvalidQualifierSegmentCount** | Qualifier type has more than 3 segments (e.g. `SMT/MappingInfo/value/extra`) |
+| **InvalidQualifierSegmentCount** | Qualifier type has more than 3 segments (e.g. `MnestixAASGenerator/MappingInfo/value/extra`) |
 | **EmptyMappingExpression** | Qualifier value is empty or missing |
 | **UnknownFieldName** | Field name (3rd segment) is not recognized |
 | **FieldNotApplicableToModelType** | Field is not valid for the element's model type |
@@ -1424,16 +1430,16 @@ The following checks are performed on all qualifiers in the blueprint:
 | **DuplicateMappingField** | Two qualifiers target the same field on the same element |
 | **MlpValueAndMultiLanguageConflict** | Both `value` and `multiLanguage` mappings on same MultiLanguageProperty |
 | **InvalidJsonataSyntax** | JSONata expression cannot be parsed |
-| **FieldRequiresCollectionScope** | `valueType` or `semanticId` is mapped on an element that is not within a `SMT/CollectionMappingInfo` scope |
+| **FieldRequiresCollectionScope** | `valueType` or `semanticId` is mapped on an element that is not within a `MnestixAASGenerator/CollectionMappingInfo` scope |
 
-#### SMT/FilterMappingInfo Qualifiers
+#### MnestixAASGenerator/FilterMappingInfo Qualifiers
 
 | Rule | Description |
 |------|-------------|
 | **EmptyFilterExpression** | Qualifier value is empty or missing |
 | **InvalidFilterJsonataSyntax** | JSONata expression cannot be parsed |
 
-#### SMT/CollectionMappingInfo Qualifiers
+#### MnestixAASGenerator/CollectionMappingInfo Qualifiers
 
 | Rule | Description |
 |------|-------------|
@@ -1466,16 +1472,16 @@ Not all fields can be mapped on every element type. The following matrix defines
 | `ReferenceElement` | `idShort`, `displayName` |
 | `Range` | `idShort`, `displayName`, `semanticId`, `valueType` |
 
-> **Note:** `semanticId` and `valueType` additionally require a `SMT/CollectionMappingInfo` scope (see **FieldRequiresCollectionScope** above).
+> **Note:** `semanticId` and `valueType` additionally require a `MnestixAASGenerator/CollectionMappingInfo` scope (see **FieldRequiresCollectionScope** above).
 
 Model types not in this list (e.g. `Operation`, `BasicEventElement`, `Capability`) are unsupported for mapping qualifiers.
 
 ### MLP Conflict Rules
 
 On a `MultiLanguageProperty`, the following combinations are invalid:
-- `SMT/MappingInfo` (bare) + `SMT/MappingInfo/multiLanguage` — both write to the `value` field with incompatible semantics
-- `SMT/MappingInfo/value` + `SMT/MappingInfo/multiLanguage` — same conflict
-- `SMT/MappingInfo` + `SMT/MappingInfo/value` — aliases for the same field (treated as duplicate)
+- `MnestixAASGenerator/MappingInfo` (bare) + `MnestixAASGenerator/MappingInfo/multiLanguage` — both write to the `value` field with incompatible semantics
+- `MnestixAASGenerator/MappingInfo/value` + `MnestixAASGenerator/MappingInfo/multiLanguage` — same conflict
+- `MnestixAASGenerator/MappingInfo` + `MnestixAASGenerator/MappingInfo/value` — aliases for the same field (treated as duplicate)
 
 Use either `value` (scalar + language parameter) **or** `multiLanguage` (language-keyed object), not both.
 
@@ -1527,7 +1533,7 @@ The `path` field uses the element's `idShort` breadcrumb trail. If an element la
       "message": "Mandatory mapping 'product.serialNumber' not found.",
       "errorInfo": {
         "logs": ["...processing steps before error..."],
-        "qualifier": "SMT/MappingInfo",
+        "qualifier": "MnestixAASGenerator/MappingInfo",
         "qualifierPath": "product.serialNumber"
       }
     }

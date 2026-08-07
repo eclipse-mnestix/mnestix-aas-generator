@@ -17,7 +17,7 @@
         },
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo/value",
+          "type": "MnestixAASGenerator/MappingInfo/value",
           "value": "product.tags",
           "valueType": "xs:string"
         }

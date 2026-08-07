@@ -23,31 +23,31 @@
             },
             {
               "kind": "TemplateQualifier",
-              "type": "SMT/CollectionMappingInfo",
+              "type": "MnestixAASGenerator/CollectionMappingInfo",
               "value": "custom.TechnicalData.v1[*]",
               "valueType": "xs:string"
             },
             {
               "kind": "TemplateQualifier",
-              "type": "SMT/MappingInfo/value",
+              "type": "MnestixAASGenerator/MappingInfo/value",
               "value": "custom.TechnicalData.v1[*].value",
               "valueType": "xs:string"
             },
             {
               "kind": "TemplateQualifier",
-              "type": "SMT/MappingInfo/valueType",
+              "type": "MnestixAASGenerator/MappingInfo/valueType",
               "value": "custom.TechnicalData.v1[*].valueType",
               "valueType": "xs:string"
             },
             {
               "kind": "TemplateQualifier",
-              "type": "SMT/MappingInfo/semanticId",
+              "type": "MnestixAASGenerator/MappingInfo/semanticId",
               "value": "custom.TechnicalData.v1[*].semanticId",
               "valueType": "xs:string"
             },
             {
               "kind": "TemplateQualifier",
-              "type": "SMT/MappingInfo/displayName",
+              "type": "MnestixAASGenerator/MappingInfo/displayName",
               "value": "custom.TechnicalData.v1[*].displayName",
               "valueType": "xs:string"
             }

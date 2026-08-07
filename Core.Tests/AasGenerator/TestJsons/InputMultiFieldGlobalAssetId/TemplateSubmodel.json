@@ -30,7 +30,7 @@
         },
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo/globalAssetId",
+          "type": "MnestixAASGenerator/MappingInfo/globalAssetId",
           "value": "component.assetId",
           "valueType": "xs:string"
         }

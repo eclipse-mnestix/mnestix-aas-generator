@@ -29,7 +29,7 @@
         },
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo/entityType",
+          "type": "MnestixAASGenerator/MappingInfo/entityType",
           "value": "component.entityType",
           "valueType": "xs:string"
         }

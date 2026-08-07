@@ -1,6 +1,8 @@
 using System.Text.RegularExpressions;
 using MnestixCore.AasGenerator.Interfaces;
+using MnestixCore.AasGenerator.Pipelines.Shared;
 using MnestixCore.Errors;
+using MnestixCore.Shared;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -16,6 +18,17 @@ namespace MnestixCore.AasGenerator.Pipelines.Steps;
 /// </remarks>
 public sealed class DuplicateCollectionsAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
 {
+    // Derived from the single source of truth so a future rename only touches QualifierAliases.
+    private const string CollectionMappingInfoType = QualifierAliases.CollectionMappingInfoType;
+    private const string MappingInfoPrefix = QualifierAliases.MappingInfoPrefix;
+
+    // Temporary marker used to flag an already-processed collection qualifier so the recursion
+    // does not pick it up again; renamed back to the real type once all collections are handled.
+    private const string ProcessedCollectionMarker = "_" + CollectionMappingInfoType;
+
+    private static readonly string CollectionMappingInfoQualifierPath = QualifierHelpers.RecursiveQualifierPath(CollectionMappingInfoType);
+    private static readonly string ProcessedCollectionMarkerPath = QualifierHelpers.RecursiveQualifierPath(ProcessedCollectionMarker);
+
     public Task<DataMappingContext> ExecuteAsync(DataMappingContext ctx)
     {
         ctx.Log($"Started DuplicateCollectionsStep");
@@ -70,7 +83,7 @@ public sealed class DuplicateCollectionsAasGeneratorPipelineStep : IPipelineStep
     /// </exception>
     /// <remarks>
     /// This recursive method processes collection elements by:
-    /// 1. Finding qualifiers with type 'SMT/CollectionMappingInfo'
+    /// 1. Finding qualifiers with type 'MnestixAASGenerator/CollectionMappingInfo'
     /// 2. Sorting qualifiers by the number of [*] patterns (collection depth) - starting with the shallowest
     /// 3. Duplicating elements based on the collection length in the data payload
     /// 4. Updating mapping paths and idShort values for each duplicated element
@@ -86,14 +99,14 @@ public sealed class DuplicateCollectionsAasGeneratorPipelineStep : IPipelineStep
         var submodelInstance = ctx.SubmodelInstance;
         var data = ctx.Data;
 
-        var qualifiers = submodelInstance.SelectTokens("$..qualifiers[?(@.type=='SMT/CollectionMappingInfo')]");
+        var qualifiers = submodelInstance.SelectTokens(CollectionMappingInfoQualifierPath);
 
         if (!qualifiers.Any())
         {
             ctx.Qualifier = new JObject();
-            submodelInstance.SelectTokens("$..qualifiers[?(@.type=='_SMT/CollectionMappingInfo')]")
+            submodelInstance.SelectTokens(ProcessedCollectionMarkerPath)
                 .ToList()
-                .ForEach(q => q["type"]?.Replace("SMT/CollectionMappingInfo"));
+                .ForEach(q => q["type"]?.Replace(CollectionMappingInfoType));
             return;
         }
 
@@ -141,7 +154,7 @@ public sealed class DuplicateCollectionsAasGeneratorPipelineStep : IPipelineStep
             /// <remarks>
             /// Deletes the qualifier that triggered this duplication to avoid infinite loops
             /// </remarks>
-            newElement.SelectTokens("$..qualifiers[?(@.type=='SMT/CollectionMappingInfo')]")
+            newElement.SelectTokens(CollectionMappingInfoQualifierPath)
                 .ToList()
                 .ForEach(q =>
                 {
@@ -163,8 +176,8 @@ public sealed class DuplicateCollectionsAasGeneratorPipelineStep : IPipelineStep
                     {
                         var t = q["type"]?.Value<string>();
                         if (t == null) return false;
-                        var isMappingInfo = t == "SMT/MappingInfo" || t.StartsWith("SMT/MappingInfo/", StringComparison.Ordinal);
-                        if (!isMappingInfo && t != "SMT/CollectionMappingInfo") return false;
+                        var isMappingInfo = t == MappingInfoPrefix || t.StartsWith(MappingInfoPrefix + "/", StringComparison.Ordinal);
+                        if (!isMappingInfo && t != CollectionMappingInfoType) return false;
                         var v = q["value"]?.Value<string>();
                         return v != null && v.Contains($"{listIdentifier}[*]", StringComparison.Ordinal);
                     })
@@ -182,7 +195,7 @@ public sealed class DuplicateCollectionsAasGeneratorPipelineStep : IPipelineStep
             elementToBeDuplicated.Parent!.Add(newElement);
         }
 
-        ctx.Qualifier["type"]?.Replace("_SMT/CollectionMappingInfo");
+        ctx.Qualifier["type"]?.Replace(ProcessedCollectionMarker);
 
         elementToBeDuplicated.Remove();
 

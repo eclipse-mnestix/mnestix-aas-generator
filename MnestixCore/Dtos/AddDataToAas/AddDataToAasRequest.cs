@@ -8,7 +8,7 @@ public class AddDataToAasRequest
 {
     /// <summary>
     /// the language that new MultiLanguage Properties should be given. An example would be 'de'.
-    /// Not required when using SMT/MappingInfo/multiLanguage qualifiers (language codes come from the data).
+    /// Not required when using MnestixAASGenerator/MappingInfo/multiLanguage qualifiers (language codes come from the data).
     /// </summary>
     public string? Language { get; set; }
 
