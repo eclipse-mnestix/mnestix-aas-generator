@@ -10,6 +10,7 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Time.Testing;
+using MnestixCore.AasGenerator.Pipelines.Steps;
 using Moq;
 using Newtonsoft.Json.Linq;
 
@@ -30,7 +31,7 @@ public class AasGeneratorTests
     private const string TestAasPath = "/aas";
     private const string TestBase64EncodedAasId = "dGVzdEFhc0lk"; // base64 encoded "testAasId"
 
-    // Fixed generation timestamp so the emitted Mnestix/GenerationTimestamp qualifier is
+    // Fixed generation timestamp so the emitted GenerationTimestamp qualifier is
     // deterministic and can be asserted directly in the fixtures.
     private static readonly DateTimeOffset FixedGenerationTime = new(2026, 1, 2, 3, 4, 5, TimeSpan.Zero);
 
@@ -579,7 +580,7 @@ public class AasGeneratorTests
         // the golden file happens to contain. Compared as a DateTime because JObject.Parse
         // deserializes date-like strings into DateTime tokens.
         var timestampValue = (actualSubmodel["qualifiers"] as JArray)?
-            .FirstOrDefault(q => q["type"]?.Value<string>() == "Mnestix/GenerationTimestamp")?["value"]
+            .FirstOrDefault(q => q["type"]?.Value<string>() == AddConceptQualifiersAasGeneratorPipelineStep.GenerationTimestampQualifierType)?["value"]
             ?.Value<DateTime>();
         timestampValue.Should().Be(
             FixedGenerationTime.UtcDateTime,
