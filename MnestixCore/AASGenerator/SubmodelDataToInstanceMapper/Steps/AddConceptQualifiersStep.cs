@@ -11,10 +11,11 @@ namespace MnestixCore.AasGenerator.Pipelines.Steps;
 /// </summary>
 public sealed class AddConceptQualifiersAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
 {
+    public const string BlueprintIdQualifierType = "MnestixAASGenerator/OriginalBlueprintID";
+    public const string GenerationTimestampQualifierType = "MnestixAASGenerator/GenerationTimestamp";
+    
     private const string ConceptQualifierKind = "ConceptQualifier";
-    private const string BlueprintIdQualifierType = "Mnestix/OriginalBlueprintID";
-    private const string GenerationTimestampQualifierType = "Mnestix/GenerationTimestamp";
-
+    
     public Task<DataMappingContext> ExecuteAsync(DataMappingContext ctx)
     {
         ctx.Log($"Started AddConceptQualifiersAasGeneratorPipelineStep");
