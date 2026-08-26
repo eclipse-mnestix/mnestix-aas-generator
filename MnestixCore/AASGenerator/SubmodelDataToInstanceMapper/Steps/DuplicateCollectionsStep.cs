@@ -21,6 +21,7 @@ public sealed class DuplicateCollectionsAasGeneratorPipelineStep : IPipelineStep
     // Derived from the single source of truth so a future rename only touches QualifierAliases.
     private const string CollectionMappingInfoType = QualifierAliases.CollectionMappingInfoType;
     private const string MappingInfoPrefix = QualifierAliases.MappingInfoPrefix;
+    private const string FilterMappingInfoType = QualifierAliases.FilterMappingInfoType;
 
     // Temporary marker used to flag an already-processed collection qualifier so the recursion
     // does not pick it up again; renamed back to the real type once all collections are handled.
@@ -177,7 +178,7 @@ public sealed class DuplicateCollectionsAasGeneratorPipelineStep : IPipelineStep
                         var t = q["type"]?.Value<string>();
                         if (t == null) return false;
                         var isMappingInfo = t == MappingInfoPrefix || t.StartsWith(MappingInfoPrefix + "/", StringComparison.Ordinal);
-                        if (!isMappingInfo && t != CollectionMappingInfoType) return false;
+                        if (!isMappingInfo && t != CollectionMappingInfoType && t != FilterMappingInfoType) return false;
                         var v = q["value"]?.Value<string>();
                         return v != null && v.Contains($"{listIdentifier}[*]", StringComparison.Ordinal);
                     })
