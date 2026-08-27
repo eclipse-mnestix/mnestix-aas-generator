@@ -22,22 +22,24 @@ The AAS Generator solves the Industry 4.0 challenge of transforming existing str
 - **AasGenerator**: Orchestrates the entire generation process
 - **SubmodelDataToInstanceMapper**: Coordinates the transformation pipeline
 - **BlueprintProvider**: Manages template storage and retrieval
-- **Pipeline Steps**: Individual transformation operations (11 steps)
+- **Pipeline Steps**: Individual transformation operations (12 distinct steps; `FilterElements` runs twice, so 13 invocations)
 
 ### Pipeline Processing Architecture
-Uses Pipes-and-Filters pattern (`MnestixCore/Shared/Pipeline/`) with 11 sequential steps:
+Uses Pipes-and-Filters pattern (`MnestixCore/Shared/Pipeline/`) with 12 distinct sequential steps (`FilterElements` runs both before and after `DuplicateCollections`, so the builder in `DataMapper.cs` has 13 `.Use()` calls):
 
 1. **ValidateBlueprint** - Runs the shared `BlueprintValidator` against the blueprint; aborts early with structured errors if validation fails (defense-in-depth for blueprints imported outside the API)
 2. **DeepCloneBlueprint** - Creates a working copy of the blueprint so the original is never mutated
-3. **SetKindInstance** - Changes `kind` from `Template` to `Instance`
-4. **FilterElements (pre-duplication)** - Evaluates `MnestixAASGenerator/FilterMappingInfo` Jsonata boolean expressions and removes elements that fail. Runs *before* duplication so an optional (`ZeroToOne`) element wrapping a mandatory (`OneToMany`) `CollectionMappingInfo` collection can be dropped before step 5 would otherwise throw on empty data (the inner collection requires ≥1 item). Expressions containing `[*]` are skipped here — they can only be resolved per item after duplication
-5. **DuplicateCollections** - Expands `MnestixAASGenerator/CollectionMappingInfo` qualifiers (replicates child elements for each array item)
-6. **FilterElements (post-duplication)** - The same step runs again to evaluate per-item (`[*]`) filters once the collection has been expanded and `[*]` rewritten to a concrete index. The step self-routes on the presence of `[*]`, so it is safe to run in both positions with no phase flag
-7. **DiscoverMappingDescriptors** - Finds all `MnestixAASGenerator/MappingInfo` qualifiers, parses field names, resolves cardinality, and builds a `MappingDescriptor` list for downstream steps
-8. **ResolveMappingExpressions** - Evaluates each descriptor's JSONata expression against the data; enforces mandatory cardinality; populates `ResolvedMappings`
-9. **AssignMappedFields** - Iterates resolved mappings and delegates to the `FieldAssignerRegistry` (see Field Assigners below); logs a warning when template defaults are overridden
-10. **RemoveTopLevelQualifiers** - Strips template-only qualifiers (`SMT/…`) from the generated instance
-11. **ReplaceIdentification** - Assigns the new Submodel ID to the instance
+3. **NormalizeQualifierPrefix** - Rewrites legacy `SMT/` mapping-qualifier types to their `MnestixAASGenerator/` equivalents on the cloned instance, so every downstream step and JSONPath literal only ever sees the new prefix (backward compatibility)
+4. **SetKindInstance** - Changes `kind` from `Template` to `Instance`
+5. **FilterElements (pre-duplication)** - Evaluates `MnestixAASGenerator/FilterMappingInfo` Jsonata boolean expressions and removes elements that fail. Runs *before* duplication so an optional (`ZeroToOne`) element wrapping a mandatory (`OneToMany`) `CollectionMappingInfo` collection can be dropped before step 6 would otherwise throw on empty data (the inner collection requires ≥1 item). Expressions containing `[*]` are skipped here — they can only be resolved per item after duplication
+6. **DuplicateCollections** - Expands `MnestixAASGenerator/CollectionMappingInfo` qualifiers (replicates child elements for each array item). While duplicating, it rewrites `[*]` to the concrete index `[i]` in every child `MappingInfo`, `CollectionMappingInfo` **and** `FilterMappingInfo` qualifier value
+7. **FilterElements (post-duplication)** - The same step runs again to evaluate per-item (`[*]`) filters once the collection has been expanded and `[*]` rewritten to a concrete index by step 6. The step self-routes on the presence of `[*]`, so it is safe to run in both positions with no phase flag; a value still containing `[*]` here references a collection that was never duplicated and is skipped
+8. **DiscoverMappingDescriptors** - Finds all `MnestixAASGenerator/MappingInfo` qualifiers, parses field names, resolves cardinality, and builds a `MappingDescriptor` list for downstream steps
+9. **ResolveMappingExpressions** - Evaluates each descriptor's JSONata expression against the data; enforces mandatory cardinality; populates `ResolvedMappings`
+10. **AssignMappedFields** - Iterates resolved mappings and delegates to the `FieldAssignerRegistry` (see Field Assigners below); logs a warning when template defaults are overridden
+11. **RemoveQualifiers** - Removes the top-level qualifiers and all mapping qualifiers (`SMT/…`, `MnestixAASGenerator/…`) from the generated instance
+12. **AddConceptQualifiers** - Adds Concept qualifiers carrying the original blueprint id (`MnestixAASGenerator/OriginalBlueprintID`) and generation timestamp (`MnestixAASGenerator/GenerationTimestamp`) to the submodel root, keeping the instance traceable to its blueprint and generation run
+13. **ReplaceIdentification** - Assigns the new Submodel ID to the instance
 
 **Context Object**: `DataMappingContext` carries immutable inputs (blueprint, data, language, submodel ID) and mutable state (MappingDescriptors, ResolvedMappings, SubmodelInstance) through all steps
 
