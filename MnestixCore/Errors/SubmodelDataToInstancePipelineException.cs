@@ -1,34 +1,34 @@
-﻿using MnestixCore.AasGenerator.Interfaces;
+using MnestixCore.AasGenerator.Interfaces;
 using MnestixCore.AasGenerator.Pipelines;
+using Newtonsoft.Json;
 
 namespace MnestixCore.Errors;
 
 /// <summary>
-/// A exception that indicates that something predictable went wrong in the process of mapping data to the template with <see cref="IDataMapper"/>.
-/// Probably a required field in the json that was missing or the mapping info couldn't be found in the data json
+/// Thrown when a predictable error occurs while mapping data to the template with <see cref="IDataMapper"/>,
+/// such as a missing required field or an unresolvable mapping expression.
 /// </summary>
-public class SubmodelDataToInstanceMapperException : Exception
+public class SubmodelDataToInstanceMapperException : AasGeneratorException
 {
-    public DataMappingContext? Context { get; set; }
-    public SubmodelDataToInstanceMapperException()
+    public override AasGeneratorErrorCode Code => AasGeneratorErrorCode.MappingFailed;
+
+    public DataMappingContext? Context { get; }
+
+    public SubmodelDataToInstanceMapperException(string message, DataMappingContext? context = null)
+        : base(message)
     {
+        Context = context;
     }
 
-    public SubmodelDataToInstanceMapperException(string? message) : base(message)
+    public SubmodelDataToInstanceMapperException(string message, Exception innerException, DataMappingContext? context = null)
+        : base(message, innerException)
     {
-    }
-    public SubmodelDataToInstanceMapperException(string? message, Exception? innerException, DataMappingContext? ctx) : base(message, innerException)
-    {
-        Context = ctx;
-    }
-    public SubmodelDataToInstanceMapperException(string? message, DataMappingContext? ctx) : base(message)
-    {
-        Context = ctx;
+        Context = context;
     }
 
-    public SubmodelDataToInstanceMapperException(string? message, Exception? innerException) : base(message, innerException)
-    {
-    }
-
-    
+    public override AasGeneratorErrorDto ToErrorDto() =>
+        new(Code, Message, new MappingErrorContext(
+            Context?.Qualifier.ToString(Formatting.None),
+            Context?.Qualifier.Path
+        ));
 }

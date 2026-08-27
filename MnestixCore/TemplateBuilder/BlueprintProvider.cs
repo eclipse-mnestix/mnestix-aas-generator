@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MnestixCore.Dtos.AppSettingsOptions;
+using MnestixCore.Errors;
 using MnestixCore.RepoProxyClient.Interfaces;
 using MnestixCore.Shared;
 using MnestixCore.Shared.Interfaces;
@@ -67,8 +68,27 @@ public class BlueprintProvider : IBlueprintProvider
             return await FetchBlueprintsAsync(submodelIdShort);
         }
 
-        var submodelFromRepo = await _repoProxyClient.GetAsync(_repoProxyOptions.SubmodelPath + "/" + submodelIdShort);
-        return JObject.Parse(submodelFromRepo!);
+        string? submodelFromRepo;
+        try
+        {
+            submodelFromRepo = await _repoProxyClient.GetAsync(_repoProxyOptions.SubmodelPath + "/" + submodelIdShort);
+        }
+        catch (RepoProxyException e)
+        {
+            throw new RepositoryOperationFailedException($"Failed to fetch blueprint: {e.Message}", e);
+        }
+
+        if (string.IsNullOrWhiteSpace(submodelFromRepo))
+            throw new RepositoryOperationFailedException("Blueprint endpoint returned an empty response.");
+
+        try
+        {
+            return JObject.Parse(submodelFromRepo);
+        }
+        catch (Newtonsoft.Json.JsonReaderException e)
+        {
+            throw new InvalidBlueprintException("Failed to parse blueprint.", e);
+        }
     }
 
     private async Task<string> GetBlueprintsFromReference(IEnumerable<string> submodelsIds)
@@ -105,14 +125,14 @@ public class BlueprintProvider : IBlueprintProvider
                 response.StatusCode,
                 response.ErrorMessage);
 
-            throw new InvalidOperationException(
+            throw new RepositoryOperationFailedException(
                 $"Failed to fetch from blueprints endpoint. Status code: {(int)response.StatusCode}.");
         }
 
         if (string.IsNullOrWhiteSpace(response.Content))
         {
             _logger.LogError("Blueprints endpoint returned an empty response.");
-            throw new InvalidOperationException("Blueprints endpoint returned an empty response.");
+            throw new RepositoryOperationFailedException("Blueprints endpoint returned an empty response.");
         }
 
         JToken payload;
@@ -123,7 +143,7 @@ public class BlueprintProvider : IBlueprintProvider
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to parse response from blueprints endpoint.");
-            throw new InvalidOperationException("Failed to parse response from blueprints endpoint.", ex);
+            throw new RepositoryOperationFailedException("Failed to parse response from blueprints endpoint.", ex);
         }
 
         if (payload is JArray array)
@@ -137,7 +157,7 @@ public class BlueprintProvider : IBlueprintProvider
         }
 
         _logger.LogError("Unexpected response format received when fetching blueprints: {Payload}", payload.ToString());
-        throw new InvalidOperationException("Unexpected response format from blueprints endpoint.");
+        throw new RepositoryOperationFailedException("Unexpected response format from blueprints endpoint.");
     }
 
     private async Task<JObject> FetchBlueprintsAsync(string submodelIdShort)
@@ -159,7 +179,7 @@ public class BlueprintProvider : IBlueprintProvider
                 response.StatusCode,
                 response.ErrorMessage);
 
-            throw new InvalidOperationException(
+            throw new RepositoryOperationFailedException(
                 $"Failed to fetch blueprints. Status code: {(int)response.StatusCode}.");
         }
 
@@ -168,7 +188,7 @@ public class BlueprintProvider : IBlueprintProvider
             _logger.LogError(
                 "Blueprints endpoint returned an empty response for '{SubmodelId}'.",
                 submodelIdShort);
-            throw new InvalidOperationException("Blueprints endpoint returned an empty response.");
+            throw new RepositoryOperationFailedException("Blueprints endpoint returned an empty response.");
         }
 
         try
@@ -180,7 +200,7 @@ public class BlueprintProvider : IBlueprintProvider
             _logger.LogError(ex,
                 "Failed to parse blueprint '{SubmodelId}'.",
                 submodelIdShort);
-            throw new InvalidOperationException("Failed to parse blueprint.", ex);
+            throw new InvalidBlueprintException("Failed to parse blueprint.", ex);
         }
     }
 }

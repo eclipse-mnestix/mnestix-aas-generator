@@ -1,6 +1,6 @@
 ﻿using MnestixCore.AasGenerator.Interfaces;
 using MnestixCore.Dtos.AddDataToAas;
-using MnestixCore.TemplateBuilder;
+using MnestixCore.Errors;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -52,8 +52,9 @@ public class DataIngestController : ControllerBase
         // If this validation fails, the blueprint either comes from an older AAS Generator version without the new validation rules or it was externally modified and is now in an invalid state. 
         // We return a 500 Internal Server Error in this case, because the blueprint is not in a valid state for the AAS Generator to process it, even though the request itself is valid.
         var validationErrors = results
-            .Where(r => r.ValidationErrors != null)
-            .SelectMany(r => r.ValidationErrors!)
+            .Select(r => r.Error?.Context as ValidationErrorContext)
+            .Where(c => c != null)
+            .SelectMany(c => c!.Errors)
             .ToList();
 
         if (validationErrors.Count > 0)

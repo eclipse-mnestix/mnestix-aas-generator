@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using MnestixCore.Dtos.AppSettingsOptions;
+using MnestixCore.Errors;
 using MnestixCore.RepoProxyClient.Interfaces;
 using MnestixCore.Shared.Interfaces;
 using MnestixCore.TemplateBuilder;
@@ -196,6 +197,96 @@ public class BlueprintProviderTest
         // ASSERT
         result.Value<string>("id").Should().Be("template-1");
         repoProxyClientMock.Verify(s => s.GetAsync(It.IsAny<string>()), Times.Never);
+    }
+
+    [Test]
+    public async Task GetAllBlueprintsAsync_WhenEndpointReturnsNonSuccess_ThrowsRepositoryOperationFailedException()
+    {
+        // ARRANGE
+        const string blueprintsEndpoint = "https://blueprints.example.com/api/submodels";
+        var provider = BuildProviderWithRestClient(blueprintsEndpoint, _ =>
+            Task.FromResult(new HttpResponseMessage(HttpStatusCode.ServiceUnavailable)));
+
+        // ACT & ASSERT
+        await provider.Invoking(p => p.GetAllBlueprintsAsync())
+            .Should().ThrowAsync<RepositoryOperationFailedException>();
+    }
+
+    [Test]
+    public async Task GetAllBlueprintsAsync_WhenEndpointReturnsEmptyBody_ThrowsRepositoryOperationFailedException()
+    {
+        // ARRANGE
+        const string blueprintsEndpoint = "https://blueprints.example.com/api/submodels";
+        var provider = BuildProviderWithRestClient(blueprintsEndpoint, _ =>
+            Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent("", Encoding.UTF8, "application/json")
+            }));
+
+        // ACT & ASSERT
+        await provider.Invoking(p => p.GetAllBlueprintsAsync())
+            .Should().ThrowAsync<RepositoryOperationFailedException>();
+    }
+
+    [Test]
+    public async Task GetAllBlueprintsAsync_WhenEndpointReturnsInvalidJson_ThrowsRepositoryOperationFailedException()
+    {
+        // ARRANGE
+        const string blueprintsEndpoint = "https://blueprints.example.com/api/submodels";
+        var provider = BuildProviderWithRestClient(blueprintsEndpoint, _ =>
+            Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent("not-valid-json", Encoding.UTF8, "application/json")
+            }));
+
+        // ACT & ASSERT
+        await provider.Invoking(p => p.GetAllBlueprintsAsync())
+            .Should().ThrowAsync<RepositoryOperationFailedException>();
+    }
+
+    [Test]
+    public async Task GetBlueprintAsync_WhenEndpointReturnsInvalidJson_ThrowsInvalidBlueprintException()
+    {
+        // ARRANGE
+        const string blueprintsEndpoint = "https://blueprints.example.com/api/submodels";
+        const string templateId = "TmFtZXBsYXRlX1RlbXBsYXRlX2lk";
+        var provider = BuildProviderWithRestClient(blueprintsEndpoint, _ =>
+            Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent("not-valid-json", Encoding.UTF8, "application/json")
+            }));
+
+        // ACT & ASSERT
+        await provider.Invoking(p => p.GetBlueprintAsync(templateId))
+            .Should().ThrowAsync<InvalidBlueprintException>();
+    }
+
+    private static BlueprintProvider BuildProviderWithRestClient(
+        string blueprintsEndpoint,
+        Func<HttpRequestMessage, Task<HttpResponseMessage>> responseFactory)
+    {
+        var configurationOptions = new ConfigurationOptions
+        {
+            BlueprintsAasId = "test",
+            SubmodelBlueprintsApiUrl = blueprintsEndpoint
+        };
+
+        var restClientFactory = new Func<string, RestClient>(url =>
+        {
+            var options = new RestClientOptions(url)
+            {
+                ConfigureMessageHandler = _ => new StubHttpMessageHandler(responseFactory)
+            };
+            return new RestClient(options);
+        });
+
+        return new BlueprintProvider(
+            Mock.Of<IRepoProxyClient>(),
+            new OptionsWrapper<ConfigurationOptions>(configurationOptions),
+            new OptionsWrapper<RepoProxyOptions>(new RepoProxyOptions { AasPath = AasPath, SubmodelPath = SubmodelPath }),
+            Mock.Of<ISubmodelHandler>(),
+            Mock.Of<ILogger<BlueprintProvider>>(),
+            restClientFactory);
     }
 
     private sealed class StubHttpMessageHandler(Func<HttpRequestMessage, Task<HttpResponseMessage>> responseFactory) : HttpMessageHandler
