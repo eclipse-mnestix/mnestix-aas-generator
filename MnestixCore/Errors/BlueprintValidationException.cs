@@ -2,8 +2,10 @@ using MnestixCore.TemplateBuilder;
 
 namespace MnestixCore.Errors;
 
-public class BlueprintValidationException : Exception
+public class BlueprintValidationException : AasGeneratorException
 {
+    public override AasGeneratorErrorCode Code => AasGeneratorErrorCode.BlueprintValidationFailed;
+
     public IReadOnlyList<BlueprintValidationError> Errors { get; }
 
     public BlueprintValidationException(IReadOnlyList<BlueprintValidationError> errors)
@@ -11,4 +13,7 @@ public class BlueprintValidationException : Exception
     {
         Errors = errors;
     }
+
+    public override AasGeneratorErrorDto ToErrorDto() =>
+        new(Code, Message, new ValidationErrorContext(Errors));
 }
