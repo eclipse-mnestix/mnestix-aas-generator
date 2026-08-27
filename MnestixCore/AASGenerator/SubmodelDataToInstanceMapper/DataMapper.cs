@@ -43,6 +43,10 @@ public sealed class DataMapper : IDataMapper
             .Use<DeepCloneBlueprintAasGeneratorPipelineStep>()
             .Use<NormalizeQualifierPrefixAasGeneratorPipelineStep>()
             .Use<SetKindInstanceAasGeneratorPipelineStep>()
+            // FilterElements runs before AND after DuplicateCollections: the pre-pass drops an optional
+            // element wrapping a mandatory collection before duplication can throw on empty data;
+            // the post-pass handles per-item ("[*]") filters
+            .Use<FilterElementsAasGeneratorPipelineStep>()
             .Use<DuplicateCollectionsAasGeneratorPipelineStep>()
             .Use<FilterElementsAasGeneratorPipelineStep>()
             .Use<DiscoverMappingDescriptorsAasGeneratorPipelineStep>()
