@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using MnestixCore.AasGenerator;
 using MnestixCore.AasGenerator.Interfaces;
+using MnestixCore.Errors;
 using MnestixCore.Dtos.AppSettingsOptions;
 using MnestixCore.IdGenerator.Interfaces;
 using MnestixCore.RepoProxyClient.Interfaces;
@@ -653,11 +654,11 @@ public class AasGeneratorTests
         // ASSERT
         var first = result.First();
         first.Success.Should().BeTrue();
-        first.DebugInfo.Should().NotBeNull();
-        first.DebugInfo!.Logs.Should().NotBeNull();
-        first.DebugInfo.Logs!.Should().NotBeEmpty();
+        first.Logs.Should().NotBeNull();
+        first.Logs.Should().NotBeNull();
+        first.Logs!.Should().NotBeEmpty();
 
-        var allLogs = string.Join("\n", first.DebugInfo.Logs!);
+        var allLogs = string.Join("\n", first.Logs!);
         allLogs.Should().Contain("Fetching blueprint");
         allLogs.Should().Contain("Blueprint fetched successfully");
         allLogs.Should().Contain("Generating submodel ID");
@@ -690,7 +691,7 @@ public class AasGeneratorTests
         // ASSERT
         var first = result.First();
         first.Success.Should().BeTrue();
-        first.DebugInfo.Should().BeNull();
+        first.Logs.Should().BeNull();
     }
 
     // T005: Multiple blueprints with debug=true returns independent log trails
@@ -715,11 +716,11 @@ public class AasGeneratorTests
 
         // ASSERT
         results.Should().HaveCount(2);
-        results[0].DebugInfo.Should().NotBeNull();
-        results[1].DebugInfo.Should().NotBeNull();
+        results[0].Logs.Should().NotBeNull();
+        results[1].Logs.Should().NotBeNull();
 
-        var logs0 = string.Join("\n", results[0].DebugInfo!.Logs!);
-        var logs1 = string.Join("\n", results[1].DebugInfo!.Logs!);
+        var logs0 = string.Join("\n", results[0].Logs!);
+        var logs1 = string.Join("\n", results[1].Logs!);
 
         logs0.Should().Contain("Blueprint1");
         logs1.Should().Contain("Blueprint2");
@@ -742,10 +743,10 @@ public class AasGeneratorTests
         // ASSERT
         var first = result.First();
         first.Success.Should().BeFalse();
-        first.ErrorInfo.Should().NotBeNull();
-        first.ErrorInfo!.Logs.Should().NotBeNull();
+        first.Logs.Should().NotBeNull();
+        first.Logs.Should().NotBeNull();
 
-        var allLogs = string.Join("\n", first.ErrorInfo.Logs!);
+        var allLogs = string.Join("\n", first.Logs!);
         allLogs.Should().Contain("Fetching blueprint");
         allLogs.Should().Contain("Blueprint fetch failed");
     }
@@ -772,10 +773,10 @@ public class AasGeneratorTests
         // ASSERT
         var first = result.First();
         first.Success.Should().BeFalse();
-        first.ErrorInfo.Should().NotBeNull();
-        first.ErrorInfo!.Logs.Should().NotBeNull();
+        first.Logs.Should().NotBeNull();
+        first.Logs.Should().NotBeNull();
 
-        var allLogs = string.Join("\n", first.ErrorInfo.Logs!);
+        var allLogs = string.Join("\n", first.Logs!);
         allLogs.Should().Contain("Blueprint fetched successfully");
         allLogs.Should().Contain("Generating submodel ID");
         allLogs.Should().Contain("Submodel ID generation failed");
@@ -802,10 +803,10 @@ public class AasGeneratorTests
         var first = result.First();
 
         first.Success.Should().BeFalse();
-        first.ErrorInfo.Should().NotBeNull();
-        first.ErrorInfo!.Logs.Should().NotBeNull();
+        first.Logs.Should().NotBeNull();
+        first.Logs.Should().NotBeNull();
 
-        var allLogs = string.Join("\n", first.ErrorInfo.Logs!);
+        var allLogs = string.Join("\n", first.Logs!);
         allLogs.Should().Contain("Blueprint fetched successfully");
         allLogs.Should().Contain("Starting data mapping");
         allLogs.Should().Contain("Data mapping failed");
@@ -834,10 +835,10 @@ public class AasGeneratorTests
         // ASSERT
         var first = result.First();
         first.Success.Should().BeFalse();
-        first.ErrorInfo.Should().NotBeNull();
-        first.ErrorInfo!.Logs.Should().NotBeNull();
+        first.Logs.Should().NotBeNull();
+        first.Logs.Should().NotBeNull();
 
-        var allLogs = string.Join("\n", first.ErrorInfo.Logs!);
+        var allLogs = string.Join("\n", first.Logs!);
         allLogs.Should().Contain("Blueprint fetched successfully");
         allLogs.Should().Contain("Submodel ID generated");
         allLogs.Should().Contain("Data mapping completed");
@@ -862,11 +863,11 @@ public class AasGeneratorTests
         // ASSERT
         var first = result.First();
         first.Success.Should().BeFalse();
-        first.DebugInfo.Should().NotBeNull();
-        first.DebugInfo!.Logs.Should().NotBeNull();
-        first.DebugInfo.Logs!.Should().NotBeEmpty();
+        first.Logs.Should().NotBeNull();
+        first.Logs.Should().NotBeNull();
+        first.Logs!.Should().NotBeEmpty();
 
-        var allLogs = string.Join("\n", first.DebugInfo.Logs!);
+        var allLogs = string.Join("\n", first.Logs!);
         allLogs.Should().Contain("Fetching blueprint");
         allLogs.Should().Contain("Blueprint fetch failed");
     }
@@ -893,9 +894,9 @@ public class AasGeneratorTests
 
         // ASSERT
         var first = result.First();
-        first.DebugInfo.Should().NotBeNull();
-        first.DebugInfo!.Logs.Should().NotBeNull();
-        first.DebugInfo.Logs!.First().Should().Contain("Called by integration test XYZ");
+        first.Logs.Should().NotBeNull();
+        first.Logs.Should().NotBeNull();
+        first.Logs!.First().Should().Contain("Called by integration test XYZ");
     }
 
     // T026: No preamble provided means first log is the blueprint mapping entry
@@ -920,14 +921,14 @@ public class AasGeneratorTests
 
         // ASSERT
         var first = result.First();
-        first.DebugInfo.Should().NotBeNull();
-        first.DebugInfo!.Logs.Should().NotBeNull();
-        first.DebugInfo.Logs!.First().Should().Contain("Mapping blueprint");
+        first.Logs.Should().NotBeNull();
+        first.Logs.Should().NotBeNull();
+        first.Logs!.First().Should().Contain("Mapping blueprint");
     }
 
-    // T027: Error with debug=false still returns null DebugInfo
+    // T027: Error with debug=false still populates Logs
     [Test]
-    public async Task AddDataToAasAsync_ErrorWithDebugFalse_ReturnsNullDebugInfo()
+    public async Task AddDataToAasAsync_ErrorWithDebugFalse_ReturnsLogs()
     {
         // ARRANGE
         var templateIds = new List<string> { "urn:smtemplate:NonExistent" };
@@ -942,9 +943,7 @@ public class AasGeneratorTests
         // ASSERT
         var first = result.First();
         first.Success.Should().BeFalse();
-        first.DebugInfo.Should().BeNull();
-        first.ErrorInfo.Should().NotBeNull();
-        first.ErrorInfo!.Logs.Should().NotBeEmpty();
+        first.Logs.Should().NotBeEmpty();
     }
 
     // T023: All log entries match the format pattern SEVERITY [timestamp] - message
@@ -969,11 +968,11 @@ public class AasGeneratorTests
 
         // ASSERT
         var first = result.First();
-        first.DebugInfo.Should().NotBeNull();
-        first.DebugInfo!.Logs.Should().NotBeNull();
+        first.Logs.Should().NotBeNull();
+        first.Logs.Should().NotBeNull();
 
         var pattern = new System.Text.RegularExpressions.Regex(@"^(INFO|WARNING|ERROR) \[.+\] - .+$");
-        foreach (var log in first.DebugInfo.Logs!)
+        foreach (var log in first.Logs!)
         {
             pattern.IsMatch(log).Should().BeTrue($"Log entry '{log}' should match SEVERITY [timestamp] - message format");
         }
@@ -1001,10 +1000,10 @@ public class AasGeneratorTests
         // ASSERT
         var first = result.First();
         first.Success.Should().BeTrue();
-        first.DebugInfo.Should().NotBeNull();
-        first.DebugInfo!.Logs.Should().NotBeNull();
+        first.Logs.Should().NotBeNull();
+        first.Logs.Should().NotBeNull();
 
-        var allLogs = string.Join("\n", first.DebugInfo.Logs!);
+        var allLogs = string.Join("\n", first.Logs!);
         allLogs.Should().Contain("template default for 'value' was overridden by mapped data");
     }
 
@@ -1071,8 +1070,9 @@ public class AasGeneratorTests
         result.Should().HaveCount(1);
         var first = result.First();
         first.Success.Should().BeFalse();
-        first.ValidationErrors.Should().NotBeNull();
-        first.ValidationErrors.Should().Contain(e => e.Rule == expectedRule);
+        var validationContext = first.Error?.Context as ValidationErrorContext;
+        validationContext.Should().NotBeNull();
+        validationContext!.Errors.Should().Contain(e => e.Rule == expectedRule);
     }
 
     #endregion
@@ -1103,7 +1103,7 @@ public class AasGeneratorTests
 
         // ASSERT
         var first = result.First();
-        first.Message.Should().NotBe("The provided AAS ID is not a valid Base64 URL safe string.");
+        first.Error?.Message.Should().NotBe("The provided AAS ID is not a valid Base64 URL safe string.");
     }
 
     [TestCase("", Description = "Empty string")]
@@ -1128,7 +1128,7 @@ public class AasGeneratorTests
         results.Should().AllSatisfy(r =>
         {
             r.Success.Should().BeFalse();
-            r.Message.Should().Be("The provided AAS ID is not a valid Base64 URL safe string.");
+            r.Error!.Message.Should().Be("The provided AAS ID is not a valid Base64 URL safe string.");
         });
     }
 

@@ -6,12 +6,10 @@ using MnestixCore.AasGenerator.Interfaces;
 using MnestixCore.Dtos;
 using MnestixCore.Dtos.AppSettingsOptions;
 using MnestixCore.Errors;
-using MnestixCore.TemplateBuilder;
 using MnestixCore.IdGenerator.Interfaces;
 using MnestixCore.RepoProxyClient.Interfaces;
 using MnestixCore.Shared;
 using MnestixCore.TemplateBuilder.Interfaces;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace MnestixCore.AasGenerator;
@@ -66,7 +64,7 @@ public class AasGenerator : IAasGenerator
             {
                 Success = false,
                 BlueprintId = id,
-                Message = "The provided AAS ID is not a valid Base64 URL safe string."
+                Error = new AasGeneratorErrorDto(AasGeneratorErrorCode.UnknownError, "The provided AAS ID is not a valid Base64 URL safe string.", null)
             });
         }
 
@@ -92,9 +90,8 @@ public class AasGenerator : IAasGenerator
                 {
                     Success = false,
                     BlueprintId = blueprintId,
-                    Message = e.Message,
-                    ErrorInfo = new AasGeneratorErrorInfo { Logs = workflowLogger.Logs },
-                    DebugInfo = debug ? new AasGeneratorDebugInfo { Logs = workflowLogger.Logs } : null
+                    Error = new AasGeneratorErrorDto(AasGeneratorErrorCode.UnknownError, e.Message, null),
+                    Logs = workflowLogger.Logs
                 };
             }
         });
@@ -134,43 +131,21 @@ public class AasGenerator : IAasGenerator
                     Success = true,
                     BlueprintId = blueprintId,
                     GeneratedSubmodelId = newSubmodelId,
-                    DebugInfo = debug ? new AasGeneratorDebugInfo { Logs = workflowLogger.Logs } : null
+                    Logs = debug ? workflowLogger.Logs : null
                 }
             };
         }
-        catch (SubmodelDataToInstanceMapperException e)
+        catch (AasGeneratorException e)
         {
-            _logger.LogError(e, "Failed to map data to instance. BlueprintId: {BlueprintId}, Message: {Message}", blueprintId, e.Message);
+            _logger.LogError(e, "Blueprint workflow failed. BlueprintId: {BlueprintId}, Message: {Message}", blueprintId, e.Message);
             return new BuiltSubmodel
             {
                 Result = new AasGeneratorResult
                 {
                     Success = false,
                     BlueprintId = blueprintId,
-                    Message = e.Message,
-                    ErrorInfo = new AasGeneratorErrorInfo
-                    {
-                        Logs = workflowLogger.Logs,
-                        Qualifier = e.Context?.Qualifier.ToString(Formatting.None),
-                        QualifierPath = e.Context?.Qualifier.Path
-                    },
-                    DebugInfo = debug ? new AasGeneratorDebugInfo { Logs = workflowLogger.Logs } : null
-                }
-            };
-        }
-        catch (BlueprintValidationException e)
-        {
-            _logger.LogError(e, "Blueprint validation failed at generation-time. BlueprintId: {BlueprintId}", blueprintId);
-            return new BuiltSubmodel
-            {
-                Result = new AasGeneratorResult
-                {
-                    Success = false,
-                    BlueprintId = blueprintId,
-                    Message = "Blueprint validation failed. The blueprint may have been modified externally or was not migrated.",
-                    ValidationErrors = e.Errors,
-                    ErrorInfo = new AasGeneratorErrorInfo { Logs = workflowLogger.Logs },
-                    DebugInfo = debug ? new AasGeneratorDebugInfo { Logs = workflowLogger.Logs } : null
+                    Error = e.ToErrorDto(),
+                    Logs = workflowLogger.Logs
                 }
             };
         }
@@ -183,9 +158,8 @@ public class AasGenerator : IAasGenerator
                 {
                     Success = false,
                     BlueprintId = blueprintId,
-                    Message = e.Message,
-                    ErrorInfo = new AasGeneratorErrorInfo { Logs = workflowLogger.Logs },
-                    DebugInfo = debug ? new AasGeneratorDebugInfo { Logs = workflowLogger.Logs } : null
+                    Error = new AasGeneratorErrorDto(AasGeneratorErrorCode.UnknownError, e.Message, null),
+                    Logs = workflowLogger.Logs
                 }
             };
         }
