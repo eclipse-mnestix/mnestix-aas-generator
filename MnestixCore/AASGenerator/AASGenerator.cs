@@ -83,6 +83,17 @@ public class AasGenerator : IAasGenerator
                 await AddSubmodelToAasAsync(base64EncodedAasId, built.Instance!, workflowLogger);
                 return built.Result;
             }
+            catch (RepoProxyException e)
+            {
+                _logger.LogError(e, "Repository operation failed. BlueprintId: {BlueprintId}, Message: {Message}", blueprintId, e.Message);
+                return new AasGeneratorResult
+                {
+                    Success = false,
+                    BlueprintId = blueprintId,
+                    Error = new AasGeneratorErrorDto(AasGeneratorErrorCode.RepositoryOperationFailed, e.Message, null),
+                    Logs = workflowLogger.Logs
+                };
+            }
             catch (Exception e)
             {
                 _logger.LogError(e, "Blueprint workflow failed. BlueprintId: {BlueprintId}, Message: {Message}", blueprintId, e.Message);
@@ -218,7 +229,7 @@ public class AasGenerator : IAasGenerator
         if (subModelShortId == null)
         {
             workflowLogger.LogError($"Blueprint idShort is null for {blueprintId}");
-            throw new InvalidOperationException($"blueprint idShort of {blueprintId} needs to be not null");
+            throw new InvalidBlueprintException($"blueprint idShort of {blueprintId} needs to be not null");
         }
 
         workflowLogger.LogInfo($"Extracted idShort: {subModelShortId}");

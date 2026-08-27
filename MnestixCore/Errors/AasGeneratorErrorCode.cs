@@ -8,5 +8,7 @@ public enum AasGeneratorErrorCode
 {
     MappingFailed,
     BlueprintValidationFailed,
+    RepositoryOperationFailed,
+    InvalidBlueprint,
     UnknownError
 }
