@@ -167,6 +167,12 @@ public class AasGeneratorTests
     }
 
     [Test]
+    public async Task AddDataToAasAsync_InputFilterInsideDuplicatedCollection_Success()
+    {
+        await RunDataIngestTest("InputFilterInsideDuplicatedCollection");
+    }
+
+    [Test]
     public async Task AddDataToAasAsync_InputSMLWithIdShorts_Success()
     {
         await RunDataIngestTest("InputSMLWithIdShorts");

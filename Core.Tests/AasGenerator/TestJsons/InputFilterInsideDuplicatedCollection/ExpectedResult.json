@@ -1,0 +1,89 @@
+{
+  "modelType": "Submodel",
+  "kind": "Instance",
+  "idShort": "VehicleFleet",
+  "id": "TheNewSubmodelId",
+  "submodelElements": [
+    {
+      "modelType": "SubmodelElementCollection",
+      "idShort": "Vehicles",
+      "valueType": "xs:string",
+      "qualifiers": [],
+      "value": [
+        {
+          "modelType": "SubmodelElementCollection",
+          "idShort": "Vehicle_0",
+          "valueType": "xs:string",
+          "qualifiers": [
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "value": "ZeroToOne",
+              "valueType": "xs:string"
+            }
+          ],
+          "value": [
+            {
+              "modelType": "Property",
+              "idShort": "Name",
+              "valueType": "xs:string",
+              "value": "car1",
+              "qualifiers": []
+            },
+            {
+              "modelType": "SubmodelElementCollection",
+              "idShort": "BatteryInfo",
+              "valueType": "xs:string",
+              "qualifiers": [],
+              "value": [
+                {
+                  "modelType": "Property",
+                  "idShort": "CapacityKWh",
+                  "valueType": "xs:integer",
+                  "value": 75,
+                  "qualifiers": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "modelType": "SubmodelElementCollection",
+          "idShort": "Vehicle_1",
+          "valueType": "xs:string",
+          "qualifiers": [
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "value": "ZeroToOne",
+              "valueType": "xs:string"
+            }
+          ],
+          "value": [
+            {
+              "modelType": "Property",
+              "idShort": "Name",
+              "valueType": "xs:string",
+              "value": "car2",
+              "qualifiers": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "qualifiers": [
+    {
+      "kind": "ConceptQualifier",
+      "type": "MnestixAASGenerator/OriginalBlueprintID",
+      "value": "FilterInsideDuplicatedCollection_Template",
+      "valueType": "xs:string"
+    },
+    {
+      "kind": "ConceptQualifier",
+      "type": "MnestixAASGenerator/GenerationTimestamp",
+      "value": "2026-01-02T03:04:05.0000000Z",
+      "valueType": "xs:dateTime"
+    }
+  ]
+}
