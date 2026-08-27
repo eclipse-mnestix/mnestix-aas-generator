@@ -68,8 +68,27 @@ public class BlueprintProvider : IBlueprintProvider
             return await FetchBlueprintsAsync(submodelIdShort);
         }
 
-        var submodelFromRepo = await _repoProxyClient.GetAsync(_repoProxyOptions.SubmodelPath + "/" + submodelIdShort);
-        return JObject.Parse(submodelFromRepo!);
+        string? submodelFromRepo;
+        try
+        {
+            submodelFromRepo = await _repoProxyClient.GetAsync(_repoProxyOptions.SubmodelPath + "/" + submodelIdShort);
+        }
+        catch (RepoProxyException e)
+        {
+            throw new RepositoryOperationFailedException($"Failed to fetch blueprint: {e.Message}", e);
+        }
+
+        if (string.IsNullOrWhiteSpace(submodelFromRepo))
+            throw new RepositoryOperationFailedException("Blueprint endpoint returned an empty response.");
+
+        try
+        {
+            return JObject.Parse(submodelFromRepo);
+        }
+        catch (Newtonsoft.Json.JsonReaderException e)
+        {
+            throw new InvalidBlueprintException("Failed to parse blueprint.", e);
+        }
     }
 
     private async Task<string> GetBlueprintsFromReference(IEnumerable<string> submodelsIds)

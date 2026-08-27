@@ -1158,7 +1158,7 @@ public class AasGeneratorTests
 
         // ASSERT
         var first = result.First();
-        first.Error?.Message.Should().NotBe("The provided AAS ID is not a valid Base64 URL safe string.");
+        first.Error?.Code.Should().NotBe(AasGeneratorErrorCode.InvalidInput);
     }
 
     [TestCase("", Description = "Empty string")]
