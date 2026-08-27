@@ -880,6 +880,26 @@ public class AasGeneratorTests
         first.Error!.Code.Should().Be(AasGeneratorErrorCode.InvalidBlueprint);
     }
 
+    // T018: InvalidBlueprintException thrown by provider is caught and returns InvalidBlueprint error code
+    [Test]
+    public async Task AddDataToAasAsync_ProviderThrowsInvalidBlueprintException_ReturnsInvalidBlueprintErrorCode()
+    {
+        // ARRANGE
+        var templateIds = new List<string> { "urn:smtemplate:CorruptedBlueprint" };
+
+        _templateSubmodelsProviderMock
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .ThrowsAsync(new InvalidBlueprintException("Failed to parse blueprint."));
+
+        // ACT
+        var result = await _aasGenerator.AddDataToAasAsync(TestBase64EncodedAasId, templateIds, new JObject(), "en");
+
+        // ASSERT
+        var first = result.First();
+        first.Success.Should().BeFalse();
+        first.Error!.Code.Should().Be(AasGeneratorErrorCode.InvalidBlueprint);
+    }
+
     // T024: Error results include DebugInfo.Logs when debug=true
     [Test]
     public async Task AddDataToAasAsync_ErrorWithDebugTrue_ReturnsDebugInfoWithLogs()
@@ -1163,7 +1183,8 @@ public class AasGeneratorTests
         results.Should().AllSatisfy(r =>
         {
             r.Success.Should().BeFalse();
-            r.Error!.Message.Should().Be("The provided AAS ID is not a valid Base64 URL safe string.");
+            r.Error!.Code.Should().Be(AasGeneratorErrorCode.InvalidInput);
+            r.Error.Message.Should().Be("The provided AAS ID is not a valid Base64 URL safe string.");
         });
     }
 

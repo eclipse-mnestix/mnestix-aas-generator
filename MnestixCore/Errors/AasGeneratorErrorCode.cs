@@ -10,5 +10,6 @@ public enum AasGeneratorErrorCode
     BlueprintValidationFailed,
     RepositoryOperationFailed,
     InvalidBlueprint,
+    InvalidInput,
     UnknownError
 }

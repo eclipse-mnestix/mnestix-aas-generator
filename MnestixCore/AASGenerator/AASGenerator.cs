@@ -64,7 +64,7 @@ public class AasGenerator : IAasGenerator
             {
                 Success = false,
                 BlueprintId = id,
-                Error = new AasGeneratorErrorDto(AasGeneratorErrorCode.UnknownError, "The provided AAS ID is not a valid Base64 URL safe string.", null)
+                Error = new AasGeneratorErrorDto(AasGeneratorErrorCode.InvalidInput, "The provided AAS ID is not a valid Base64 URL safe string.", null)
             });
         }
 
