@@ -726,16 +726,16 @@ public class AasGeneratorTests
         logs1.Should().Contain("Blueprint2");
     }
 
-    // T013: Blueprint fetch failure returns ErrorInfo.Logs with retrieval attempt entry
+    // T013: Blueprint fetch failure returns RepositoryOperationFailed error code
     [Test]
-    public async Task AddDataToAasAsync_BlueprintFetchFails_ReturnsErrorInfoWithLogs()
+    public async Task AddDataToAasAsync_BlueprintFetchFails_ReturnsRepositoryOperationFailedErrorCode()
     {
         // ARRANGE
         var templateIds = new List<string> { "urn:smtemplate:NonExistent" };
 
         _templateSubmodelsProviderMock
             .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
-            .ThrowsAsync(new Exception("Not found"));
+            .ThrowsAsync(new RepositoryOperationFailedException("Blueprint endpoint returned 404."));
 
         // ACT
         var result = await _aasGenerator.AddDataToAasAsync(TestBase64EncodedAasId, templateIds, new JObject(), "en");
@@ -743,7 +743,7 @@ public class AasGeneratorTests
         // ASSERT
         var first = result.First();
         first.Success.Should().BeFalse();
-        first.Logs.Should().NotBeNull();
+        first.Error!.Code.Should().Be(AasGeneratorErrorCode.RepositoryOperationFailed);
         first.Logs.Should().NotBeNull();
 
         var allLogs = string.Join("\n", first.Logs!);
@@ -773,7 +773,7 @@ public class AasGeneratorTests
         // ASSERT
         var first = result.First();
         first.Success.Should().BeFalse();
-        first.Logs.Should().NotBeNull();
+        first.Error!.Code.Should().Be(AasGeneratorErrorCode.UnknownError);
         first.Logs.Should().NotBeNull();
 
         var allLogs = string.Join("\n", first.Logs!);
@@ -803,7 +803,11 @@ public class AasGeneratorTests
         var first = result.First();
 
         first.Success.Should().BeFalse();
-        first.Logs.Should().NotBeNull();
+        first.Error!.Code.Should().Be(AasGeneratorErrorCode.MappingFailed);
+        var mappingContext = first.Error.Context as MappingErrorContext;
+        mappingContext.Should().NotBeNull();
+        mappingContext!.Qualifier.Should().NotBeNullOrEmpty();
+        mappingContext.QualifierPath.Should().NotBeNullOrEmpty();
         first.Logs.Should().NotBeNull();
 
         var allLogs = string.Join("\n", first.Logs!);
@@ -835,7 +839,7 @@ public class AasGeneratorTests
         // ASSERT
         var first = result.First();
         first.Success.Should().BeFalse();
-        first.Logs.Should().NotBeNull();
+        first.Error!.Code.Should().Be(AasGeneratorErrorCode.RepositoryOperationFailed);
         first.Logs.Should().NotBeNull();
 
         var allLogs = string.Join("\n", first.Logs!);
@@ -844,6 +848,36 @@ public class AasGeneratorTests
         allLogs.Should().Contain("Data mapping completed");
         allLogs.Should().Contain("Posting submodel to repository");
         allLogs.Should().Contain("Repository operation failed");
+    }
+
+    // T017: Blueprint with null idShort returns InvalidBlueprint error code
+    [Test]
+    public async Task AddDataToAasAsync_BlueprintWithNullIdShort_ReturnsInvalidBlueprintErrorCode()
+    {
+        // ARRANGE
+        var blueprintWithoutIdShort = new JObject
+        {
+            ["modelType"] = "Submodel",
+            ["id"] = "urn:smtemplate:NoIdShort",
+            ["submodelElements"] = new JArray()
+        };
+        var templateIds = new List<string> { "urn:smtemplate:NoIdShort" };
+
+        _templateSubmodelsProviderMock
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .ReturnsAsync(blueprintWithoutIdShort);
+
+        _idGeneratorMock
+            .Setup(x => x.GenerateSubmodelIdsAsync(It.IsAny<uint>()))
+            .ReturnsAsync(new List<string> { "TheNewSubmodelId" });
+
+        // ACT
+        var result = await _aasGenerator.AddDataToAasAsync(TestBase64EncodedAasId, templateIds, new JObject(), "en");
+
+        // ASSERT
+        var first = result.First();
+        first.Success.Should().BeFalse();
+        first.Error!.Code.Should().Be(AasGeneratorErrorCode.InvalidBlueprint);
     }
 
     // T024: Error results include DebugInfo.Logs when debug=true
@@ -1070,7 +1104,8 @@ public class AasGeneratorTests
         result.Should().HaveCount(1);
         var first = result.First();
         first.Success.Should().BeFalse();
-        var validationContext = first.Error?.Context as ValidationErrorContext;
+        first.Error!.Code.Should().Be(AasGeneratorErrorCode.BlueprintValidationFailed);
+        var validationContext = first.Error.Context as ValidationErrorContext;
         validationContext.Should().NotBeNull();
         validationContext!.Errors.Should().Contain(e => e.Rule == expectedRule);
     }
