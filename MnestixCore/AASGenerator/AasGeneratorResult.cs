@@ -21,7 +21,8 @@ public class AasGeneratorResult
     /// </summary>
     public AasGeneratorErrorDto? Error { get; init; }
     /// <summary>
-    /// Generation process trace. Always present when Success is false; present on success only when debug mode is enabled.
+    /// Generation process trace. Present when Success is false and the generator was started; null if the request
+    /// was rejected before generation began (e.g. invalid AAS ID). Present on success only when debug mode is enabled.
     /// </summary>
     public IList<string>? Logs { get; init; }
 }

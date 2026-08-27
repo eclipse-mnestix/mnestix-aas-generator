@@ -1217,6 +1217,17 @@ public class AasGeneratorTests
         _templateSubmodelsProviderMock.Verify(x => x.GetBlueprintAsync(It.IsAny<string>()), Times.Never);
     }
 
+    [Test]
+    public async Task AddDataToAasAsync_InvalidBase64UrlSafeId_ReturnsNullLogs()
+    {
+        // Generation never starts on early return, so no logs are produced
+        var templateIds = new List<string> { "urn:blueprint:A" };
+
+        var results = (await _aasGenerator.AddDataToAasAsync("invalid+id", templateIds, new JObject(), "en")).ToList();
+
+        results.First().Logs.Should().BeNull();
+    }
+
     #endregion
 
     #region IdShort Edge Case Tests

@@ -65,4 +65,22 @@ public class AasGeneratorErrorDtoTests
         ctx!.Qualifier.Should().BeNull();
         ctx.QualifierPath.Should().BeNull();
     }
+
+    [Test]
+    public void BlueprintValidationException_ToErrorDto_ReturnsValidationFailedCodeWithErrors()
+    {
+        var errors = new List<BlueprintValidationError>
+        {
+            new(BlueprintValidationRule.EmptyMappingExpression, "submodelElements[0]", "Mapping expression is empty."),
+            new(BlueprintValidationRule.UnknownFieldName, "submodelElements[1]", "Unknown field.")
+        };
+        var ex = new BlueprintValidationException(errors);
+
+        var dto = ex.ToErrorDto();
+
+        dto.Code.Should().Be(AasGeneratorErrorCode.BlueprintValidationFailed);
+        var ctx = dto.Context as ValidationErrorContext;
+        ctx.Should().NotBeNull();
+        ctx!.Errors.Should().BeEquivalentTo(errors);
+    }
 }
