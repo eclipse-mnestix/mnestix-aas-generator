@@ -1,5 +1,4 @@
 using MnestixCore.AasGenerator.Interfaces;
-using MnestixCore.AasGenerator.Pipelines.FieldAssigners;
 using MnestixCore.AasGenerator.Pipelines.Shared;
 using MnestixCore.Errors;
 using MnestixCore.Shared;
@@ -54,11 +53,14 @@ public sealed class DiscoverMappingDescriptorsAasGeneratorPipelineStep : IPipeli
                 var fieldName = segments.Length == 3 ? segments[2] : "value";
 
                 var mappingExpression = qualifier["value"]?.Value<string>() ?? "";
-                // The element's cardinality (One/ZeroToOne/...) is shared across all of its field
-                // mappings, but some fields are always optional regardless (e.g. displayName).
-                // The assigner owns that decision, keeping field-specific rules out of this step.
-                var isMandatory = !FieldAssignerRegistry.GetAssigner(fieldName).IsAlwaysOptional &&
-                    (QualifierHelpers.GetCardinalityQualifier(qualifier)?["value"]?.Value<string>()?.StartsWith("One") ?? false);
+                var fieldSpec = FieldMappingRules.AllowedFields[modelType].Get(fieldName);
+                var elementCardinality = QualifierHelpers.GetCardinalityQualifier(qualifier)?["value"]?.Value<string>();
+                var isMandatory = fieldSpec?.FieldCardinality switch
+                {
+                    FieldSpec.Cardinality.AlwaysMandatory => true,
+                    FieldSpec.Cardinality.AlwaysOptional  => false,
+                    _                                     => elementCardinality?.StartsWith("One") ?? false
+                };
 
                 descriptors.Add(new MappingDescriptor
                 {

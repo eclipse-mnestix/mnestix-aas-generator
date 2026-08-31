@@ -17,8 +17,6 @@ public sealed class DisplayNameFieldAssigner : FieldAssignerBase
 {
     public override string FieldName => "displayName";
 
-    public override bool IsAlwaysOptional => true;
-
     public override bool IsResolvedValueMissing(JToken resolvedValue) => IsEmptyLanguageMap(resolvedValue);
 
     public override void Assign(JToken element, JToken resolvedValue, string modelType, string? language, DataMappingContext ctx)
