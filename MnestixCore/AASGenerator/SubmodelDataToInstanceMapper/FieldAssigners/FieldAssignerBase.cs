@@ -12,12 +12,6 @@ public abstract class FieldAssignerBase
     public abstract string FieldName { get; }
 
     /// <summary>
-    /// When true, the field is always optional regardless of the element's cardinality
-    /// (e.g. displayName: a property without a mapped display name must still be generated).
-    /// </summary>
-    public virtual bool IsAlwaysOptional => false;
-
-    /// <summary>
     /// Determines whether a resolved value should be treated as missing, so the mapping is
     /// omitted (when optional) or fails (when mandatory). Default: never. Language-map fields
     /// override this to treat an empty / all-empty object as missing.

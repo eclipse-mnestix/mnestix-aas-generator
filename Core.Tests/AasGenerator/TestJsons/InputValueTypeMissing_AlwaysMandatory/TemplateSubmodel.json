@@ -1,0 +1,33 @@
+{
+  "modelType": "Submodel",
+  "kind": "Template",
+  "id": "urn:smtemplate:DemoTemplate",
+  "idShort": "DemoTemplate",
+  "administration": {
+    "version": "1",
+    "revision": "0"
+  },
+  "qualifiers": [],
+  "submodelElements": [
+    {
+      "modelType": "Property",
+      "idShort": "Quantity",
+      "valueType": "xs:string",
+      "value": "",
+      "qualifiers": [
+        {
+          "kind": "TemplateQualifier",
+          "type": "MnestixAASGenerator/MappingInfo/value",
+          "value": "product.quantity",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "MnestixAASGenerator/MappingInfo/valueType",
+          "value": "product.valueType",
+          "valueType": "xs:string"
+        }
+      ]
+    }
+  ]
+}
