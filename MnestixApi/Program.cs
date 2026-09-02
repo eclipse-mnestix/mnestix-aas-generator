@@ -11,6 +11,8 @@ using MnestixCore.TemplateBuilder;
 using MnestixCore.RepoProxyClient.Interfaces;
 using MnestixCore.RepoProxyClient;
 using MnestixApi.Authentication;
+using MnestixApi.ApiKeyAuthorization;
+using Microsoft.Extensions.Options;
 using MnestixCore.Dtos.AppSettingsOptions;
 using MnestixCore.RequiredShellsAssertion.Interfaces;
 using MnestixCore.RequiredShellsAssertion;
@@ -54,6 +56,8 @@ namespace MnestixApi
             // Configuration of authorization via ApiKey for endpoints used by customers
             builder.Services.Configure<CustomerEndpointsSecurityOptions>(
                 builder.Configuration.GetSection(CustomerEndpointsSecurityOptions.CustomerEndpointsSecurity));
+            builder.Services.AddSingleton<IValidateOptions<CustomerEndpointsSecurityOptions>,
+                CustomerEndpointsSecurityOptionsValidation>();
 
             builder.Services.AddAuthorization();
 
