@@ -54,10 +54,10 @@ namespace MnestixApi
             builder.Services.AddAuthenticationServices(builder.Configuration);
 
             // Configuration of authorization via ApiKey for endpoints used by customers
-            builder.Services.Configure<CustomerEndpointsSecurityOptions>(
-                builder.Configuration.GetSection(CustomerEndpointsSecurityOptions.CustomerEndpointsSecurity));
-            builder.Services.AddSingleton<IValidateOptions<CustomerEndpointsSecurityOptions>,
-                CustomerEndpointsSecurityOptionsValidation>();
+            builder.Services.AddOptions<CustomerEndpointsSecurityOptions>()
+                .Bind(builder.Configuration.GetSection(CustomerEndpointsSecurityOptions.CustomerEndpointsSecurity))
+                .ValidateOnStart();
+            builder.Services.AddSingleton<IValidateOptions<CustomerEndpointsSecurityOptions>, CustomerEndpointsSecurityOptionsValidation>();
 
             builder.Services.AddAuthorization();
 
