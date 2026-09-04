@@ -70,8 +70,15 @@ Authentication is disabled by default. Set `Features__UseAuthentication` to `tru
 
 ### API Key Authentication
 
-The simplest method. Configure in `appsettings.json`:
+**The API key is not shipped with a default value** — `appsettings.json` ships it empty and
+the development Docker Compose file uses the well-known placeholder `verySecureApiKey`.
 
+> **⚠️ SECURITY WARNING — CHANGE THE API KEY BEFORE DEPLOYING.** Do not deploy with an empty key or the
+> placeholder `verySecureApiKey`. Anyone who knows that value can access protected endpoints. The application
+> logs a **critical warning** at startup when the key is empty or a known default.
+>
+> Set a strong secret via the `CustomerEndpointsSecurity__ApiKey` environment variable (recommended), or configure
+> it in `appsettings.json`:
 
 ```json
 {
