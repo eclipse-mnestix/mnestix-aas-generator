@@ -83,14 +83,14 @@ public class AasGenerator : IAasGenerator
                 await AddSubmodelToAasAsync(base64EncodedAasId, built.Instance!, workflowLogger);
                 return built.Result;
             }
-            catch (RepoProxyException e)
+            catch (RepositoryOperationFailedException e)
             {
                 _logger.LogError(e, "Repository operation failed. BlueprintId: {BlueprintId}, Message: {Message}", blueprintId, e.Message);
                 return new AasGeneratorResult
                 {
                     Success = false,
                     BlueprintId = blueprintId,
-                    Error = new AasGeneratorErrorDto(AasGeneratorErrorCode.RepositoryOperationFailed, e.Message, null),
+                    Error = e.ToErrorDto(),
                     Logs = workflowLogger.Logs
                 };
             }
@@ -264,7 +264,7 @@ public class AasGenerator : IAasGenerator
         catch (RepoProxyException e)
         {
             workflowLogger.LogError($"Repository operation failed: {e.Message}");
-            throw;
+            throw new RepositoryOperationFailedException($"Repository operation failed: {e.Message}", e);
         }
     }
 
