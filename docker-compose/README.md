@@ -48,8 +48,18 @@ The Mnestix AAS Generator enables automated creation of Asset Administration She
 
 - `CustomerEndpointsSecurity__ApiKey` - Configure the API key to secure all API endpoints.
 
-> **Note:** The API key provided in the `compose.yml` file is just an example.
-> Please replace `YOUR_API_KEY_HERE` with your actual API key immediately to ensure proper functionality and security.
+> **⚠️ SECURITY WARNING — CHANGE THE API KEY BEFORE DEPLOYING.**
+>
+> The development Compose file uses the well-known placeholder `verySecureApiKey`. Do **not** deploy with this
+> value — anyone who knows it can access protected endpoints. The application logs a **critical warning** at
+> startup when the key is empty or a known default.
+>
+> Set a strong secret via the `CustomerEndpointsSecurity__ApiKey` environment variable before starting, for
+> example:
+>
+> ```bash
+> export CustomerEndpointsSecurity__ApiKey='generate-a-long-random-secret-here'
+> ```
 
 > **Note:** GET and HEAD requests do not require an API key. Only modifying requests (POST, PUT, PATCH, DELETE) require the `X-API-KEY` header.
 

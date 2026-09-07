@@ -1,8 +1,10 @@
 ﻿using MnestixCore.Dtos;
+using MnestixCore.IdGenerator;
 using MnestixCore.IdGenerator.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace MnestixApi.Controllers;
 
@@ -62,8 +64,10 @@ public class IdGeneratorController : ControllerBase
     /// <returns>List of generated submodel ids</returns>
     [HttpGet("submodelIds/{count}")]
     [ProducesResponseType(typeof(List<string>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
-    public async Task<ActionResult> GenerateSubmodelIds([FromServices] IAasIdGeneratorService aasIdGeneratorService, [FromRoute] uint count)
+    public async Task<ActionResult> GenerateSubmodelIds([FromServices] IAasIdGeneratorService aasIdGeneratorService,
+        [FromRoute][Range(1, (int)AasIdGeneratorService.MaxSubmodelIdCount)] uint count)
     {
         var submodelIds = await aasIdGeneratorService.GenerateSubmodelIdsAsync(count);
         return Ok(submodelIds);

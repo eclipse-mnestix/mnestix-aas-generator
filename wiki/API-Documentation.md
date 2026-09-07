@@ -20,6 +20,24 @@ All API endpoints require authentication. The API supports two authentication sc
 1. **API Key Authentication** - Include the API key in the `X-API-KEY` header
 2. **JWT Bearer Token** - Include a valid JWT token in the `Authorization: Bearer <token>` header
 
+> **⚠️ SECURITY WARNING — CHANGE THE API KEY BEFORE DEPLOYING**
+>
+> The API key is **no longer set** in `appsettings.json` (it ships empty) so that no predictable secret is
+> committed to the repository. The development Docker Compose file still uses the well-known placeholder
+> `verySecureApiKey`. **Do not deploy with this value** — anyone who knows it can access protected endpoints.
+> At startup the application logs a **critical warning** when the key is empty or equals a known default.
+>
+> Set your own secret via the `CustomerEndpointsSecurity__ApiKey` environment variable (recommended), or by
+> editing `CustomerEndpointsSecurity` in `appsettings.json`:
+>
+> ```bash
+> # Linux / macOS / Docker Compose
+> export CustomerEndpointsSecurity__ApiKey='generate-a-long-random-secret-here'
+>
+> # Windows PowerShell
+> $env:CustomerEndpointsSecurity__ApiKey='generate-a-long-random-secret-here'
+> ```
+
 Configure authentication in `appsettings.json`:
 - Set `Features__UseAuthentication` to `true` to enable authentication
 - Set `CustomerEndpointsSecurity__ApiKey` for API key authentication
@@ -607,6 +625,9 @@ GET /api/v2/IdGenerator/submodelIds/{count}
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `count` | integer | Yes | Number of Submodel IDs to generate |
+
+> **Limit:** `count` must be between `1` and `1000`. A value above `1000` is rejected with `400 Bad Request`
+> rather than returning a truncated list. This bound prevents an oversized request from exhausting server memory.
 
 #### Response
 
