@@ -1390,19 +1390,17 @@ Set `"debug": true` to receive detailed logs about the generation process. This 
       "blueprintId": "contact-info-v1",
       "success": true,
       "generatedSubmodelId": "https://example.com/submodels/abc123",
-      "debugInfo": {
-        "logs": [
-          "Started DuplicateCollectionsStep",
-          "Processing collection at path 'company.employees[*]' (depth: 1, mandatory: false, elements: 2)",
-          "Successfully duplicated 2 elements for collection with mapping path 'company.employees[*]'",
-          "Finished DuplicateCollectionsStep",
-          "Started ResolveMappingExpressionsStep",
-          "Finished ResolveMappingExpressionsStep",
-          "Started AssignMappedFieldsStep",
-          "Successfully mapped value 'ACME Corporation' from path 'company.name' to field 'value'",
-          "..."
-        ]
-      }
+      "logs": [
+        "Started DuplicateCollectionsStep",
+        "Processing collection at path 'company.employees[*]' (depth: 1, mandatory: false, elements: 2)",
+        "Successfully duplicated 2 elements for collection with mapping path 'company.employees[*]'",
+        "Finished DuplicateCollectionsStep",
+        "Started ResolveMappingExpressionsStep",
+        "Finished ResolveMappingExpressionsStep",
+        "Started AssignMappedFieldsStep",
+        "Successfully mapped value 'ACME Corporation' from path 'company.name' to field 'value'",
+        "..."
+      ]
     }
   ]
 }
@@ -1530,12 +1528,12 @@ The `path` field uses the element's `idShort` breadcrumb trail. If an element la
     {
       "blueprintId": "my-blueprint",
       "success": false,
-      "message": "Mandatory mapping 'product.serialNumber' not found.",
-      "errorInfo": {
-        "logs": ["...processing steps before error..."],
-        "qualifier": "MnestixAASGenerator/MappingInfo",
-        "qualifierPath": "product.serialNumber"
-      }
+      "error": {
+        "code": "MappingFailed",
+        "message": "Mandatory mapping 'product.serialNumber' not found.",
+        "context": null
+      },
+      "logs": ["...processing steps before error..."]
     }
   ]
 }
