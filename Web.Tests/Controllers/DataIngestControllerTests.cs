@@ -10,9 +10,8 @@ using MnestixCore.Errors;
 using MnestixCore.TemplateBuilder;
 using Moq;
 using Newtonsoft.Json.Linq;
-using NUnit.Framework;
 
-namespace Core.Tests.Controllers;
+namespace Web.Tests.Controllers;
 
 public class DataIngestControllerTests
 {
