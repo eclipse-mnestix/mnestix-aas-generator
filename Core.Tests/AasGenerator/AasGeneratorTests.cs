@@ -655,7 +655,6 @@ public class AasGeneratorTests
         var first = result.First();
         first.Success.Should().BeTrue();
         first.Logs.Should().NotBeNull();
-        first.Logs.Should().NotBeNull();
         first.Logs!.Should().NotBeEmpty();
 
         var allLogs = string.Join("\n", first.Logs!);
@@ -917,7 +916,6 @@ public class AasGeneratorTests
         // ASSERT
         var first = result.First();
         first.Success.Should().BeFalse();
-        first.Logs.Should().NotBeNull();
         first.Logs.Should().NotBeNull();
         first.Logs!.Should().NotBeEmpty();
 
