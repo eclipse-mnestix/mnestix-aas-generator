@@ -88,6 +88,13 @@ public sealed class FilterElementsAasGeneratorPipelineStep : IPipelineStep<DataM
             
             try
             {
+                // A "[*]" in the expression means this is a per-item filter on a collection element that has not been duplicated/indexed yet
+                if (filterExpression.Contains("[*]"))
+                {
+                    ctx.LogWarning($"Filter expression '{filterExpression}' contains '[*]'. This is a per-item filter on a collection element that has not been duplicated/indexed yet. Skipping evaluation for now.");
+                    continue;
+                }
+
                 // Evaluate the JSONATA boolean expression using EvalNewtonsoft for automatic type conversion
                 var filterQuery = new JsonataQuery(filterExpression);
                 var result = filterQuery.EvalNewtonsoft(data);

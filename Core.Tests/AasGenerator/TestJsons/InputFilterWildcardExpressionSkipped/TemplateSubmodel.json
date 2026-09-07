@@ -1,0 +1,28 @@
+{
+  "modelType": "Submodel",
+  "kind": "Template",
+  "idShort": "WildcardFilterDemo",
+  "id": "urn:smtemplate:WildcardFilterDemo",
+  "submodelElements": [
+    {
+      "modelType": "Property",
+      "idShort": "KeptAnyway",
+      "valueType": "xs:string",
+      "value": "static",
+      "qualifiers": [
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "value": "ZeroToOne",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "MnestixAASGenerator/FilterMappingInfo",
+          "value": "items[*].active",
+          "valueType": "xs:string"
+        }
+      ]
+    }
+  ]
+}

@@ -138,6 +138,34 @@ public class AasGeneratorTests
         await RunDataIngestTest("InputFilter");
     }
 
+    // An optional (ZeroToOne) SubmodelElementList wraps a mandatory (OneToMany) collection that carries a
+    // CollectionMappingInfo, and the list carries a FilterMappingInfo ("$count(marking) > 0"). With no
+    // markings in the payload the pre-duplication filter pass must drop the whole list BEFORE
+    // DuplicateCollections would otherwise throw on the mandatory-but-empty inner collection.
+    [Test]
+    public async Task AddDataToAasAsync_InputFilterOmitsOptionalCollection_Success()
+    {
+        await RunDataIngestTest("InputFilterOmitsOptionalCollection");
+    }
+
+    // Same blueprint, but the payload now carries markings: the filter keeps the list and the mandatory
+    // inner collection is duplicated once per item. Proves the pre-duplication filter pass does not break
+    // the normal collection-mapping path.
+    [Test]
+    public async Task AddDataToAasAsync_InputFilterKeepsOptionalCollection_Success()
+    {
+        await RunDataIngestTest("InputFilterKeepsOptionalCollection");
+    }
+
+    // A filter expression containing "[*]" is a per-item filter that cannot be evaluated before the
+    // collection is duplicated/indexed, so the filter step skips it instead of mis-evaluating the whole
+    // array. The element therefore survives even though the expression would otherwise be falsy.
+    [Test]
+    public async Task AddDataToAasAsync_InputFilterWildcardExpressionSkipped_Success()
+    {
+        await RunDataIngestTest("InputFilterWildcardExpressionSkipped");
+    }
+
     [Test]
     public async Task AddDataToAasAsync_InputFilterInsideDuplicatedCollection_Success()
     {

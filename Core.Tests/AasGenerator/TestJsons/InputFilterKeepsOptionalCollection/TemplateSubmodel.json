@@ -1,0 +1,95 @@
+{
+  "modelType": "Submodel",
+  "kind": "Template",
+  "idShort": "MarkingsDemo",
+  "id": "urn:smtemplate:MarkingsDemo",
+  "description": [
+    {
+      "language": "en",
+      "text": "Optional list wrapping a mandatory (OneToMany) collection, gated by a filter"
+    }
+  ],
+  "submodelElements": [
+    {
+      "modelType": "Property",
+      "idShort": "ProductName",
+      "valueType": "xs:string",
+      "value": "",
+      "qualifiers": [
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "value": "One",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "MnestixAASGenerator/MappingInfo",
+          "value": "product.name",
+          "valueType": "xs:string"
+        }
+      ]
+    },
+    {
+      "modelType": "SubmodelElementList",
+      "idShort": "Markings",
+      "typeValueListElement": "SubmodelElementCollection",
+      "qualifiers": [
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "value": "ZeroToOne",
+          "valueType": "xs:string"
+        },
+        {
+          "kind": "TemplateQualifier",
+          "type": "MnestixAASGenerator/FilterMappingInfo",
+          "value": "$count(marking) > 0",
+          "valueType": "xs:string"
+        }
+      ],
+      "value": [
+        {
+          "modelType": "SubmodelElementCollection",
+          "idShort": "Marking",
+          "qualifiers": [
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "value": "OneToMany",
+              "valueType": "xs:string"
+            },
+            {
+              "kind": "TemplateQualifier",
+              "type": "MnestixAASGenerator/CollectionMappingInfo",
+              "value": "marking[*]",
+              "valueType": "xs:string"
+            }
+          ],
+          "value": [
+            {
+              "modelType": "Property",
+              "idShort": "MarkingName",
+              "valueType": "xs:string",
+              "value": "",
+              "qualifiers": [
+                {
+                  "kind": "TemplateQualifier",
+                  "type": "SMT/Cardinality",
+                  "value": "One",
+                  "valueType": "xs:string"
+                },
+                {
+                  "kind": "TemplateQualifier",
+                  "type": "MnestixAASGenerator/MappingInfo",
+                  "value": "marking[*].name",
+                  "valueType": "xs:string"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
