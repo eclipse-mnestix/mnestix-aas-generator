@@ -53,7 +53,13 @@ public sealed class DiscoverMappingDescriptorsAasGeneratorPipelineStep : IPipeli
                 var fieldName = segments.Length == 3 ? segments[2] : "value";
 
                 var mappingExpression = qualifier["value"]?.Value<string>() ?? "";
-                var fieldSpec = FieldMappingRules.AllowedFields[modelType].Get(fieldName);
+                if (!FieldMappingRules.AllowedFields.TryGetValue(modelType, out var modelMapping))
+                {
+                    throw new SubmodelDataToInstanceMapperException(
+                        $"Unsupported modelType '{modelType}' for MappingInfo qualifiers.", ctx);
+                }
+
+                var fieldSpec = modelMapping.Get(fieldName);
                 var elementCardinality = QualifierHelpers.GetCardinalityQualifier(qualifier)?["value"]?.Value<string>();
                 var isMandatory = fieldSpec?.FieldCardinality switch
                 {
