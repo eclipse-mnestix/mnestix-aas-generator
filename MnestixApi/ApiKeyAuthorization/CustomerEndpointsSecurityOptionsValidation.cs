@@ -29,9 +29,8 @@ public class CustomerEndpointsSecurityOptionsValidation : IValidateOptions<Custo
         if (string.IsNullOrWhiteSpace(options.ApiKey))
         {
             _logger.LogCritical(
-                "CustomerEndpointsSecurity:ApiKey is not configured. All non-GET endpoints that require an API key "
-                + "will be inaccessible. Set a strong value, e.g. via the CustomerEndpointsSecurity__ApiKey "
-                + "environment variable, before deploying.");
+                "CustomerEndpointsSecurity:ApiKey is not configured. Set a strong value, "
+                + "e.g. via the CustomerEndpointsSecurity__ApiKey environment variable, before deploying.");
         }
         else if (options.ApiKey.Equals(DefaultDevApiKey, StringComparison.OrdinalIgnoreCase))
         {
