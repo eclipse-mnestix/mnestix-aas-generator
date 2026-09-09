@@ -121,7 +121,7 @@ public sealed class BlueprintValidator : IBlueprintValidator
         if (modelType != null)
         {
             // Rule 5: UnsupportedModelType
-            if (!FieldMappingRules.AllowedFieldsByModelType.ContainsKey(modelType))
+            if (!FieldMappingRules.AllowedFields.ContainsKey(modelType))
             {
                 errors.Add(new BlueprintValidationError(
                     BlueprintValidationRule.UnsupportedModelType,
@@ -131,12 +131,12 @@ public sealed class BlueprintValidator : IBlueprintValidator
             }
 
             // Rule 4: FieldNotApplicableToModelType
-            if (!FieldMappingRules.AllowedFieldsByModelType[modelType].Contains(fieldName))
+            if (!FieldMappingRules.AllowedFields[modelType].Contains(fieldName))
             {
                 errors.Add(new BlueprintValidationError(
                     BlueprintValidationRule.FieldNotApplicableToModelType,
                     path,
-                    $"Field '{fieldName}' is not valid on model type '{modelType}'. Allowed fields: {string.Join(", ", FieldMappingRules.AllowedFieldsByModelType[modelType].OrderBy(x => x, StringComparer.Ordinal))}."));
+                    $"Field '{fieldName}' is not valid on model type '{modelType}'. Allowed fields: {string.Join(", ", FieldMappingRules.AllowedFields[modelType].FieldNames.OrderBy(x => x, StringComparer.Ordinal))}."));
                 return;
             }
 

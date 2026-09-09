@@ -263,15 +263,15 @@ public class AasGeneratorTests
     }
 
     [Test]
-    public async Task AddDataToAasAsync_InputFileContentTypeInferredFromUrl_UnknownExtension_Fails()
+    public async Task AddDataToAasAsync_InputFileContentTypeInferredFromUrl_UnknownExtension_Success()
     {
-        await RunDataIngestFailureTest("InputFileContentTypeInferredFromUrl_UnknownExtension");
+        await RunDataIngestTest("InputFileContentTypeInferredFromUrl_UnknownExtension");
     }
 
     [Test]
-    public async Task AddDataToAasAsync_InputFileContentTypeInferredFromUrl_NoExtension_Fails()
+    public async Task AddDataToAasAsync_InputFileContentTypeInferredFromUrl_NoExtension_Success()
     {
-        await RunDataIngestFailureTest("InputFileContentTypeInferredFromUrl_NoExtension");
+        await RunDataIngestTest("InputFileContentTypeInferredFromUrl_NoExtension");
     }
 
     [Test]
@@ -287,9 +287,9 @@ public class AasGeneratorTests
     }
 
     [Test]
-    public async Task AddDataToAasAsync_InputFileContentTypeMappedFromField_MissingValue_Fails()
+    public async Task AddDataToAasAsync_InputFileContentTypeMappedFromField_MissingValue_Success()
     {
-        await RunDataIngestFailureTest("InputFileContentTypeMappedFromField_MissingValue");
+        await RunDataIngestTest("InputFileContentTypeMappedFromField_MissingValue");
     }
 
     [Test]
@@ -368,6 +368,12 @@ public class AasGeneratorTests
     public async Task AddDataToAasAsync_InputValueTypeUnknown_Success()
     {
         await RunDataIngestTest("InputValueTypeUnknown");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputValueTypeMissing_AlwaysMandatory_ShouldFail()
+    {
+        await RunDataIngestFailureTest("InputValueTypeMissing_AlwaysMandatory");
     }
 
     [Test]

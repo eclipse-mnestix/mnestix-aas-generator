@@ -110,10 +110,14 @@ Step 8 (AssignMappedFields) delegates value assignment to specialized `FieldAssi
 
 All assigners log a **warning** when the target field already holds a non-empty template default that is being overridden by mapped data. This gives visibility into cases where partial defaults are silently replaced.
 
-`FieldAssignerBase` exposes two hooks so field-specific optionality rules live with the assigner instead of the pipeline steps:
+`FieldAssignerBase` exposes one hook for field-specific missing-value detection:
 
-- `IsAlwaysOptional` (default `false`) — when `true`, the field ignores the element's `SMT/Cardinality` and is never mandatory. Overridden to `true` by `DisplayNameFieldAssigner` (a display name is an auxiliary label; a mapped property is still generated without it).
-- `IsResolvedValueMissing(JToken)` (default `false`) — lets a field treat a resolved value as "not present" so an optional mapping is omitted and a mandatory one fails. The language-map fields (`multiLanguage`, `displayName`) override it to treat an empty / all-empty object as missing.
+- `IsResolvedValueMissing(JToken)` (default `false`) — lets a field treat a resolved value as "not present". Language-map fields (`multiLanguage`, `displayName`) override it to treat an empty / all-empty object as missing.
+
+Per-field cardinality overrides (independent of the element's `SMT/Cardinality` qualifier) are defined in `FieldMappingRules.AllowedFields` via `FieldSpec.Cardinality` and applied by `DiscoverMappingDescriptorsStep`:
+- `AlwaysOptional` — never mandatory regardless of the element's cardinality (e.g. `displayName`, `semanticId`, `contentType`)
+- `AlwaysMandatory` — always mandatory regardless of the element's cardinality (e.g. `valueType`)
+- _(default)_ — inherits the element's `SMT/Cardinality` value
 
 ### Data Flow Through Pipeline
 
@@ -130,7 +134,7 @@ Rules are stored as Template Qualifiers directly within AAS Submodel templates.
 **Template Qualifier Format:**
 ```json
 {
-  "type": "SMT/<RuleType>",
+  "type": "MnestixAASGenerator/<RuleType>",
   "value": "<rule-configuration>"
 }
 ```
@@ -174,7 +178,8 @@ Rules are stored as Template Qualifiers directly within AAS Submodel templates.
 **Qualifier**: `SMT/Cardinality`  
 **Values**: `"One"` / `"OneToMany"` (mandatory, throws error if missing) | `"ZeroToOne"` / `"ZeroToMany"` (optional, empty value + warning if missing). A value is treated as mandatory when it starts with `"One"`.  
 **Implementation**: Checked in `ResolveMappingExpressionsStep` (mandatory → exception, optional → warning + skip)  
-**Exception**: Fields whose assigner reports `IsAlwaysOptional` (e.g. `displayName`) ignore this cardinality and are never mandatory, even on a `"One"` element.
+**Per-field cardinality overrides**: Some fields ignore `SMT/Cardinality` entirely because their optionality is intrinsic to the AAS metamodel. Fields marked `AlwaysOptional` in `FieldMappingRules` (e.g. `displayName`, `semanticId`, `contentType`) are silently skipped when data is missing — the element is still generated without that field. Templates that previously failed because such a field's path was missing will now succeed.  
+**Empty-value semantics for language-map fields**: For `multiLanguage` and `displayName`, an empty object (`{}`) or an object where all language values are empty strings is treated as missing. The outcome then follows the field's effective cardinality: `displayName` (always optional) → silently skipped; `multiLanguage` on an optional element → skipped with warning; `multiLanguage` on a mandatory element → generation fails.
 
 ## Path Expressions
 JSONata-style syntax:
@@ -345,3 +350,5 @@ Two mapping approaches are supported:
 2. **`MnestixAASGenerator/MappingInfo/value`** (legacy) — maps a scalar and wraps it with the `language` parameter from the API request. Only one language per generation call.
 
 **Override semantics**: When mapped data is provided, the entire `element["value"]` array is replaced — any pre-existing template default entries are dropped. A warning is logged when a non-empty default is overridden. This is intentional: templates that rely on partial defaults should be aware that providing *any* data replaces *all* defaults.
+
+**Empty-value behaviour**: An empty object (`{}`) or an object where every language value is an empty string is treated as if no data was provided. For `multiLanguage` the outcome follows the element's `SMT/Cardinality`: optional → field skipped with warning, mandatory → generation fails. For `displayName` the field is always skipped regardless of cardinality (see [Cardinality Rules](#5-cardinality-rules-optionalmandatory)).
