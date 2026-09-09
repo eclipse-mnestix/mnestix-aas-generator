@@ -250,43 +250,40 @@ POST /api/v2/DataIngest/{base64EncodedAasId}
     {
       "blueprintId": "contact-template-v1",
       "success": true,
-      "message": "",
       "generatedSubmodelId": "https://example.com/submodels/contact-001",
-      "debugInfo": {
-        "logs": [
-          "INFO [2026-04-24T10:30:01.0000000Z] - Mapping blueprint contact-template-v1 to AAS aHR0cHM6Ly9leGFtcGxlLmNvbS9hYXMvbXktbWFjaGluZQ==",
-          "INFO [2026-04-24T10:30:01.1000000Z] - Fetching blueprint: contact-template-v1",
-          "INFO [2026-04-24T10:30:01.2000000Z] - Blueprint fetched successfully",
-          "INFO [2026-04-24T10:30:01.2100000Z] - Extracted idShort: ContactInformation",
-          "INFO [2026-04-24T10:30:01.2200000Z] - Generating submodel ID",
-          "INFO [2026-04-24T10:30:01.3000000Z] - Submodel ID generated: https://example.com/submodels/contact-001",
-          "INFO [2026-04-24T10:30:01.3100000Z] - Starting data mapping",
-          "INFO [2026-04-24T10:30:01.3200000Z] - Started ValidateBlueprintStep",
-          "INFO [2026-04-24T10:30:01.3210000Z] - Finished ValidateBlueprintStep",
-          "INFO [2026-04-24T10:30:01.3220000Z] - Started DeepCloneBlueprintStep",
-          "INFO [2026-04-24T10:30:01.3230000Z] - Finished DeepCloneBlueprintStep",
-          "INFO [2026-04-24T10:30:01.3240000Z] - Started SetKindInstanceStep",
-          "INFO [2026-04-24T10:30:01.3250000Z] - Finished SetKindInstanceStep",
-          "INFO [2026-04-24T10:30:01.3260000Z] - Started DuplicateCollectionsStep",
-          "INFO [2026-04-24T10:30:01.3270000Z] - Finished DuplicateCollectionsStep",
-          "INFO [2026-04-24T10:30:01.3280000Z] - Started FilterElementsStep",
-          "INFO [2026-04-24T10:30:01.3290000Z] - Finished FilterElementsStep",
-          "INFO [2026-04-24T10:30:01.3300000Z] - Started DiscoverMappingDescriptorsStep",
-          "INFO [2026-04-24T10:30:01.3310000Z] - Finished DiscoverMappingDescriptorsStep",
-          "INFO [2026-04-24T10:30:01.3320000Z] - Started ResolveMappingExpressionsStep",
-          "INFO [2026-04-24T10:30:01.3330000Z] - Finished ResolveMappingExpressionsStep",
-          "INFO [2026-04-24T10:30:01.3340000Z] - Started AssignMappedFieldsStep",
-          "INFO [2026-04-24T10:30:01.3350000Z] - Finished AssignMappedFieldsStep",
-          "INFO [2026-04-24T10:30:01.3360000Z] - Started RemoveTopLevelQualifiersStep",
-          "INFO [2026-04-24T10:30:01.3370000Z] - Finished RemoveTopLevelQualifiersStep",
-          "INFO [2026-04-24T10:30:01.3380000Z] - Started ReplaceIdentificationStep",
-          "INFO [2026-04-24T10:30:01.3390000Z] - Finished ReplaceIdentificationStep",
-          "INFO [2026-04-24T10:30:01.3600000Z] - Data mapping completed",
-          "INFO [2026-04-24T10:30:02.0000000Z] - Posting submodel to repository",
-          "INFO [2026-04-24T10:30:02.1000000Z] - Adding submodel reference to shell",
-          "INFO [2026-04-24T10:30:02.2000000Z] - Submodel reference added to shell"
-        ]
-      }
+      "logs": [
+        "INFO [2026-04-24T10:30:01.0000000Z] - Mapping blueprint contact-template-v1 to AAS aHR0cHM6Ly9leGFtcGxlLmNvbS9hYXMvbXktbWFjaGluZQ==",
+        "INFO [2026-04-24T10:30:01.1000000Z] - Fetching blueprint: contact-template-v1",
+        "INFO [2026-04-24T10:30:01.2000000Z] - Blueprint fetched successfully",
+        "INFO [2026-04-24T10:30:01.2100000Z] - Extracted idShort: ContactInformation",
+        "INFO [2026-04-24T10:30:01.2200000Z] - Generating submodel ID",
+        "INFO [2026-04-24T10:30:01.3000000Z] - Submodel ID generated: https://example.com/submodels/contact-001",
+        "INFO [2026-04-24T10:30:01.3100000Z] - Starting data mapping",
+        "INFO [2026-04-24T10:30:01.3200000Z] - Started ValidateBlueprintStep",
+        "INFO [2026-04-24T10:30:01.3210000Z] - Finished ValidateBlueprintStep",
+        "INFO [2026-04-24T10:30:01.3220000Z] - Started DeepCloneBlueprintStep",
+        "INFO [2026-04-24T10:30:01.3230000Z] - Finished DeepCloneBlueprintStep",
+        "INFO [2026-04-24T10:30:01.3240000Z] - Started SetKindInstanceStep",
+        "INFO [2026-04-24T10:30:01.3250000Z] - Finished SetKindInstanceStep",
+        "INFO [2026-04-24T10:30:01.3260000Z] - Started DuplicateCollectionsStep",
+        "INFO [2026-04-24T10:30:01.3270000Z] - Finished DuplicateCollectionsStep",
+        "INFO [2026-04-24T10:30:01.3280000Z] - Started FilterElementsStep",
+        "INFO [2026-04-24T10:30:01.3290000Z] - Finished FilterElementsStep",
+        "INFO [2026-04-24T10:30:01.3300000Z] - Started DiscoverMappingDescriptorsStep",
+        "INFO [2026-04-24T10:30:01.3310000Z] - Finished DiscoverMappingDescriptorsStep",
+        "INFO [2026-04-24T10:30:01.3320000Z] - Started ResolveMappingExpressionsStep",
+        "INFO [2026-04-24T10:30:01.3330000Z] - Finished ResolveMappingExpressionsStep",
+        "INFO [2026-04-24T10:30:01.3340000Z] - Started AssignMappedFieldsStep",
+        "INFO [2026-04-24T10:30:01.3350000Z] - Finished AssignMappedFieldsStep",
+        "INFO [2026-04-24T10:30:01.3360000Z] - Started RemoveTopLevelQualifiersStep",
+        "INFO [2026-04-24T10:30:01.3370000Z] - Finished RemoveTopLevelQualifiersStep",
+        "INFO [2026-04-24T10:30:01.3380000Z] - Started ReplaceIdentificationStep",
+        "INFO [2026-04-24T10:30:01.3390000Z] - Finished ReplaceIdentificationStep",
+        "INFO [2026-04-24T10:30:01.3600000Z] - Data mapping completed",
+        "INFO [2026-04-24T10:30:02.0000000Z] - Posting submodel to repository",
+        "INFO [2026-04-24T10:30:02.1000000Z] - Adding submodel reference to shell",
+        "INFO [2026-04-24T10:30:02.2000000Z] - Submodel reference added to shell"
+      ]
     }
   ]
 }
@@ -300,18 +297,17 @@ POST /api/v2/DataIngest/{base64EncodedAasId}
     {
       "blueprintId": "contact-template-v1",
       "success": true,
-      "message": "",
       "generatedSubmodelId": "https://example.com/submodels/contact-001"
     }
   ]
 }
 ```
 
-> **Note**: When `debug` is `false` or omitted, the `debugInfo` field is `null` and omitted from the response.
+> **Note**: When `debug` is `false` or omitted, the `logs` field is `null` and omitted from the response.
 
 **Error (400 Bad Request)**
 
-On error, `errorInfo.logs` always contains the workflow log trail up to (and including) the failure point, regardless of the `debug` flag:
+On error, `logs` always contains the workflow log trail up to (and including) the failure point, regardless of the `debug` flag:
 
 ```json
 {
@@ -319,21 +315,21 @@ On error, `errorInfo.logs` always contains the workflow log trail up to (and inc
     {
       "blueprintId": "contact-template-v1",
       "success": false,
-      "message": "Missing required data at path: contacts.name",
       "generatedSubmodelId": "",
-      "errorInfo": {
-        "logs": [
-          "INFO [2026-04-24T10:30:01.0000000Z] - Mapping blueprint contact-template-v1 to AAS aHR0cHM6Ly9leGFtcGxlLmNvbS9hYXMvbXktbWFjaGluZQ==",
-          "INFO [2026-04-24T10:30:01.1000000Z] - Fetching blueprint: contact-template-v1",
-          "INFO [2026-04-24T10:30:01.2000000Z] - Blueprint fetched successfully",
-          "INFO [2026-04-24T10:30:01.2200000Z] - Generating submodel ID",
-          "INFO [2026-04-24T10:30:01.3000000Z] - Submodel ID generated: https://example.com/submodels/contact-001",
-          "INFO [2026-04-24T10:30:01.3100000Z] - Starting data mapping",
-          "ERROR [2026-04-24T10:30:01.3200000Z] - Data mapping failed: Missing required data at path: contacts.name"
-        ],
-        "qualifier": "MnestixAASGenerator/MappingInfo",
-        "qualifierPath": "contacts.name"
-      }
+      "error": {
+        "code": "MappingFailed",
+        "message": "Missing required data at path: contacts.name",
+        "context": null
+      },
+      "logs": [
+        "INFO [2026-04-24T10:30:01.0000000Z] - Mapping blueprint contact-template-v1 to AAS aHR0cHM6Ly9leGFtcGxlLmNvbS9hYXMvbXktbWFjaGluZQ==",
+        "INFO [2026-04-24T10:30:01.1000000Z] - Fetching blueprint: contact-template-v1",
+        "INFO [2026-04-24T10:30:01.2000000Z] - Blueprint fetched successfully",
+        "INFO [2026-04-24T10:30:01.2200000Z] - Generating submodel ID",
+        "INFO [2026-04-24T10:30:01.3000000Z] - Submodel ID generated: https://example.com/submodels/contact-001",
+        "INFO [2026-04-24T10:30:01.3100000Z] - Starting data mapping",
+        "ERROR [2026-04-24T10:30:01.3200000Z] - Data mapping failed: Missing required data at path: contacts.name"
+      ]
     }
   ]
 }

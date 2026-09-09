@@ -313,9 +313,9 @@ Each phase of `AddDataToAasAsync` is instrumented:
 
 ### Log Inclusion in API Responses
 
-- **`debug=true` + success**: `DebugInfo.Logs` contains the full log trail from all phases
-- **`debug=false` + success**: `DebugInfo` is `null` (no logs returned)
-- **Error (any `debug` value)**: `ErrorInfo.Logs` always contains the log trail up to and including the failure point — this aids error diagnosis without requiring the caller to opt into debug mode
+- **`debug=true` + success**: `Logs` contains the full log trail from all phases
+- **`debug=false` + success**: `Logs` is `null` (no logs returned)
+- **Error (any `debug` value)**: `Logs` always contains the log trail up to and including the failure point — this aids error diagnosis without requiring the caller to opt into debug mode
 
 ## Current Limitations
 1. **SubmodelElementList**: Partial support  

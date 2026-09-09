@@ -143,8 +143,19 @@ If a blueprint fails validation during generation, the response will include:
     {
       "blueprintId": "urn:example:blueprint",
       "success": false,
-      "message": "Blueprint validation failed. The blueprint may have been modified externally or was not migrated.",
-      "validationErrors": [...]
+      "error": {
+        "code": "BlueprintValidationFailed",
+        "message": "Blueprint validation failed with 1 error(s).",
+        "context": {
+          "errors": [
+            {
+              "rule": "FieldNotApplicableToModelType",
+              "path": "submodelElements[0].qualifiers[1]",
+              "message": "Field 'multiLanguage' is not valid on model type 'Property'. Allowed fields: displayName, idShort, value."
+            }
+          ]
+        }
+      }
     }
   ]
 }

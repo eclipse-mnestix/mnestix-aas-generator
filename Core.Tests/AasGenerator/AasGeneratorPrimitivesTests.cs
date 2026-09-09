@@ -84,7 +84,7 @@ public class AasGeneratorPrimitivesTests
         // ASSERT
         built.Result.Success.Should().BeFalse();
         built.Instance.Should().BeNull();
-        built.Result.Message.Should().NotBeNullOrEmpty();
+        built.Result.Error!.Message.Should().NotBeNullOrEmpty();
         _repoProxyClientMock.Verify(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
     }
 
