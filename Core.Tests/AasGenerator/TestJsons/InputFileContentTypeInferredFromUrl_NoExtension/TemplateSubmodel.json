@@ -29,13 +29,13 @@
         },
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo/value",
+          "type": "MnestixAASGenerator/MappingInfo/value",
           "value": "documentUrl",
           "valueType": "xs:string"
         },
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo/contentType",
+          "type": "MnestixAASGenerator/MappingInfo/contentType",
           "value": "$lookup({\"svg\":\"image/svg+xml\",\"png\":\"image/png\",\"jpg\":\"image/jpeg\",\"jpeg\":\"image/jpeg\",\"pdf\":\"application/pdf\"}, $split($split(documentUrl,'?')[0], '.')[-1])",
           "valueType": "xs:string"
         }

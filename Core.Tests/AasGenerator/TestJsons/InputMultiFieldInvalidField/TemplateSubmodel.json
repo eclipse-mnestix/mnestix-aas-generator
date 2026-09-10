@@ -22,7 +22,7 @@
         },
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo/notAllowedField",
+          "type": "MnestixAASGenerator/MappingInfo/notAllowedField",
           "value": "data.something",
           "valueType": "xs:string"
         }

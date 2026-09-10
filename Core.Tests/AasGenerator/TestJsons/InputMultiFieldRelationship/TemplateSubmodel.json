@@ -29,13 +29,13 @@
         },
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo/first",
+          "type": "MnestixAASGenerator/MappingInfo/first",
           "value": "relationship.firstRef",
           "valueType": "xs:string"
         },
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo/second",
+          "type": "MnestixAASGenerator/MappingInfo/second",
           "value": "relationship.secondRef",
           "valueType": "xs:string"
         }

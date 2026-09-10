@@ -40,7 +40,7 @@
         },
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo/displayName",
+          "type": "MnestixAASGenerator/MappingInfo/displayName",
           "value": "component.name",
           "valueType": "xs:string"
         }

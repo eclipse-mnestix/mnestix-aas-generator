@@ -22,21 +22,24 @@ The AAS Generator solves the Industry 4.0 challenge of transforming existing str
 - **AasGenerator**: Orchestrates the entire generation process
 - **SubmodelDataToInstanceMapper**: Coordinates the transformation pipeline
 - **BlueprintProvider**: Manages template storage and retrieval
-- **Pipeline Steps**: Individual transformation operations (10 steps)
+- **Pipeline Steps**: Individual transformation operations (12 distinct steps; `FilterElements` runs twice, so 13 invocations)
 
 ### Pipeline Processing Architecture
-Uses Pipes-and-Filters pattern (`MnestixCore/Shared/Pipeline/`) with 10 sequential steps:
+Uses Pipes-and-Filters pattern (`MnestixCore/Shared/Pipeline/`) with 12 distinct sequential steps (`FilterElements` runs both before and after `DuplicateCollections`, so the builder in `DataMapper.cs` has 13 `.Use()` calls):
 
 1. **ValidateBlueprint** - Runs the shared `BlueprintValidator` against the blueprint; aborts early with structured errors if validation fails (defense-in-depth for blueprints imported outside the API)
 2. **DeepCloneBlueprint** - Creates a working copy of the blueprint so the original is never mutated
-3. **SetKindInstance** - Changes `kind` from `Template` to `Instance`
-4. **DuplicateCollections** - Expands `SMT/CollectionMappingInfo` qualifiers (replicates child elements for each array item)
-5. **FilterElements** - Evaluates `SMT/FilterMappingInfo` Jsonata boolean expressions and removes elements that fail
-6. **DiscoverMappingDescriptors** - Finds all `SMT/MappingInfo` qualifiers, parses field names, resolves cardinality, and builds a `MappingDescriptor` list for downstream steps
-7. **ResolveMappingExpressions** - Evaluates each descriptor's JSONata expression against the data; enforces mandatory cardinality; populates `ResolvedMappings`
-8. **AssignMappedFields** - Iterates resolved mappings and delegates to the `FieldAssignerRegistry` (see Field Assigners below); logs a warning when template defaults are overridden
-9. **RemoveTopLevelQualifiers** - Strips template-only qualifiers (`SMT/…`) from the generated instance
-10. **ReplaceIdentification** - Assigns the new Submodel ID to the instance
+3. **NormalizeQualifierPrefix** - Rewrites legacy `SMT/` mapping-qualifier types to their `MnestixAASGenerator/` equivalents on the cloned instance, so every downstream step and JSONPath literal only ever sees the new prefix (backward compatibility)
+4. **SetKindInstance** - Changes `kind` from `Template` to `Instance`
+5. **FilterElements (pre-duplication)** - Evaluates `MnestixAASGenerator/FilterMappingInfo` Jsonata boolean expressions and removes elements that fail. Runs *before* duplication so an optional (`ZeroToOne`) element wrapping a mandatory (`OneToMany`) `CollectionMappingInfo` collection can be dropped before step 6 would otherwise throw on empty data (the inner collection requires ≥1 item). Expressions containing `[*]` are skipped here — they can only be resolved per item after duplication
+6. **DuplicateCollections** - Expands `MnestixAASGenerator/CollectionMappingInfo` qualifiers (replicates child elements for each array item). While duplicating, it rewrites `[*]` to the concrete index `[i]` in every child `MappingInfo`, `CollectionMappingInfo` **and** `FilterMappingInfo` qualifier value
+7. **FilterElements (post-duplication)** - The same step runs again to evaluate per-item (`[*]`) filters once the collection has been expanded and `[*]` rewritten to a concrete index by step 6. The step self-routes on the presence of `[*]`, so it is safe to run in both positions with no phase flag; a value still containing `[*]` here references a collection that was never duplicated and is skipped
+8. **DiscoverMappingDescriptors** - Finds all `MnestixAASGenerator/MappingInfo` qualifiers, parses field names, resolves cardinality, and builds a `MappingDescriptor` list for downstream steps
+9. **ResolveMappingExpressions** - Evaluates each descriptor's JSONata expression against the data; enforces mandatory cardinality; populates `ResolvedMappings`
+10. **AssignMappedFields** - Iterates resolved mappings and delegates to the `FieldAssignerRegistry` (see Field Assigners below); logs a warning when template defaults are overridden
+11. **RemoveQualifiers** - Removes the top-level qualifiers and all mapping qualifiers (`SMT/…`, `MnestixAASGenerator/…`) from the generated instance
+12. **AddConceptQualifiers** - Adds Concept qualifiers carrying the original blueprint id (`MnestixAASGenerator/OriginalBlueprintID`) and generation timestamp (`MnestixAASGenerator/GenerationTimestamp`) to the submodel root, keeping the instance traceable to its blueprint and generation run
+13. **ReplaceIdentification** - Assigns the new Submodel ID to the instance
 
 **Context Object**: `DataMappingContext` carries immutable inputs (blueprint, data, language, submodel ID) and mutable state (MappingDescriptors, ResolvedMappings, SubmodelInstance) through all steps
 
@@ -107,10 +110,14 @@ Step 8 (AssignMappedFields) delegates value assignment to specialized `FieldAssi
 
 All assigners log a **warning** when the target field already holds a non-empty template default that is being overridden by mapped data. This gives visibility into cases where partial defaults are silently replaced.
 
-`FieldAssignerBase` exposes two hooks so field-specific optionality rules live with the assigner instead of the pipeline steps:
+`FieldAssignerBase` exposes one hook for field-specific missing-value detection:
 
-- `IsAlwaysOptional` (default `false`) — when `true`, the field ignores the element's `SMT/Cardinality` and is never mandatory. Overridden to `true` by `DisplayNameFieldAssigner` (a display name is an auxiliary label; a mapped property is still generated without it).
-- `IsResolvedValueMissing(JToken)` (default `false`) — lets a field treat a resolved value as "not present" so an optional mapping is omitted and a mandatory one fails. The language-map fields (`multiLanguage`, `displayName`) override it to treat an empty / all-empty object as missing.
+- `IsResolvedValueMissing(JToken)` (default `false`) — lets a field treat a resolved value as "not present". Language-map fields (`multiLanguage`, `displayName`) override it to treat an empty / all-empty object as missing.
+
+Per-field cardinality overrides (independent of the element's `SMT/Cardinality` qualifier) are defined in `FieldMappingRules.AllowedFields` via `FieldSpec.Cardinality` and applied by `DiscoverMappingDescriptorsStep`:
+- `AlwaysOptional` — never mandatory regardless of the element's cardinality (e.g. `displayName`, `semanticId`, `contentType`)
+- `AlwaysMandatory` — always mandatory regardless of the element's cardinality (e.g. `valueType`)
+- _(default)_ — inherits the element's `SMT/Cardinality` value
 
 ### Data Flow Through Pipeline
 
@@ -127,7 +134,7 @@ Rules are stored as Template Qualifiers directly within AAS Submodel templates.
 **Template Qualifier Format:**
 ```json
 {
-  "type": "SMT/<RuleType>",
+  "type": "MnestixAASGenerator/<RuleType>",
   "value": "<rule-configuration>"
 }
 ```
@@ -141,7 +148,7 @@ Rules are stored as Template Qualifiers directly within AAS Submodel templates.
 
 ### 2. Path Rules (Dynamic Values & Jsonata Expressions)
 **Purpose**: 1:1 mapping from JSON paths OR advanced Jsonata expressions to element values  
-**Qualifier**: `SMT/MappingInfo`  
+**Qualifier**: `MnestixAASGenerator/MappingInfo`  
 **Examples**:
   - Simple path: `"value": "car.serialNo"` maps `data.car.serialNo` to element value
   - String function: `"value": "$uppercase(car.code)"` transforms to uppercase
@@ -153,14 +160,14 @@ Rules are stored as Template Qualifiers directly within AAS Submodel templates.
 
 ### 3. Collection Rules (List/Array Processing)
 **Purpose**: Duplicate elements for each array item  
-**Qualifier**: `SMT/CollectionMappingInfo`  
+**Qualifier**: `MnestixAASGenerator/CollectionMappingInfo`  
 **Example**: `"value": "car.contacts[*]"` creates N elements for N contacts  
 **Implementation**: `DuplicateCollectionsStep.cs` (see algorithm comments)  
 **Result**: `contactPerson_0`, `contactPerson_1`, etc. with mapped child values
 
 ### 4. Filter Rules (Conditional Creation)
 **Purpose**: Create elements only when conditions are met  
-**Qualifier**: `SMT/FilterMappingInfo`  
+**Qualifier**: `MnestixAASGenerator/FilterMappingInfo`  
 **Status**: ✅ **Implemented** - Uses Jsonata boolean expressions  
 **Example**: `"value": "car.engineType = 'electric'"` creates element only for electric cars  
 **Implementation**: `FilterElementsStep.cs`  
@@ -171,7 +178,8 @@ Rules are stored as Template Qualifiers directly within AAS Submodel templates.
 **Qualifier**: `SMT/Cardinality`  
 **Values**: `"One"` / `"OneToMany"` (mandatory, throws error if missing) | `"ZeroToOne"` / `"ZeroToMany"` (optional, empty value + warning if missing). A value is treated as mandatory when it starts with `"One"`.  
 **Implementation**: Checked in `ResolveMappingExpressionsStep` (mandatory → exception, optional → warning + skip)  
-**Exception**: Fields whose assigner reports `IsAlwaysOptional` (e.g. `displayName`) ignore this cardinality and are never mandatory, even on a `"One"` element.
+**Per-field cardinality overrides**: Some fields ignore `SMT/Cardinality` entirely because their optionality is intrinsic to the AAS metamodel. Fields marked `AlwaysOptional` in `FieldMappingRules` (e.g. `displayName`, `semanticId`, `contentType`) are silently skipped when data is missing — the element is still generated without that field. Templates that previously failed because such a field's path was missing will now succeed.  
+**Empty-value semantics for language-map fields**: For `multiLanguage` and `displayName`, an empty object (`{}`) or an object where all language values are empty strings is treated as missing. The outcome then follows the field's effective cardinality: `displayName` (always optional) → silently skipped; `multiLanguage` on an optional element → skipped with warning; `multiLanguage` on a mandatory element → generation fails.
 
 ## Path Expressions
 JSONata-style syntax:
@@ -184,7 +192,7 @@ JSONata-style syntax:
 
 The AAS Generator includes comprehensive Jsonata expression support for advanced data transformations beyond simple path navigation.
 
-### Supported in Path Mapping (`SMT/MappingInfo`)
+### Supported in Path Mapping (`MnestixAASGenerator/MappingInfo`)
 
 **String Functions:**
 - `$length(str)` - Character count
@@ -210,7 +218,7 @@ The AAS Generator includes comprehensive Jsonata expression support for advanced
 **Pipe Operator:**
 - `data.value ~> $function($)` - Pass result to next function
 
-### Supported in Filter Rules (`SMT/FilterMappingInfo`)
+### Supported in Filter Rules (`MnestixAASGenerator/FilterMappingInfo`)
 
 **Boolean Expressions:**
 - `field = 'value'` - Equality check
@@ -225,7 +233,7 @@ The AAS Generator includes comprehensive Jsonata expression support for advanced
 **String Transformation:**
 ```json
 {
-  "type": "SMT/MappingInfo",
+  "type": "MnestixAASGenerator/MappingInfo",
   "value": "$substring(code, 0, 3) ~> $uppercase($)"
 }
 ```
@@ -234,7 +242,7 @@ Input: `"code": "abc123"` → Output: `"ABC"`
 **Type Conversion:**
 ```json
 {
-  "type": "SMT/MappingInfo",
+  "type": "MnestixAASGenerator/MappingInfo",
   "value": "$string(quantity)"
 }
 ```
@@ -243,7 +251,7 @@ Input: `"quantity": 42` → Output: `"42"`
 **Boolean Check:**
 ```json
 {
-  "type": "SMT/MappingInfo",
+  "type": "MnestixAASGenerator/MappingInfo",
   "value": "email ~> $contains('@')"
 }
 ```
@@ -252,7 +260,7 @@ Input: `"email": "user@example.com"` → Output: `true`
 **Filter Expression:**
 ```json
 {
-  "type": "SMT/FilterMappingInfo",
+  "type": "MnestixAASGenerator/FilterMappingInfo",
   "value": "vehicle.engineType = 'electric' and vehicle.year >= 2020"
 }
 ```
@@ -305,13 +313,13 @@ Each phase of `AddDataToAasAsync` is instrumented:
 
 ### Log Inclusion in API Responses
 
-- **`debug=true` + success**: `DebugInfo.Logs` contains the full log trail from all phases
-- **`debug=false` + success**: `DebugInfo` is `null` (no logs returned)
-- **Error (any `debug` value)**: `ErrorInfo.Logs` always contains the log trail up to and including the failure point — this aids error diagnosis without requiring the caller to opt into debug mode
+- **`debug=true` + success**: `Logs` contains the full log trail from all phases
+- **`debug=false` + success**: `Logs` is `null` (no logs returned)
+- **Error (any `debug` value)**: `Logs` always contains the log trail up to and including the failure point — this aids error diagnosis without requiring the caller to opt into debug mode
 
 ## Current Limitations
 1. **SubmodelElementList**: Partial support  
-2. **MultiLanguageProperty**: Single language per call when using `SMT/MappingInfo/value`; use `SMT/MappingInfo/multiLanguage` for multi-language in one call
+2. **MultiLanguageProperty**: Single language per call when using `MnestixAASGenerator/MappingInfo/value`; use `MnestixAASGenerator/MappingInfo/multiLanguage` for multi-language in one call
 3. **Default override semantics**: When mapped data is provided, it fully replaces any template default value — partial merges are not supported (e.g. template default `[{en:"Default"}]` + data `{de:"Nur Deutsch"}` → result `[{de:"Nur Deutsch"}]` only). A warning is logged when this happens.
 4. **Complex expressions**: Advanced Jsonata features (aggregation, conditionals) not fully supported
 
@@ -338,7 +346,9 @@ Templates are AAS Submodels with `kind: "Template"` and embedded Template Qualif
 
 Two mapping approaches are supported:
 
-1. **`SMT/MappingInfo/multiLanguage`** (recommended) — maps a JSON object with language keys (e.g. `{"en": "Hello", "de": "Hallo"}`) to a full lang array in one call. No `language` request parameter needed.
-2. **`SMT/MappingInfo/value`** (legacy) — maps a scalar and wraps it with the `language` parameter from the API request. Only one language per generation call.
+1. **`MnestixAASGenerator/MappingInfo/multiLanguage`** (recommended) — maps a JSON object with language keys (e.g. `{"en": "Hello", "de": "Hallo"}`) to a full lang array in one call. No `language` request parameter needed.
+2. **`MnestixAASGenerator/MappingInfo/value`** (legacy) — maps a scalar and wraps it with the `language` parameter from the API request. Only one language per generation call.
 
 **Override semantics**: When mapped data is provided, the entire `element["value"]` array is replaced — any pre-existing template default entries are dropped. A warning is logged when a non-empty default is overridden. This is intentional: templates that rely on partial defaults should be aware that providing *any* data replaces *all* defaults.
+
+**Empty-value behaviour**: An empty object (`{}`) or an object where every language value is an empty string is treated as if no data was provided. For `multiLanguage` the outcome follows the element's `SMT/Cardinality`: optional → field skipped with warning, mandatory → generation fails. For `displayName` the field is always skipped regardless of cardinality (see [Cardinality Rules](#5-cardinality-rules-optionalmandatory)).

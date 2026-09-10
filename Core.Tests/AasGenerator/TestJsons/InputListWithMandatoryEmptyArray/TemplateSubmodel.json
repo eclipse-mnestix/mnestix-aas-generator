@@ -22,13 +22,13 @@
             },
             {
               "kind": "TemplateQualifier",
-              "type": "SMT/CollectionMappingInfo",
+              "type": "MnestixAASGenerator/CollectionMappingInfo",
               "value": "contacts[*]",
               "valueType": "xs:string"
             },
             {
               "kind": "TemplateQualifier",
-              "type": "SMT/MappingInfo",
+              "type": "MnestixAASGenerator/MappingInfo",
               "value": "contacts[*].name",
               "valueType": "xs:string"
             }

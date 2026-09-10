@@ -22,13 +22,13 @@
         },
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo",
+          "type": "MnestixAASGenerator/MappingInfo",
           "value": "data.value1",
           "valueType": "xs:string"
         },
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo/value",
+          "type": "MnestixAASGenerator/MappingInfo/value",
           "value": "data.value2",
           "valueType": "xs:string"
         }

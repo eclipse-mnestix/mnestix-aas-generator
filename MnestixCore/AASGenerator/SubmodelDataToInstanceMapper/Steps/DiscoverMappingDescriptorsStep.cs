@@ -1,19 +1,19 @@
 using MnestixCore.AasGenerator.Interfaces;
-using MnestixCore.AasGenerator.Pipelines.FieldAssigners;
 using MnestixCore.AasGenerator.Pipelines.Shared;
 using MnestixCore.Errors;
+using MnestixCore.Shared;
 using Newtonsoft.Json.Linq;
 
 namespace MnestixCore.AasGenerator.Pipelines.Steps;
 
 /// <summary>
-/// Discovers SMT/MappingInfo qualifiers and populates ctx.MappingDescriptors for downstream steps.
+/// Discovers MnestixAASGenerator/MappingInfo qualifiers and populates ctx.MappingDescriptors for downstream steps.
 /// Structural validation (field names, duplicates, conflicts) is handled by the upstream
 /// ValidateBlueprintAasGeneratorPipelineStep via BlueprintValidator.
 /// </summary>
 public sealed class DiscoverMappingDescriptorsAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
 {
-    private const string MappingInfoPrefix = "SMT/MappingInfo";
+    private const string MappingInfoPrefix = QualifierAliases.MappingInfoPrefix;
 
     public Task<DataMappingContext> ExecuteAsync(DataMappingContext ctx)
     {
@@ -53,11 +53,20 @@ public sealed class DiscoverMappingDescriptorsAasGeneratorPipelineStep : IPipeli
                 var fieldName = segments.Length == 3 ? segments[2] : "value";
 
                 var mappingExpression = qualifier["value"]?.Value<string>() ?? "";
-                // The element's cardinality (One/ZeroToOne/...) is shared across all of its field
-                // mappings, but some fields are always optional regardless (e.g. displayName).
-                // The assigner owns that decision, keeping field-specific rules out of this step.
-                var isMandatory = !FieldAssignerRegistry.GetAssigner(fieldName).IsAlwaysOptional &&
-                    (QualifierHelpers.GetCardinalityQualifier(qualifier)?["value"]?.Value<string>()?.StartsWith("One") ?? false);
+                if (!FieldMappingRules.AllowedFields.TryGetValue(modelType, out var modelMapping))
+                {
+                    throw new SubmodelDataToInstanceMapperException(
+                        $"Unsupported modelType '{modelType}' for MappingInfo qualifiers.", ctx);
+                }
+
+                var fieldSpec = modelMapping.Get(fieldName);
+                var elementCardinality = QualifierHelpers.GetCardinalityQualifier(qualifier)?["value"]?.Value<string>();
+                var isMandatory = fieldSpec?.FieldCardinality switch
+                {
+                    FieldSpec.Cardinality.AlwaysMandatory => true,
+                    FieldSpec.Cardinality.AlwaysOptional  => false,
+                    _                                     => elementCardinality?.StartsWith("One") ?? false
+                };
 
                 descriptors.Add(new MappingDescriptor
                 {

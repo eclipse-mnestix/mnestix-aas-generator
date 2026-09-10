@@ -29,7 +29,7 @@
         },
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo",
+          "type": "MnestixAASGenerator/MappingInfo",
           "value": "`source data`.`product name`",
           "valueType": "xs:string"
         }
@@ -55,7 +55,7 @@
         },
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo",
+          "type": "MnestixAASGenerator/MappingInfo",
           "value": "`source data`.`unit price`",
           "valueType": "xs:string"
         }
@@ -81,7 +81,7 @@
         },
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo",
+          "type": "MnestixAASGenerator/MappingInfo",
           "value": "`source data`.`in stock`",
           "valueType": "xs:string"
         }
@@ -107,7 +107,7 @@
         },
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo",
+          "type": "MnestixAASGenerator/MappingInfo",
           "value": "`source data`.`item-count`",
           "valueType": "xs:string"
         }

@@ -1,0 +1,14 @@
+{
+  "vehicles": [
+    {
+      "name": "car1",
+      "engineType": "electric",
+      "battery": { "capacityKWh": 75 }
+    },
+    {
+      "name": "car2",
+      "engineType": "combustion",
+      "battery": { "capacityKWh": 0 }
+    }
+  ]
+}

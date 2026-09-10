@@ -125,7 +125,7 @@
             "type": "ExternalReference"
           },
           "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo",
+          "type": "MnestixAASGenerator/MappingInfo",
           "value": "ManufacturerName",
           "valueType": "xs:string"
         }
@@ -458,7 +458,7 @@
                 "type": "ExternalReference"
               },
               "kind": "TemplateQualifier",
-              "type": "SMT/MappingInfo",
+              "type": "MnestixAASGenerator/MappingInfo",
               "value": "ContactInformation.Company",
               "valueType": "xs:string"
             }
@@ -1717,7 +1717,7 @@
             "type": "ExternalReference"
           },
           "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo",
+          "type": "MnestixAASGenerator/MappingInfo",
           "value": "SerialNumber",
           "valueType": "xs:string"
         }

@@ -1,0 +1,113 @@
+{
+  "modelType": "Submodel",
+  "kind": "Instance",
+  "idShort": "MarkingsDemo",
+  "id": "TheNewSubmodelId",
+  "description": [
+    {
+      "language": "en",
+      "text": "Optional list wrapping a mandatory (OneToMany) collection, gated by a filter"
+    }
+  ],
+  "submodelElements": [
+    {
+      "modelType": "Property",
+      "idShort": "ProductName",
+      "valueType": "xs:string",
+      "value": "MX2 Inverter",
+      "qualifiers": [
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "value": "One",
+          "valueType": "xs:string"
+        }
+      ]
+    },
+    {
+      "modelType": "SubmodelElementList",
+      "idShort": "Markings",
+      "typeValueListElement": "SubmodelElementCollection",
+      "qualifiers": [
+        {
+          "kind": "TemplateQualifier",
+          "type": "SMT/Cardinality",
+          "value": "ZeroToOne",
+          "valueType": "xs:string"
+        }
+      ],
+      "value": [
+        {
+          "modelType": "SubmodelElementCollection",
+          "idShort": "Marking_0",
+          "qualifiers": [
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "value": "OneToMany",
+              "valueType": "xs:string"
+            }
+          ],
+          "value": [
+            {
+              "modelType": "Property",
+              "idShort": "MarkingName",
+              "valueType": "xs:string",
+              "value": "CE",
+              "qualifiers": [
+                {
+                  "kind": "TemplateQualifier",
+                  "type": "SMT/Cardinality",
+                  "value": "One",
+                  "valueType": "xs:string"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "modelType": "SubmodelElementCollection",
+          "idShort": "Marking_1",
+          "qualifiers": [
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "value": "OneToMany",
+              "valueType": "xs:string"
+            }
+          ],
+          "value": [
+            {
+              "modelType": "Property",
+              "idShort": "MarkingName",
+              "valueType": "xs:string",
+              "value": "UL",
+              "qualifiers": [
+                {
+                  "kind": "TemplateQualifier",
+                  "type": "SMT/Cardinality",
+                  "value": "One",
+                  "valueType": "xs:string"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "qualifiers": [
+    {
+      "kind": "ConceptQualifier",
+      "type": "MnestixAASGenerator/OriginalBlueprintID",
+      "value": "urn:smtemplate:MarkingsDemo",
+      "valueType": "xs:string"
+    },
+    {
+      "kind": "ConceptQualifier",
+      "type": "MnestixAASGenerator/GenerationTimestamp",
+      "value": "2026-01-02T03:04:05.0000000Z",
+      "valueType": "xs:dateTime"
+    }
+  ]
+}

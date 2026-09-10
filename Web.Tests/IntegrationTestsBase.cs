@@ -11,6 +11,7 @@ namespace Web.Tests;
 
 public class IntegrationTestsBase
 {
+    protected const string TestApiKey = "integration-test-api-key";
     protected HttpClient? Client;
     protected Mock<IHttpClientProvider> HttpClientMock;
     protected IConfiguration _configuration;
@@ -30,7 +31,9 @@ public class IntegrationTestsBase
                     {
                         ["Configuration:SubmodelTemplatesApiUrl"] = string.Empty,
                         ["Configuration:SubmodelBlueprintsApiUrl"] = string.Empty,
-                        ["Features:RequiredShells"] = "false"
+                        ["Features:RequiredShells"] = "false",
+                        // appsettings.json ships an empty ApiKey; tests must supply their own.
+                        ["CustomerEndpointsSecurity:ApiKey"] = TestApiKey
                     });
                 });
                 builder.ConfigureServices(services =>
@@ -44,7 +47,7 @@ public class IntegrationTestsBase
             });
 
         Client = application.CreateClient();
-        Client.DefaultRequestHeaders.Add("X-API-KEY", "verySecureApiKey");
+        Client.DefaultRequestHeaders.Add("X-API-KEY", TestApiKey);
 
         _configuration = application.Services.GetRequiredService<IConfiguration>();
     }

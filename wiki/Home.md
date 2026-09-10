@@ -52,7 +52,14 @@ Key settings in `appsettings.json`:
 - `Features__UseAuthentication` - Enable/disable auth
 - `Features__RequiredShells` - Assert required shells exist on startup
 - `Features__AddExampleAas` - Also assert demo/example AAS (`lni0729`, `Mnestix`) when `Features__RequiredShells` is enabled
-- `CustomerEndpointsSecurity__ApiKey` - API key for secured endpoints
+- `CustomerEndpointsSecurity__ApiKey` - API key for secured endpoints.
+
+> **⚠️ SECURITY WARNING — CHANGE THE API KEY BEFORE DEPLOYING.** The API key ships empty in `appsettings.json`
+> and the development Compose file uses the well-known placeholder `verySecureApiKey`. Deploying with either value
+> is unsafe: anyone who knows it can access protected endpoints. Set a strong secret via the
+> `CustomerEndpointsSecurity__ApiKey` environment variable before deploying. The application logs a **critical
+> warning** at startup when the key is empty or a known default.
+
 - `Configuration__SubmodelTemplatesApiUrl` - Optional remote templates API URL
 
 BaSyx repository addresses are configured via `ReverseProxy__Clusters` environment variables in the Docker Compose file (see `docker-compose/compose.dev.go.yml`).

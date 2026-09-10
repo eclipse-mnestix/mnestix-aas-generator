@@ -154,7 +154,7 @@ public class AasCreatorControllerTest
         var ids = Ids(assetIdShort);
         var submodelResults = new List<AasGeneratorResult>
         {
-            new() { Success = false, BlueprintId = "blueprint1", Message = "Failed to generate submodel" }
+            new() { Success = false, BlueprintId = "blueprint1", Error = new MnestixCore.Errors.AasGeneratorErrorDto(MnestixCore.Errors.AasGeneratorErrorCode.UnknownError, "Failed to generate submodel", null) }
         };
         var mockLogger = new Mock<ILogger<AasCreatorController>>();
         var mockService = new Mock<IAasCreatorService>();

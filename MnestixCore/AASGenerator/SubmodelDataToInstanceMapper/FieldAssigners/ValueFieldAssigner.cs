@@ -55,7 +55,7 @@ public sealed class ValueFieldAssigner : FieldAssignerBase
         if (string.IsNullOrEmpty(language))
         {
             throw new SubmodelDataToInstanceMapperException(
-                "MultiLanguageProperty with SMT/MappingInfo/value requires a 'language' parameter in the request. Use SMT/MappingInfo/multiLanguage to provide language codes in the data instead.", ctx);
+                "MultiLanguageProperty with MnestixAASGenerator/MappingInfo/value requires a 'language' parameter in the request. Use MnestixAASGenerator/MappingInfo/multiLanguage to provide language codes in the data instead.", ctx);
         }
 
         if (resolvedValue.Type is not (JTokenType.String or JTokenType.Integer or JTokenType.Float or JTokenType.Boolean or JTokenType.Null))

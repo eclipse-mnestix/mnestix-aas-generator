@@ -250,7 +250,7 @@ public class RepoProxyClientTest
     [Test]
     public void NormalizeJson_ShouldInjectValueTypeOnQualifiersMissingIt()
     {
-        var json = JObject.Parse("{\"qualifiers\": [{\"type\": \"SMT/MappingInfo\", \"value\": \"$.name\"}]}");
+        var json = JObject.Parse("{\"qualifiers\": [{\"type\": \"MnestixAASGenerator/MappingInfo\", \"value\": \"$.name\"}]}");
         var result = AasJsonNormalizer.NormalizeJsonForRepository(json);
         result["qualifiers"]![0]!["valueType"]!.Value<string>().Should().Be("xs:string");
     }

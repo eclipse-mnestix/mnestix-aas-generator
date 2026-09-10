@@ -16,7 +16,8 @@ public sealed class RemoveQualifiersAasGeneratorPipelineStep : IPipelineStep<Dat
     private static readonly IReadOnlyList<string> MappingQualifierTypePrefixes =
     [
         "smt/",
-        "mnestix/"
+        "mnestix/",
+        "mnestixaasgenerator/"
     ];
 
     /// <summary>
@@ -56,8 +57,8 @@ public sealed class RemoveQualifiersAasGeneratorPipelineStep : IPipelineStep<Dat
     /// (at any nesting depth, via JSONPath recursive descent).
     /// A qualifier is considered a mapping qualifier when its <c>type</c> (compared case-insensitively) starts with one of
     /// <see cref="MappingQualifierTypePrefixes"/> and the remainder contains any of
-    /// <see cref="MappingQualifierTypeSubstrings"/>. Qualifiers without a matching type (e.g. SMT/Cardinality)
-    /// are preserved.
+    /// <see cref="MappingQualifierTypeSubstrings"/>. Qualifiers whose remainder has no mapping substring
+    /// (e.g. SMT/Cardinality) are preserved.
     /// </summary>
     private static int RemoveMappingQualifiers(JObject submodel)
     {

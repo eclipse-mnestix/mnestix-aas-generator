@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using MnestixCore.AasGenerator;
 using MnestixCore.AasGenerator.Interfaces;
+using MnestixCore.Errors;
 using MnestixCore.Dtos.AppSettingsOptions;
 using MnestixCore.IdGenerator.Interfaces;
 using MnestixCore.RepoProxyClient.Interfaces;
@@ -10,6 +11,7 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Time.Testing;
+using MnestixCore.AasGenerator.Pipelines.Steps;
 using Moq;
 using Newtonsoft.Json.Linq;
 
@@ -30,7 +32,7 @@ public class AasGeneratorTests
     private const string TestAasPath = "/aas";
     private const string TestBase64EncodedAasId = "dGVzdEFhc0lk"; // base64 encoded "testAasId"
 
-    // Fixed generation timestamp so the emitted Mnestix/GenerationTimestamp qualifier is
+    // Fixed generation timestamp so the emitted GenerationTimestamp qualifier is
     // deterministic and can be asserted directly in the fixtures.
     private static readonly DateTimeOffset FixedGenerationTime = new(2026, 1, 2, 3, 4, 5, TimeSpan.Zero);
 
@@ -137,6 +139,40 @@ public class AasGeneratorTests
         await RunDataIngestTest("InputFilter");
     }
 
+    // An optional (ZeroToOne) SubmodelElementList wraps a mandatory (OneToMany) collection that carries a
+    // CollectionMappingInfo, and the list carries a FilterMappingInfo ("$count(marking) > 0"). With no
+    // markings in the payload the pre-duplication filter pass must drop the whole list BEFORE
+    // DuplicateCollections would otherwise throw on the mandatory-but-empty inner collection.
+    [Test]
+    public async Task AddDataToAasAsync_InputFilterOmitsOptionalCollection_Success()
+    {
+        await RunDataIngestTest("InputFilterOmitsOptionalCollection");
+    }
+
+    // Same blueprint, but the payload now carries markings: the filter keeps the list and the mandatory
+    // inner collection is duplicated once per item. Proves the pre-duplication filter pass does not break
+    // the normal collection-mapping path.
+    [Test]
+    public async Task AddDataToAasAsync_InputFilterKeepsOptionalCollection_Success()
+    {
+        await RunDataIngestTest("InputFilterKeepsOptionalCollection");
+    }
+
+    // A filter expression containing "[*]" is a per-item filter that cannot be evaluated before the
+    // collection is duplicated/indexed, so the filter step skips it instead of mis-evaluating the whole
+    // array. The element therefore survives even though the expression would otherwise be falsy.
+    [Test]
+    public async Task AddDataToAasAsync_InputFilterWildcardExpressionSkipped_Success()
+    {
+        await RunDataIngestTest("InputFilterWildcardExpressionSkipped");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputFilterInsideDuplicatedCollection_Success()
+    {
+        await RunDataIngestTest("InputFilterInsideDuplicatedCollection");
+    }
+
     [Test]
     public async Task AddDataToAasAsync_InputSMLWithIdShorts_Success()
     {
@@ -228,15 +264,15 @@ public class AasGeneratorTests
     }
 
     [Test]
-    public async Task AddDataToAasAsync_InputFileContentTypeInferredFromUrl_UnknownExtension_Fails()
+    public async Task AddDataToAasAsync_InputFileContentTypeInferredFromUrl_UnknownExtension_Success()
     {
-        await RunDataIngestFailureTest("InputFileContentTypeInferredFromUrl_UnknownExtension");
+        await RunDataIngestTest("InputFileContentTypeInferredFromUrl_UnknownExtension");
     }
 
     [Test]
-    public async Task AddDataToAasAsync_InputFileContentTypeInferredFromUrl_NoExtension_Fails()
+    public async Task AddDataToAasAsync_InputFileContentTypeInferredFromUrl_NoExtension_Success()
     {
-        await RunDataIngestFailureTest("InputFileContentTypeInferredFromUrl_NoExtension");
+        await RunDataIngestTest("InputFileContentTypeInferredFromUrl_NoExtension");
     }
 
     [Test]
@@ -252,9 +288,9 @@ public class AasGeneratorTests
     }
 
     [Test]
-    public async Task AddDataToAasAsync_InputFileContentTypeMappedFromField_MissingValue_Fails()
+    public async Task AddDataToAasAsync_InputFileContentTypeMappedFromField_MissingValue_Success()
     {
-        await RunDataIngestFailureTest("InputFileContentTypeMappedFromField_MissingValue");
+        await RunDataIngestTest("InputFileContentTypeMappedFromField_MissingValue");
     }
 
     [Test]
@@ -333,6 +369,12 @@ public class AasGeneratorTests
     public async Task AddDataToAasAsync_InputValueTypeUnknown_Success()
     {
         await RunDataIngestTest("InputValueTypeUnknown");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InputValueTypeMissing_AlwaysMandatory_ShouldFail()
+    {
+        await RunDataIngestFailureTest("InputValueTypeMissing_AlwaysMandatory");
     }
 
     [Test]
@@ -505,6 +547,30 @@ public class AasGeneratorTests
         await RunDataIngestFailureTest("InputMLPMultiLanguage_AllEmptyStrings_Mandatory");
     }
 
+    // === BACKWARD-COMPAT (legacy SMT/ prefix) — delete this whole region and its InputLegacySmt_* fixtures when SMT/ support is dropped (MNE-428) ===
+    // These prove that blueprints authored with the old SMT/ mapping prefix (whether freshly created
+    // or already stored) still generate correctly and produce the same output as the new prefix.
+
+    [Test]
+    public async Task AddDataToAasAsync_LegacySmtPrefix_MandatoryField_BackwardCompat()
+    {
+        await RunDataIngestTest("InputLegacySmt_MandatoryField");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_LegacySmtPrefix_Collection_BackwardCompat()
+    {
+        await RunDataIngestTest("InputLegacySmt_Collection");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_LegacySmtPrefix_Filter_BackwardCompat()
+    {
+        await RunDataIngestTest("InputLegacySmt_Filter");
+    }
+
+    // === END BACKWARD-COMPAT ===
+
     private async Task RunDataIngestTest(string testCaseName, string? language = "en")
     {
         // ARRANGE
@@ -555,7 +621,7 @@ public class AasGeneratorTests
         // the golden file happens to contain. Compared as a DateTime because JObject.Parse
         // deserializes date-like strings into DateTime tokens.
         var timestampValue = (actualSubmodel["qualifiers"] as JArray)?
-            .FirstOrDefault(q => q["type"]?.Value<string>() == "Mnestix/GenerationTimestamp")?["value"]
+            .FirstOrDefault(q => q["type"]?.Value<string>() == AddConceptQualifiersAasGeneratorPipelineStep.GenerationTimestampQualifierType)?["value"]
             ?.Value<DateTime>();
         timestampValue.Should().Be(
             FixedGenerationTime.UtcDateTime,
@@ -622,11 +688,10 @@ public class AasGeneratorTests
         // ASSERT
         var first = result.First();
         first.Success.Should().BeTrue();
-        first.DebugInfo.Should().NotBeNull();
-        first.DebugInfo!.Logs.Should().NotBeNull();
-        first.DebugInfo.Logs!.Should().NotBeEmpty();
+        first.Logs.Should().NotBeNull();
+        first.Logs!.Should().NotBeEmpty();
 
-        var allLogs = string.Join("\n", first.DebugInfo.Logs!);
+        var allLogs = string.Join("\n", first.Logs!);
         allLogs.Should().Contain("Fetching blueprint");
         allLogs.Should().Contain("Blueprint fetched successfully");
         allLogs.Should().Contain("Generating submodel ID");
@@ -659,7 +724,7 @@ public class AasGeneratorTests
         // ASSERT
         var first = result.First();
         first.Success.Should().BeTrue();
-        first.DebugInfo.Should().BeNull();
+        first.Logs.Should().BeNull();
     }
 
     // T005: Multiple blueprints with debug=true returns independent log trails
@@ -684,26 +749,26 @@ public class AasGeneratorTests
 
         // ASSERT
         results.Should().HaveCount(2);
-        results[0].DebugInfo.Should().NotBeNull();
-        results[1].DebugInfo.Should().NotBeNull();
+        results[0].Logs.Should().NotBeNull();
+        results[1].Logs.Should().NotBeNull();
 
-        var logs0 = string.Join("\n", results[0].DebugInfo!.Logs!);
-        var logs1 = string.Join("\n", results[1].DebugInfo!.Logs!);
+        var logs0 = string.Join("\n", results[0].Logs!);
+        var logs1 = string.Join("\n", results[1].Logs!);
 
         logs0.Should().Contain("Blueprint1");
         logs1.Should().Contain("Blueprint2");
     }
 
-    // T013: Blueprint fetch failure returns ErrorInfo.Logs with retrieval attempt entry
+    // T013: Blueprint fetch failure returns RepositoryOperationFailed error code
     [Test]
-    public async Task AddDataToAasAsync_BlueprintFetchFails_ReturnsErrorInfoWithLogs()
+    public async Task AddDataToAasAsync_BlueprintFetchFails_ReturnsRepositoryOperationFailedErrorCode()
     {
         // ARRANGE
         var templateIds = new List<string> { "urn:smtemplate:NonExistent" };
 
         _templateSubmodelsProviderMock
             .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
-            .ThrowsAsync(new Exception("Not found"));
+            .ThrowsAsync(new RepositoryOperationFailedException("Blueprint endpoint returned 404."));
 
         // ACT
         var result = await _aasGenerator.AddDataToAasAsync(TestBase64EncodedAasId, templateIds, new JObject(), "en");
@@ -711,10 +776,10 @@ public class AasGeneratorTests
         // ASSERT
         var first = result.First();
         first.Success.Should().BeFalse();
-        first.ErrorInfo.Should().NotBeNull();
-        first.ErrorInfo!.Logs.Should().NotBeNull();
+        first.Error!.Code.Should().Be(AasGeneratorErrorCode.RepositoryOperationFailed);
+        first.Logs.Should().NotBeNull();
 
-        var allLogs = string.Join("\n", first.ErrorInfo.Logs!);
+        var allLogs = string.Join("\n", first.Logs!);
         allLogs.Should().Contain("Fetching blueprint");
         allLogs.Should().Contain("Blueprint fetch failed");
     }
@@ -741,10 +806,10 @@ public class AasGeneratorTests
         // ASSERT
         var first = result.First();
         first.Success.Should().BeFalse();
-        first.ErrorInfo.Should().NotBeNull();
-        first.ErrorInfo!.Logs.Should().NotBeNull();
+        first.Error!.Code.Should().Be(AasGeneratorErrorCode.UnknownError);
+        first.Logs.Should().NotBeNull();
 
-        var allLogs = string.Join("\n", first.ErrorInfo.Logs!);
+        var allLogs = string.Join("\n", first.Logs!);
         allLogs.Should().Contain("Blueprint fetched successfully");
         allLogs.Should().Contain("Generating submodel ID");
         allLogs.Should().Contain("Submodel ID generation failed");
@@ -771,10 +836,14 @@ public class AasGeneratorTests
         var first = result.First();
 
         first.Success.Should().BeFalse();
-        first.ErrorInfo.Should().NotBeNull();
-        first.ErrorInfo!.Logs.Should().NotBeNull();
+        first.Error!.Code.Should().Be(AasGeneratorErrorCode.MappingFailed);
+        var mappingContext = first.Error.Context as MappingErrorContext;
+        mappingContext.Should().NotBeNull();
+        mappingContext!.Qualifier.Should().NotBeNullOrEmpty();
+        mappingContext.QualifierPath.Should().NotBeNullOrEmpty();
+        first.Logs.Should().NotBeNull();
 
-        var allLogs = string.Join("\n", first.ErrorInfo.Logs!);
+        var allLogs = string.Join("\n", first.Logs!);
         allLogs.Should().Contain("Blueprint fetched successfully");
         allLogs.Should().Contain("Starting data mapping");
         allLogs.Should().Contain("Data mapping failed");
@@ -803,15 +872,65 @@ public class AasGeneratorTests
         // ASSERT
         var first = result.First();
         first.Success.Should().BeFalse();
-        first.ErrorInfo.Should().NotBeNull();
-        first.ErrorInfo!.Logs.Should().NotBeNull();
+        first.Error!.Code.Should().Be(AasGeneratorErrorCode.RepositoryOperationFailed);
+        first.Logs.Should().NotBeNull();
 
-        var allLogs = string.Join("\n", first.ErrorInfo.Logs!);
+        var allLogs = string.Join("\n", first.Logs!);
         allLogs.Should().Contain("Blueprint fetched successfully");
         allLogs.Should().Contain("Submodel ID generated");
         allLogs.Should().Contain("Data mapping completed");
         allLogs.Should().Contain("Posting submodel to repository");
         allLogs.Should().Contain("Repository operation failed");
+    }
+
+    // T017: Blueprint with null idShort returns InvalidBlueprint error code
+    [Test]
+    public async Task AddDataToAasAsync_BlueprintWithNullIdShort_ReturnsInvalidBlueprintErrorCode()
+    {
+        // ARRANGE
+        var blueprintWithoutIdShort = new JObject
+        {
+            ["modelType"] = "Submodel",
+            ["id"] = "urn:smtemplate:NoIdShort",
+            ["submodelElements"] = new JArray()
+        };
+        var templateIds = new List<string> { "urn:smtemplate:NoIdShort" };
+
+        _templateSubmodelsProviderMock
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .ReturnsAsync(blueprintWithoutIdShort);
+
+        _idGeneratorMock
+            .Setup(x => x.GenerateSubmodelIdsAsync(It.IsAny<uint>()))
+            .ReturnsAsync(new List<string> { "TheNewSubmodelId" });
+
+        // ACT
+        var result = await _aasGenerator.AddDataToAasAsync(TestBase64EncodedAasId, templateIds, new JObject(), "en");
+
+        // ASSERT
+        var first = result.First();
+        first.Success.Should().BeFalse();
+        first.Error!.Code.Should().Be(AasGeneratorErrorCode.InvalidBlueprint);
+    }
+
+    // T018: InvalidBlueprintException thrown by provider is caught and returns InvalidBlueprint error code
+    [Test]
+    public async Task AddDataToAasAsync_ProviderThrowsInvalidBlueprintException_ReturnsInvalidBlueprintErrorCode()
+    {
+        // ARRANGE
+        var templateIds = new List<string> { "urn:smtemplate:CorruptedBlueprint" };
+
+        _templateSubmodelsProviderMock
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .ThrowsAsync(new InvalidBlueprintException("Failed to parse blueprint."));
+
+        // ACT
+        var result = await _aasGenerator.AddDataToAasAsync(TestBase64EncodedAasId, templateIds, new JObject(), "en");
+
+        // ASSERT
+        var first = result.First();
+        first.Success.Should().BeFalse();
+        first.Error!.Code.Should().Be(AasGeneratorErrorCode.InvalidBlueprint);
     }
 
     // T024: Error results include DebugInfo.Logs when debug=true
@@ -831,11 +950,10 @@ public class AasGeneratorTests
         // ASSERT
         var first = result.First();
         first.Success.Should().BeFalse();
-        first.DebugInfo.Should().NotBeNull();
-        first.DebugInfo!.Logs.Should().NotBeNull();
-        first.DebugInfo.Logs!.Should().NotBeEmpty();
+        first.Logs.Should().NotBeNull();
+        first.Logs!.Should().NotBeEmpty();
 
-        var allLogs = string.Join("\n", first.DebugInfo.Logs!);
+        var allLogs = string.Join("\n", first.Logs!);
         allLogs.Should().Contain("Fetching blueprint");
         allLogs.Should().Contain("Blueprint fetch failed");
     }
@@ -862,9 +980,9 @@ public class AasGeneratorTests
 
         // ASSERT
         var first = result.First();
-        first.DebugInfo.Should().NotBeNull();
-        first.DebugInfo!.Logs.Should().NotBeNull();
-        first.DebugInfo.Logs!.First().Should().Contain("Called by integration test XYZ");
+        first.Logs.Should().NotBeNull();
+        first.Logs.Should().NotBeNull();
+        first.Logs!.First().Should().Contain("Called by integration test XYZ");
     }
 
     // T026: No preamble provided means first log is the blueprint mapping entry
@@ -889,14 +1007,14 @@ public class AasGeneratorTests
 
         // ASSERT
         var first = result.First();
-        first.DebugInfo.Should().NotBeNull();
-        first.DebugInfo!.Logs.Should().NotBeNull();
-        first.DebugInfo.Logs!.First().Should().Contain("Mapping blueprint");
+        first.Logs.Should().NotBeNull();
+        first.Logs.Should().NotBeNull();
+        first.Logs!.First().Should().Contain("Mapping blueprint");
     }
 
-    // T027: Error with debug=false still returns null DebugInfo
+    // T027: Error with debug=false still populates Logs
     [Test]
-    public async Task AddDataToAasAsync_ErrorWithDebugFalse_ReturnsNullDebugInfo()
+    public async Task AddDataToAasAsync_ErrorWithDebugFalse_ReturnsLogs()
     {
         // ARRANGE
         var templateIds = new List<string> { "urn:smtemplate:NonExistent" };
@@ -911,9 +1029,7 @@ public class AasGeneratorTests
         // ASSERT
         var first = result.First();
         first.Success.Should().BeFalse();
-        first.DebugInfo.Should().BeNull();
-        first.ErrorInfo.Should().NotBeNull();
-        first.ErrorInfo!.Logs.Should().NotBeEmpty();
+        first.Logs.Should().NotBeEmpty();
     }
 
     // T023: All log entries match the format pattern SEVERITY [timestamp] - message
@@ -938,11 +1054,11 @@ public class AasGeneratorTests
 
         // ASSERT
         var first = result.First();
-        first.DebugInfo.Should().NotBeNull();
-        first.DebugInfo!.Logs.Should().NotBeNull();
+        first.Logs.Should().NotBeNull();
+        first.Logs.Should().NotBeNull();
 
         var pattern = new System.Text.RegularExpressions.Regex(@"^(INFO|WARNING|ERROR) \[.+\] - .+$");
-        foreach (var log in first.DebugInfo.Logs!)
+        foreach (var log in first.Logs!)
         {
             pattern.IsMatch(log).Should().BeTrue($"Log entry '{log}' should match SEVERITY [timestamp] - message format");
         }
@@ -970,10 +1086,10 @@ public class AasGeneratorTests
         // ASSERT
         var first = result.First();
         first.Success.Should().BeTrue();
-        first.DebugInfo.Should().NotBeNull();
-        first.DebugInfo!.Logs.Should().NotBeNull();
+        first.Logs.Should().NotBeNull();
+        first.Logs.Should().NotBeNull();
 
-        var allLogs = string.Join("\n", first.DebugInfo.Logs!);
+        var allLogs = string.Join("\n", first.Logs!);
         allLogs.Should().Contain("template default for 'value' was overridden by mapped data");
     }
 
@@ -1040,8 +1156,10 @@ public class AasGeneratorTests
         result.Should().HaveCount(1);
         var first = result.First();
         first.Success.Should().BeFalse();
-        first.ValidationErrors.Should().NotBeNull();
-        first.ValidationErrors.Should().Contain(e => e.Rule == expectedRule);
+        first.Error!.Code.Should().Be(AasGeneratorErrorCode.BlueprintValidationFailed);
+        var validationContext = first.Error.Context as ValidationErrorContext;
+        validationContext.Should().NotBeNull();
+        validationContext!.Errors.Should().Contain(e => e.Rule == expectedRule);
     }
 
     #endregion
@@ -1072,7 +1190,7 @@ public class AasGeneratorTests
 
         // ASSERT
         var first = result.First();
-        first.Message.Should().NotBe("The provided AAS ID is not a valid Base64 URL safe string.");
+        first.Error?.Code.Should().NotBe(AasGeneratorErrorCode.InvalidInput);
     }
 
     [TestCase("", Description = "Empty string")]
@@ -1097,7 +1215,8 @@ public class AasGeneratorTests
         results.Should().AllSatisfy(r =>
         {
             r.Success.Should().BeFalse();
-            r.Message.Should().Be("The provided AAS ID is not a valid Base64 URL safe string.");
+            r.Error!.Code.Should().Be(AasGeneratorErrorCode.InvalidInput);
+            r.Error.Message.Should().Be("The provided AAS ID is not a valid Base64 URL safe string.");
         });
     }
 
@@ -1128,6 +1247,17 @@ public class AasGeneratorTests
         // ASSERT
         _repoProxyClientMock.Verify(x => x.PostAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
         _templateSubmodelsProviderMock.Verify(x => x.GetBlueprintAsync(It.IsAny<string>()), Times.Never);
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_InvalidBase64UrlSafeId_ReturnsNullLogs()
+    {
+        // Generation never starts on early return, so no logs are produced
+        var templateIds = new List<string> { "urn:blueprint:A" };
+
+        var results = (await _aasGenerator.AddDataToAasAsync("invalid+id", templateIds, new JObject(), "en")).ToList();
+
+        results.First().Logs.Should().BeNull();
     }
 
     #endregion

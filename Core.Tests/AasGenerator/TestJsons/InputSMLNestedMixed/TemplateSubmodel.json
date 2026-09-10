@@ -43,7 +43,7 @@
             },
             {
               "kind": "TemplateQualifier",
-              "type": "SMT/CollectionMappingInfo",
+              "type": "MnestixAASGenerator/CollectionMappingInfo",
               "value": "sourceData.contactPersons[*]",
               "valueType": "xs:string"
             }
@@ -63,7 +63,7 @@
                 },
                 {
                   "kind": "TemplateQualifier",
-                  "type": "SMT/MappingInfo",
+                  "type": "MnestixAASGenerator/MappingInfo",
                   "value": "sourceData.contactPersons[*].name",
                   "valueType": "xs:string"
                 }
@@ -83,7 +83,7 @@
                 },
                 {
                   "kind": "TemplateQualifier",
-                  "type": "SMT/MappingInfo",
+                  "type": "MnestixAASGenerator/MappingInfo",
                   "value": "sourceData.contactPersons[*].email",
                   "valueType": "xs:string"
                 }
@@ -108,7 +108,7 @@
                     },
                     {
                       "kind": "TemplateQualifier",
-                      "type": "SMT/CollectionMappingInfo",
+                      "type": "MnestixAASGenerator/CollectionMappingInfo",
                       "value": "sourceData.contactPersons[*].phone_numbers[*]",
                       "valueType": "xs:string"
                     }
@@ -128,7 +128,7 @@
                         },
                         {
                           "kind": "TemplateQualifier",
-                          "type": "SMT/MappingInfo",
+                          "type": "MnestixAASGenerator/MappingInfo",
                           "value": "sourceData.contactPersons[*].phone_numbers[*].name",
                           "valueType": "xs:string"
                         }
@@ -148,7 +148,7 @@
                         },
                         {
                           "kind": "TemplateQualifier",
-                          "type": "SMT/MappingInfo",
+                          "type": "MnestixAASGenerator/MappingInfo",
                           "value": "sourceData.contactPersons[*].phone_numbers[*].value",
                           "valueType": "xs:string"
                         }
@@ -168,7 +168,7 @@
                         },
                         {
                           "kind": "TemplateQualifier",
-                          "type": "SMT/MappingInfo",
+                          "type": "MnestixAASGenerator/MappingInfo",
                           "value": "sourceData.contactPersons[*].phone_numbers[*].hasMailbox",
                           "valueType": "xs:string"
                         }

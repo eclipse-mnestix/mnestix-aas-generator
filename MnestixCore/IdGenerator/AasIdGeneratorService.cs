@@ -8,6 +8,11 @@ public class AasIdGeneratorService : IAasIdGeneratorService
 {
     private readonly IMnestixConfigurationProvider _mnestixConfigurationProvider;
 
+    /// <summary>
+    /// Upper bound on the number of submodel ids generated per request.
+    /// </summary>
+    public const uint MaxSubmodelIdCount = 1000;
+
     public AasIdGeneratorService(IMnestixConfigurationProvider mnestixConfigurationProvider)
     {
         _mnestixConfigurationProvider = mnestixConfigurationProvider;

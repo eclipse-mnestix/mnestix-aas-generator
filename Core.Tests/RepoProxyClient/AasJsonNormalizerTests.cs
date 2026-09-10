@@ -176,7 +176,7 @@ public class AasJsonNormalizerTests
         var input = JObject.Parse("""
             {
                 "qualifiers": [
-                    { "modelType": "Qualifier", "type": "SMT/MappingInfo", "value": "$.name" }
+                    { "modelType": "Qualifier", "type": "MnestixAASGenerator/MappingInfo", "value": "$.name" }
                 ]
             }
             """);
@@ -190,7 +190,7 @@ public class AasJsonNormalizerTests
         var input = JObject.Parse("""
             {
                 "qualifiers": [
-                    { "modelType": "Qualifier", "type": "SMT/MappingInfo", "value": "$.name", "valueType": "" }
+                    { "modelType": "Qualifier", "type": "MnestixAASGenerator/MappingInfo", "value": "$.name", "valueType": "" }
                 ]
             }
             """);
@@ -301,7 +301,7 @@ public class AasJsonNormalizerTests
                 "modelType": "Submodel",
                 "id": "test",
                 "qualifiers": [
-                    { "type": "SMT/MappingInfo", "value": "$.x", "valueType": "xs:string" }
+                    { "type": "MnestixAASGenerator/MappingInfo", "value": "$.x", "valueType": "xs:string" }
                 ]
             }
             """);
@@ -318,7 +318,7 @@ public class AasJsonNormalizerTests
                 "modelType": "Submodel",
                 "id": "test",
                 "qualifiers": [
-                    { "type": "SMT/MappingInfo", "value": "$.x", "valueType": "xs:string", "kind": "TemplateQualifier" }
+                    { "type": "MnestixAASGenerator/MappingInfo", "value": "$.x", "valueType": "xs:string", "kind": "TemplateQualifier" }
                 ]
             }
             """);
@@ -327,7 +327,7 @@ public class AasJsonNormalizerTests
         result["qualifiers"]!.Should().HaveCount(1);
 
         var qualifier = (JObject)result["qualifiers"]![0]!;
-        qualifier["type"]!.Value<string>().Should().Be("SMT/MappingInfo");
+        qualifier["type"]!.Value<string>().Should().Be("MnestixAASGenerator/MappingInfo");
         qualifier["value"]!.Value<string>().Should().Be("$.x");
         qualifier["valueType"]!.Value<string>().Should().Be("xs:string");
         qualifier["kind"]!.Value<string>().Should().Be("TemplateQualifier");

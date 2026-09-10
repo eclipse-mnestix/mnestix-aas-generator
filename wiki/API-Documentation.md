@@ -20,6 +20,24 @@ All API endpoints require authentication. The API supports two authentication sc
 1. **API Key Authentication** - Include the API key in the `X-API-KEY` header
 2. **JWT Bearer Token** - Include a valid JWT token in the `Authorization: Bearer <token>` header
 
+> **⚠️ SECURITY WARNING — CHANGE THE API KEY BEFORE DEPLOYING**
+>
+> The API key is **no longer set** in `appsettings.json` (it ships empty) so that no predictable secret is
+> committed to the repository. The development Docker Compose file still uses the well-known placeholder
+> `verySecureApiKey`. **Do not deploy with this value** — anyone who knows it can access protected endpoints.
+> At startup the application logs a **critical warning** when the key is empty or equals a known default.
+>
+> Set your own secret via the `CustomerEndpointsSecurity__ApiKey` environment variable (recommended), or by
+> editing `CustomerEndpointsSecurity` in `appsettings.json`:
+>
+> ```bash
+> # Linux / macOS / Docker Compose
+> export CustomerEndpointsSecurity__ApiKey='generate-a-long-random-secret-here'
+>
+> # Windows PowerShell
+> $env:CustomerEndpointsSecurity__ApiKey='generate-a-long-random-secret-here'
+> ```
+
 Configure authentication in `appsettings.json`:
 - Set `Features__UseAuthentication` to `true` to enable authentication
 - Set `CustomerEndpointsSecurity__ApiKey` for API key authentication
@@ -232,43 +250,40 @@ POST /api/v2/DataIngest/{base64EncodedAasId}
     {
       "blueprintId": "contact-template-v1",
       "success": true,
-      "message": "",
       "generatedSubmodelId": "https://example.com/submodels/contact-001",
-      "debugInfo": {
-        "logs": [
-          "INFO [2026-04-24T10:30:01.0000000Z] - Mapping blueprint contact-template-v1 to AAS aHR0cHM6Ly9leGFtcGxlLmNvbS9hYXMvbXktbWFjaGluZQ==",
-          "INFO [2026-04-24T10:30:01.1000000Z] - Fetching blueprint: contact-template-v1",
-          "INFO [2026-04-24T10:30:01.2000000Z] - Blueprint fetched successfully",
-          "INFO [2026-04-24T10:30:01.2100000Z] - Extracted idShort: ContactInformation",
-          "INFO [2026-04-24T10:30:01.2200000Z] - Generating submodel ID",
-          "INFO [2026-04-24T10:30:01.3000000Z] - Submodel ID generated: https://example.com/submodels/contact-001",
-          "INFO [2026-04-24T10:30:01.3100000Z] - Starting data mapping",
-          "INFO [2026-04-24T10:30:01.3200000Z] - Started ValidateBlueprintStep",
-          "INFO [2026-04-24T10:30:01.3210000Z] - Finished ValidateBlueprintStep",
-          "INFO [2026-04-24T10:30:01.3220000Z] - Started DeepCloneBlueprintStep",
-          "INFO [2026-04-24T10:30:01.3230000Z] - Finished DeepCloneBlueprintStep",
-          "INFO [2026-04-24T10:30:01.3240000Z] - Started SetKindInstanceStep",
-          "INFO [2026-04-24T10:30:01.3250000Z] - Finished SetKindInstanceStep",
-          "INFO [2026-04-24T10:30:01.3260000Z] - Started DuplicateCollectionsStep",
-          "INFO [2026-04-24T10:30:01.3270000Z] - Finished DuplicateCollectionsStep",
-          "INFO [2026-04-24T10:30:01.3280000Z] - Started FilterElementsStep",
-          "INFO [2026-04-24T10:30:01.3290000Z] - Finished FilterElementsStep",
-          "INFO [2026-04-24T10:30:01.3300000Z] - Started DiscoverMappingDescriptorsStep",
-          "INFO [2026-04-24T10:30:01.3310000Z] - Finished DiscoverMappingDescriptorsStep",
-          "INFO [2026-04-24T10:30:01.3320000Z] - Started ResolveMappingExpressionsStep",
-          "INFO [2026-04-24T10:30:01.3330000Z] - Finished ResolveMappingExpressionsStep",
-          "INFO [2026-04-24T10:30:01.3340000Z] - Started AssignMappedFieldsStep",
-          "INFO [2026-04-24T10:30:01.3350000Z] - Finished AssignMappedFieldsStep",
-          "INFO [2026-04-24T10:30:01.3360000Z] - Started RemoveTopLevelQualifiersStep",
-          "INFO [2026-04-24T10:30:01.3370000Z] - Finished RemoveTopLevelQualifiersStep",
-          "INFO [2026-04-24T10:30:01.3380000Z] - Started ReplaceIdentificationStep",
-          "INFO [2026-04-24T10:30:01.3390000Z] - Finished ReplaceIdentificationStep",
-          "INFO [2026-04-24T10:30:01.3600000Z] - Data mapping completed",
-          "INFO [2026-04-24T10:30:02.0000000Z] - Posting submodel to repository",
-          "INFO [2026-04-24T10:30:02.1000000Z] - Adding submodel reference to shell",
-          "INFO [2026-04-24T10:30:02.2000000Z] - Submodel reference added to shell"
-        ]
-      }
+      "logs": [
+        "INFO [2026-04-24T10:30:01.0000000Z] - Mapping blueprint contact-template-v1 to AAS aHR0cHM6Ly9leGFtcGxlLmNvbS9hYXMvbXktbWFjaGluZQ==",
+        "INFO [2026-04-24T10:30:01.1000000Z] - Fetching blueprint: contact-template-v1",
+        "INFO [2026-04-24T10:30:01.2000000Z] - Blueprint fetched successfully",
+        "INFO [2026-04-24T10:30:01.2100000Z] - Extracted idShort: ContactInformation",
+        "INFO [2026-04-24T10:30:01.2200000Z] - Generating submodel ID",
+        "INFO [2026-04-24T10:30:01.3000000Z] - Submodel ID generated: https://example.com/submodels/contact-001",
+        "INFO [2026-04-24T10:30:01.3100000Z] - Starting data mapping",
+        "INFO [2026-04-24T10:30:01.3200000Z] - Started ValidateBlueprintStep",
+        "INFO [2026-04-24T10:30:01.3210000Z] - Finished ValidateBlueprintStep",
+        "INFO [2026-04-24T10:30:01.3220000Z] - Started DeepCloneBlueprintStep",
+        "INFO [2026-04-24T10:30:01.3230000Z] - Finished DeepCloneBlueprintStep",
+        "INFO [2026-04-24T10:30:01.3240000Z] - Started SetKindInstanceStep",
+        "INFO [2026-04-24T10:30:01.3250000Z] - Finished SetKindInstanceStep",
+        "INFO [2026-04-24T10:30:01.3260000Z] - Started DuplicateCollectionsStep",
+        "INFO [2026-04-24T10:30:01.3270000Z] - Finished DuplicateCollectionsStep",
+        "INFO [2026-04-24T10:30:01.3280000Z] - Started FilterElementsStep",
+        "INFO [2026-04-24T10:30:01.3290000Z] - Finished FilterElementsStep",
+        "INFO [2026-04-24T10:30:01.3300000Z] - Started DiscoverMappingDescriptorsStep",
+        "INFO [2026-04-24T10:30:01.3310000Z] - Finished DiscoverMappingDescriptorsStep",
+        "INFO [2026-04-24T10:30:01.3320000Z] - Started ResolveMappingExpressionsStep",
+        "INFO [2026-04-24T10:30:01.3330000Z] - Finished ResolveMappingExpressionsStep",
+        "INFO [2026-04-24T10:30:01.3340000Z] - Started AssignMappedFieldsStep",
+        "INFO [2026-04-24T10:30:01.3350000Z] - Finished AssignMappedFieldsStep",
+        "INFO [2026-04-24T10:30:01.3360000Z] - Started RemoveTopLevelQualifiersStep",
+        "INFO [2026-04-24T10:30:01.3370000Z] - Finished RemoveTopLevelQualifiersStep",
+        "INFO [2026-04-24T10:30:01.3380000Z] - Started ReplaceIdentificationStep",
+        "INFO [2026-04-24T10:30:01.3390000Z] - Finished ReplaceIdentificationStep",
+        "INFO [2026-04-24T10:30:01.3600000Z] - Data mapping completed",
+        "INFO [2026-04-24T10:30:02.0000000Z] - Posting submodel to repository",
+        "INFO [2026-04-24T10:30:02.1000000Z] - Adding submodel reference to shell",
+        "INFO [2026-04-24T10:30:02.2000000Z] - Submodel reference added to shell"
+      ]
     }
   ]
 }
@@ -282,18 +297,17 @@ POST /api/v2/DataIngest/{base64EncodedAasId}
     {
       "blueprintId": "contact-template-v1",
       "success": true,
-      "message": "",
       "generatedSubmodelId": "https://example.com/submodels/contact-001"
     }
   ]
 }
 ```
 
-> **Note**: When `debug` is `false` or omitted, the `debugInfo` field is `null` and omitted from the response.
+> **Note**: When `debug` is `false` or omitted, the `logs` field is `null` and omitted from the response.
 
 **Error (400 Bad Request)**
 
-On error, `errorInfo.logs` always contains the workflow log trail up to (and including) the failure point, regardless of the `debug` flag:
+On error, `logs` always contains the workflow log trail up to (and including) the failure point, regardless of the `debug` flag:
 
 ```json
 {
@@ -301,21 +315,21 @@ On error, `errorInfo.logs` always contains the workflow log trail up to (and inc
     {
       "blueprintId": "contact-template-v1",
       "success": false,
-      "message": "Missing required data at path: contacts.name",
       "generatedSubmodelId": "",
-      "errorInfo": {
-        "logs": [
-          "INFO [2026-04-24T10:30:01.0000000Z] - Mapping blueprint contact-template-v1 to AAS aHR0cHM6Ly9leGFtcGxlLmNvbS9hYXMvbXktbWFjaGluZQ==",
-          "INFO [2026-04-24T10:30:01.1000000Z] - Fetching blueprint: contact-template-v1",
-          "INFO [2026-04-24T10:30:01.2000000Z] - Blueprint fetched successfully",
-          "INFO [2026-04-24T10:30:01.2200000Z] - Generating submodel ID",
-          "INFO [2026-04-24T10:30:01.3000000Z] - Submodel ID generated: https://example.com/submodels/contact-001",
-          "INFO [2026-04-24T10:30:01.3100000Z] - Starting data mapping",
-          "ERROR [2026-04-24T10:30:01.3200000Z] - Data mapping failed: Missing required data at path: contacts.name"
-        ],
-        "qualifier": "SMT/MappingInfo",
-        "qualifierPath": "contacts.name"
-      }
+      "error": {
+        "code": "MappingFailed",
+        "message": "Missing required data at path: contacts.name",
+        "context": null
+      },
+      "logs": [
+        "INFO [2026-04-24T10:30:01.0000000Z] - Mapping blueprint contact-template-v1 to AAS aHR0cHM6Ly9leGFtcGxlLmNvbS9hYXMvbXktbWFjaGluZQ==",
+        "INFO [2026-04-24T10:30:01.1000000Z] - Fetching blueprint: contact-template-v1",
+        "INFO [2026-04-24T10:30:01.2000000Z] - Blueprint fetched successfully",
+        "INFO [2026-04-24T10:30:01.2200000Z] - Generating submodel ID",
+        "INFO [2026-04-24T10:30:01.3000000Z] - Submodel ID generated: https://example.com/submodels/contact-001",
+        "INFO [2026-04-24T10:30:01.3100000Z] - Starting data mapping",
+        "ERROR [2026-04-24T10:30:01.3200000Z] - Data mapping failed: Missing required data at path: contacts.name"
+      ]
     }
   ]
 }
@@ -410,7 +424,7 @@ A complete Submodel JSON object with `kind: "Template"` and embedded Template Qu
       "valueType": "xs:string",
       "qualifiers": [
         {
-          "type": "SMT/MappingInfo",
+          "type": "MnestixAASGenerator/MappingInfo",
           "value": "contact.name"
         }
       ]
@@ -608,6 +622,9 @@ GET /api/v2/IdGenerator/submodelIds/{count}
 |-----------|------|----------|-------------|
 | `count` | integer | Yes | Number of Submodel IDs to generate |
 
+> **Limit:** `count` must be between `1` and `1000`. A value above `1000` is rejected with `400 Bad Request`
+> rather than returning a truncated list. This bound prevents an oversized request from exhausting server memory.
+
 #### Response
 
 **Success (200 OK)**
@@ -682,9 +699,9 @@ Blueprints use Template Qualifiers to define mapping rules. These qualifiers are
 
 | Qualifier Type | Purpose | Example Value |
 |----------------|---------|---------------|
-| `SMT/MappingInfo` | Map JSON path or Jsonata expression to element value | `"car.serialNo"` or `"$string(quantity)"` |
-| `SMT/CollectionMappingInfo` | Duplicate elements for arrays | `"car.contacts[*]"` |
-| `SMT/FilterMappingInfo` | Conditional element creation using boolean expressions | `"car.engineType = 'electric'"` |
+| `MnestixAASGenerator/MappingInfo` | Map JSON path or Jsonata expression to element value | `"car.serialNo"` or `"$string(quantity)"` |
+| `MnestixAASGenerator/CollectionMappingInfo` | Duplicate elements for arrays | `"car.contacts[*]"` |
+| `MnestixAASGenerator/FilterMappingInfo` | Conditional element creation using boolean expressions | `"car.engineType = 'electric'"` |
 | `SMT/Cardinality` | Define required/optional data | `"One"` or `"ZeroToOne"` |
 
 ### Path Expression Syntax
@@ -697,7 +714,7 @@ Path mappings support both simple JSON paths and advanced Jsonata expressions:
 - `data.array[*]` - Array iteration (for collections)
 - `data.array[0]` - Specific array index
 
-**Jsonata Expressions** (for `SMT/MappingInfo`):
+**Jsonata Expressions** (for `MnestixAASGenerator/MappingInfo`):
 - `$length(data.field)` - String/array length
 - `$substring(data.field, 0, 3)` - Extract substring
 - `data.field ~> $contains('text')` - Check if contains (returns boolean)
@@ -745,7 +762,7 @@ Returned by the Blueprint Create/Update endpoints when structural issues are det
     {
       "rule": "InvalidQualifierSegmentCount",
       "path": "Nameplate > SerialNumber",
-      "message": "Qualifier type 'SMT/MappingInfo/value/extra' has 4 segments; expected at most 3."
+      "message": "Qualifier type 'MnestixAASGenerator/MappingInfo/value/extra' has 4 segments; expected at most 3."
     }
   ]
 }
@@ -785,13 +802,13 @@ Content-Type: application/json
       "idShort": "ManufacturerName",
       "modelType": "Property",
       "valueType": "xs:string",
-      "qualifiers": [{"type": "SMT/MappingInfo", "value": "manufacturer.name"}]
+      "qualifiers": [{"type": "MnestixAASGenerator/MappingInfo", "value": "manufacturer.name"}]
     },
     {
       "idShort": "SerialNumber",
       "modelType": "Property",
       "valueType": "xs:string",
-      "qualifiers": [{"type": "SMT/MappingInfo", "value": "serialNumber"}]
+      "qualifiers": [{"type": "MnestixAASGenerator/MappingInfo", "value": "serialNumber"}]
     }
   ]
 }
@@ -859,17 +876,17 @@ Blueprint with collection mapping:
 {
   "idShort": "ContactPerson",
   "modelType": "SubmodelElementCollection",
-  "qualifiers": [{"type": "SMT/CollectionMappingInfo", "value": "contacts[*]"}],
+  "qualifiers": [{"type": "MnestixAASGenerator/CollectionMappingInfo", "value": "contacts[*]"}],
   "value": [
     {
       "idShort": "Name",
       "modelType": "Property",
-      "qualifiers": [{"type": "SMT/MappingInfo", "value": "contacts[*].name"}]
+      "qualifiers": [{"type": "MnestixAASGenerator/MappingInfo", "value": "contacts[*].name"}]
     },
     {
       "idShort": "Email", 
       "modelType": "Property",
-      "qualifiers": [{"type": "SMT/MappingInfo", "value": "contacts[*].email"}]
+      "qualifiers": [{"type": "MnestixAASGenerator/MappingInfo", "value": "contacts[*].email"}]
     }
   ]
 }

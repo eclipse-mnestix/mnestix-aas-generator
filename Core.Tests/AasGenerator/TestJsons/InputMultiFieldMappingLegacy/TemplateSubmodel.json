@@ -29,7 +29,7 @@
         },
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo",
+          "type": "MnestixAASGenerator/MappingInfo",
           "value": "product.serial",
           "valueType": "xs:string"
         }
@@ -50,7 +50,7 @@
         },
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo/globalAssetId",
+          "type": "MnestixAASGenerator/MappingInfo/globalAssetId",
           "value": "product.assetUri",
           "valueType": "xs:string"
         }

@@ -1,0 +1,80 @@
+{
+  "modelType": "Submodel",
+  "kind": "Template",
+  "idShort": "VehicleFleet",
+  "id": "FilterInsideDuplicatedCollection_Template",
+  "submodelElements": [
+    {
+      "modelType": "SubmodelElementCollection",
+      "idShort": "Vehicles",
+      "valueType": "xs:string",
+      "qualifiers": [],
+      "value": [
+        {
+          "modelType": "SubmodelElementCollection",
+          "idShort": "Vehicle",
+          "valueType": "xs:string",
+          "qualifiers": [
+            {
+              "kind": "TemplateQualifier",
+              "type": "SMT/Cardinality",
+              "value": "ZeroToOne",
+              "valueType": "xs:string"
+            },
+            {
+              "kind": "TemplateQualifier",
+              "type": "MnestixAASGenerator/CollectionMappingInfo",
+              "value": "vehicles[*]",
+              "valueType": "xs:string"
+            }
+          ],
+          "value": [
+            {
+              "modelType": "Property",
+              "idShort": "Name",
+              "valueType": "xs:string",
+              "value": "",
+              "qualifiers": [
+                {
+                  "kind": "TemplateQualifier",
+                  "type": "MnestixAASGenerator/MappingInfo",
+                  "value": "vehicles[*].name",
+                  "valueType": "xs:string"
+                }
+              ]
+            },
+            {
+              "modelType": "SubmodelElementCollection",
+              "idShort": "BatteryInfo",
+              "valueType": "xs:string",
+              "qualifiers": [
+                {
+                  "kind": "TemplateQualifier",
+                  "type": "MnestixAASGenerator/FilterMappingInfo",
+                  "value": "vehicles[*].engineType = 'electric'",
+                  "valueType": "xs:string"
+                }
+              ],
+              "value": [
+                {
+                  "modelType": "Property",
+                  "idShort": "CapacityKWh",
+                  "valueType": "xs:integer",
+                  "value": "",
+                  "qualifiers": [
+                    {
+                      "kind": "TemplateQualifier",
+                      "type": "MnestixAASGenerator/MappingInfo",
+                      "value": "vehicles[*].battery.capacityKWh",
+                      "valueType": "xs:string"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

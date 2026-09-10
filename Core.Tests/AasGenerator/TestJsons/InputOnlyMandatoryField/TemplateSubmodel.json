@@ -29,7 +29,7 @@
         },
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo",
+          "type": "MnestixAASGenerator/MappingInfo",
           "value": "sourceData.mandatoryNo",
           "valueType": "xs:string"
         }
@@ -55,7 +55,7 @@
         },
         {
           "kind": "TemplateQualifier",
-          "type": "SMT/MappingInfo",
+          "type": "MnestixAASGenerator/MappingInfo",
           "value": "sourceData.optionalNo",
           "valueType": "xs:string"
         }
