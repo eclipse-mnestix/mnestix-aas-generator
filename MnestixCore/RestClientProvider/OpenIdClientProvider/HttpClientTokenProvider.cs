@@ -9,6 +9,7 @@ namespace MnestixCore.RestClientProvider.OpenIdClientProvider;
 /// </summary>
 public class HttpClientTokenProvider(IAccessTokenService accessTokenService) : IHttpClientProvider
 {
+    private IRestClient? _client;
     private string? _accessToken;
 
     private async Task<string?> GetToken()
@@ -23,9 +24,11 @@ public class HttpClientTokenProvider(IAccessTokenService accessTokenService) : I
     /// <inheritdoc />
     public async Task<IRestClient> GetConfiguredClientAsync(string baseUrl)
     {
+        if (_client != null) return _client;
+        
         var token = await GetToken();
-        var client = new RestClient(baseUrl);
-        client.AddDefaultHeader("Authorization", $"Bearer {token}");
-        return client;
+        _client = new RestClient(baseUrl);
+        _client.AddDefaultHeader("Authorization", $"Bearer {token}");
+        return _client;
     }
 }
