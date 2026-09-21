@@ -36,7 +36,7 @@ Or run in Rider with the 'MnestixApi:Mnestix' Configuration.
 To start the AAS Generator with BaSyx in Docker:
 
 ```bash
-docker compose -f ./docker-compose/compose.dev.yml up
+docker compose -f ./docker-compose/compose.dev.go.yml up
 ```
 
 Access Swagger UI at: http://localhost:5064/swagger
