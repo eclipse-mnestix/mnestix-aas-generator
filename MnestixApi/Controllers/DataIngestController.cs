@@ -17,13 +17,13 @@ namespace MnestixApi.Controllers;
 [Authorize(AuthenticationSchemes = $"{JwtBearerDefaults.AuthenticationScheme},ApiKey")]
 public class DataIngestController : ControllerBase
 {
-    private readonly IAasGenerator _AasGenerator;
+    private readonly IAasGenerator _aasGenerator;
     private readonly ILogger<DataIngestController> _logger;
 
     /// <inheritdoc />
-    public DataIngestController(IAasGenerator AasGenerator, ILogger<DataIngestController> logger)
+    public DataIngestController(IAasGenerator aasGenerator, ILogger<DataIngestController> logger)
     {
-        _AasGenerator = AasGenerator;
+        _aasGenerator = aasGenerator;
         _logger = logger;
     }
 
@@ -42,7 +42,18 @@ public class DataIngestController : ControllerBase
     {
         _logger.LogInformation("invoked DataIngest/{AasId}/ with blueprintIds: {BlueprintIds}", base64EncodedAasId, string.Join(", ", requestBody.BlueprintsIds));
 
-        var results = (await _AasGenerator.AddDataToAasAsync(base64EncodedAasId, requestBody.BlueprintsIds, requestBody.Data, requestBody.Language, requestBody.Debug)).ToList();
+        if (requestBody.BlueprintsIds.Count() > 200)
+        {
+            return BadRequest(
+                new AasGeneratorErrorDto(
+                    AasGeneratorErrorCode.InvalidInput, 
+                    "Too many blueprint IDs. Up to 200 blueprints can be added at once.",
+                    null
+                )
+            );
+        }
+        
+        var results = (await _aasGenerator.AddDataToAasAsync(base64EncodedAasId, requestBody.BlueprintsIds, requestBody.Data, requestBody.Language, requestBody.Debug)).ToList();
         var responseBody = new AddDataToAasResponse
         {
             Results = results
@@ -66,9 +77,7 @@ public class DataIngestController : ControllerBase
         {
             return Ok(responseBody);
         }
-        else
-        {
-            return BadRequest(responseBody);
-        }
+
+        return BadRequest(responseBody);
     }
 }
