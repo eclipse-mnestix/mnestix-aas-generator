@@ -90,6 +90,36 @@ public class BlueprintProviderTest
     }
 
     [Test]
+    public async Task GetBlueprintAsync_WhenIdContainsTraversalSequence_EscapesIdBeforeCallingRepo()
+    {
+        // ARRANGE
+        const string maliciousId = "..\\shells";
+        var expectedPath = SubmodelPath + "/" + Uri.EscapeDataString(maliciousId);
+
+        var repoProxyClientMock = new Mock<IRepoProxyClient>();
+        repoProxyClientMock.Setup(s => s.GetAsync(It.IsAny<string>())).ReturnsAsync(_blueprint);
+
+        var configurationOptionsMock = new Mock<IOptions<ConfigurationOptions>>();
+        configurationOptionsMock.Setup(s => s.Value).Returns(new ConfigurationOptions());
+
+        var blueprintProvider = new BlueprintProvider(
+            repoProxyClientMock.Object,
+            configurationOptionsMock.Object,
+            new OptionsWrapper<RepoProxyOptions>(new RepoProxyOptions { SubmodelPath = SubmodelPath, AasPath = AasPath }),
+            new Mock<ISubmodelHandler>().Object,
+            Mock.Of<ILogger<BlueprintProvider>>());
+
+        // ACT
+        await blueprintProvider.GetBlueprintAsync(maliciousId);
+
+        // ASSERT
+        repoProxyClientMock.Verify(s => s.GetAsync(expectedPath), Times.Once);
+        repoProxyClientMock.Verify(
+            s => s.GetAsync(It.Is<string>(p => p.Contains("..\\") || p.Contains("../"))),
+            Times.Never);
+    }
+
+    [Test]
     public async Task GetAllBlueprintsAsync_WhenBlueprintsApiConfigured_ReturnsBlueprintsFromEndpoint()
     {
         // ARRANGE
@@ -197,6 +227,54 @@ public class BlueprintProviderTest
         // ASSERT
         result.Value<string>("id").Should().Be("template-1");
         repoProxyClientMock.Verify(s => s.GetAsync(It.IsAny<string>()), Times.Never);
+    }
+
+    [Test]
+    public async Task GetBlueprintAsync_WhenBlueprintsApiConfiguredAndIdContainsTraversal_EscapesIdInOutboundUri()
+    {
+        // ARRANGE
+        const string blueprintsEndpoint = "https://blueprints.example.com/api/submodels";
+        const string maliciousId = "..\\shells";
+        const string payload = """{"id": "template-1"}""";
+
+        var configurationOptions = new ConfigurationOptions
+        {
+            BlueprintsAasId = "test",
+            SubmodelBlueprintsApiUrl = blueprintsEndpoint
+        };
+
+        Uri? observedUri = null;
+        var restClientFactory = new Func<string, RestClient>(url =>
+        {
+            var options = new RestClientOptions(url)
+            {
+                ConfigureMessageHandler = _ => new StubHttpMessageHandler(request =>
+                {
+                    observedUri = request.RequestUri;
+                    return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent(payload, Encoding.UTF8, "application/json")
+                    });
+                })
+            };
+            return new RestClient(options);
+        });
+
+        var provider = new BlueprintProvider(
+            Mock.Of<IRepoProxyClient>(),
+            new OptionsWrapper<ConfigurationOptions>(configurationOptions),
+            new OptionsWrapper<RepoProxyOptions>(new RepoProxyOptions { AasPath = AasPath, SubmodelPath = SubmodelPath }),
+            Mock.Of<ISubmodelHandler>(),
+            Mock.Of<ILogger<BlueprintProvider>>(),
+            restClientFactory);
+
+        // ACT
+        await provider.GetBlueprintAsync(maliciousId);
+
+        // ASSERT
+        observedUri.Should().NotBeNull();
+        observedUri!.AbsolutePath.Should().NotContain("/shells");
+        observedUri.AbsolutePath.Should().EndWith(Uri.EscapeDataString(maliciousId));
     }
 
     [Test]

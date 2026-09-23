@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -190,7 +191,10 @@ public class TemplateController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [Produces("application/json")]
     [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
-    public async Task<ActionResult> GetCustomSubmodel([FromRoute] string submodelIdShort)
+    public async Task<ActionResult> GetCustomSubmodel(
+        [FromRoute]
+        [RegularExpression("^[A-Za-z0-9_]+$", ErrorMessage = "Invalid submodel idShort.")]
+        string submodelIdShort)
     {
         try
         {

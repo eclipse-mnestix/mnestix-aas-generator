@@ -71,7 +71,9 @@ public class BlueprintProvider : IBlueprintProvider
         string? submodelFromRepo;
         try
         {
-            submodelFromRepo = await _repoProxyClient.GetAsync(_repoProxyOptions.SubmodelPath + "/" + submodelIdShort);
+            // Escape the user-controlled id as a single path segment so that
+            // '\', '/', '..', '?' and '#' travel as data and cannot traverse the outbound path.
+            submodelFromRepo = await _repoProxyClient.GetAsync(_repoProxyOptions.SubmodelPath + "/" + Uri.EscapeDataString(submodelIdShort));
         }
         catch (RepoProxyException e)
         {
@@ -163,7 +165,8 @@ public class BlueprintProvider : IBlueprintProvider
     private async Task<JObject> FetchBlueprintsAsync(string submodelIdShort)
     {
         var client = _restClientFactory(_submodelBlueprintsApiUrl);
-        var request = new RestRequest('/' + submodelIdShort)
+        // Escape the user-controlled id as a single path segment so it cannot traverse the outbound path.
+        var request = new RestRequest('/' + Uri.EscapeDataString(submodelIdShort))
         {
             Method = Method.Get
         };
