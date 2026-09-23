@@ -9,11 +9,17 @@ namespace MnestixCore.RestClientProvider;
 /// </summary>
 public class HttpClientProvider : IHttpClientProvider
 {
-    private IRestClient? _client;
+    // Cache the initialization task, not the client, so concurrent callers share one build
+    // instead of each racing to construct a RestClient.
+    private readonly Lock _gate = new();
+    private Task<IRestClient>? _clientTask;
 
     /// <inheritdoc />
-    public async Task<IRestClient> GetConfiguredClientAsync(string baseUrl)
+    public Task<IRestClient> GetConfiguredClientAsync(string baseUrl)
     {
-        return _client ??= new RestClient(baseUrl); 
+        lock (_gate)
+        {
+            return _clientTask ??= Task.FromResult<IRestClient>(new RestClient(baseUrl));
+        }
     }
 }

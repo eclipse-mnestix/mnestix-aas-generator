@@ -2,10 +2,12 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using MnestixApi.Controllers;
 using MnestixCore.AasGenerator;
 using MnestixCore.AasGenerator.Interfaces;
 using MnestixCore.Dtos.AddDataToAas;
+using MnestixCore.Dtos.AppSettingsOptions;
 using MnestixCore.Errors;
 using MnestixCore.TemplateBuilder;
 using Moq;
@@ -28,7 +30,25 @@ public class DataIngestControllerTests
     public void SetUp()
     {
         _aasGeneratorMock = new Mock<IAasGenerator>();
-        _controller = new DataIngestController(_aasGeneratorMock.Object, Mock.Of<ILogger<DataIngestController>>());
+        _controller = new DataIngestController(_aasGeneratorMock.Object, Mock.Of<ILogger<DataIngestController>>(), Options.Create(new AasGeneratorOptions()));
+    }
+
+    [Test]
+    public async Task AddDataToAas_WithMoreBlueprintIdsThanDefaultLimit_Returns400WithoutCallingGenerator()
+    {
+        // ARRANGE: 201 IDs against the default limit of 200
+        var request = new AddDataToAasRequest
+        {
+            BlueprintsIds = Enumerable.Range(1, 201).Select(i => $"urn:smtemplate:Test-{i}").ToList(),
+            Data = new JObject()
+        };
+
+        // ACT
+        var actionResult = await _controller.AddDataToAas("dGVzdA==", request);
+
+        // ASSERT
+        actionResult.Should().BeOfType<BadRequestObjectResult>();
+        _aasGeneratorMock.VerifyNoOtherCalls();
     }
 
     [Test]

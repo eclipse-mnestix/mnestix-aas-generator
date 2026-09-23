@@ -64,6 +64,13 @@ Example: `"ServerUrls": "http://localhost:5065/repo/"`
 - `Configuration__SubmodelTemplatesApiUrl` - Dedicated repository for templates
 - `Configuration__SubmodelBlueprintsApiUrl` - Dedicated repository for blueprints
 
+### Generator Resource Limits (Optional)
+
+These keys bound the work one request may cause. Both have defaults, so you may omit them.
+
+- `AasGenerator__MaxPayloadLimit` (default `200`) - Caps the number of blueprint IDs per Data Ingest request and the number of elements a collection may expand to. Requests over the cap return `400`.
+- `AasGenerator__JsonataEvaluationTimeoutSeconds` (default `2`) - Wall-clock limit for one Jsonata evaluation. A longer evaluation is abandoned and fails the mapping. Raise it only if legitimate expressions need more time.
+
 ## Authentication
 
 Authentication is disabled by default. Set `Features__UseAuthentication` to `true` to enable.
@@ -94,6 +101,18 @@ X-API-KEY: your-secret-api-key
 ```
 
 > **Note:** GET and HEAD requests do not require an API key. Only modifying requests (POST, PUT, PATCH, DELETE) require authentication.
+
+**The deprecated v1 template endpoints pin their authentication schemes.** They accept either a
+bearer token or the `X-API-KEY` header, exactly as the v2 controllers do. They once used a bare
+`[Authorize]` with no scheme list. In the default configuration a development shim stamped every
+request with the `admin.write` scope, and the bare attribute accepted that synthetic principal, so
+the endpoints allowed anonymous writes. Pinning the schemes forces real authentication and rejects
+the shim.
+
+**Decision: an empty API key warns but does not block startup.** The application logs a critical
+warning and starts anyway (see `CustomerEndpointsSecurityOptionsValidation`). While the key is empty,
+every write endpoint still rejects a request that carries neither a valid bearer token nor a real API
+key. Set a strong key before you expose the service.
 
 ### Microsoft Entra ID (Azure AD)
 

@@ -15,6 +15,7 @@ public class IntegrationTestsBase
     protected HttpClient? Client;
     protected Mock<IHttpClientProvider> HttpClientMock;
     protected IConfiguration _configuration;
+    private WebApplicationFactory<Program>? _application;
 
     [SetUp]
     public void Setup()
@@ -50,6 +51,7 @@ public class IntegrationTestsBase
         Client.DefaultRequestHeaders.Add("X-API-KEY", TestApiKey);
 
         _configuration = application.Services.GetRequiredService<IConfiguration>();
+        _application = application;
     }
     
     protected async Task<string> GetResponseContentAndEnsureStatusCodeAsync(string requestUri, int? statusCode = null)
@@ -119,6 +121,15 @@ public class IntegrationTestsBase
         {
             Client.Dispose();
             Client = null; // Set to null to prevent accidental usage
+        }
+
+        // Dispose of the factory to release its host, especially the inotify file watchers:
+        // each undisposed factory holds watchers on the config files, and the whole suite
+        // eventually exceeds the OS limit (128) on inotify instances.
+        if (_application != null)
+        {
+            _application.Dispose();
+            _application = null;
         }
     }
 }

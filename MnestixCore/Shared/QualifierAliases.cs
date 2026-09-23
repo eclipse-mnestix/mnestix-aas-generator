@@ -2,7 +2,7 @@ namespace MnestixCore.Shared;
 
 /// <summary>
 /// Single source of truth for renaming the Mnestix-owned mapping qualifiers from the legacy
-/// "SMT/" prefix to the "MnestixAASGenerator/" prefix (MNE-428).
+/// "SMT/" prefix to the "MnestixAASGenerator/" prefix.
 ///
 /// Only the three Mnestix-owned qualifiers are in the map. "SMT/Cardinality" is an IDTA
 /// SMT-spec standard qualifier (not Mnestix-owned) and is intentionally excluded, so it is

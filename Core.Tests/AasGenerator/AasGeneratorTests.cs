@@ -39,7 +39,7 @@ public class AasGeneratorTests
     [SetUp]
     public void SetUp()
     {
-        _dataToInstanceMapper = new DataMapper(new BlueprintValidator(), new FakeTimeProvider(FixedGenerationTime));
+        _dataToInstanceMapper = new DataMapper(new BlueprintValidator(), new FakeTimeProvider(FixedGenerationTime), Options.Create(new AasGeneratorOptions()));
         _repoProxyClientMock = new Mock<IRepoProxyClient>();
         _templateSubmodelsProviderMock = new Mock<IBlueprintProvider>();
         _idGeneratorMock = new Mock<IAasIdGeneratorService>();
@@ -443,7 +443,7 @@ public class AasGeneratorTests
         await RunDataIngestTest("InputPropertyValueAbsent");
     }
 
-    // --- MLP multiLanguage tests (MNE-357) ---
+    // --- MLP multiLanguage tests ---
 
     [Test]
     public async Task AddDataToAasAsync_InputMLPMultiLanguage_Success()
@@ -547,7 +547,7 @@ public class AasGeneratorTests
         await RunDataIngestFailureTest("InputMLPMultiLanguage_AllEmptyStrings_Mandatory");
     }
 
-    // === BACKWARD-COMPAT (legacy SMT/ prefix) — delete this whole region and its InputLegacySmt_* fixtures when SMT/ support is dropped (MNE-428) ===
+    // === BACKWARD-COMPAT (legacy SMT/ prefix) — delete this whole region and its InputLegacySmt_* fixtures when SMT/ support is dropped ===
     // These prove that blueprints authored with the old SMT/ mapping prefix (whether freshly created
     // or already stored) still generate correctly and produce the same output as the new prefix.
 

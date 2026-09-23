@@ -21,5 +21,6 @@ public enum BlueprintValidationRule
     CollectionPathMissingWildcard,
     InvalidCollectionParentModelType,
     InvalidCardinalityValue,
-    FieldRequiresCollectionScope
+    FieldRequiresCollectionScope,
+    ForbiddenJsonataConstruct
 }

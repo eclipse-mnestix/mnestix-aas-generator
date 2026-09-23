@@ -1,7 +1,8 @@
 ﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
-using MnestixApi.ApiKeyAuthorization;
 using MnestixCore.Errors;
 using MnestixCore.TemplateBuilder.Interfaces;
 using Newtonsoft.Json.Linq;
@@ -14,7 +15,7 @@ namespace MnestixApi.Controllers.deprecated;
 [ApiVersion("1.0", Deprecated = true)]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiController]
-[ApiKey]
+[Authorize(AuthenticationSchemes = $"{JwtBearerDefaults.AuthenticationScheme},ApiKey")]
 [RequiredScope("admin.write")]
 public class TemplateController : ControllerBase
 {

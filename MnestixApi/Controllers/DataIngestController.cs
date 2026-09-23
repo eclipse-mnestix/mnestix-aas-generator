@@ -1,9 +1,11 @@
 ﻿using MnestixCore.AasGenerator.Interfaces;
 using MnestixCore.Dtos.AddDataToAas;
+using MnestixCore.Dtos.AppSettingsOptions;
 using MnestixCore.Errors;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace MnestixApi.Controllers;
 
@@ -19,12 +21,14 @@ public class DataIngestController : ControllerBase
 {
     private readonly IAasGenerator _aasGenerator;
     private readonly ILogger<DataIngestController> _logger;
+    private readonly AasGeneratorOptions _aasGeneratorOptions;
 
     /// <inheritdoc />
-    public DataIngestController(IAasGenerator aasGenerator, ILogger<DataIngestController> logger)
+    public DataIngestController(IAasGenerator aasGenerator, ILogger<DataIngestController> logger, IOptions<AasGeneratorOptions> aasGeneratorOptions)
     {
         _aasGenerator = aasGenerator;
         _logger = logger;
+        _aasGeneratorOptions = aasGeneratorOptions.Value;
     }
 
     /// <summary>
@@ -42,12 +46,12 @@ public class DataIngestController : ControllerBase
     {
         _logger.LogInformation("invoked DataIngest/{AasId}/ with blueprintIds: {BlueprintIds}", base64EncodedAasId, string.Join(", ", requestBody.BlueprintsIds));
 
-        if (requestBody.BlueprintsIds.Count() > 200)
+        if (requestBody.BlueprintsIds.Count() > _aasGeneratorOptions.MaxPayloadLimit)
         {
             return BadRequest(
                 new AasGeneratorErrorDto(
-                    AasGeneratorErrorCode.InvalidInput, 
-                    "Too many blueprint IDs. Up to 200 blueprints can be added at once.",
+                    AasGeneratorErrorCode.InvalidInput,
+                    $"Too many blueprint IDs. Up to {_aasGeneratorOptions.MaxPayloadLimit} blueprints can be added at once.",
                     null
                 )
             );
