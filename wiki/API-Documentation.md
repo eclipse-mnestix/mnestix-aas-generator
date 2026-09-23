@@ -43,10 +43,12 @@ Configure authentication in `appsettings.json`:
 - Set `CustomerEndpointsSecurity__ApiKey` for API key authentication
 - Configure `AzureAd` or `OpenId` sections for OAuth/OIDC authentication
 
-**Running with an empty API key:** the application logs a critical warning and starts anyway. Every
-write endpoint, v1 and v2 alike, still rejects a request that carries neither a valid bearer token
-nor a real API key, because all write controllers pin their authentication schemes. The startup
-warning is a reminder, not the only guard — set a real key before you expose the service.
+**Running with an empty API key:** the application logs a critical warning and starts anyway. The
+scheme-pinned controllers — all v2 endpoints and the v1 `TemplateController` — reject a request that
+carries neither a valid bearer token nor a real API key. The deprecated `CustomTemplatesController`
+and `DefaultTemplatesController` are guarded only by `[ApiKey]`, which compares the header against the
+configured key literally, so an empty header matches an empty setting and passes. The startup warning
+is the only guard for those — set a real key before you expose the service.
 
 ### Generator Resource Limits
 

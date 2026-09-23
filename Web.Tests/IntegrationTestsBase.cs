@@ -15,7 +15,7 @@ public class IntegrationTestsBase
     protected HttpClient? Client;
     protected Mock<IHttpClientProvider> HttpClientMock;
     protected IConfiguration _configuration;
-    private WebApplicationFactory<Program>? _application;
+    protected WebApplicationFactory<Program>? _application;
 
     [SetUp]
     public void Setup()

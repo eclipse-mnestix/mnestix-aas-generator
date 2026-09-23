@@ -111,8 +111,12 @@ the shim.
 
 **Decision: an empty API key warns but does not block startup.** The application logs a critical
 warning and starts anyway (see `CustomerEndpointsSecurityOptionsValidation`). While the key is empty,
-every write endpoint still rejects a request that carries neither a valid bearer token nor a real API
-key. Set a strong key before you expose the service.
+the scheme-pinned controllers (all v2 endpoints and the v1 `TemplateController`) reject a request
+that carries neither a valid bearer token nor a real API key. The remaining deprecated v1 controllers
+still guarded only by `[ApiKey]` — `CustomTemplatesController` and `DefaultTemplatesController` —
+compare the header against the configured key literally, so an empty header matches an empty setting
+and passes. The startup warning is the only guard for those. Set a strong key before you expose the
+service.
 
 ### Microsoft Entra ID (Azure AD)
 

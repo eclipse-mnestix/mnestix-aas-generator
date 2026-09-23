@@ -52,6 +52,29 @@ public class DataIngestControllerTests
     }
 
     [Test]
+    public async Task AddDataToAas_WithExactlyDefaultLimitBlueprintIds_InvokesGenerator()
+    {
+        // ARRANGE: 200 IDs == the default limit, so the request must pass through to the generator
+        var request = new AddDataToAasRequest
+        {
+            BlueprintsIds = Enumerable.Range(1, 200).Select(i => $"urn:smtemplate:Test-{i}").ToList(),
+            Data = new JObject()
+        };
+        _aasGeneratorMock
+            .Setup(x => x.AddDataToAasAsync(It.IsAny<string>(), It.IsAny<IEnumerable<string>>(), It.IsAny<JObject>(), It.IsAny<string?>(), It.IsAny<bool>(), It.IsAny<string?>()))
+            .ReturnsAsync([new AasGeneratorResult { BlueprintId = "urn:smtemplate:Test-1", Success = true }]);
+
+        // ACT
+        var actionResult = await _controller.AddDataToAas("dGVzdA==", request);
+
+        // ASSERT: not rejected, and the generator was called once
+        actionResult.Should().NotBeOfType<BadRequestObjectResult>();
+        _aasGeneratorMock.Verify(
+            x => x.AddDataToAasAsync(It.IsAny<string>(), It.IsAny<IEnumerable<string>>(), It.IsAny<JObject>(), It.IsAny<string?>(), It.IsAny<bool>(), It.IsAny<string?>()),
+            Times.Once);
+    }
+
+    [Test]
     public async Task AddDataToAas_WhenBlueprintValidationFails_Returns500()
     {
         // ARRANGE

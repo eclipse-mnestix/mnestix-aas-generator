@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
 using MnestixCore.Errors;
+using MnestixCore.TemplateBuilder;
 using MnestixCore.TemplateBuilder.Interfaces;
 using Newtonsoft.Json.Linq;
 
@@ -24,30 +25,34 @@ public class TemplateController : ControllerBase
     private readonly IBlueprintProvider _customTemplateSubmodelsProvider;
     private readonly ITemplateProvider _defaultTemplateSubmodelProvider;
     private readonly ITemplateCreator _defaultTemplateSubmodelCreator;
+    private readonly IBlueprintValidator _blueprintValidator;
 
     /// <inheritdoc />
     public TemplateController(ILogger<TemplateController> logger,
         IBlueprintCreator customTemplateSubmodelCreator,
         IBlueprintProvider customTemplateSubmodelsProvider,
         ITemplateProvider defaultTemplateSubmodelProvider,
-        ITemplateCreator defaultTemplateSubmodelCreator)
+        ITemplateCreator defaultTemplateSubmodelCreator,
+        IBlueprintValidator blueprintValidator)
     {
         _logger = logger;
         _customTemplateSubmodelCreator = customTemplateSubmodelCreator;
         _customTemplateSubmodelsProvider = customTemplateSubmodelsProvider;
         _defaultTemplateSubmodelProvider = defaultTemplateSubmodelProvider;
         _defaultTemplateSubmodelCreator = defaultTemplateSubmodelCreator;
+        _blueprintValidator = blueprintValidator;
     }
 
     /// <summary>
     /// ONLY FOR INTERNAL USAGE. BearerToken needed.
-    /// Creates a new custom template in the custom templates AAS of the given submodel semantic id. 
+    /// Creates a new custom template in the custom templates AAS of the given submodel semantic id.
     /// </summary>
     /// <param name="defaultSubmodel">The default submodel as json string</param>
     /// <returns>The identifier of the new created submodel in the custom templates AAS.</returns>
     [HttpPost("createCustomSubmodel")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
     public async Task<ActionResult> CreateCustomSubmodel([FromBody] object defaultSubmodel)
     {
         try
@@ -57,6 +62,12 @@ public class TemplateController : ControllerBase
                 defaultSubmodelString);
 
             Debug.Assert(defaultSubmodelString != null, nameof(defaultSubmodelString) + " != null");
+
+            var validationErrors = _blueprintValidator.Validate(JObject.Parse(defaultSubmodelString));
+            if (validationErrors.Count > 0)
+            {
+                return UnprocessableEntity(new { errors = validationErrors });
+            }
 
             var submodelIdentifier =
                 await _customTemplateSubmodelCreator.CreateNewSubmodelInBlueprintAasAsync(defaultSubmodelString);
@@ -80,6 +91,7 @@ public class TemplateController : ControllerBase
     [HttpPost("updateCustomSubmodel/{submodelId}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
     public async Task<ActionResult> UpdateCustomSubmodel([FromBody] object customSubmodel,
         [FromRoute] string submodelId)
     {
@@ -90,6 +102,12 @@ public class TemplateController : ControllerBase
             _logger.LogTrace("customSubmodel= {CustomSubmodelString}", customSubmodelString);
 
             Debug.Assert(customSubmodelString != null, nameof(customSubmodelString) + " != null");
+
+            var validationErrors = _blueprintValidator.Validate(JObject.Parse(customSubmodelString));
+            if (validationErrors.Count > 0)
+            {
+                return UnprocessableEntity(new { errors = validationErrors });
+            }
 
             await _customTemplateSubmodelCreator.UpdateSubmodelInBlueprintAasAsync(customSubmodelString,
                 submodelId);
