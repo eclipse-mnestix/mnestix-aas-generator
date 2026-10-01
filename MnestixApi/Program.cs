@@ -72,6 +72,7 @@ namespace MnestixApi
             });
 
             builder.Services.Configure<RepoProxyOptions>(builder.Configuration.GetSection(RepoProxyOptions.RepoProxy));
+            builder.Services.Configure<AasGeneratorOptions>(builder.Configuration.GetSection(AasGeneratorOptions.AasGenerator));
             builder.Services.AddControllersWithViews().AddNewtonsoftJson();
             builder.Services.AddResponseCaching();
 
@@ -114,6 +115,7 @@ namespace MnestixApi
             builder.Services.AddTransient<IBlueprintCreator, BlueprintCreator>();
             builder.Services.AddTransient<ITemplateProvider, TemplateProvider>();
             builder.Services.AddTransient<IBlueprintProvider, BlueprintProvider>();
+            builder.Services.AddTransient<IJsonataConstructInspector, JsonataConstructInspector>();
             builder.Services.AddTransient<IBlueprintValidator, BlueprintValidator>();
             builder.Services.AddTransient<ITemplateCreator, TemplateCreator>();
 

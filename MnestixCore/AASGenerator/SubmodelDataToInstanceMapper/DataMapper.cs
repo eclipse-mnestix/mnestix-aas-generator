@@ -1,6 +1,8 @@
+using Microsoft.Extensions.Options;
 using MnestixCore.AasGenerator.Interfaces;
 using MnestixCore.AasGenerator.Pipelines;
 using MnestixCore.AasGenerator.Pipelines.Steps;
+using MnestixCore.Dtos.AppSettingsOptions;
 using MnestixCore.TemplateBuilder;
 using Newtonsoft.Json.Linq;
 
@@ -17,11 +19,13 @@ public sealed class DataMapper : IDataMapper
 {
     private readonly IBlueprintValidator _blueprintValidator;
     private readonly TimeProvider _timeProvider;
+    private readonly AasGeneratorOptions _options;
 
-    public DataMapper(IBlueprintValidator blueprintValidator, TimeProvider timeProvider)
+    public DataMapper(IBlueprintValidator blueprintValidator, TimeProvider timeProvider, IOptions<AasGeneratorOptions> options)
     {
         _blueprintValidator = blueprintValidator;
         _timeProvider = timeProvider;
+        _options = options.Value;
     }
 
     /// <summary>
@@ -35,7 +39,7 @@ public sealed class DataMapper : IDataMapper
     /// <returns>Tuple containing the newly created submodel and the context.</returns>
     public (JObject Instance, DataMappingContext Context) CreateSubmodelInstanceFromDataJson(JObject blueprint, JObject data, string? language, string newSubmodelId, WorkflowLogger workflowLogger)
     {
-        var context = new DataMappingContext(blueprint, data, language, newSubmodelId, workflowLogger, _blueprintValidator, _timeProvider);
+        var context = new DataMappingContext(blueprint, data, language, newSubmodelId, workflowLogger, _blueprintValidator, _timeProvider, _options);
 
         // Build pipeline with all the steps in the correct order
         var pipeline = new Pipelines.Core.PipelineBuilder<DataMappingContext>()

@@ -1,5 +1,8 @@
 ﻿using Core.Tests.TestFiles;
 using FluentAssertions;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.Configuration;
+using MnestixApi;
 using Moq;
 using Newtonsoft.Json.Linq;
 using RestSharp;
@@ -71,6 +74,49 @@ namespace Web.Tests.IntegrationTests
                   ""blueprintsIds"": [
                     ""Nameplate_Template_5bf0df98-e143-47b1-8d3e-42180b40886b""
                   ]
+                }}";
+        }
+
+        [Test]
+        public async Task AddDataToSubmodel_WithMoreBlueprintIdsThanConfiguredLimit_ShouldReturn400()
+        {
+            // ARRANGE: a limit of 2 must come from configuration - a hardcoded 200 would let 3 IDs through
+            using var application = new WebApplicationFactory<Program>()
+                .WithWebHostBuilder(builder =>
+                {
+                    builder.ConfigureAppConfiguration((_, config) =>
+                    {
+                        config.AddInMemoryCollection(new Dictionary<string, string?>
+                        {
+                            ["Features:RequiredShells"] = "false",
+                            ["CustomerEndpointsSecurity:ApiKey"] = TestApiKey,
+                            ["AasGenerator:MaxPayloadLimit"] = "2"
+                        });
+                    });
+                });
+            var client = application.CreateClient();
+            client.DefaultRequestHeaders.Add("X-API-KEY", TestApiKey);
+
+            var content = new StringContent(CreateJsonPayloadWithBlueprintIds("bp-1", "bp-2", "bp-3"), Encoding.UTF8, "application/json");
+
+            // ACT
+            var response = await client.PostAsync("/api/DataIngest/someRandomAASWhichDoesNotExists", content);
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            // ASSERT
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            responseContent.Should().Contain("Too many blueprint IDs");
+            responseContent.Should().Contain("2");
+        }
+
+        private static string CreateJsonPayloadWithBlueprintIds(params string[] blueprintIds)
+        {
+            var ids = string.Join(", ", blueprintIds.Select(id => $@"""{id}"""));
+            return $@"
+                {{
+                  ""language"": ""de"",
+                  ""data"": {{ }},
+                  ""blueprintsIds"": [ {ids} ]
                 }}";
         }
         private static void AssertSimpleElement(Dictionary<string, JObject>? elementDict, string key, string expectedValue)

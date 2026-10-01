@@ -21,12 +21,12 @@ public sealed class FilterElementsAasGeneratorPipelineStep : IPipelineStep<DataM
     // Derived from the single source of truth so a future rename only touches QualifierAliases.
     private static readonly string FilterMappingInfoQualifierPath = QualifierHelpers.RecursiveQualifierPath(QualifierAliases.FilterMappingInfoType);
 
-    public Task<DataMappingContext> ExecuteAsync(DataMappingContext ctx)
+    public async Task<DataMappingContext> ExecuteAsync(DataMappingContext ctx)
     {
         ctx.Log($"Started FilterElementsStep");
-        FilterElements(ctx);
+        await FilterElements(ctx);
         ctx.Log($"Finished FilterElementsStep");
-        return Task.FromResult(ctx);
+        return ctx;
     }
 
     /// <summary>
@@ -44,10 +44,11 @@ public sealed class FilterElementsAasGeneratorPipelineStep : IPipelineStep<DataM
     /// 3. Throws an exception if a mandatory filter fails
     /// 4. Logs all filter decisions for debugging
     /// </remarks>
-    private static void FilterElements(DataMappingContext ctx)
+    private static async Task FilterElements(DataMappingContext ctx)
     {
         var submodelInstance = ctx.SubmodelInstance;
         var data = ctx.Data;
+        var timeout = TimeSpan.FromSeconds(ctx.Options.JsonataEvaluationTimeoutSeconds);
         
         // Find all MnestixAASGenerator/FilterMappingInfo qualifiers recursively
         var qualifiers = submodelInstance.SelectTokens(FilterMappingInfoQualifierPath);
@@ -95,9 +96,8 @@ public sealed class FilterElementsAasGeneratorPipelineStep : IPipelineStep<DataM
                     continue;
                 }
 
-                // Evaluate the JSONATA boolean expression using EvalNewtonsoft for automatic type conversion
-                var filterQuery = new JsonataQuery(filterExpression);
-                var result = filterQuery.EvalNewtonsoft(data);
+                // Evaluate the JSONATA boolean expression under the configured evaluation timeout
+                var result = await JsonataEvaluator.EvaluateAsync(data, filterExpression, ctx, timeout);
                 
                 bool shouldInclude = false;
                 

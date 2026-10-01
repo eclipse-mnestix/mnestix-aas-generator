@@ -46,6 +46,33 @@ public class RepoProxyClientTest
     }
 
     [Test]
+    public async Task GetAsync_WhenPathContainsTraversalSequence_ThrowsAndNeverCallsClient()
+    {
+        // Act
+        var act = () => _sut.GetAsync("..\\shells");
+
+        // Assert
+        var ex = await act.Should().ThrowAsync<RepoProxyException>();
+        ex.Which.ErrorCode.Should().Be(ErrorCodes.CouldNotGet);
+        _restClientMock.Verify(
+            c => c.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()),
+            Times.Never);
+    }
+
+    [Test]
+    public async Task GetAsync_WhenPathContainsParentSegment_ThrowsAndNeverCallsClient()
+    {
+        // Act
+        var act = () => _sut.GetAsync("submodels/../shells");
+
+        // Assert
+        await act.Should().ThrowAsync<RepoProxyException>();
+        _restClientMock.Verify(
+            c => c.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()),
+            Times.Never);
+    }
+
+    [Test]
     public async Task GetAsync_WhenHttpClientThrows_ShouldThrowRepoProxyException()
     {
         // Arrange

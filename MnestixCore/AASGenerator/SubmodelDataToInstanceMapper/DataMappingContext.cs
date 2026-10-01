@@ -1,3 +1,4 @@
+using MnestixCore.Dtos.AppSettingsOptions;
 using MnestixCore.TemplateBuilder;
 using Newtonsoft.Json.Linq;
 
@@ -12,6 +13,7 @@ public sealed class DataMappingContext
     public string NewSubmodelId { get; }
     public IBlueprintValidator BlueprintValidator { get; }
     public TimeProvider TimeProvider { get; }
+    public AasGeneratorOptions Options { get; }
 
     // Shared workflow logger
     private readonly WorkflowLogger _workflowLogger;
@@ -44,7 +46,7 @@ public sealed class DataMappingContext
     public List<MappingDescriptor> MappingDescriptors { get; set; } = new();
     public List<ResolvedMapping> ResolvedMappings { get; set; } = new();
 
-    public DataMappingContext(JObject blueprint, JObject data, string? language, string newSubmodelId, WorkflowLogger workflowLogger, IBlueprintValidator blueprintValidator, TimeProvider timeProvider)
+    public DataMappingContext(JObject blueprint, JObject data, string? language, string newSubmodelId, WorkflowLogger workflowLogger, IBlueprintValidator blueprintValidator, TimeProvider timeProvider, AasGeneratorOptions? options = null)
     {
         Blueprint = blueprint;
         Data = data;
@@ -53,6 +55,7 @@ public sealed class DataMappingContext
         _workflowLogger = workflowLogger;
         BlueprintValidator = blueprintValidator;
         TimeProvider = timeProvider;
+        Options = options ?? new AasGeneratorOptions();
         SubmodelInstance = new JObject();
     }
 }

@@ -36,7 +36,7 @@ Or run in Rider with the 'MnestixApi:Mnestix' Configuration.
 To start the AAS Generator with BaSyx in Docker:
 
 ```bash
-docker compose -f ./docker-compose/compose.dev.yml up
+docker compose -f ./docker-compose/compose.dev.go.yml up
 ```
 
 Access Swagger UI at: http://localhost:5064/swagger
@@ -63,6 +63,13 @@ Example: `"ServerUrls": "http://localhost:5065/repo/"`
 
 - `Configuration__SubmodelTemplatesApiUrl` - Dedicated repository for templates
 - `Configuration__SubmodelBlueprintsApiUrl` - Dedicated repository for blueprints
+
+### Generator Resource Limits (Optional)
+
+These keys bound the work one request may cause. Both have defaults, so you may omit them.
+
+- `AasGenerator__MaxPayloadLimit` (default `200`) - Caps the number of blueprint IDs per Data Ingest request and the number of elements a collection may expand to. Requests over the cap return `400`.
+- `AasGenerator__JsonataEvaluationTimeoutSeconds` (default `2`) - Wall-clock limit for one Jsonata evaluation. A longer evaluation is abandoned and fails the mapping. Raise it only if legitimate expressions need more time.
 
 ## Authentication
 
@@ -94,6 +101,22 @@ X-API-KEY: your-secret-api-key
 ```
 
 > **Note:** GET and HEAD requests do not require an API key. Only modifying requests (POST, PUT, PATCH, DELETE) require authentication.
+
+**The deprecated v1 template endpoints pin their authentication schemes.** They accept either a
+bearer token or the `X-API-KEY` header, exactly as the v2 controllers do. They once used a bare
+`[Authorize]` with no scheme list. In the default configuration a development shim stamped every
+request with the `admin.write` scope, and the bare attribute accepted that synthetic principal, so
+the endpoints allowed anonymous writes. Pinning the schemes forces real authentication and rejects
+the shim.
+
+**Decision: an empty API key warns but does not block startup.** The application logs a critical
+warning and starts anyway (see `CustomerEndpointsSecurityOptionsValidation`). While the key is empty,
+the scheme-pinned controllers (all v2 endpoints and the v1 `TemplateController`) reject a request
+that carries neither a valid bearer token nor a real API key. The remaining deprecated v1 controllers
+still guarded only by `[ApiKey]` — `CustomTemplatesController` and `DefaultTemplatesController` —
+compare the header against the configured key literally, so an empty header matches an empty setting
+and passes. The startup warning is the only guard for those. Set a strong key before you expose the
+service.
 
 ### Microsoft Entra ID (Azure AD)
 

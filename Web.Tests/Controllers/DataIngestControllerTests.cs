@@ -2,10 +2,12 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using MnestixApi.Controllers;
 using MnestixCore.AasGenerator;
 using MnestixCore.AasGenerator.Interfaces;
 using MnestixCore.Dtos.AddDataToAas;
+using MnestixCore.Dtos.AppSettingsOptions;
 using MnestixCore.Errors;
 using MnestixCore.TemplateBuilder;
 using Moq;
@@ -28,7 +30,48 @@ public class DataIngestControllerTests
     public void SetUp()
     {
         _aasGeneratorMock = new Mock<IAasGenerator>();
-        _controller = new DataIngestController(_aasGeneratorMock.Object, Mock.Of<ILogger<DataIngestController>>());
+        _controller = new DataIngestController(_aasGeneratorMock.Object, Mock.Of<ILogger<DataIngestController>>(), Options.Create(new AasGeneratorOptions()));
+    }
+
+    [Test]
+    public async Task AddDataToAas_WithMoreBlueprintIdsThanDefaultLimit_Returns400WithoutCallingGenerator()
+    {
+        // ARRANGE: 201 IDs against the default limit of 200
+        var request = new AddDataToAasRequest
+        {
+            BlueprintsIds = Enumerable.Range(1, 201).Select(i => $"urn:smtemplate:Test-{i}").ToList(),
+            Data = new JObject()
+        };
+
+        // ACT
+        var actionResult = await _controller.AddDataToAas("dGVzdA==", request);
+
+        // ASSERT
+        actionResult.Should().BeOfType<BadRequestObjectResult>();
+        _aasGeneratorMock.VerifyNoOtherCalls();
+    }
+
+    [Test]
+    public async Task AddDataToAas_WithExactlyDefaultLimitBlueprintIds_InvokesGenerator()
+    {
+        // ARRANGE: 200 IDs == the default limit, so the request must pass through to the generator
+        var request = new AddDataToAasRequest
+        {
+            BlueprintsIds = Enumerable.Range(1, 200).Select(i => $"urn:smtemplate:Test-{i}").ToList(),
+            Data = new JObject()
+        };
+        _aasGeneratorMock
+            .Setup(x => x.AddDataToAasAsync(It.IsAny<string>(), It.IsAny<IEnumerable<string>>(), It.IsAny<JObject>(), It.IsAny<string?>(), It.IsAny<bool>(), It.IsAny<string?>()))
+            .ReturnsAsync([new AasGeneratorResult { BlueprintId = "urn:smtemplate:Test-1", Success = true }]);
+
+        // ACT
+        var actionResult = await _controller.AddDataToAas("dGVzdA==", request);
+
+        // ASSERT: not rejected, and the generator was called once
+        actionResult.Should().NotBeOfType<BadRequestObjectResult>();
+        _aasGeneratorMock.Verify(
+            x => x.AddDataToAasAsync(It.IsAny<string>(), It.IsAny<IEnumerable<string>>(), It.IsAny<JObject>(), It.IsAny<string?>(), It.IsAny<bool>(), It.IsAny<string?>()),
+            Times.Once);
     }
 
     [Test]

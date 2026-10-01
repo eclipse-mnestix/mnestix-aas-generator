@@ -7,7 +7,7 @@ namespace MnestixCore.AasGenerator.Pipelines.Steps;
 /// <summary>
 /// Rewrites legacy "SMT/" mapping-qualifier types to their "MnestixAASGenerator/" equivalents on
 /// the cloned instance, so every downstream step and JSONPath literal only ever sees the new prefix.
-/// Backward compatibility (MNE-428): blueprints authored with the old prefix keep working, whether
+/// Backward compatibility: blueprints authored with the old prefix keep working, whether
 /// they are freshly created or already stored. "SMT/Cardinality" and any custom qualifier are left
 /// untouched (see <see cref="QualifierAliases"/>).
 /// </summary>

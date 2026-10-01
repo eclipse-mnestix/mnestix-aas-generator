@@ -12,8 +12,8 @@
 
   <ItemGroup>
     <PackageReference Include="IdentityModel" Version="7.0.0" />
-    <PackageReference Include="Jsonata.Net.Native" Version="2.11.0" />
-    <PackageReference Include="Jsonata.Net.Native.JsonNet" Version="2.11.0" />
+    <PackageReference Include="Jsonata.Net.Native" Version="3.0.0" />
+    <PackageReference Include="Jsonata.Net.Native.JsonNet" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="10.0.10" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.10" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.10" />

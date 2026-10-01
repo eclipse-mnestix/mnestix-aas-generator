@@ -12,6 +12,13 @@ public sealed class BlueprintValidator : IBlueprintValidator
     private const string CollectionMappingInfoType = QualifierAliases.CollectionMappingInfoType;
     private const string CardinalityType = "SMT/Cardinality"; // IDTA standard qualifier — not renamed
 
+    private readonly IJsonataConstructInspector _constructInspector;
+
+    public BlueprintValidator(IJsonataConstructInspector? constructInspector = null)
+    {
+        _constructInspector = constructInspector ?? new JsonataConstructInspector();
+    }
+
     private static readonly HashSet<string> ValidCardinalities = new()
     {
         "One", "ZeroToOne", "OneToMany", "ZeroToMany"
@@ -41,7 +48,7 @@ public sealed class BlueprintValidator : IBlueprintValidator
             var type = qualifier["type"]?.Value<string>();
             if (string.IsNullOrEmpty(type)) continue;
             // Accept the legacy "SMT/" mapping prefix by canonicalizing to the new prefix before
-            // matching (MNE-428 backward compatibility). SMT/Cardinality and custom qualifiers are
+            // matching (backward compatibility). SMT/Cardinality and custom qualifiers are
             // returned unchanged by Canonicalize.
             type = QualifierAliases.Canonicalize(type);
 
@@ -71,7 +78,7 @@ public sealed class BlueprintValidator : IBlueprintValidator
         return errors;
     }
 
-    private static void ValidateMappingInfoQualifier(
+    private void ValidateMappingInfoQualifier(
         JToken qualifier,
         string type,
         string path,
@@ -152,12 +159,22 @@ public sealed class BlueprintValidator : IBlueprintValidator
         }
 
         // Rule 8: InvalidJsonataSyntax
-        if (!TryParseJsonata(expression, out var parseError))
+        if (!TryParseJsonata(expression, out var query, out var parseError))
         {
             errors.Add(new BlueprintValidationError(
                 BlueprintValidationRule.InvalidJsonataSyntax,
                 path,
                 $"Invalid JSONata syntax: {parseError}"));
+            return;
+        }
+
+        // Rule 17: ForbiddenJsonataConstruct
+        if (_constructInspector.FindForbiddenConstruct(query!) is { } violation)
+        {
+            errors.Add(new BlueprintValidationError(
+                BlueprintValidationRule.ForbiddenJsonataConstruct,
+                path,
+                $"Mapping expression uses forbidden JSONata construct ({violation}). Function definitions and $eval/$assert/$error are not allowed: they cannot be governed by the evaluation timeout."));
             return;
         }
 
@@ -170,7 +187,7 @@ public sealed class BlueprintValidator : IBlueprintValidator
         }
     }
 
-    private static void ValidateFilterQualifier(
+    private void ValidateFilterQualifier(
         JToken qualifier,
         string path,
         List<BlueprintValidationError> errors)
@@ -188,12 +205,22 @@ public sealed class BlueprintValidator : IBlueprintValidator
         }
 
         // Rule 10: InvalidFilterJsonataSyntax
-        if (!TryParseJsonata(expression, out var parseError))
+        if (!TryParseJsonata(expression, out var query, out var parseError))
         {
             errors.Add(new BlueprintValidationError(
                 BlueprintValidationRule.InvalidFilterJsonataSyntax,
                 path,
                 $"Invalid JSONata syntax in filter expression: {parseError}"));
+            return;
+        }
+
+        // Rule 17: ForbiddenJsonataConstruct
+        if (_constructInspector.FindForbiddenConstruct(query!) is { } violation)
+        {
+            errors.Add(new BlueprintValidationError(
+                BlueprintValidationRule.ForbiddenJsonataConstruct,
+                path,
+                $"Filter expression uses forbidden JSONata construct ({violation}). Function definitions and $eval/$assert/$error are not allowed: they cannot be governed by the evaluation timeout."));
         }
     }
 
@@ -304,16 +331,17 @@ public sealed class BlueprintValidator : IBlueprintValidator
         }
     }
 
-    private static bool TryParseJsonata(string expression, out string? error)
+    private static bool TryParseJsonata(string expression, out JsonataQuery? query, out string? error)
     {
         try
         {
-            _ = new JsonataQuery(expression);
+            query = new JsonataQuery(expression);
             error = null;
             return true;
         }
         catch (Exception ex)
         {
+            query = null;
             error = ex.Message;
             return false;
         }
