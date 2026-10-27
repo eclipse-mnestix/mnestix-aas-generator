@@ -73,7 +73,12 @@ namespace MnestixApi
 
             builder.Services.Configure<RepoProxyOptions>(builder.Configuration.GetSection(RepoProxyOptions.RepoProxy));
             builder.Services.Configure<AasGeneratorOptions>(builder.Configuration.GetSection(AasGeneratorOptions.AasGenerator));
-            builder.Services.AddControllersWithViews().AddNewtonsoftJson();
+            // Keep date strings as strings; never upgrade them to .NET DateTime
+            // implicitly, otherwise this value can never be XSD-compliant again.
+            builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.DateParseHandling = Newtonsoft.Json.DateParseHandling.None;
+            });
             builder.Services.AddResponseCaching();
 
             builder.Services.AddApiVersioning(options =>
