@@ -118,6 +118,30 @@ public class IdGeneratorServiceTest
     }
 
     [Test]
+    public async Task
+        GenerateAasIdsAsync_AasIdProvided_UsesProvidedAasIdAndGeneratesOtherIdsNormally()
+    {
+        // ARRANGE
+        var mnestixConfigurationProviderMock = new Mock<IMnestixConfigurationProvider>();
+        mnestixConfigurationProviderMock
+            .Setup(s => s.GetIdGenerationSettingsAsync())
+            .ReturnsAsync(IdGenerationSettingsConfiguredToUseAssetIdShort);
+
+        var cut = new AasIdGeneratorService(mnestixConfigurationProviderMock.Object);
+        var randomAssetIdShort = Guid.NewGuid().ToString();
+        var customAasId = "https://custom.domain/t/12345/aas";
+
+        // ACT
+        var aasIds = await cut.GenerateAasIdsAsync(randomAssetIdShort, aasId: customAasId);
+
+        // ASSERT
+        aasIds.aasId.Should().Be(customAasId);
+        aasIds.assetId.Should().Be(IdGenerationSettingsConfiguredToUseAssetIdShort.assetIdPrefix + randomAssetIdShort);
+        aasIds.aasIdShort.Should()
+            .Be(IdGenerationSettingsConfiguredToUseAssetIdShort.aasIdShortPrefix + randomAssetIdShort);
+    }
+
+    [Test]
     public async Task GenerateSubmodelIdsAsync_RequestTenSubmodelIds_TenSubmodelIdsWithCorrectPrefixReturned()
     {
         // ARRANGE

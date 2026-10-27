@@ -9,8 +9,9 @@ public interface IAasIdGeneratorService
     /// </summary>
     /// <param name="assetIdShortParam">Optional parameter which holds the assetIdShort which can be used as part of the generated ids.</param>
     /// <param name="globalAssetId">Optional globalAssetId to use directly instead of generating one.</param>
+    /// <param name="aasId">Optional aasId to use directly instead of generating one.</param>
     /// <returns>Task which holds the generated <see cref="AasIds"/>.</returns>
-    public Task<AasIds> GenerateAasIdsAsync(string? assetIdShortParam = null, string? globalAssetId = null);
+    public Task<AasIds> GenerateAasIdsAsync(string? assetIdShortParam = null, string? globalAssetId = null, string? aasId = null);
 
     /// <summary>
     /// Generates ids for submodels which are used to create new submodels in AAS.
