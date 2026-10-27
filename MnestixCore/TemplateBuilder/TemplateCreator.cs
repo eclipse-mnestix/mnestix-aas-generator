@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using MnestixCore.Dtos;
 using MnestixCore.Dtos.AppSettingsOptions;
 using MnestixCore.RepoProxyClient.Interfaces;
+using MnestixCore.Shared;
 using MnestixCore.TemplateBuilder.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -35,7 +36,7 @@ public class TemplateCreator : ITemplateCreator
 
     public async Task AddNewSubmodelInTemplateAasAsync(string template)
     {
-        var templateSubmodelJson = JObject.Parse(template);
+        var templateSubmodelJson = JsonHelper.ParseWithoutDateUpgrade(template);
 
         if (string.IsNullOrEmpty(templateSubmodelJson["id"]?.ToString()))
         {

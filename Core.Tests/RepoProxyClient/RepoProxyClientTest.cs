@@ -329,10 +329,10 @@ public class RepoProxyClientTest
     }
 
     [Test]
-    public async Task PutAsync_WhenValueIsNonConformantDateString_ForwardsItUnchanged()
+    public async Task PutAsync_WhenValueIsDateStringWithTrailingFractionalZeros_ForwardsItUnchanged()
     {
         // Arrange
-        const string dateValue = "01/01/2024";
+        const string dateValue = "2024-01-01T10:15:30.100Z";
         RestRequest? capturedRequest = null;
         _restClientMock
             .Setup(c => c.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
@@ -354,10 +354,10 @@ public class RepoProxyClientTest
     }
 
     [Test]
-    public async Task PostSubmodelWithReferenceAsync_WhenValueIsNonConformantDateString_ForwardsItUnchanged()
+    public async Task PostSubmodelWithReferenceAsync_WhenValueIsDateStringWithTrailingFractionalZeros_ForwardsItUnchanged()
     {
         // Arrange
-        const string dateValue = "01/01/2024";
+        const string dateValue = "2024-01-01T10:15:30.100Z";
         var capturedRequests = new List<RestRequest>();
         _restClientMock
             .Setup(c => c.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))

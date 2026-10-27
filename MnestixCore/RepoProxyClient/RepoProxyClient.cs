@@ -23,17 +23,6 @@ public class RepoProxyClient(
     private readonly CustomerEndpointsSecurityOptions _customerEndpointsSecurityOptions = customerEndpointsSecurityOptions.Value ??
                                                                                           throw new ArgumentNullException(nameof(customerEndpointsSecurityOptions));
 
-    /// <summary>Parses JSON without upgrading ISO date strings to .NET DateTime objects.</summary>
-    private static JObject ParseWithoutDateUpgrade(string json)
-    {
-        using var sreader = new System.IO.StringReader(json);
-        using var jreader = new Newtonsoft.Json.JsonTextReader(sreader)
-        {
-            DateParseHandling = Newtonsoft.Json.DateParseHandling.None
-        };
-        return JObject.Load(jreader);
-    }
-
     /// <inheritdoc />
     public async Task<string?> GetAsync(string repoProxyPath)
     {
@@ -87,7 +76,7 @@ public class RepoProxyClient(
 
             restRequest.AddHeader(ApiKeyHeaderKey, _customerEndpointsSecurityOptions.ApiKey);
             var normalized = AasJsonNormalizer.NormalizeJsonForRepository(
-                ParseWithoutDateUpgrade(jsonContent));
+                JsonHelper.ParseWithoutDateUpgrade(jsonContent));
             restRequest.AddBody(normalized.ToString(), "application/json");
 
             var response = await client.ExecuteAsync(restRequest);
@@ -125,7 +114,7 @@ public class RepoProxyClient(
 
             restRequest.AddHeader(ApiKeyHeaderKey, _customerEndpointsSecurityOptions.ApiKey);
             var normalized = AasJsonNormalizer.NormalizeJsonForRepository(
-                ParseWithoutDateUpgrade(jsonContent));
+                JsonHelper.ParseWithoutDateUpgrade(jsonContent));
             restRequest.AddBody(normalized.ToString(), "application/json");
 
             var response = await client.ExecuteAsync(restRequest);
@@ -165,7 +154,7 @@ public class RepoProxyClient(
 
             restRequest.AddHeader(ApiKeyHeaderKey, _customerEndpointsSecurityOptions.ApiKey);
             var normalized = AasJsonNormalizer.NormalizeJsonForRepository(
-                ParseWithoutDateUpgrade(jsonContent));
+                JsonHelper.ParseWithoutDateUpgrade(jsonContent));
             restRequest.AddBody(normalized.ToString(), "application/json");
 
             var response = await client.ExecuteAsync(restRequest);

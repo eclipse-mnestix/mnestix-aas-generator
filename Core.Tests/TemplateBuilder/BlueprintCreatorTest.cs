@@ -371,6 +371,58 @@ public class BlueprintCreatorTest
         ((string?)displayNameQualifier["value"]).Should().Be("Nameplate_2026-01-02T03:04:05");
     }
 
+    [Test]
+    public async Task CreateNewBlueprintInAas_WhenSubmodelContainsDateValue_PreservesExactFormat()
+    {
+        // ARRANGE
+        const string blueprintsAasId = "http://test.sm.id";
+        const string repoProxyAasPath = "/testpath/for/AasPath";
+        const string repoProxySubmodelPath = "/testpath/for/SubmodelPath";
+        const string dateValue = "2024-01-01T10:15:30.100Z";
+
+        var repoProxyOptions = new RepoProxyOptions
+        {
+            AasPath = repoProxyAasPath,
+            SubmodelPath = repoProxySubmodelPath
+        };
+
+        var configurationOptions = new ConfigurationOptions
+        {
+            BlueprintsAasId = blueprintsAasId
+        };
+
+        var template = $$"""
+            {
+              "id": "https://example.com/sm/template-1",
+              "idShort": "Nameplate",
+              "submodelElements": [
+                { "modelType": "Property", "valueType": "xs:dateTime", "idShort": "InstallDate", "value": "{{dateValue}}" }
+              ]
+            }
+            """;
+
+        string? capturedSubmodelJson = null;
+        var repoProxyClientMock = new Mock<IRepoProxyClient>();
+        repoProxyClientMock
+            .Setup(s => s.PostAsync(repoProxySubmodelPath, It.IsAny<string>()))
+            .Callback<string, string>((_, json) => capturedSubmodelJson = json)
+            .ReturnsAsync((string?)null);
+
+        var blueprintCreator = new BlueprintCreator(
+            repoProxyClientMock.Object,
+            new OptionsWrapper<ConfigurationOptions>(configurationOptions),
+            new OptionsWrapper<RepoProxyOptions>(repoProxyOptions),
+            new Mock<ILogger<BlueprintCreator>>().Object,
+            TimeProvider.System);
+
+        // ACT
+        await blueprintCreator.CreateNewSubmodelInBlueprintAasAsync(template);
+
+        // ASSERT
+        capturedSubmodelJson.Should().NotBeNull();
+        capturedSubmodelJson.Should().Contain($"\"{dateValue}\"");
+    }
+
     private sealed class BlueprintStubHttpMessageHandler(Func<HttpRequestMessage, Task<HttpResponseMessage>> responseFactory) : HttpMessageHandler
     {
         private readonly Func<HttpRequestMessage, Task<HttpResponseMessage>> _responseFactory = responseFactory;
