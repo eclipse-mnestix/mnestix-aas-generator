@@ -21,10 +21,10 @@ public class InplaceGenerationRequest
     public JObject Data { get; set; } = null!;
 
     /// <summary>
-    /// A list of BlueprintsIds (not encoded in base64)
+    /// The BlueprintId (not encoded in base64) to build the submodel from.
     /// </summary>
     [Required]
-    public IEnumerable<string> BlueprintsIds { get; set; } = [];
+    public string BlueprintId { get; set; } = null!;
 
     /// <summary>
     /// Whether to include debug information (logs) in the response.

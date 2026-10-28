@@ -2,11 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using MnestixApi.Controllers;
 using MnestixCore.AasGenerator;
 using MnestixCore.AasGenerator.Interfaces;
-using MnestixCore.Dtos.AppSettingsOptions;
 using MnestixCore.Dtos.InplaceGeneration;
 using MnestixCore.Errors;
 using MnestixCore.TemplateBuilder;
@@ -22,7 +20,7 @@ public class InplaceGenerationControllerTests
 
     private static readonly InplaceGenerationRequest DefaultRequest = new()
     {
-        BlueprintsIds = ["urn:smtemplate:Test"],
+        BlueprintId = "urn:smtemplate:Test",
         Data = new JObject()
     };
 
@@ -30,29 +28,11 @@ public class InplaceGenerationControllerTests
     public void SetUp()
     {
         _aasGeneratorMock = new Mock<IAasGenerator>();
-        _controller = new InplaceGenerationController(_aasGeneratorMock.Object, Mock.Of<ILogger<InplaceGenerationController>>(), Options.Create(new AasGeneratorOptions()));
+        _controller = new InplaceGenerationController(_aasGeneratorMock.Object, Mock.Of<ILogger<InplaceGenerationController>>());
     }
 
     [Test]
-    public async Task Generate_WithMoreBlueprintIdsThanDefaultLimit_Returns400WithoutCallingGenerator()
-    {
-        // ARRANGE: 201 IDs against the default limit of 200
-        var request = new InplaceGenerationRequest
-        {
-            BlueprintsIds = Enumerable.Range(1, 201).Select(i => $"urn:smtemplate:Test-{i}").ToList(),
-            Data = new JObject()
-        };
-
-        // ACT
-        var actionResult = await _controller.Generate(request);
-
-        // ASSERT
-        actionResult.Should().BeOfType<BadRequestObjectResult>();
-        _aasGeneratorMock.VerifyNoOtherCalls();
-    }
-
-    [Test]
-    public async Task Generate_WhenBuildSucceeds_Returns200WithSubmodelBody()
+    public async Task Generate_WhenBuildSucceeds_Returns200WithEnvironmentContainingOnlySubmodel()
     {
         // ARRANGE
         var submodel = new JObject { ["id"] = "urn:submodel:new" };
@@ -67,12 +47,14 @@ public class InplaceGenerationControllerTests
         // ACT
         var actionResult = await _controller.Generate(DefaultRequest);
 
-        // ASSERT: nothing is posted to any repository, only the built submodel is returned
+        // ASSERT: nothing is posted to any repository, the environment only carries the submodel
         actionResult.Should().BeOfType<OkObjectResult>();
         var response = ((OkObjectResult)actionResult).Value as InplaceGenerationResponse;
-        response!.Results.Should().ContainSingle(r => r.Success && r.Submodel == submodel);
+        response!.AssetAdministrationShells.Should().BeEmpty();
+        response.ConceptDescriptions.Should().BeEmpty();
+        response.Submodels.Should().ContainSingle().Which.Should().BeSameAs(submodel);
         _aasGeneratorMock.Verify(
-            x => x.BuildSubmodelAsync(It.IsAny<string>(), It.IsAny<JObject>(), It.IsAny<string?>(), It.IsAny<bool>(), It.IsAny<string?>()),
+            x => x.BuildSubmodelAsync("urn:smtemplate:Test", It.IsAny<JObject>(), It.IsAny<string?>(), It.IsAny<bool>(), It.IsAny<string?>()),
             Times.Once);
     }
 
