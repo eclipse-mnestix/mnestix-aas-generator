@@ -392,6 +392,98 @@ Returned when one or more blueprints fail structural validation at generation ti
 }
 ```
 
+### InplaceGeneration
+
+Builds a submodel from a single blueprint the same way Add Data to AAS does, but returns the generated submodel instead of persisting it. Use this when the caller needs to apply custom logic before storing the submodel - for example posting its elements one by one to satisfy eventing requirements - rather than letting the AAS Generator write straight to the repository.
+
+```http
+POST /api/v2/InplaceGeneration
+```
+
+#### Request Body
+
+```json
+{
+  "blueprintId": "contact-template-v1",
+  "data": {
+    "contacts": [
+      {"name": "John Doe", "email": "john@example.com"},
+      {"name": "Jane Smith", "email": "jane@example.com"}
+    ],
+    "manufacturer": "ACME Corp",
+    "serialNumber": "SN-12345"
+  },
+  "language": "en",
+  "debug": false
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `blueprintId` | string | Yes | A single blueprint ID to generate a submodel from. Unlike Add Data to AAS, only one blueprint is supported per request. |
+| `data` | object | Yes | JSON data to map into the template. Use `{}` if no mapping is defined. |
+| `language` | string | Yes | Language code for MultiLanguageProperties (e.g., `"en"`, `"de"`) |
+| `debug` | boolean | No | Include workflow logs in response (default: `false`). |
+
+#### Response
+
+**Success (200 OK)**
+
+Returns an AAS environment containing only the generated submodel. `assetAdministrationShells` and `conceptDescriptions` are always empty - nothing is written to the repository and no shell reference is created. The caller is responsible for persisting the submodel (and creating its shell reference, if needed).
+
+```json
+{
+  "assetAdministrationShells": [],
+  "submodels": [
+    {
+      "id": "https://example.com/submodels/contact-001",
+      "idShort": "ContactInformation",
+      "modelType": "Submodel",
+      "submodelElements": []
+    }
+  ],
+  "conceptDescriptions": []
+}
+```
+
+**Error (400 Bad Request)**
+
+Returned when building the submodel fails, e.g. missing mapped data:
+
+```json
+{
+  "blueprintId": "contact-template-v1",
+  "success": false,
+  "generatedSubmodelId": "",
+  "error": {
+    "code": "MappingFailed",
+    "message": "Missing required data at path: contacts.name",
+    "context": null
+  }
+}
+```
+
+**Error (500 Internal Server Error)**
+
+Returned when the blueprint fails structural validation at generation time - see the equivalent response under Add Data to AAS above for details on why this happens:
+
+```json
+{
+  "errors": [
+    {
+      "rule": "FieldNotApplicableToModelType",
+      "path": "ContactInformation > ContactName",
+      "message": "Field 'first' is not valid on model type 'Property'. Allowed fields: value, idShort, displayName."
+    }
+  ],
+  "result": {
+    "blueprintId": "contact-template-v1",
+    "success": false,
+    "generatedSubmodelId": ""
+  }
+}
+```
+
 ---
 
 ## Blueprints

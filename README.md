@@ -10,6 +10,7 @@ The Mnestix AAS Generator enables automated creation of Asset Administration She
 
 - **AAS Creation** (`POST /api/v2/AasCreator/{assetIdShort}`) - Create AAS with optional automatic Submodel generation
 - **Data Ingest** (`POST /api/v2/DataIngest/{aasId}`) - Generate Submodels from Blueprints using structured JSON data
+- **InplaceGeneration** (`POST /api/v2/InplaceGeneration`) - Generate a Submodel from a Blueprint without persisting it, for callers that need custom persistence logic
 - **Blueprints & Templates** - Manage Submodel templates with embedded mapping rules
 - **ID Generator** - Generate standardized identifiers for AAS and Submodels
 
