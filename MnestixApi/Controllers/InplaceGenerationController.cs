@@ -39,7 +39,10 @@ public class InplaceGenerationController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> Generate([FromBody] InplaceGenerationRequest requestBody)
     {
-        _logger.LogInformation("invoked InplaceGeneration with blueprintId: {BlueprintId}", requestBody.BlueprintId);
+        var sanitizedBlueprintId = requestBody.BlueprintId?
+            .Replace("\r", string.Empty)
+            .Replace("\n", string.Empty);
+        _logger.LogInformation("invoked InplaceGeneration with blueprintId: {BlueprintId}", sanitizedBlueprintId);
 
         var built = await _aasGenerator.BuildSubmodelAsync(requestBody.BlueprintId, requestBody.Data, requestBody.Language, requestBody.Debug);
 
