@@ -414,6 +414,7 @@ public class AasGeneratorTests
     }
 
     [Test]
+    [SetCulture("de-DE")]
     public async Task AddDataToAasAsync_InputMLPValidationSuccessFloat_Success()
     {
         await RunDataIngestTest("InputMLPValidationSuccessFloat");
