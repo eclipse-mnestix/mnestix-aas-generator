@@ -429,7 +429,8 @@ POST /api/v2/InplaceGeneration
 
 **Success (200 OK)**
 
-Returns an AAS environment containing only the generated submodel. `assetAdministrationShells` and `conceptDescriptions` are always empty - nothing is written to the repository and no shell reference is created. The caller is responsible for persisting the submodel (and creating its shell reference, if needed).
+Currently, it returns an AAS environment containing only the generated submodel. `assetAdministrationShells` and `conceptDescriptions` are empty for the moment. In the future, there will the possibility of also returning a shell and concept descriptions.
+Nothing is written to the repository and no shell reference is created. The caller is responsible for persisting the submodel (and creating its shell reference, if needed).
 
 ```json
 {
