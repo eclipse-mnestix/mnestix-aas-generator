@@ -22,9 +22,9 @@ public class AasCreatorService(
     private readonly RepoProxyOptions _repoProxyOptions = repoProxyOptions.Value ?? throw new ArgumentNullException(nameof(repoProxyOptions));
 
     /// <inheritdoc />
-    public async Task<AasCreationResult> CreateAasAsync(string assetIdShortParam, string? globalAssetId = null, AasCreationOptions? options = null)
+    public async Task<AasCreationResult> CreateAasAsync(string assetIdShortParam, string? globalAssetId = null, AasCreationOptions? options = null, string? aasId = null)
     {
-        var aasIds = await aasIdGeneratorService.GenerateAasIdsAsync(assetIdShortParam, globalAssetId);
+        var aasIds = await aasIdGeneratorService.GenerateAasIdsAsync(assetIdShortParam, globalAssetId, aasId);
         var base64EncodedAasId = Base64StringDeAndEncoder.EncodeTo64(aasIds.aasId);
 
         var aasIdAlreadyExists = await IsAasIdAlreadyExisting(base64EncodedAasId);
@@ -65,7 +65,7 @@ public class AasCreatorService(
         CreateAasParameters? input = null,
         bool overwrite = false)
     {
-        var aasIds = await aasIdGeneratorService.GenerateAasIdsAsync(assetIdShortParam, input?.GlobalAssetId);
+        var aasIds = await aasIdGeneratorService.GenerateAasIdsAsync(assetIdShortParam, input?.GlobalAssetId, input?.AasId);
         var base64EncodedAasId = Base64StringDeAndEncoder.EncodeTo64(aasIds.aasId);
         var shellPath = $"{_repoProxyOptions.AasPath}/{base64EncodedAasId}";
 
