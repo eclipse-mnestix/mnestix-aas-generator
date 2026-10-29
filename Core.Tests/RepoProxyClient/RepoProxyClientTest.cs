@@ -293,6 +293,94 @@ public class RepoProxyClientTest
 
     #endregion
 
+    #region Date Format Preservation Tests
+
+    // BaSyx 1.1.0 validates xs:date/xs:dateTime values strictly. Older versions silently
+    // accepted values that Newtonsoft's default JObject.Parse had already reformatted
+    // (dates get upgraded to DateTime/JTokenType.Date and reformatted on ToString()).
+    // The proxy must forward the value byte-for-byte, valid or not, and let BaSyx be the
+    // one to accept or reject it.
+    [TestCase("2024-01-01")]
+    [TestCase("2024-01-01T10:15:30.100Z")]
+    [TestCase("01/01/2024")]
+    [TestCase("2024-13-45T99:99:99")]
+    [TestCase("not-a-date")]
+    public async Task PostAsync_WhenValueIsDateString_ForwardsItUnchanged(string dateValue)
+    {
+        // Arrange
+        RestRequest? capturedRequest = null;
+        _restClientMock
+            .Setup(c => c.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+            .Callback<RestRequest, CancellationToken>((req, _) => capturedRequest = req)
+            .ReturnsAsync(new RestResponse
+            {
+                StatusCode = HttpStatusCode.OK,
+                ResponseStatus = ResponseStatus.Completed,
+                IsSuccessStatusCode = true
+            });
+        var json = $"{{\"modelType\": \"Property\", \"valueType\": \"xs:date\", \"value\": \"{dateValue}\"}}";
+
+        // Act
+        await _sut.PostAsync("submodels", json);
+
+        // Assert
+        var sentBody = capturedRequest!.Parameters.First(p => p.Type == ParameterType.RequestBody).Value as string;
+        sentBody.Should().Contain($"\"{dateValue}\"");
+    }
+
+    [Test]
+    public async Task PutAsync_WhenValueIsDateStringWithTrailingFractionalZeros_ForwardsItUnchanged()
+    {
+        // Arrange
+        const string dateValue = "2024-01-01T10:15:30.100Z";
+        RestRequest? capturedRequest = null;
+        _restClientMock
+            .Setup(c => c.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+            .Callback<RestRequest, CancellationToken>((req, _) => capturedRequest = req)
+            .ReturnsAsync(new RestResponse
+            {
+                StatusCode = HttpStatusCode.OK,
+                ResponseStatus = ResponseStatus.Completed,
+                IsSuccessStatusCode = true
+            });
+        var json = $"{{\"modelType\": \"Property\", \"valueType\": \"xs:date\", \"value\": \"{dateValue}\"}}";
+
+        // Act
+        await _sut.PutAsync("submodels/some-id", json);
+
+        // Assert
+        var sentBody = capturedRequest!.Parameters.First(p => p.Type == ParameterType.RequestBody).Value as string;
+        sentBody.Should().Contain($"\"{dateValue}\"");
+    }
+
+    [Test]
+    public async Task PostSubmodelWithReferenceAsync_WhenValueIsDateStringWithTrailingFractionalZeros_ForwardsItUnchanged()
+    {
+        // Arrange
+        const string dateValue = "2024-01-01T10:15:30.100Z";
+        var capturedRequests = new List<RestRequest>();
+        _restClientMock
+            .Setup(c => c.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()))
+            .Callback<RestRequest, CancellationToken>((req, _) => capturedRequests.Add(req))
+            .ReturnsAsync(new RestResponse
+            {
+                StatusCode = HttpStatusCode.OK,
+                ResponseStatus = ResponseStatus.Completed,
+                IsSuccessStatusCode = true
+            });
+        var json = $"{{\"modelType\": \"Property\", \"valueType\": \"xs:date\", \"value\": \"{dateValue}\"}}";
+
+        // Act
+        await _sut.PostSubmodelWithReferenceAsync("aasId", "smId", json);
+
+        // Assert
+        var submodelRequest = capturedRequests.Single(r => r.Resource == "submodels");
+        var sentBody = submodelRequest.Parameters.First(p => p.Type == ParameterType.RequestBody).Value as string;
+        sentBody.Should().Contain($"\"{dateValue}\"");
+    }
+
+    #endregion
+
     [Test]
     public async Task GetAsync_WhenHttpClientProviderThrows_ShouldThrowRepoProxyException()
     {

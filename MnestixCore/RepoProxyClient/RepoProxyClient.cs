@@ -75,7 +75,8 @@ public class RepoProxyClient(
             };
 
             restRequest.AddHeader(ApiKeyHeaderKey, _customerEndpointsSecurityOptions.ApiKey);
-            var normalized = AasJsonNormalizer.NormalizeJsonForRepository(JObject.Parse(jsonContent));
+            var normalized = AasJsonNormalizer.NormalizeJsonForRepository(
+                JsonHelper.ParseWithoutDateUpgrade(jsonContent));
             restRequest.AddBody(normalized.ToString(), "application/json");
 
             var response = await client.ExecuteAsync(restRequest);
@@ -112,7 +113,8 @@ public class RepoProxyClient(
             };
 
             restRequest.AddHeader(ApiKeyHeaderKey, _customerEndpointsSecurityOptions.ApiKey);
-            var normalized = AasJsonNormalizer.NormalizeJsonForRepository(JObject.Parse(jsonContent));
+            var normalized = AasJsonNormalizer.NormalizeJsonForRepository(
+                JsonHelper.ParseWithoutDateUpgrade(jsonContent));
             restRequest.AddBody(normalized.ToString(), "application/json");
 
             var response = await client.ExecuteAsync(restRequest);
@@ -151,7 +153,8 @@ public class RepoProxyClient(
             };
 
             restRequest.AddHeader(ApiKeyHeaderKey, _customerEndpointsSecurityOptions.ApiKey);
-            var normalized = AasJsonNormalizer.NormalizeJsonForRepository(JObject.Parse(jsonContent));
+            var normalized = AasJsonNormalizer.NormalizeJsonForRepository(
+                JsonHelper.ParseWithoutDateUpgrade(jsonContent));
             restRequest.AddBody(normalized.ToString(), "application/json");
 
             var response = await client.ExecuteAsync(restRequest);
