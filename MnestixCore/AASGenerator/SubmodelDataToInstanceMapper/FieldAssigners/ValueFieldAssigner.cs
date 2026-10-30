@@ -20,8 +20,8 @@ public sealed class ValueFieldAssigner : FieldAssignerBase
         ["xs:long"] = v => long.TryParse(v, out _),
         ["xs:short"] = v => short.TryParse(v, out _),
         ["xs:decimal"] = v => decimal.TryParse(v, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out _),
-        ["xs:double"] = v => double.TryParse(v, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out _),
-        ["xs:float"] = v => float.TryParse(v, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out _),
+        ["xs:double"] = v => IsSpecialFloatingPoint(v) || double.TryParse(v, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out _),
+        ["xs:float"] = v => IsSpecialFloatingPoint(v) || float.TryParse(v, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out _),
         ["xs:dateTime"] = v => DateTime.TryParse(v, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out _),
         ["xs:date"] = v => DateOnly.TryParse(v, System.Globalization.CultureInfo.InvariantCulture, out _),
         ["xs:anyURI"] = _ => true,
@@ -69,7 +69,7 @@ public sealed class ValueFieldAssigner : FieldAssignerBase
         {
             new JObject
             {
-                { "text", resolvedValue.ToString() },
+                { "text", ScalarValueFormatter.ToInvariantString(resolvedValue) },
                 { "language", language }
             }
         };
@@ -80,7 +80,7 @@ public sealed class ValueFieldAssigner : FieldAssignerBase
         var valueType = element["valueType"]?.Value<string>();
         if (string.IsNullOrEmpty(valueType)) return;
 
-        var stringValue = dataValue.ToString();
+        var stringValue = ScalarValueFormatter.ToInvariantString(dataValue);
         if (ValueTypeValidators.TryGetValue(valueType, out var validator))
         {
             if (!validator(stringValue))
@@ -94,4 +94,6 @@ public sealed class ValueFieldAssigner : FieldAssignerBase
             ctx.LogWarning($"Unknown valueType '{valueType}' — skipping validation");
         }
     }
+
+    private static bool IsSpecialFloatingPoint(string value) => value is "INF" or "-INF" or "NaN";
 }

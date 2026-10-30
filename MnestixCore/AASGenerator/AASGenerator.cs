@@ -255,7 +255,7 @@ public class AasGenerator : IAasGenerator
         {
             await _repoProxyClient.PostAsync(_repoProxyOptions.SubmodelPath, submodelInstance.ToString());
 
-            var submodelReferenceJson = SubmodelReference.ToJson(submodelId);
+            var submodelReferenceJson = SubmodelReference.ToJson(submodelId, submodelInstance["semanticId"] as JObject);
 
             workflowLogger.LogInfo("Adding submodel reference to shell");
             await _repoProxyClient.PostAsync($"{_repoProxyOptions.AasPath}/{base64EncodedAasId}/submodel-refs", submodelReferenceJson);
