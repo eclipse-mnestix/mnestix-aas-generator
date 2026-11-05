@@ -114,6 +114,7 @@ public class FieldAssignerTests
     }
 
     [Test]
+    [SetCulture("de-DE")]
     public void SemanticId_FloatValue_StringifiedIntoGlobalReference()
     {
         var element = MakeElement();
@@ -122,6 +123,48 @@ public class FieldAssignerTests
         sut.Assign(element, new JValue(1.5d), "Property", null, MakeContext());
 
         element["semanticId"]!["keys"]![0]!["value"]!.Value<string>().Should().Be("1.5");
+    }
+
+    [TestCase(1.0e20d, "1E+20")]
+    [TestCase(double.PositiveInfinity, "INF")]
+    [TestCase(double.NegativeInfinity, "-INF")]
+    [TestCase(double.NaN, "NaN")]
+    [SetCulture("de-DE")]
+    public void SemanticId_FloatingValue_UsesXsdLexicalFormat(double input, string expected)
+    {
+        var element = MakeElement();
+        var sut = new SemanticIdFieldAssigner();
+
+        sut.Assign(element, new JValue(input), "Property", null, MakeContext());
+
+        element["semanticId"]!["keys"]![0]!["value"]!.Value<string>().Should().Be(expected);
+    }
+
+    [Test]
+    [SetCulture("de-DE")]
+    public void Value_MultiLanguageFloat_UsesInvariantXsdLexicalFormat()
+    {
+        var element = MakeElement("MultiLanguageProperty");
+        var sut = new ValueFieldAssigner();
+
+        sut.Assign(element, new JValue(19.99d), "MultiLanguageProperty", "en", MakeContext("en"));
+
+        element["value"]![0]!["text"]!.Value<string>().Should().Be("19.99");
+    }
+
+    [TestCase(double.PositiveInfinity, "INF")]
+    [TestCase(double.NegativeInfinity, "-INF")]
+    [TestCase(double.NaN, "NaN")]
+    public void Value_NonFiniteDouble_SerializedAsXsdLexicalString(double input, string expected)
+    {
+        var element = MakeElement();
+        element["valueType"] = "xs:double";
+        var sut = new ValueFieldAssigner();
+
+        sut.Assign(element, new JValue(input), "Property", null, MakeContext());
+
+        element["value"]!.Type.Should().Be(JTokenType.String);
+        element.ToString(Newtonsoft.Json.Formatting.None).Should().Contain($"\"value\":\"{expected}\"");
     }
 
     [Test]

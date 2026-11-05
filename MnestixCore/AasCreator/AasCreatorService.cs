@@ -85,7 +85,7 @@ public class AasCreatorService(
         }
 
         // 3. Build shell template with all submodel-refs baked in
-        var shell = BuildShellWithRefs(aasIds, postedSubmodelIds, input?.Metadata, input?.SubmodelIds);
+        var shell = BuildShellWithRefs(aasIds, postedSubmodelIds, input?.Metadata, input?.SubmodelIds, instancesToPost);
 
         // 4. POST shell
         try
@@ -260,8 +260,9 @@ public class AasCreatorService(
     /// <param name="generatedSubmodelIds">Submodel ids (not encoded) generated from blueprints to reference from the shell.</param>
     /// <param name="options">Optional configuration for AAS metadata (assetKind, extensions, specificAssetIds, administration, defaultThumbnail, derivedFrom)</param>
     /// <param name="providedSubmodelIds">Optional existing submodel ids (not encoded) provided by the caller to reference from the shell.</param>
+    /// <param name="generatedSubmodels">Generated submodel bodies containing optional semantic IDs.</param>
     /// <returns>The serialized shell JSON.</returns>
-    private string BuildShellWithRefs(AasIds aasIds, IReadOnlyCollection<string> generatedSubmodelIds, AasCreationOptions? options = null, IEnumerable<string>? providedSubmodelIds = null)
+    private string BuildShellWithRefs(AasIds aasIds, IReadOnlyCollection<string> generatedSubmodelIds, AasCreationOptions? options = null, IEnumerable<string>? providedSubmodelIds = null, IReadOnlyCollection<JObject>? generatedSubmodels = null)
     {
         var shell = JObject.Parse(TemplateProvider.GetAas(aasIds, options));
 
@@ -277,7 +278,8 @@ public class AasCreatorService(
             var refs = new JArray();
             foreach (var submodelId in allSubmodelIds)
             {
-                refs.Add(JObject.Parse(SubmodelReference.ToJson(submodelId)));
+                var submodel = generatedSubmodels?.FirstOrDefault(instance => instance["id"]?.Value<string>() == submodelId);
+                refs.Add(JObject.Parse(SubmodelReference.ToJson(submodelId, submodel?["semanticId"] as JObject)));
             }
             shell["submodels"] = refs;
         }
