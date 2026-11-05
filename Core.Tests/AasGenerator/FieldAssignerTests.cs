@@ -152,6 +152,21 @@ public class FieldAssignerTests
         element["value"]![0]!["text"]!.Value<string>().Should().Be("19.99");
     }
 
+    [TestCase(double.PositiveInfinity, "INF")]
+    [TestCase(double.NegativeInfinity, "-INF")]
+    [TestCase(double.NaN, "NaN")]
+    public void Value_NonFiniteDouble_SerializedAsXsdLexicalString(double input, string expected)
+    {
+        var element = MakeElement();
+        element["valueType"] = "xs:double";
+        var sut = new ValueFieldAssigner();
+
+        sut.Assign(element, new JValue(input), "Property", null, MakeContext());
+
+        element["value"]!.Type.Should().Be(JTokenType.String);
+        element.ToString(Newtonsoft.Json.Formatting.None).Should().Contain($"\"value\":\"{expected}\"");
+    }
+
     [Test]
     public void SemanticId_NullValue_ProducesEmptyGlobalReferenceValue()
     {

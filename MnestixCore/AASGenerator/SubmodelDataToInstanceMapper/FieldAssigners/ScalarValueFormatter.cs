@@ -8,6 +8,10 @@ namespace MnestixCore.AasGenerator.Pipelines.FieldAssigners;
 /// </summary>
 internal static class ScalarValueFormatter
 {
+    public const string PositiveInfinity = "INF";
+    public const string NegativeInfinity = "-INF";
+    public const string NotANumber = "NaN";
+
     public static string ToInvariantString(JToken token)
     {
         if (token is not JValue { Value: { } value })
@@ -27,18 +31,18 @@ internal static class ScalarValueFormatter
 
     private static string FormatFloatingPoint(double value)
     {
-        if (double.IsPositiveInfinity(value)) return "INF";
-        if (double.IsNegativeInfinity(value)) return "-INF";
-        if (double.IsNaN(value)) return "NaN";
+        if (double.IsPositiveInfinity(value)) return PositiveInfinity;
+        if (double.IsNegativeInfinity(value)) return NegativeInfinity;
+        if (double.IsNaN(value)) return NotANumber;
 
         return value.ToString("R", CultureInfo.InvariantCulture);
     }
 
     private static string FormatFloatingPoint(float value)
     {
-        if (float.IsPositiveInfinity(value)) return "INF";
-        if (float.IsNegativeInfinity(value)) return "-INF";
-        if (float.IsNaN(value)) return "NaN";
+        if (float.IsPositiveInfinity(value)) return PositiveInfinity;
+        if (float.IsNegativeInfinity(value)) return NegativeInfinity;
+        if (float.IsNaN(value)) return NotANumber;
 
         return value.ToString("R", CultureInfo.InvariantCulture);
     }

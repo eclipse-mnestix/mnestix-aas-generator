@@ -47,8 +47,15 @@ public sealed class ValueFieldAssigner : FieldAssignerBase
         ValidateValueType(element, resolvedValue, ctx);
 
         WarnIfOverridingDefault(element, this.FieldName, ctx);
-        element[this.FieldName] = resolvedValue.DeepClone();
+        // Non-finite numbers must be stored in XML Schema lexical form, otherwise JSON serializes them as Infinity/-Infinity/NaN.
+        element[this.FieldName] = IsNonFiniteNumber(resolvedValue)
+            ? JValue.CreateString(ScalarValueFormatter.ToInvariantString(resolvedValue))
+            : resolvedValue.DeepClone();
     }
+
+    private static bool IsNonFiniteNumber(JToken token) =>
+        token is JValue { Value: double d } && !double.IsFinite(d)
+        || token is JValue { Value: float f } && !float.IsFinite(f);
 
     private void AssignMultiLanguagePropertyValue(JToken element, JToken resolvedValue, string? language, DataMappingContext ctx)
     {
@@ -95,5 +102,8 @@ public sealed class ValueFieldAssigner : FieldAssignerBase
         }
     }
 
-    private static bool IsSpecialFloatingPoint(string value) => value is "INF" or "-INF" or "NaN";
+    private static bool IsSpecialFloatingPoint(string value) => value
+        is ScalarValueFormatter.PositiveInfinity
+        or ScalarValueFormatter.NegativeInfinity
+        or ScalarValueFormatter.NotANumber;
 }
