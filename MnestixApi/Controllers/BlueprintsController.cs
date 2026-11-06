@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -73,7 +74,9 @@ public class BlueprintsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Produces("application/json")]
     [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
-    public async Task<ActionResult> GetBlueprintById(string base64EncodedBlueprintId)
+    public async Task<ActionResult> GetBlueprintById(
+        [RegularExpression("^[A-Za-z0-9_=-]+$", ErrorMessage = "Invalid blueprint id.")]
+        string base64EncodedBlueprintId)
     {
         try
         {

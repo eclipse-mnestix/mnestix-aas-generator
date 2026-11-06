@@ -22,7 +22,7 @@ public sealed class SemanticIdFieldAssigner : FieldAssignerBase
 
         WarnIfOverridingDefault(element, this.FieldName, ctx);
 
-        var value = resolvedValue.ToString();
+        var value = ScalarValueFormatter.ToInvariantString(resolvedValue);
         element[this.FieldName] = new JObject
         {
             ["type"] = "ExternalReference",

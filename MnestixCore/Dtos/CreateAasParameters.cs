@@ -34,6 +34,11 @@ public class CreateAasParameters
     public string? GlobalAssetId { get; init; }
 
     /// <summary>
+    /// Optional aasId to use directly instead of generating one.
+    /// </summary>
+    public string? AasId { get; init; }
+
+    /// <summary>
     /// Optional AAS metadata configuration (assetKind, extensions, specificAssetIds, etc.).
     /// </summary>
     public AasCreationOptions? Metadata { get; init; }
@@ -62,6 +67,7 @@ public class CreateAasParameters
             Language = request.Language,
             Debug = request.Debug,
             GlobalAssetId = request.GlobalAssetId,
+            AasId = request.AasId,
             SubmodelIds = request.SubmodelIds,
             Metadata = new AasCreationOptions
             {

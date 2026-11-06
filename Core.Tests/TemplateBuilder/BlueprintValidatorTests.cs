@@ -955,7 +955,7 @@ public class BlueprintValidatorTests
 
     #endregion
 
-    // === BACKWARD-COMPAT (legacy SMT/ prefix) — delete this whole region when SMT/ support is dropped (MNE-428) ===
+    // === BACKWARD-COMPAT (legacy SMT/ prefix) — delete this whole region when SMT/ support is dropped ===
     #region Backward compatibility
 
     [Test]
@@ -1016,4 +1016,74 @@ public class BlueprintValidatorTests
 
     #endregion
     // === END BACKWARD-COMPAT ===
+
+    #region Rule 17: ForbiddenJsonataConstruct
+
+    [Test]
+    public void Validate_MappingInfoWithLambdaDefinition_ReturnsForbiddenConstructError()
+    {
+        var blueprint = MakeBlueprint(
+            MakeElement("Property", "Temp",
+                MakeQualifier("MnestixAASGenerator/MappingInfo/value", "$map($.items, function($v) { $v })"))
+        );
+
+        var errors = _sut.Validate(blueprint);
+
+        errors.Should().ContainSingle(e => e.Rule == BlueprintValidationRule.ForbiddenJsonataConstruct);
+    }
+
+    [Test]
+    public void Validate_MappingInfoWithEvalReference_ReturnsForbiddenConstructError()
+    {
+        var blueprint = MakeBlueprint(
+            MakeElement("Property", "Temp",
+                MakeQualifier("MnestixAASGenerator/MappingInfo/value", "$eval('$.name')"))
+        );
+
+        var errors = _sut.Validate(blueprint);
+
+        errors.Should().ContainSingle(e => e.Rule == BlueprintValidationRule.ForbiddenJsonataConstruct);
+    }
+
+    [Test]
+    public void Validate_FilterWithAssertReference_ReturnsForbiddenConstructError()
+    {
+        var blueprint = MakeBlueprint(
+            MakeElement("Property", "Temp",
+                MakeQualifier("MnestixAASGenerator/FilterMappingInfo", "$assert($.active, 'must be active')"))
+        );
+
+        var errors = _sut.Validate(blueprint);
+
+        errors.Should().ContainSingle(e => e.Rule == BlueprintValidationRule.ForbiddenJsonataConstruct);
+    }
+
+    [Test]
+    public void Validate_FilterWithErrorReference_ReturnsForbiddenConstructError()
+    {
+        var blueprint = MakeBlueprint(
+            MakeElement("Property", "Temp",
+                MakeQualifier("MnestixAASGenerator/FilterMappingInfo", "$error('boom')"))
+        );
+
+        var errors = _sut.Validate(blueprint);
+
+        errors.Should().ContainSingle(e => e.Rule == BlueprintValidationRule.ForbiddenJsonataConstruct);
+    }
+
+    [Test]
+    public void Validate_MappingInfoWithHigherOrderFunctionCall_ReturnsNoError()
+    {
+        // Built-in higher-order functions stay allowed - only lambda definitions and eval/assert/error are forbidden
+        var blueprint = MakeBlueprint(
+            MakeElement("Property", "Names",
+                MakeQualifier("MnestixAASGenerator/MappingInfo/value", "$join($map($.items, $.name))"))
+        );
+
+        var errors = _sut.Validate(blueprint);
+
+        errors.Should().BeEmpty();
+    }
+
+    #endregion
 }

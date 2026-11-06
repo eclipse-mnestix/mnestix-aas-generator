@@ -9,21 +9,23 @@ namespace MnestixCore.RestClientProvider.OpenIdClientProvider;
 /// </summary>
 public class HttpClientTokenProvider(IAccessTokenService accessTokenService) : IHttpClientProvider
 {
-    private string? _accessToken;
+    // Cache the initialization task, not the client: concurrent callers await the same
+    // in-flight build, so the token endpoint is hit once and only one RestClient is created.
+    private readonly Lock _gate = new();
+    private Task<IRestClient>? _clientTask;
 
-    private async Task<string?> GetToken()
-    {
-        if (string.IsNullOrEmpty(_accessToken))
-        {
-            _accessToken = await accessTokenService.GetTokenAsync();
-        }
-        return _accessToken;
-    }
-    
     /// <inheritdoc />
-    public async Task<IRestClient> GetConfiguredClientAsync(string baseUrl)
+    public Task<IRestClient> GetConfiguredClientAsync(string baseUrl)
     {
-        var token = await GetToken();
+        lock (_gate)
+        {
+            return _clientTask ??= BuildClientAsync(baseUrl);
+        }
+    }
+
+    private async Task<IRestClient> BuildClientAsync(string baseUrl)
+    {
+        var token = await accessTokenService.GetTokenAsync();
         var client = new RestClient(baseUrl);
         client.AddDefaultHeader("Authorization", $"Bearer {token}");
         return client;

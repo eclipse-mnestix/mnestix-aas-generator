@@ -28,6 +28,15 @@ public class RepoProxyClient(
     {
         try
         {
+            // Defense in depth: callers must pass an already-escaped path. A '..' or '\'
+            // here means the value was not escaped and could traverse the outbound path.
+            if (ContainsTraversalSequence(repoProxyPath))
+            {
+                throw new RepoProxyException(
+                    ErrorCodes.CouldNotGet,
+                    "Rejected repository path containing traversal sequence.");
+            }
+
             var client = await httpClientProvider.GetConfiguredClientAsync(baseUrlProvider.GetBaseUrl());
             var request = new RestRequest("/" + repoProxyPath);
             request.AddHeader(ApiKeyHeaderKey, _customerEndpointsSecurityOptions.ApiKey);
@@ -66,7 +75,8 @@ public class RepoProxyClient(
             };
 
             restRequest.AddHeader(ApiKeyHeaderKey, _customerEndpointsSecurityOptions.ApiKey);
-            var normalized = AasJsonNormalizer.NormalizeJsonForRepository(JObject.Parse(jsonContent));
+            var normalized = AasJsonNormalizer.NormalizeJsonForRepository(
+                JsonHelper.ParseWithoutDateUpgrade(jsonContent));
             restRequest.AddBody(normalized.ToString(), "application/json");
 
             var response = await client.ExecuteAsync(restRequest);
@@ -103,7 +113,8 @@ public class RepoProxyClient(
             };
 
             restRequest.AddHeader(ApiKeyHeaderKey, _customerEndpointsSecurityOptions.ApiKey);
-            var normalized = AasJsonNormalizer.NormalizeJsonForRepository(JObject.Parse(jsonContent));
+            var normalized = AasJsonNormalizer.NormalizeJsonForRepository(
+                JsonHelper.ParseWithoutDateUpgrade(jsonContent));
             restRequest.AddBody(normalized.ToString(), "application/json");
 
             var response = await client.ExecuteAsync(restRequest);
@@ -142,7 +153,8 @@ public class RepoProxyClient(
             };
 
             restRequest.AddHeader(ApiKeyHeaderKey, _customerEndpointsSecurityOptions.ApiKey);
-            var normalized = AasJsonNormalizer.NormalizeJsonForRepository(JObject.Parse(jsonContent));
+            var normalized = AasJsonNormalizer.NormalizeJsonForRepository(
+                JsonHelper.ParseWithoutDateUpgrade(jsonContent));
             restRequest.AddBody(normalized.ToString(), "application/json");
 
             var response = await client.ExecuteAsync(restRequest);
@@ -308,6 +320,12 @@ public class RepoProxyClient(
     public string GetAasRepositoryUrl()
     {
         return baseUrlProvider.GetBaseUrl();
+    }
+
+    private static bool ContainsTraversalSequence(string path)
+    {
+        return path.Contains("..", StringComparison.Ordinal)
+               || path.Contains('\\');
     }
 
     private static RepoProxyException CreateResponseException(ErrorCodes code, string message, RestResponse response)

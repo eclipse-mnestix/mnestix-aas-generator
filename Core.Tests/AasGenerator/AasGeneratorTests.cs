@@ -39,7 +39,7 @@ public class AasGeneratorTests
     [SetUp]
     public void SetUp()
     {
-        _dataToInstanceMapper = new DataMapper(new BlueprintValidator(), new FakeTimeProvider(FixedGenerationTime));
+        _dataToInstanceMapper = new DataMapper(new BlueprintValidator(), new FakeTimeProvider(FixedGenerationTime), Options.Create(new AasGeneratorOptions()));
         _repoProxyClientMock = new Mock<IRepoProxyClient>();
         _templateSubmodelsProviderMock = new Mock<IBlueprintProvider>();
         _idGeneratorMock = new Mock<IAasIdGeneratorService>();
@@ -414,6 +414,7 @@ public class AasGeneratorTests
     }
 
     [Test]
+    [SetCulture("de-DE")]
     public async Task AddDataToAasAsync_InputMLPValidationSuccessFloat_Success()
     {
         await RunDataIngestTest("InputMLPValidationSuccessFloat");
@@ -443,7 +444,7 @@ public class AasGeneratorTests
         await RunDataIngestTest("InputPropertyValueAbsent");
     }
 
-    // --- MLP multiLanguage tests (MNE-357) ---
+    // --- MLP multiLanguage tests ---
 
     [Test]
     public async Task AddDataToAasAsync_InputMLPMultiLanguage_Success()
@@ -547,7 +548,7 @@ public class AasGeneratorTests
         await RunDataIngestFailureTest("InputMLPMultiLanguage_AllEmptyStrings_Mandatory");
     }
 
-    // === BACKWARD-COMPAT (legacy SMT/ prefix) — delete this whole region and its InputLegacySmt_* fixtures when SMT/ support is dropped (MNE-428) ===
+    // === BACKWARD-COMPAT (legacy SMT/ prefix) — delete this whole region and its InputLegacySmt_* fixtures when SMT/ support is dropped ===
     // These prove that blueprints authored with the old SMT/ mapping prefix (whether freshly created
     // or already stored) still generate correctly and produce the same output as the new prefix.
 
@@ -561,6 +562,37 @@ public class AasGeneratorTests
     public async Task AddDataToAasAsync_LegacySmtPrefix_Collection_BackwardCompat()
     {
         await RunDataIngestTest("InputLegacySmt_Collection");
+    }
+
+    [Test]
+    public async Task AddDataToAasAsync_SubmodelHasSemanticId_WritesItAsReferredSemanticId()
+    {
+        var templateSubmodel = DataIngestTestFileProvider.GetTemplateSubmodel("InputLegacySmt_Collection");
+        var templateData = DataIngestTestFileProvider.GetData("InputLegacySmt_Collection");
+        var semanticId = JObject.Parse("""{"type":"ExternalReference","keys":[{"type":"GlobalReference","value":"urn:example:semantic-id"}]}""");
+        templateSubmodel["semanticId"] = semanticId;
+        JObject? submodelReference = null;
+
+        _templateSubmodelsProviderMock
+            .Setup(x => x.GetBlueprintAsync(It.IsAny<string>()))
+            .ReturnsAsync(templateSubmodel);
+        _repoProxyClientMock
+            .Setup(x => x.PostAsync(TestSubmodelPath, It.IsAny<string>()))
+            .ReturnsAsync("created");
+        _repoProxyClientMock
+            .Setup(x => x.PostAsync($"{TestAasPath}/{TestBase64EncodedAasId}/submodel-refs", It.IsAny<string>()))
+            .Callback<string, string>((_, content) => submodelReference = JObject.Parse(content))
+            .ReturnsAsync("created");
+
+        var result = await _aasGenerator.AddDataToAasAsync(
+            TestBase64EncodedAasId,
+            new[] { "urn:smtemplate:DemoTemplate" },
+            templateData,
+            "en");
+
+        result.Single().Success.Should().BeTrue();
+        submodelReference.Should().NotBeNull();
+        JToken.DeepEquals(submodelReference!["referredSemanticId"], semanticId).Should().BeTrue();
     }
 
     [Test]

@@ -11,8 +11,9 @@ public interface IAasCreatorService
     /// <param name="assetIdShortParam">Short identifier of the asset</param>
     /// <param name="globalAssetId">Optional globalAssetId to use directly instead of generating one.</param>
     /// <param name="options">Optional configuration for AAS metadata (assetKind, extensions, specificAssetIds, administration, defaultThumbnail, derivedFrom)</param>
+    /// <param name="aasId">Optional aasId to use directly instead of generating one.</param>
     /// <returns><see cref="AasCreationResult"/></returns>
-    public Task<AasCreationResult> CreateAasAsync(string assetIdShortParam, string? globalAssetId = null, AasCreationOptions? options = null);
+    public Task<AasCreationResult> CreateAasAsync(string assetIdShortParam, string? globalAssetId = null, AasCreationOptions? options = null, string? aasId = null);
 
     /// <summary>
     /// Create an AAS for the given <paramref name="assetIdShortParam" /> with optional submodels.
