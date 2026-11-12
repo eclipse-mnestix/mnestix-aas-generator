@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using MnestixCore.Dtos;
 using MnestixCore.Dtos.AppSettingsOptions;
 using MnestixCore.RepoProxyClient.Interfaces;
+using MnestixCore.Shared;
 using MnestixCore.TemplateBuilder.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -46,7 +47,7 @@ public class BlueprintCreator : IBlueprintCreator
     {
         _logger.LogInformation("CreateBlueprintInAasAsync called");
 
-        var blueprint = JObject.Parse(templateSubmodel);
+        var blueprint = JsonHelper.ParseWithoutDateUpgrade(templateSubmodel);
         SetAasKindToInstance(ref blueprint);
 
         var submodelIdShort = (string)blueprint.SelectToken("idShort")!;

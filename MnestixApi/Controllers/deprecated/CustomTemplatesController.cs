@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MnestixApi.ApiKeyAuthorization;
 using MnestixCore.TemplateBuilder.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace MnestixApi.Controllers.deprecated;
 
@@ -59,7 +60,9 @@ public class CustomTemplatesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Produces("application/json")]
     [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
-    public async Task<ActionResult> GetCustomSubmodel(string base64EncodedCustomTemplateId)
+    public async Task<ActionResult> GetCustomSubmodel(
+        [RegularExpression("^[A-Za-z0-9_=-]+$", ErrorMessage = "Invalid custom template id.")]
+        string base64EncodedCustomTemplateId)
     {
         try
         {

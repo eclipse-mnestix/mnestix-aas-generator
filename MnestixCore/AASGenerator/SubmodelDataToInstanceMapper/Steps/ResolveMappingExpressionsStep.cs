@@ -12,23 +12,24 @@ namespace MnestixCore.AasGenerator.Pipelines.Steps;
 /// </summary>
 public sealed class ResolveMappingExpressionsAasGeneratorPipelineStep : IPipelineStep<DataMappingContext>
 {
-    public Task<DataMappingContext> ExecuteAsync(DataMappingContext ctx)
+    public async Task<DataMappingContext> ExecuteAsync(DataMappingContext ctx)
     {
         ctx.Log("Started ResolveMappingExpressionsStep");
-        ResolveExpressions(ctx);
+        await ResolveExpressions(ctx);
         ctx.Log("Finished ResolveMappingExpressionsStep");
-        return Task.FromResult(ctx);
+        return ctx;
     }
 
-    private static void ResolveExpressions(DataMappingContext ctx)
+    private static async Task ResolveExpressions(DataMappingContext ctx)
     {
         var resolved = new List<ResolvedMapping>();
+        var timeout = TimeSpan.FromSeconds(ctx.Options.JsonataEvaluationTimeoutSeconds);
 
         foreach (var descriptor in ctx.MappingDescriptors)
         {
             ctx.Qualifier = descriptor.Qualifier;
 
-            var result = JsonataEvaluator.Evaluate(ctx.Data, descriptor.MappingExpression, ctx);
+            var result = await JsonataEvaluator.EvaluateAsync(ctx.Data, descriptor.MappingExpression, ctx, timeout);
 
             // The assigner owns what counts as "missing" for its field (e.g. language-map
             // fields treat an empty / all-empty object as missing), so optional mappings are

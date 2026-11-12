@@ -1,9 +1,11 @@
 ﻿using MnestixCore.AasGenerator.Interfaces;
 using MnestixCore.Dtos.AddDataToAas;
+using MnestixCore.Dtos.AppSettingsOptions;
 using MnestixCore.Errors;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace MnestixApi.Controllers;
 
@@ -17,14 +19,16 @@ namespace MnestixApi.Controllers;
 [Authorize(AuthenticationSchemes = $"{JwtBearerDefaults.AuthenticationScheme},ApiKey")]
 public class DataIngestController : ControllerBase
 {
-    private readonly IAasGenerator _AasGenerator;
+    private readonly IAasGenerator _aasGenerator;
     private readonly ILogger<DataIngestController> _logger;
+    private readonly AasGeneratorOptions _aasGeneratorOptions;
 
     /// <inheritdoc />
-    public DataIngestController(IAasGenerator AasGenerator, ILogger<DataIngestController> logger)
+    public DataIngestController(IAasGenerator aasGenerator, ILogger<DataIngestController> logger, IOptions<AasGeneratorOptions> aasGeneratorOptions)
     {
-        _AasGenerator = AasGenerator;
+        _aasGenerator = aasGenerator;
         _logger = logger;
+        _aasGeneratorOptions = aasGeneratorOptions.Value;
     }
 
     /// <summary>
@@ -42,7 +46,18 @@ public class DataIngestController : ControllerBase
     {
         _logger.LogInformation("invoked DataIngest/{AasId}/ with blueprintIds: {BlueprintIds}", base64EncodedAasId, string.Join(", ", requestBody.BlueprintsIds));
 
-        var results = (await _AasGenerator.AddDataToAasAsync(base64EncodedAasId, requestBody.BlueprintsIds, requestBody.Data, requestBody.Language, requestBody.Debug)).ToList();
+        if (requestBody.BlueprintsIds.Count() > _aasGeneratorOptions.MaxPayloadLimit)
+        {
+            return BadRequest(
+                new AasGeneratorErrorDto(
+                    AasGeneratorErrorCode.InvalidInput,
+                    $"Too many blueprint IDs. Up to {_aasGeneratorOptions.MaxPayloadLimit} blueprints can be added at once.",
+                    null
+                )
+            );
+        }
+        
+        var results = (await _aasGenerator.AddDataToAasAsync(base64EncodedAasId, requestBody.BlueprintsIds, requestBody.Data, requestBody.Language, requestBody.Debug)).ToList();
         var responseBody = new AddDataToAasResponse
         {
             Results = results
@@ -66,9 +81,7 @@ public class DataIngestController : ControllerBase
         {
             return Ok(responseBody);
         }
-        else
-        {
-            return BadRequest(responseBody);
-        }
+
+        return BadRequest(responseBody);
     }
 }

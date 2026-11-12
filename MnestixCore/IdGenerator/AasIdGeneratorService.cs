@@ -19,7 +19,7 @@ public class AasIdGeneratorService : IAasIdGeneratorService
     }
 
     /// <inheritdoc />
-    public async Task<AasIds> GenerateAasIdsAsync(string? assetIdShortParam = null, string? globalAssetId = null)
+    public async Task<AasIds> GenerateAasIdsAsync(string? assetIdShortParam = null, string? globalAssetId = null, string? aasId = null)
     {
         var idGenerationSettings = await _mnestixConfigurationProvider.GetIdGenerationSettingsAsync();
 
@@ -28,9 +28,11 @@ public class AasIdGeneratorService : IAasIdGeneratorService
             ? globalAssetId
             : GenerateAssetId(assetIdShort, idGenerationSettings);
         var aasIdShort = GenerateAasIdShort(assetIdShort, idGenerationSettings);
-        var aasId = GenerateAasId(assetIdShort, aasIdShort, idGenerationSettings);
+        var generatedAasId = !string.IsNullOrWhiteSpace(aasId)
+            ? aasId
+            : GenerateAasId(assetIdShort, aasIdShort, idGenerationSettings);
 
-        return new AasIds(assetId, assetIdShort, aasId, aasIdShort);
+        return new AasIds(assetId, assetIdShort, generatedAasId, aasIdShort);
     }
 
     /// <inheritdoc />

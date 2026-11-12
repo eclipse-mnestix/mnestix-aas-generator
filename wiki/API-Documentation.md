@@ -43,6 +43,33 @@ Configure authentication in `appsettings.json`:
 - Set `CustomerEndpointsSecurity__ApiKey` for API key authentication
 - Configure `AzureAd` or `OpenId` sections for OAuth/OIDC authentication
 
+**Running with an empty API key:** the application logs a critical warning and starts anyway. The
+scheme-pinned controllers — all v2 endpoints and the v1 `TemplateController` — reject a request that
+carries neither a valid bearer token nor a real API key. The deprecated `CustomTemplatesController`
+and `DefaultTemplatesController` are guarded only by `[ApiKey]`, which compares the header against the
+configured key literally, so an empty header matches an empty setting and passes. The startup warning
+is the only guard for those — set a real key before you expose the service.
+
+### Generator Resource Limits
+
+The `AasGenerator` section in `appsettings.json` bounds the work a single request may cause. Both
+keys have defaults, so the section is optional.
+
+```json
+"AasGenerator": {
+  "MaxPayloadLimit": 200,
+  "JsonataEvaluationTimeoutSeconds": 2
+}
+```
+
+| Key | Default | Effect |
+|-----|---------|--------|
+| `MaxPayloadLimit` | `200` | Caps two things: the number of blueprint IDs in one Data Ingest request, and the number of elements a collection may expand to during mapping. A request over the cap is rejected with `400`; a collection over the cap fails the mapping. |
+| `JsonataEvaluationTimeoutSeconds` | `2` | Wall-clock limit for evaluating one JSONata expression. An evaluation that runs longer is abandoned and fails the mapping. Raise it only if legitimate expressions need more time. |
+
+Environment-variable form: `AasGenerator__MaxPayloadLimit` and
+`AasGenerator__JsonataEvaluationTimeoutSeconds`.
+
 ---
 
 ## AAS Creator
@@ -335,6 +362,19 @@ On error, `logs` always contains the workflow log trail up to (and including) th
 }
 ```
 
+**Error (400 Bad Request)**
+
+Returned when the request lists more blueprint IDs than `MaxPayloadLimit` allows (default `200`). The
+request is rejected before any generation starts.
+
+```json
+{
+  "code": "InvalidInput",
+  "message": "Too many blueprint IDs. Up to 200 blueprints can be added at once.",
+  "details": null
+}
+```
+
 **Error (500 Internal Server Error)**
 
 Returned when one or more blueprints fail structural validation at generation time. This happens when a stored blueprint predates the current validation rules or was modified outside the API and is now in an invalid state. The response contains the aggregated `errors` and the per-blueprint `results`:
@@ -349,6 +389,99 @@ Returned when one or more blueprints fail structural validation at generation ti
     }
   ],
   "results": []
+}
+```
+
+### InplaceGeneration
+
+Builds a submodel from a single blueprint the same way Add Data to AAS does, but returns the generated submodel instead of persisting it. Use this when the caller needs to apply custom logic before storing the submodel - for example posting its elements one by one to satisfy eventing requirements - rather than letting the AAS Generator write straight to the repository.
+
+```http
+POST /api/v2/InplaceGeneration
+```
+
+#### Request Body
+
+```json
+{
+  "blueprintId": "contact-template-v1",
+  "data": {
+    "contacts": [
+      {"name": "John Doe", "email": "john@example.com"},
+      {"name": "Jane Smith", "email": "jane@example.com"}
+    ],
+    "manufacturer": "ACME Corp",
+    "serialNumber": "SN-12345"
+  },
+  "language": "en",
+  "debug": false
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `blueprintId` | string | Yes | A single blueprint ID to generate a submodel from. Unlike Add Data to AAS, only one blueprint is supported per request. |
+| `data` | object | Yes | JSON data to map into the template. Use `{}` if no mapping is defined. |
+| `language` | string | Yes | Language code for MultiLanguageProperties (e.g., `"en"`, `"de"`) |
+| `debug` | boolean | No | Include workflow logs in response (default: `false`). |
+
+#### Response
+
+**Success (200 OK)**
+
+Currently, it returns an AAS environment containing only the generated submodel. `assetAdministrationShells` and `conceptDescriptions` are empty for the moment. In the future, there will the possibility of also returning a shell and concept descriptions.
+Nothing is written to the repository and no shell reference is created. The caller is responsible for persisting the submodel (and creating its shell reference, if needed).
+
+```json
+{
+  "assetAdministrationShells": [],
+  "submodels": [
+    {
+      "id": "https://example.com/submodels/contact-001",
+      "idShort": "ContactInformation",
+      "modelType": "Submodel",
+      "submodelElements": []
+    }
+  ],
+  "conceptDescriptions": []
+}
+```
+
+**Error (400 Bad Request)**
+
+Returned when building the submodel fails, e.g. missing mapped data:
+
+```json
+{
+  "blueprintId": "contact-template-v1",
+  "success": false,
+  "generatedSubmodelId": "",
+  "error": {
+    "code": "MappingFailed",
+    "message": "Missing required data at path: contacts.name",
+    "context": null
+  }
+}
+```
+
+**Error (500 Internal Server Error)**
+
+Returned when the blueprint fails structural validation at generation time - see the equivalent response under Add Data to AAS above for details on why this happens:
+
+```json
+{
+  "errors": [
+    {
+      "rule": "FieldNotApplicableToModelType",
+      "path": "ContactInformation > ContactName",
+      "message": "Field 'first' is not valid on model type 'Property'. Allowed fields: value, idShort, displayName."
+    }
+  ],
+  "result": {
+    "blueprintId": "contact-template-v1",
+    "success": false,
+    "generatedSubmodelId": ""
+  }
 }
 ```
 
@@ -723,6 +856,19 @@ Path mappings support both simple JSON paths and advanced Jsonata expressions:
 - `$uppercase($substring(data.code, 0, 3))` - Chained operations
 
 See [Blueprint and Rules](Blueprint-and-Rules#jsonata-expressions-in-mapping-rules) for comprehensive Jsonata function reference.
+
+### Forbidden Jsonata Constructs
+
+Two kinds of Jsonata are rejected when you save a blueprint, in both mapping and filter expressions:
+
+- Function definitions, such as `function($v) { ... }`.
+- The `$eval`, `$assert`, and `$error` functions.
+
+A blueprint that uses either is refused with a `422` and the rule `ForbiddenJsonataConstruct`.
+Built-in higher-order functions such as `$map` and `$filter` stay allowed; only your own function
+definitions and the three functions above are blocked. The reason is safety: the generator evaluates
+each expression under a timeout (see `JsonataEvaluationTimeoutSeconds`), and these constructs can run
+outside that limit — a recursive function can overflow the stack and stop the whole process.
 
 ### Cardinality Values
 

@@ -47,9 +47,13 @@ public class AasCreatorServiceOverwriteTest
             "https://example.com/aas/" + assetIdShort,
             "aas_" + assetIdShort);
 
-    private void SetupBuild(string blueprintId, string submodelId, bool success = true)
+    private void SetupBuild(string blueprintId, string submodelId, bool success = true, JObject? semanticId = null)
     {
         var instance = new JObject { ["id"] = submodelId, ["modelType"] = "Submodel" };
+        if (semanticId != null)
+        {
+            instance["semanticId"] = semanticId;
+        }
         _generator.Setup(g => g.BuildSubmodelAsync(blueprintId, It.IsAny<JObject>(), It.IsAny<string?>(), It.IsAny<bool>(), It.IsAny<string?>()))
             .ReturnsAsync(new BuiltSubmodel
             {
@@ -71,10 +75,12 @@ public class AasCreatorServiceOverwriteTest
     }
 
     [Test]
-    public async Task CreateAasWithSubmodels_ValidBlueprints_PostsSubmodelsBeforeShell_ShellCarriesRefs()
+    public async Task CreateAasWithSubmodels_ValidBlueprints_PostsSubmodelsBeforeShell_ShellCarriesRefsAndSemanticIds()
     {
-        SetupBuild("bp1", "sm1");
-        SetupBuild("bp2", "sm2");
+        var semanticId1 = JObject.Parse("""{"type":"ExternalReference","keys":[{"type":"GlobalReference","value":"urn:example:semantic-id-1"}]}""");
+        var semanticId2 = JObject.Parse("""{"type":"ExternalReference","keys":[{"type":"GlobalReference","value":"urn:example:semantic-id-2"}]}""");
+        SetupBuild("bp1", "sm1", semanticId: semanticId1);
+        SetupBuild("bp2", "sm2", semanticId: semanticId2);
         var callOrder = new List<string>();
         _generator.Setup(g => g.PostSubmodelAsync(It.IsAny<JObject>()))
             .ReturnsAsync((JObject j) => j["id"]!.ToString())
@@ -96,6 +102,13 @@ public class AasCreatorServiceOverwriteTest
             .SelectTokens("$..keys[*].value")
             .Select(v => v.ToString());
         refValues.Should().Contain(new[] { "sm1", "sm2" });
+        var references = JObject.Parse(shellJson!)["submodels"]!;
+        JToken.DeepEquals(
+            references.Single(reference => reference["keys"]![0]!["value"]!.Value<string>() == "sm1")["referredSemanticId"],
+            semanticId1).Should().BeTrue();
+        JToken.DeepEquals(
+            references.Single(reference => reference["keys"]![0]!["value"]!.Value<string>() == "sm2")["referredSemanticId"],
+            semanticId2).Should().BeTrue();
     }
 
     [Test]

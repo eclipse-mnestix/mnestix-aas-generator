@@ -138,6 +138,13 @@ public sealed class DuplicateCollectionsAasGeneratorPipelineStep : IPipelineStep
         var isMandatory = GetCardinalityQualifier(ctx.Qualifier)?["value"]?.Value<string>()?.StartsWith("One") ?? false;
         var collectionLength = SelectTokensFromDataJson(data, mappingPath.Replace("[*]", "[0]").TrimEnd('[', '0', ']') + "[*]", isMandatory, ctx).Count();
 
+        var payloadLimit = ctx.Options.MaxPayloadLimit;
+        if (collectionLength > payloadLimit)
+        {
+            throw new SubmodelDataToInstanceMapperException(
+                $"Collection at path '{mappingPath}' has {collectionLength} elements, exceeding the configured payload limit of {payloadLimit}. Send a smaller payload or raise AasGenerator:MaxPayloadLimit.", ctx);
+        }
+
         var nestingDepth = Regex.Matches(mappingPath, @"\[\*\]").Count;
         ctx.LogInfo($"Processing collection at path '{mappingPath}' (depth: {nestingDepth}, mandatory: {isMandatory}, elements: {collectionLength})");
         

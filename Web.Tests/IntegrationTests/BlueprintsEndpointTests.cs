@@ -66,6 +66,24 @@ public class BlueprintsEndpointTests : IntegrationTestsBase
     }
 
     [Test]
+    public async Task GetBlueprintById_WhenIdContainsTraversalSequence_ReturnsBadRequestAndNeverCallsBackend()
+    {
+        // ARRANGE
+        var mockedRestClient = new MockRestClientBuilder();
+        IRestClient restClientFactory() => mockedRestClient.Build();
+        HttpClientMock.Setup(x => x.GetConfiguredClientAsync(It.IsAny<string>())).ReturnsAsync(restClientFactory);
+
+        // ..%5Cshells decodes to '..\shells', the traversal payload.
+        var response = await Client!.GetAsync($"{BlueprintsBaseRoute}/..%5Cshells");
+
+        // ASSERT
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        mockedRestClient.Mock().Verify(
+            x => x.ExecuteAsync(It.IsAny<RestRequest>(), It.IsAny<CancellationToken>()),
+            Times.Never);
+    }
+
+    [Test]
     public async Task CreateBlueprint_WhenPayloadValid_ShouldPersistBlueprint()
     {
         // ARRANGE

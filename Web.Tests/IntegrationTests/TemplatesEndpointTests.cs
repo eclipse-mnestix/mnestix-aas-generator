@@ -76,6 +76,94 @@ public class TemplatesEndpointTests : IntegrationTestsBase
     }
 
     [Test]
+    public async Task CreateCustomSubmodel_WhenBlueprintContainsForbiddenJsonataConstruct_ShouldReturn422()
+    {
+        // ARRANGE: a blueprint whose mapping expression uses $eval - forbidden by Rule 17.
+        var content = new StringContent(BlueprintWithForbiddenConstruct(), Encoding.UTF8, "application/json");
+
+        // ACT
+        var response = await Client!.PostAsync("api/template/createCustomSubmodel", content);
+        var responseContent = await response.Content.ReadAsStringAsync();
+
+        // ASSERT: rejected before persisting, like BlueprintsController does.
+        response.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
+        responseContent.Should().Contain("ForbiddenJsonataConstruct");
+    }
+
+    [Test]
+    public async Task UpdateCustomSubmodel_WhenBlueprintContainsForbiddenJsonataConstruct_ShouldReturn422()
+    {
+        // ARRANGE
+        var content = new StringContent(BlueprintWithForbiddenConstruct(), Encoding.UTF8, "application/json");
+
+        // ACT
+        var response = await Client!.PostAsync("api/template/updateCustomSubmodel/someId", content);
+        var responseContent = await response.Content.ReadAsStringAsync();
+
+        // ASSERT
+        response.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
+        responseContent.Should().Contain("ForbiddenJsonataConstruct");
+    }
+
+    private static string BlueprintWithForbiddenConstruct()
+    {
+        return """
+            {
+              "idShort": "Nameplate",
+              "id": "https://example.com/blueprints/forbidden-1",
+              "kind": "Template",
+              "modelType": "Submodel",
+              "submodelElements": [
+                {
+                  "idShort": "ManufacturerName",
+                  "modelType": "Property",
+                  "valueType": "xs:string",
+                  "qualifiers": [
+                    { "type": "MnestixAASGenerator/MappingInfo/value", "value": "$eval('$.name')" }
+                  ]
+                }
+              ]
+            }
+            """;
+    }
+
+    [Test]
+    public async Task CreateCustomSubmodel_WithoutApiKey_ShouldReturn401()
+    {
+        // ARRANGE: a client that sends no X-API-KEY and no bearer token
+        var noKeyClient = NewClientWithoutApiKey();
+        var content = new StringContent(TestFileProvider.GetBlueprintSubmodelNameplate(), Encoding.UTF8, "application/json");
+
+        // ACT
+        var response = await noKeyClient.PostAsync("api/template/createCustomSubmodel", content);
+
+        // ASSERT: the scheme-pinned controller rejects unauthenticated writes
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+
+    [Test]
+    public async Task CreateCustomSubmodel_WithInvalidApiKey_ShouldReturn401()
+    {
+        // ARRANGE
+        var wrongKeyClient = NewClientWithoutApiKey();
+        wrongKeyClient.DefaultRequestHeaders.Add("X-API-KEY", "not-the-configured-key");
+        var content = new StringContent(TestFileProvider.GetBlueprintSubmodelNameplate(), Encoding.UTF8, "application/json");
+
+        // ACT
+        var response = await wrongKeyClient.PostAsync("api/template/createCustomSubmodel", content);
+
+        // ASSERT
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+
+    private HttpClient NewClientWithoutApiKey()
+    {
+        // CreateClient() builds a fresh client off the same host; unlike the base Client it carries
+        // no X-API-KEY, so it exercises the unauthenticated path against the scheme-pinned controller.
+        return _application!.CreateClient();
+    }
+
+    [Test]
     public async Task AddDefaultSubmodel_WhenCalled_ShouldAddSubmodelToRepository()
     {
         // ARRANGE
