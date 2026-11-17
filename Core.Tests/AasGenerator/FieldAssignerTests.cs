@@ -249,6 +249,64 @@ public class FieldAssignerTests
     }
 
     // ──────────────────────────────────────────────────────────────────────
+    // ValueIdFieldAssigner
+    // ──────────────────────────────────────────────────────────────────────
+
+    [TestCase("Property")]
+    [TestCase("MultiLanguageProperty")]
+    public void ValueId_Identifier_IsWrappedWithoutChangingSemanticId(string modelType)
+    {
+        var element = MakeElement(modelType);
+        var semanticId = JObject.Parse("""{"type":"ExternalReference","keys":[{"type":"GlobalReference","value":"urn:example:concept"}]}""");
+        element["semanticId"] = semanticId.DeepClone();
+        var ctx = MakeContext();
+
+        FieldAssignerRegistry.GetAssigner("valueId").Assign(
+            element, JValue.CreateString("urn:example:coded-value"), modelType, null, ctx);
+
+        JToken.DeepEquals(element["valueId"], JObject.Parse("""
+            {"type":"ExternalReference","keys":[{"type":"GlobalReference","value":"urn:example:coded-value"}]}
+            """)).Should().BeTrue();
+        JToken.DeepEquals(element["semanticId"], semanticId).Should().BeTrue();
+        HasWarning(ctx).Should().BeFalse();
+    }
+
+    [TestCase("{}")]
+    [TestCase("[]")]
+    public void ValueId_StructuredValue_IsRejected(string json)
+    {
+        var element = MakeElement();
+        var act = () => FieldAssignerRegistry.GetAssigner("valueId").Assign(
+            element, JToken.Parse(json), "Property", null, MakeContext());
+
+        act.Should().Throw<SubmodelDataToInstanceMapperException>().WithMessage("*valueId*scalar*");
+        element["valueId"].Should().BeNull();
+    }
+
+    [TestCase("null")]
+    [TestCase("\"\"")]
+    public void ValueId_NullOrEmptyIdentifier_IsTreatedAsMissing(string json)
+    {
+        FieldAssignerRegistry.GetAssigner("valueId").IsResolvedValueMissing(JToken.Parse(json))
+            .Should().BeTrue();
+    }
+
+    [Test]
+    public void ValueId_OverridingDefault_LogsTheTargetField()
+    {
+        var element = MakeElement();
+        element["valueId"] = JObject.Parse("""{"type":"ExternalReference","keys":[{"type":"GlobalReference","value":"urn:example:old"}]}""");
+        var ctx = MakeContext();
+
+        FieldAssignerRegistry.GetAssigner("valueId").Assign(
+            element, JValue.CreateString("urn:example:new"), "Property", null, ctx);
+
+        ctx.Logs.Should().ContainSingle(log => log.StartsWith("WARNING", StringComparison.Ordinal)
+            && log.Contains("'valueId'", StringComparison.Ordinal));
+        element["valueId"]!["keys"]![0]!["value"]!.Value<string>().Should().Be("urn:example:new");
+    }
+
+    // ──────────────────────────────────────────────────────────────────────
     // ValueTypeFieldAssigner
     // ──────────────────────────────────────────────────────────────────────
 

@@ -11,6 +11,7 @@ public static class FieldAssignerRegistry
         ["value"] = new ValueFieldAssigner(),
         ["valueType"] = new ValueTypeFieldAssigner(),
         ["semanticId"] = new SemanticIdFieldAssigner(),
+        ["valueId"] = new ValueIdFieldAssigner(),
         ["idShort"] = new IdShortFieldAssigner(),
         ["multiLanguage"] = new MultiLanguageFieldAssigner(),
         ["displayName"] = new DisplayNameFieldAssigner(),

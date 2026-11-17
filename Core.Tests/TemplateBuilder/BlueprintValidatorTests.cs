@@ -860,6 +860,42 @@ public class BlueprintValidatorTests
 
     #region Rule 16: FieldRequiresCollectionScope
 
+    [TestCase("Property", "MnestixAASGenerator")]
+    [TestCase("MultiLanguageProperty", "MnestixAASGenerator")]
+    [TestCase("Property", "SMT")]
+    [TestCase("MultiLanguageProperty", "SMT")]
+    public void Validate_ValueIdOutsideCollectionScope_IsAllowed(string modelType, string prefix)
+    {
+        var blueprint = MakeBlueprint(MakeElement(modelType, "CodedValue",
+            MakeQualifier($"{prefix}/MappingInfo/valueId", "$.valueId")));
+
+        _sut.Validate(blueprint).Should().BeEmpty();
+    }
+
+    [TestCase("File")]
+    [TestCase("Blob")]
+    [TestCase("Range")]
+    [TestCase("SubmodelElementList")]
+    public void Validate_ValueIdOnUnsupportedElement_IsRejected(string modelType)
+    {
+        var blueprint = MakeBlueprint(MakeElement(modelType, "NotACodedValue",
+            MakeQualifier("MnestixAASGenerator/MappingInfo/valueId", "$.valueId")));
+
+        _sut.Validate(blueprint).Should().ContainSingle(
+            error => error.Rule == BlueprintValidationRule.FieldNotApplicableToModelType);
+    }
+
+    [Test]
+    public void Validate_DuplicateValueIdMapping_IsRejected()
+    {
+        var blueprint = MakeBlueprint(MakeElement("Property", "CodedValue",
+            MakeQualifier("MnestixAASGenerator/MappingInfo/valueId", "$.firstId"),
+            MakeQualifier("MnestixAASGenerator/MappingInfo/valueId", "$.secondId")));
+
+        _sut.Validate(blueprint).Should().ContainSingle(
+            error => error.Rule == BlueprintValidationRule.DuplicateMappingField);
+    }
+
     [Test]
     public void Validate_ValueTypeOutsideCollectionScope_ReturnsFieldRequiresCollectionScopeError()
     {

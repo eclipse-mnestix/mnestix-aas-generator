@@ -21,6 +21,7 @@ public static class FieldMappingRules
                 new FieldSpec("idShort"),
                 new FieldSpec("displayName", FieldSpec.Cardinality.AlwaysOptional),
                 new FieldSpec("semanticId",  FieldSpec.Cardinality.AlwaysOptional),
+                new FieldSpec("valueId",     FieldSpec.Cardinality.AlwaysOptional),
                 new FieldSpec("valueType",   FieldSpec.Cardinality.AlwaysMandatory),
             ]),
             ["MultiLanguageProperty"] = new([
@@ -29,6 +30,7 @@ public static class FieldMappingRules
                 new FieldSpec("displayName",   FieldSpec.Cardinality.AlwaysOptional),
                 new FieldSpec("multiLanguage"),
                 new FieldSpec("semanticId",    FieldSpec.Cardinality.AlwaysOptional),
+                new FieldSpec("valueId",       FieldSpec.Cardinality.AlwaysOptional),
             ]),
             ["Blob"] = new([
                 new FieldSpec("value"),
