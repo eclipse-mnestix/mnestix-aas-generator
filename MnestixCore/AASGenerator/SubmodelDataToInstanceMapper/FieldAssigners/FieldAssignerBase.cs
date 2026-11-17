@@ -28,6 +28,32 @@ public abstract class FieldAssignerBase
         element[FieldName] = resolvedValue.ToString();
     }
 
+    /// <summary>Assigns a scalar identifier as an ExternalReference with one GlobalReference key.</summary>
+    protected void AssignExternalReference(JToken element, JToken resolvedValue, DataMappingContext ctx)
+    {
+        if (resolvedValue.Type is JTokenType.Object or JTokenType.Array)
+        {
+            throw new SubmodelDataToInstanceMapperException(
+                $"{FieldName} must be a scalar (string, number, boolean), but the mapping expression returned {resolvedValue.Type}", ctx);
+        }
+
+        WarnIfOverridingDefault(element, FieldName, ctx);
+
+        var value = ScalarValueFormatter.ToInvariantString(resolvedValue);
+        element[FieldName] = new JObject
+        {
+            ["type"] = "ExternalReference",
+            ["keys"] = new JArray
+            {
+                new JObject
+                {
+                    ["type"] = "GlobalReference",
+                    ["value"] = value
+                }
+            }
+        };
+    }
+
     /// <summary>
     /// Returns true when the value is a language-keyed map with no usable entries
     /// (empty object, or every entry is null/empty), i.e. nothing to assign.

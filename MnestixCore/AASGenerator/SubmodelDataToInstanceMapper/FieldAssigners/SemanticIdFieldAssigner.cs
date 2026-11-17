@@ -1,4 +1,3 @@
-using MnestixCore.Errors;
 using Newtonsoft.Json.Linq;
 
 namespace MnestixCore.AasGenerator.Pipelines.FieldAssigners;
@@ -12,28 +11,6 @@ public sealed class SemanticIdFieldAssigner : FieldAssignerBase
 {
     public override string FieldName => "semanticId";
 
-    public override void Assign(JToken element, JToken resolvedValue, string modelType, string? language, DataMappingContext ctx)
-    {
-        if (resolvedValue.Type is JTokenType.Object or JTokenType.Array)
-        {
-            throw new SubmodelDataToInstanceMapperException(
-                $"semanticId must be a scalar (string, number, boolean), but the mapping expression returned {resolvedValue.Type}", ctx);
-        }
-
-        WarnIfOverridingDefault(element, this.FieldName, ctx);
-
-        var value = ScalarValueFormatter.ToInvariantString(resolvedValue);
-        element[this.FieldName] = new JObject
-        {
-            ["type"] = "ExternalReference",
-            ["keys"] = new JArray
-            {
-                new JObject
-                {
-                    ["type"] = "GlobalReference",
-                    ["value"] = value
-                }
-            }
-        };
-    }
+    public override void Assign(JToken element, JToken resolvedValue, string modelType, string? language, DataMappingContext ctx) =>
+        AssignExternalReference(element, resolvedValue, ctx);
 }
