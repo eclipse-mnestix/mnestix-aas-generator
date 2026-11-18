@@ -104,18 +104,25 @@ Step 8 (AssignMappedFields) delegates value assignment to specialized `FieldAssi
 | `MultiLanguageFieldAssigner` | `multiLanguage` | Expects `JObject` with language keys; produces lang array |
 | `IdShortFieldAssigner` | `idShort` | Sanitizes to AAS v3 pattern `[a-zA-Z][a-zA-Z0-9_]*` |
 | `DisplayNameFieldAssigner` | `displayName` | Language-keyed `JObject` → replaces the `displayName` array with all languages; a scalar → find-or-add a single entry for the generation language. Always optional. |
+| `SemanticIdFieldAssigner` | `semanticId` | Scalar identifier → `ExternalReference` with one `GlobalReference` key. |
+| `ValueIdFieldAssigner` | `valueId` | Same scalar-reference assignment for coded Property/MLP values; null and empty-string identifiers count as missing. Always optional. |
 | `FirstFieldAssigner` | `first` | AAS Reference object for RelationshipElement |
 | `SecondFieldAssigner` | `second` | AAS Reference object for RelationshipElement |
 | `DefaultFieldAssigner` | _(any other)_ | Fallback: `element[field] = value.ToString()` |
 
 All assigners log a **warning** when the target field already holds a non-empty template default that is being overridden by mapped data. This gives visibility into cases where partial defaults are silently replaced.
 
+`SemanticIdFieldAssigner` and `ValueIdFieldAssigner` share
+`FieldAssignerBase.AssignExternalReference`: scalar formatting, object/array
+rejection, override warnings and reference construction are identical; only the
+destination field differs. Existing semantic-ID behavior is unchanged.
+
 `FieldAssignerBase` exposes one hook for field-specific missing-value detection:
 
-- `IsResolvedValueMissing(JToken)` (default `false`) — lets a field treat a resolved value as "not present". Language-map fields (`multiLanguage`, `displayName`) override it to treat an empty / all-empty object as missing.
+- `IsResolvedValueMissing(JToken)` (default `false`) — lets a field treat a resolved value as "not present". Language-map fields (`multiLanguage`, `displayName`) override it to treat an empty / all-empty object as missing; `valueId` treats null and empty-string identifiers as missing.
 
 Per-field cardinality overrides (independent of the element's `SMT/Cardinality` qualifier) are defined in `FieldMappingRules.AllowedFields` via `FieldSpec.Cardinality` and applied by `DiscoverMappingDescriptorsStep`:
-- `AlwaysOptional` — never mandatory regardless of the element's cardinality (e.g. `displayName`, `semanticId`, `contentType`)
+- `AlwaysOptional` — never mandatory regardless of the element's cardinality (e.g. `displayName`, `semanticId`, `valueId`, `contentType`)
 - `AlwaysMandatory` — always mandatory regardless of the element's cardinality (e.g. `valueType`)
 - _(default)_ — inherits the element's `SMT/Cardinality` value
 

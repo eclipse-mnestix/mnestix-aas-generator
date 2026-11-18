@@ -171,7 +171,48 @@ Extends path mapping to target specific fields on an element beyond just `value`
 | `second` | Relationship second reference | RelationshipElement, AnnotatedRelationshipElement | AAS Reference JSON object |
 | `multiLanguage` | Multi-language value | MultiLanguageProperty | JSON object with language keys (see below) |
 | `semanticId` | Semantic reference | Property, MultiLanguageProperty, File, Range, SubmodelElementCollection, SubmodelElementList | Resolved scalar (string, number, boolean) is wrapped into an `ExternalReference` with a single `GlobalReference` key. Objects and arrays are rejected. **Collection scope only.** |
+| `valueId` | Coded value reference | Property, MultiLanguageProperty | Resolved scalar identifier is wrapped into an `ExternalReference` with a single `GlobalReference` key. Objects and arrays are rejected. Always optional; missing, null or empty-string identifiers are skipped. No collection scope required. |
 | `valueType` | XSD value type | Property, Blob, Range | One of the AAS `DataTypeDefXsd` values (e.g. `xs:int`). **Collection scope only.** Assigned before `value` so value content is validated against it. |
+
+#### Coded values with `valueId`
+
+`semanticId` identifies the property concept; `valueId` identifies its selected coded
+value. Keep the template's property `semanticId` and map the source identifier to
+`valueId`, not to `semanticId`. This also works independently for each Property or
+MultiLanguageProperty inside a generated list.
+
+Use this qualifier alongside the existing `value` or `multiLanguage` mapping:
+
+```json
+{
+  "kind": "TemplateQualifier",
+  "type": "MnestixAASGenerator/MappingInfo/valueId",
+  "value": "method.valueId",
+  "valueType": "xs:string"
+}
+```
+
+For source data `{"method":{"value":"First method","valueId":"urn:example:method:first"}}`,
+the generated element receives:
+
+```json
+{
+  "valueId": {
+    "type": "ExternalReference",
+    "keys": [{"type": "GlobalReference", "value": "urn:example:method:first"}]
+  }
+}
+```
+
+This mapping leaves `semanticId` unchanged. `valueId` is optional even when the
+element has cardinality `One`; an absent identifier does not omit the element or
+its mapped value. An existing template `valueId` is retained when the mapping is
+missing, and overriding a populated default logs the usual warning. The legacy
+`SMT/MappingInfo/valueId` alias is supported too.
+
+Deploy a Generator build supporting this field before saving blueprints that use
+it: older builds reject the qualifier. Existing generated submodels must be
+regenerated to receive the corrected references.
 
 #### Example: Entity with globalAssetId + idShort
 
@@ -1458,8 +1499,8 @@ Not all fields can be mapped on every element type. The following matrix defines
 
 | Model Type | Allowed Fields |
 |-----------|---------------|
-| `Property` | `value`, `idShort`, `displayName`, `semanticId`, `valueType` |
-| `MultiLanguageProperty` | `value`, `idShort`, `displayName`, `multiLanguage`, `semanticId` |
+| `Property` | `value`, `idShort`, `displayName`, `semanticId`, `valueId`, `valueType` |
+| `MultiLanguageProperty` | `value`, `idShort`, `displayName`, `multiLanguage`, `semanticId`, `valueId` |
 | `Blob` | `value`, `contentType`, `idShort`, `displayName`, `valueType` |
 | `File` | `value`, `contentType`, `idShort`, `displayName`, `semanticId` |
 | `Entity` | `idShort`, `displayName`, `globalAssetId`, `entityType` |
